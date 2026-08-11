@@ -9,7 +9,7 @@
 #   make test     lint + types + unit suite (what CI runs)
 #   make down     stop the stacks (volumes preserved)
 #
-# From a fresh clone (Docker running):  make install && make demo
+# With Docker, Python, and Snowflake .env configured: make install && make demo
 
 # Host ports — overridable; defaults match this machine's running stacks.
 export CDF_ARANGO_PORT   ?= 8530
@@ -22,10 +22,11 @@ export CDF_ONTOP_PORT    ?= 18090
 export CDF_UI_PORT       ?= 8099
 export CDF_CLICKHOUSE_HTTP_PORT ?= 8123
 
-# The two owned sibling libraries (SPARQL->AQL transpiler, ArangoDB analyzer)
-# are installed from local checkouts by default — override if they live
-# elsewhere. arango-sparql-py is also public on GitHub (see `make install`).
+# The owned SPARQL->AQL library defaults to the reviewed CC-9 pin. Developers
+# may opt into an editable sibling checkout with CDF_USE_LOCAL_SIBLINGS=1.
 CDF_SIBLINGS ?= $(HOME)/code
+CDF_USE_LOCAL_SIBLINGS ?= 0
+ARANGO_SPARQL_PIN ?= deploy/pins/arango-sparql-py.txt
 
 # Engine environment (CC-7: credentials stay here, in the engine's env).
 DEMO_ENV = ARANGO_URL=http://127.0.0.1:$(CDF_ARANGO_PORT) ARANGO_DB=cmf \
@@ -34,7 +35,7 @@ DEMO_ENV = ARANGO_URL=http://127.0.0.1:$(CDF_ARANGO_PORT) ARANGO_DB=cmf \
            ONTOP_REFORMULATE_ENDPOINT=http://127.0.0.1:$(CDF_ONTOP_PORT)/ontop/reformulate \
            CLICKHOUSE_DSN=clickhouse://cdf:cdf@127.0.0.1:$(CDF_CLICKHOUSE_HTTP_PORT)/analytics \
            CDF_CSI_DIR=deploy/csi CDF_R2RML_DIR=deploy/r2rml \
-           CDF_PREPARED_QUESTIONS=deploy/questions.json
+           CDF_PREPARED_QUESTIONS=deploy/questions.json CDF_STRICT_STARTUP=true
 
 # Snowflake creds live in the gitignored .env (CC-7). Recipes that touch the
 # Snowflake leg source it so SNOWFLAKE_* reach gate.py / load_corpus.py, which
@@ -59,7 +60,7 @@ install:
 	# gate case — without it that leg silently contributes nothing and the live
 	# test skips rather than fails, so `make gate` cannot pass from a fresh clone.
 	$(PY) -m pip install -e ".[test,service,mcp,auth,dev]" "psycopg[binary]" python-arango snowflake-connector-python clickhouse-connect
-	# Owned sibling libraries: local checkout if present, else public GitHub.
+	# Owned library: reviewed pin by default; editable sibling only by opt-in.
 	# The [nl] extra pulls the NL engine (arango-query-core + openai/anthropic) so
 	# the free-form NL front-end is wired — without it default_client() degrades to
 	# prepared-questions-only. arango-sparql-py main is self-consistent with its
@@ -67,9 +68,11 @@ install:
 	# (LabelIndex/PredicateIndex) only under TYPE_CHECKING, so [nl] installs and
 	# runs on the pinned version — no query-core override needed (retired 2026-08-04
 	# once the grounding branch landed on main, arango-sparql-py@623aa24).
-	$(PY) -m pip install -e "$(CDF_SIBLINGS)/arango-sparql-py[nl]" 2>/dev/null \
-	  || $(PY) -m pip install "arango-sparql-py[nl] @ git+https://github.com/ArthurKeen/arango-sparql-py"
-	$(PY) -m pip install -e "$(CDF_SIBLINGS)/arango-schema-analyzer"
+	@if [ "$(CDF_USE_LOCAL_SIBLINGS)" = "1" ]; then \
+	  $(PY) -m pip install -e "$(CDF_SIBLINGS)/arango-sparql-py[nl,analyzer]"; \
+	else \
+	  $(PY) -m pip install -r "$(ARANGO_SPARQL_PIN)"; \
+	fi
 	@echo "OK — now: make demo   (Docker must be running)"
 
 jdbc: deploy/ontop/jdbc/postgresql.jar

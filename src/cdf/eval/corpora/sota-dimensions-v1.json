@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "rubric_version": "1.2",
+  "effective_date": "2026-08-06",
+  "dimensions": [
+    {
+      "id": "federated_query_correctness",
+      "label": "Federated query correctness",
+      "weight": 12,
+      "level": 3
+    },
+    {
+      "id": "semantic_ontology_depth",
+      "label": "Semantic and ontology depth",
+      "weight": 10,
+      "level": 2
+    },
+    {
+      "id": "connector_source_breadth",
+      "label": "Connector and source breadth",
+      "weight": 8,
+      "level": 3
+    },
+    {
+      "id": "federation_optimization_economics",
+      "label": "Federation optimization and economics",
+      "weight": 10,
+      "level": 3
+    },
+    {
+      "id": "natural_language_agent_accuracy",
+      "label": "Natural-language and agent accuracy",
+      "weight": 8,
+      "level": 2
+    },
+    {
+      "id": "answer_provenance_grounding",
+      "label": "Answer provenance and grounding",
+      "weight": 10,
+      "level": 3
+    },
+    {
+      "id": "entity_resolution",
+      "label": "Entity resolution",
+      "weight": 8,
+      "level": 2
+    },
+    {
+      "id": "governance_security",
+      "label": "Governance and security",
+      "weight": 10,
+      "level": 2
+    },
+    {
+      "id": "reliability_operability",
+      "label": "Reliability and operability",
+      "weight": 8,
+      "level": 3
+    },
+    {
+      "id": "scale_performance",
+      "label": "Scale and performance",
+      "weight": 8,
+      "level": 2
+    },
+    {
+      "id": "developer_agent_interfaces",
+      "label": "Developer and agent interfaces",
+      "weight": 4,
+      "level": 3
+    },
+    {
+      "id": "evaluation_rigor",
+      "label": "Evaluation rigor",
+      "weight": 4,
+      "level": 3
+    }
+  ]
+}

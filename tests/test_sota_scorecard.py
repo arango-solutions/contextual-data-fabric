@@ -3,6 +3,7 @@
 from __future__ import annotations
 
 import json
+import re
 from datetime import datetime, timezone
 from pathlib import Path
 
@@ -11,9 +12,11 @@ from cdf.eval.sota_scorecard import (
     _report_hash,
     _text_summary,
     build_scorecard,
+    load_scoring_model,
 )
 
 ROOT = Path(__file__).resolve().parents[1]
+SCORECARD = ROOT / "docs" / "architecture" / "project-sota-scorecard.md"
 
 
 def test_text_summary_retains_only_failed_test_identifiers() -> None:
@@ -119,10 +122,15 @@ def test_offline_scorecard_is_versioned_hashed_and_secret_free() -> None:
         package_versions={"contextual-data-fabric": "0.1.0"},
     )
 
-    assert report["schema_version"] == 1
+    assert report["schema_version"] == 2
     assert report["kind"] == "cdf-sota-baseline"
     assert report["mode"] == "offline"
     assert report["passed"] is True
+    assert report["scoring"]["score"] == 51.2
+    assert sum(
+        dimension["weight"] for dimension in report["scoring"]["dimensions"]
+    ) == 100
+    assert len(report["scoring"]["dimensions"]) == 12
     checks = {check["name"]: check for check in report["checks"]}
     assert checks["live_golden"]["status"] == "not_run"
     assert checks["live_golden"]["required"] is False
@@ -133,11 +141,57 @@ def test_offline_scorecard_is_versioned_hashed_and_secret_free() -> None:
         "all_passed": True,
     }
     assert checks["resolution_safety"]["summary"]["precision"] == 1.0
+    assert checks["http_mcp_parity"]["summary"]["total_cases"] == 20
+    assert checks["http_mcp_parity"]["summary"]["all_passed"] is True
     assert checks["unit_contracts"]["command"][0] == "python"
     digest = report.pop("report_sha256")
     assert digest == _report_hash(report)
     assert "secret-account" not in repr(report)
     assert "secret-password" not in repr(report)
+
+
+def test_scoring_model_rejects_weights_that_do_not_sum_to_100(tmp_path: Path) -> None:
+    model = load_scoring_model()
+    malformed = {
+        "schema_version": model["schema_version"],
+        "rubric_version": model["rubric_version"],
+        "effective_date": model["effective_date"],
+        "dimensions": [
+            {
+                "id": item["id"],
+                "label": item["label"],
+                "weight": item["weight"] + (1 if index == 0 else 0),
+                "level": item["level"],
+            }
+            for index, item in enumerate(model["dimensions"])
+        ],
+    }
+    path = tmp_path / "invalid-scorecard.json"
+    path.write_text(json.dumps(malformed), encoding="utf-8")
+
+    try:
+        load_scoring_model(path)
+    except ValueError as exc:
+        assert "sum to 100" in str(exc)
+    else:
+        raise AssertionError("invalid scoring model was accepted")
+
+
+def test_markdown_dimension_headers_match_scoring_model() -> None:
+    pattern = re.compile(
+        r"^### \d+\. (?P<label>.+) — (?P<level>\d)/5, weight "
+        r"(?P<weight>\d+), contribution (?P<contribution>\d+(?:\.\d+)?)$",
+        re.MULTILINE,
+    )
+    headers = [match.groupdict() for match in pattern.finditer(SCORECARD.read_text())]
+    dimensions = load_scoring_model()["dimensions"]
+
+    assert len(headers) == len(dimensions) == 12
+    for header, dimension in zip(headers, dimensions, strict=True):
+        assert header["label"] == dimension["label"]
+        assert int(header["level"]) == dimension["level"]
+        assert int(header["weight"]) == dimension["weight"]
+        assert float(header["contribution"]) == dimension["contribution"]
 
 
 def test_live_credentials_are_exposed_only_to_live_golden() -> None:
@@ -191,3 +245,49 @@ def test_required_command_failure_marks_report_failed_without_raw_output() -> No
     assert mypy["exit_code"] == 1
     assert "private" not in repr(mypy)
     assert "[REDACTED]" in repr(mypy)
+
+
+def test_json_parse_error_fails_check_even_when_command_exits_zero() -> None:
+    def malformed_runner(command, root, environment):
+        if "cdf.eval.nl_eval" in " ".join(command):
+            return CommandOutcome(0, "not-json", "", 1.0)
+        return _successful_runner(command, root, environment)
+
+    report = build_scorecard(
+        root=ROOT,
+        command_runner=malformed_runner,
+        environment={},
+        git_metadata={"commit": "abc123", "branch": "main", "dirty": False},
+        package_versions={},
+    )
+
+    check = next(item for item in report["checks"] if item["name"] == "nl_decomposition")
+    assert check["status"] == "failed"
+    assert "parse_error" in check["summary"]
+    assert report["passed"] is False
+
+
+def test_required_json_domain_flag_must_be_true() -> None:
+    def invalid_ck25_runner(command, root, environment):
+        if "cdf.eval.ck25_eval" in " ".join(command):
+            return CommandOutcome(
+                0,
+                json.dumps({"valid": False, "errors": ["report_sha256"]}),
+                "",
+                1.0,
+            )
+        return _successful_runner(command, root, environment)
+
+    report = build_scorecard(
+        root=ROOT,
+        command_runner=invalid_ck25_runner,
+        environment={},
+        git_metadata={"commit": "abc123", "branch": "main", "dirty": False},
+        package_versions={},
+    )
+
+    check = next(
+        item for item in report["checks"] if item["name"] == "ck25_evidence_integrity"
+    )
+    assert check["status"] == "failed"
+    assert report["passed"] is False

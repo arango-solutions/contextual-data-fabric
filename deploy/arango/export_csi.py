@@ -34,7 +34,19 @@ def main() -> None:
         "username": os.getenv("ARANGO_USER", "root"),
         "password": os.getenv("ARANGO_PASSWORD", "cdf"),
     }
-    resp = run_tool({"contractVersion": "1", "operation": "analyze", "connection": conn})
+    # entityStrategy pinned explicitly: the fabric's conceptual model is one
+    # class per collection (documents -> Document). The analyzer's "auto"
+    # strategy may discover per-value subtypes (Email/Gong/Slack from
+    # Document.source) — right for exploration, wrong for this contract, and
+    # a default we must not ride (it changed once and broke the seed).
+    resp = run_tool(
+        {
+            "contractVersion": "1",
+            "operation": "analyze",
+            "connection": conn,
+            "analysisOptions": {"entityStrategy": "collection"},
+        }
+    )
     if not resp.get("ok"):
         raise SystemExit(f"analyzer failed: {resp.get('error')}")
 

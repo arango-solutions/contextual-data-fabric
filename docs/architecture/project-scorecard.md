@@ -4,7 +4,7 @@ type:
   - internal
   - scorecard
 status: current
-version: 1.1
+version: 1.2
 date: 2026-08-06
 requirements: "docs/contextual-data-fabric-prd.md §10.1"
 related:
@@ -33,12 +33,16 @@ scorecard]]; implementation completeness is not itself evidence of SOTA.
 
 ## Recomputed evidence — 2026-08-06
 
-1. **Live end-to-end correctness — PASS (15/15).**
-   `make gate` passed all Postgres/Ontop, Snowflake, ClickHouse, and ArangoDB
+1. **Live end-to-end contracts — PASS (15/15 hosted; 10/15 merge-blocking).**
+   The full gate passed all Postgres/Ontop, Snowflake, ClickHouse, and ArangoDB
    cases, including the five-question arc, empty answer, PII refusal, and prompt
-   injection. [Hosted run 31090989998](https://github.com/ArthurKeen/contextual-data-fabric/actions/runs/31090989998)
-   used Snowflake RSA key-pair authentication and passed all three CI jobs.
-2. **Unit and contract suite — PASS (310 passed, 5 skipped).**
+   injection. Two live cases assert exact bindings; the remaining 13 assert
+   routing, reconciliation, grounding, or refusal contracts.
+   [Hosted run 31090989998](https://github.com/ArthurKeen/contextual-data-fabric/actions/runs/31090989998)
+   used Snowflake RSA key-pair authentication and passed all three jobs on
+   `feat/hosted-sota-evidence`. Merge-blocking `live-local` runs the 10 cases
+   that do not require Snowflake. A post-merge full run on `main` remains.
+2. **Unit and contract suite — PASS (322 passed, 5 skipped).**
    `make test` passed the full test suite; skips are environment-gated live
    adapter tests, not failures.
 3. **Static quality — PASS.**
@@ -79,7 +83,8 @@ implemented.
 ### 3 — Resolve and rotate
 
 SecretResolver backends, generation-aware executor rotation, central redaction,
-the guarded canonical-hub contract, and the precision evaluation gate are
+strict catalog-source startup validation with degraded health reporting, the
+guarded canonical-hub contract, and the precision evaluation gate are
 implemented.
 
 ### 4 — Govern runtime execution

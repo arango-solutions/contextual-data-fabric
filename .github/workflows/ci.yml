@@ -31,8 +31,7 @@ jobs:
       # connector's error classes (mock-fidelity); without it they importorskip.
       - run: |
           pip install -e ".[test,service,mcp,auth,assembly]" ruff mypy \
-            snowflake-connector-python \
-            "arango-sparql-py[nl,analyzer] @ git+https://github.com/ArthurKeen/arango-sparql-py"
+            snowflake-connector-python -r deploy/pins/arango-sparql-py.txt
       - name: Offline catalog integrity
         run: make catalog-integrity PY=python
       - name: Offline authorization golden
@@ -40,6 +39,8 @@ jobs:
       - run: ruff check src tests deploy
       - run: mypy src
       - run: pytest tests -q
+      - name: Validate tracked CK25 evidence
+        run: python -m cdf.eval.ck25_eval --validate-evidence docs/evidence/ck25-gpt-4o-mini-3x.json
 
   live-local:
     name: live-local (Postgres/Ontop + ArangoDB + ClickHouse)
@@ -65,8 +66,7 @@ jobs:
       - name: Install engine + live-leg libraries
         run: |
           pip install -e ".[test,service,mcp,auth]" python-arango clickhouse-connect \
-            snowflake-connector-python ruff mypy \
-            "arango-sparql-py[nl,analyzer] @ git+https://github.com/ArthurKeen/arango-sparql-py"
+            snowflake-connector-python ruff mypy -r deploy/pins/arango-sparql-py.txt
       - name: Bring up all local source stacks
         run: make up PY=python
       - name: Seed deterministic graph fixtures
@@ -157,6 +157,7 @@ jobs:
       CDF_R2RML_DIR: deploy/r2rml
       CDF_PREPARED_QUESTIONS: deploy/questions.json
       CDF_CORPUS_DIR: deploy/snowflake/fixtures
+      CDF_STRICT_STARTUP: "true"
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
@@ -166,8 +167,7 @@ jobs:
       - name: Install engine + all live-leg libraries
         run: |
           pip install -e ".[test,service,mcp,auth]" python-arango clickhouse-connect \
-            snowflake-connector-python ruff mypy \
-            "arango-sparql-py[nl,analyzer] @ git+https://github.com/ArthurKeen/arango-sparql-py"
+            snowflake-connector-python ruff mypy -r deploy/pins/arango-sparql-py.txt
       - name: Require and materialize Snowflake key-pair credentials
         env:
           SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}

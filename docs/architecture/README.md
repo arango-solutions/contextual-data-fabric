@@ -3,7 +3,9 @@
 > **This is the super-module.** It maps the whole system into modules, records how they depend on each other and on the existing Arango repos, and points to each module's own specification. Per our build process, **each module PRD/spec must reconcile against this index** (identify sub-modules → PR per sub-module → reconcile with the super-module → iterate). Arthur is the build gatekeeper.
 >
 > **Parents:** [[contextual-data-fabric-prd|PRD]] (near-term contract) · [[contextual-data-fabric-north-star|North Star]] (end-state vision).
-> **Status:** Draft v0.1. Module set proposed for review — confirm before the full set is written out.
+> **Status (2026-08-06):** Current implementation index. P1 and the recommended
+> P2/P3 code sequence are complete; production integrations and SOTA evidence
+> remain explicitly tracked in the project scorecards.
 
 ---
 
@@ -38,6 +40,8 @@ contextual-data-fabric/
         specification.md
       module-10-evaluation/
         specification.md                 ← added v0.2 (PRD §10.1)
+      module-05-federated-query-engine/adr/
+        ADR-0003-authoritative-catalog-manifest.md ← implemented M11 contract
       _repo-enhancements/                ← requirement specs for EXISTING repos
         r2g-federated-query.md           ← written (exemplar)
         ontology-extractor-structured.md
@@ -45,10 +49,6 @@ contextual-data-fabric/
         schema-analyzers-metadata-sampling.md
         customer-context-expose-modules.md
 ```
-
-*(These planning docs are staged in the vault and mirror the intended repo path so they lift straight into `contextual-data-fabric/docs/architecture/` once Arthur creates the repo.)*
-
----
 
 ## The module set
 
@@ -59,13 +59,14 @@ Two headline building blocks from the [[contextual-data-fabric-prd|PRD]] — the
 | **M1** | **Connectors** | Source adapters + **metadata-sampling** connectors (Postgres, Snowflake, Databricks, unstructured-in-Arango). Provide schema/metadata to extraction and live query access to the query engine. | Both |
 | **M2** | **Ontology Extraction** | Structured (schemas/catalogs) + unstructured (docs) → **per-source ontologies**. Wraps **r2g** + the **ontology extractor**. | Onto Extract |
 | **M3** | **Ontology Alignment** | Per-source ontologies → **master ontology**: diff/deltas → accept/reject → iterative refinement; belief management, time-travel, change control, curation (agent or human). | Onto Extract |
-| **M4** | **Mapping Layer** | **Functional mappings** — ontology concept→table, property→attribute, value transforms — as **OSI/YAML**. The mapping *is* the query. | Both |
+| **M4** | **Mapping Layer** | **Functional mappings** — CSI v1 as the catalog/mapping hub, R2RML for SQL legs, and MappingBundle for AQL. The mapping drives the query. | Both |
 | **M5** | **Federated Query Engine** | English → resolve concepts → **decompose** → per-source query gen (SQL pushdown / AQL / agent) → execute → **reassemble**. Loosely-coupled + assembled; LLM + deterministic. | Query |
 | **M6** | **Entity Resolution / Canonical Hub** | Cross-source ER → canonical entities in Arango. Wraps **AER**. | Both |
 | **M7** | **Grounding & Provenance** | Validated answer envelope + **cited retrieval path across the federation boundary** (actual SQL + AQL + source object); refuse if uncited. | Query |
-| **M8** | **Governance / OBAC** | Ontology-based access control and business rules via catalog/OpenFGA-compatible allow/rewrite/deny, governed rows, masking, citations, and delegated identity seams. | Both |
+| **M8** | **Governance / OBAC** | Implemented catalog/OpenFGA-compatible allow/rewrite/deny, governed seeds/rows, masking, citation disclosure, introspection filtering, OIDC context, and delegated-identity seams. External policy/identity services remain deployment work. | Both |
 | **M9** | **Demo Harness** | Thin agent UI to run seed questions end-to-end (reuse the customer-360 Vercel pattern). Not sold. | — |
-| **M10** | **Evaluation & Golden Set** | Live/fixture goldens, NL decomposition scoring, canonical-resolution precision, catalog integrity, and authorization gates — makes "trust is structural" testable (PRD §10.1). Not sold. | — |
+| **M10** | **Evaluation & Golden Set** | Live/fixture goldens, NL and CK25 evidence, resolution precision, optimizer oracle, interface parity, performance baseline, catalog integrity, authorization, and the unified evidence runner. Not sold. | — |
+| **M11** | **Authoritative Fabric Catalog** | Implemented, content-hashed manifest over sources, concepts, mappings, statistics, join keys, entitlements, auth modes, and runtime-resolution bindings. | Both |
 
 ---
 
@@ -78,51 +79,52 @@ Each module builds on one or more existing repos (see `_repo-enhancements/` for 
 | M1 Connectors | schema-analyzers, r2g, customer-context | `schema-analyzers-metadata-sampling` |
 | M2 Ontology Extraction | r2g, ontology-extractor (AOE) | `ontology-extractor-structured` |
 | M3 Ontology Alignment | ontology-extractor (AOE) | `ontology-extractor-structured` (alignment/belief APIs) |
-| M4 Mapping Layer | r2g (OSI export) | `r2g-federated-query` |
+| M4 Mapping Layer | r2g (CSI/R2RML export) | `r2g-federated-query` |
 | M5 Federated Query Engine | r2g, **arango-sparql-py**, **arango-cypher-py**, **arangodb-schema-analyzer (CSI v1)**, Ontop (buy-vs-build), new code (federation layer) | `r2g-federated-query`; ADR-0001 + M5 implementation plan |
 | M6 Entity Resolution | arango-entity-resolution (AER) | `aer-semantic-federated` |
 | M7 Grounding & Provenance | customer-context | `customer-context-expose-modules` |
-| M8 Governance / OBAC | ontology-extractor (SHACL), mapping layer | (future) |
+| M8 Governance / OBAC | M11 catalog, mapping layer, optional OpenFGA/IdP/STS | Production service provisioning and source-native policy evidence |
 | M9 Demo Harness | customer-context | `customer-context-expose-modules` |
 | M10 Evaluation | customer-context (corpus/questions), ontology-extractor (judge patterns) | — |
+| M11 Catalog | CSI/R2RML inputs, RSA adapter, M1/M4/M5/M8 consumers | ADR-0003; future graph-backed control plane |
 
 ---
 
-## Phase mapping (which slice of each module lands when)
+## Phase mapping and current state
 
 Ladders to the [[contextual-data-fabric-prd|PRD §6]] phases.
 
-| Module | Phase 1 (≈1 wk) | Phase 2 | Phase 3 |
-|--------|-----------------|---------|---------|
-| M1 Connectors | Postgres + unstructured-in-Arango | **Snowflake** | Databricks |
-| M2 Extraction | Postgres schema + unstructured | multi-structured | — |
-| M3 Alignment | minimal (small master, some hand-construction) | full diff/refinement | belief mgmt, time-travel, change control |
-| M4 Mapping | Postgres + AQL mappings | Snowflake mappings | value-transform library |
-| M5 Query Engine | loosely-coupled, one DB, LLM decompose | **assembled** pattern; deterministic hardening | multi-source planner |
-| M6 ER | reuse AER (deterministic) | semantic matching | federation-aware ER |
-| M7 Grounding | cited path across 2 sources | cost/latency instrumentation | — |
-| M8 Governance | — | design | **OBAC/IAM-via-ontology** |
-| M9 Demo | 1–3 seed questions | portfolio-scale | — |
-| M10 Evaluation | golden set + runner + refusal case | decomposition scoring, LLM-judge, CI gate | portfolio-scale sets; cost budgets |
+| Module | Implemented through P3 | Remaining evidence or scope |
+|--------|------------------------|-----------------------------|
+| M1 Connectors | Postgres/Ontop, Snowflake, ClickHouse, ArangoDB; secret resolution and rotation | Additional source kinds; production delegated identities |
+| M2 Extraction | Checked-in CSI inputs and optional RSA→CSI adapter | Full cross-repository automated extraction proof |
+| M3 Alignment | Small authoritative concept ownership model | Public alignment/reasoning/temporal benchmark |
+| M4 Mapping | CSI v1, R2RML, and MappingBundle runtime contracts | Broader transform/conformance suite |
+| M5 Query Engine | Deterministic multi-source planning, bind joins, admission, virtual and assembled execution | Broader SPARQL expressiveness and public comparative workload |
+| M6 ER | Guarded resolver protocol, budgets, fail-closed runtime, safety corpus | Clean released AER pin and live large-scale evaluation |
+| M7 Grounding | Answer/leg-level citations, native queries, partial/refusal semantics | Field-level standards-compatible lineage |
+| M8 Governance | Catalog/OpenFGA-compatible policy, OIDC context, masking, governed introspection | Live OpenFGA/IdP/STS and source-native policy |
+| M9 Demo | Browser workflow, metrics, provenance, mandatory gate | Production UX is out of scope |
+| M10 Evaluation | Unified evidence runner and current internal corpora | Public signed benchmarks and controlled bakeoff |
+| M11 Catalog | Authoritative content-hashed manifest and integrity gate | Graph-backed control plane and OpenLineage export |
 
 ---
 
 ## Building-block version pins (CC-9)
 
-The single source of truth for which version of each block the fabric builds against (PRD §10.9: Arthur bumps; a bump re-runs the M10 golden set; red = no merge). Pinned as of 2026-07-13:
+The executable sources of truth are `pyproject.toml`, `Makefile`, the container
+Compose files, and CI—not this prose table. Current integration state:
 
-| Block | Pin | Form |
-|-------|-----|------|
-| `relational-schema-analyzer` (RSA) | **v0.4.0** | PyPI |
-| `arangodb-schema-analyzer` | **v0.10.0** | pip (repo `arango-schema-analyzer`) |
-| `arango-entity-resolution` (AER) | **v3.5.1** | PyPI |
-| `arango-ontoextract` (AOE) | **v1.2.2** | git tag (not on PyPI) — adds §6.17–§6.19 alignment/A-box/CQ program |
-| `customer-context` | **`23b8ed8`** | git SHA (unversioned) |
-| `arango-sparql-py` | **v0.1.0 @ `b26f35d`** | pip + git SHA (Arango SPARQL→AQL leg — ADR-0001; A2/A3/C1/C2 incl. `translate_partition` landed 2026-07-15, no version bump yet) |
-| `arango-cypher-py` | **v0.2.0** | pip/pyproject (NL engine + Cypher→AQL fallback — ADR-0001) |
-| Ontop (external, buy-vs-build open — PRD §9.10) | ≥ v5.x (Snowflake support) | Java service, if adopted (P2) |
-| `arangodb-mcp-server` (`arango-solutions-mcp-server`) | **v2.0.0** | poetry/pyproject (dev/ops tooling + fabric MCP host pattern — PRD §10.2) |
-| r2g Phase-12 module | — (not yet built) | will pin per P12.8 |
+| Block | Current integration |
+|-------|---------------------|
+| Postgres / Ontop | `postgres:16`; `ontop/ontop:5.5.0` |
+| ArangoDB | `arangodb:3.12` |
+| ClickHouse | `clickhouse/clickhouse-server:24.8` |
+| `arango-sparql-py` | CI and default demo installation share the reviewed full SHA in `deploy/pins/arango-sparql-py.txt` (`arango-solutions` main at review time). Editable siblings require explicit `CDF_USE_LOCAL_SIBLINGS=1`. |
+| `arango-schema-analyzer` | Resolved through the pinned `arango-sparql-py[nl,analyzer]` dependency set. |
+| AER | No runtime package pin. CDF exposes a guarded resolver protocol; a clean released AER integration is pending. |
+| CK25 harness evidence | Generated against `arango-sparql-py@623aa24`; the checkout was dirty, while benchmark paths were clean. This is evidence provenance, not the runtime pin. |
+| Python dependencies | Version ranges are declared in `pyproject.toml`; no lock file currently certifies a full transitive environment. |
 
 ---
 
@@ -130,7 +132,8 @@ The single source of truth for which version of each block the fabric builds aga
 
 Requirement specs telling each **existing** repo what it must add to serve this project (author with the same template discipline):
 
-- **`r2g-federated-query`** — r2g must support **federated query**: emit runtime mappings + per-source query generation (not just batch load). *(Written — exemplar.)*
+- **`r2g-federated-query`** — the durable CSI/R2RML export contract is
+  integrated; Ontop and native warehouse executors own runtime SQL generation.
 - **`ontology-extractor-structured`** — confirm/complete **structured→ontology**; expose **alignment** + **belief-management/time-travel** APIs.
 - **`aer-semantic-federated`** — **semantic** (non-deterministic) matching; **federation-aware** ER; canonical-hub API.
 - **`schema-analyzers-metadata-sampling`** — metadata-sampling API for connectors + the mapping layer.
@@ -138,8 +141,12 @@ Requirement specs telling each **existing** repo what it must add to serve this 
 
 ---
 
-## Open decisions (structure)
+## Active decisions and integration gaps
 
-1. **Module granularity** — is this 9-module split the right cut, or collapse (e.g. merge M2+M3 into "Ontology" and M4 into M5)? → confirm before writing the full set.
-2. **Repo layout** — one repo with module folders under `docs/architecture/` (shown here) vs a repo per building block. Arthur's call.
-3. **Naming** — folder/spec convention: `module-NN-name/specification.md`. Confirm or adopt the convention from Arthur's example large-project structure.
+1. **Owned dependency reproducibility:** reconcile the two
+   `arango-sparql-py` mirrors, cut clean release tags, and pin a released AER;
+   run CC-9 evidence before each bump.
+2. **Production identity and policy topology:** provision and exercise
+   OpenFGA/IdP/STS plus source-native delegation, RLS, and masking.
+3. **Public evidence package:** freeze signed workloads and raw result artifacts,
+   then run controlled correctness, performance, NL, ER, and governance bakeoffs.

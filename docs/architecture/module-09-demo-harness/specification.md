@@ -33,6 +33,44 @@ Make the fabric visible. Reuse the customer-360 Vercel app pattern: a free-form 
 - **Consumes:** M5 (federate) + M7 (cited envelope).
 - **Produces:** the rendered answer + citations + traversal for a human.
 
+### 3.1 Editor vocabulary — v1 (named contract)
+
+The syntax-directed SPARQL editor (`deploy/demo/editor.js`, rendered into the
+demo page by `deploy/demo/server.py`) is generic over one JSON payload:
+
+```json
+{
+  "base": "urn:arango-sparql:concept#",
+  "classes": {
+    "Account": {
+      "props": ["accountId", "accountName", "..."],
+      "source": "postgresql:crm",
+      "kind": "postgresql"
+    }
+  }
+}
+```
+
+- **Producer:** the demo server builds it from `SourceCatalog.vocabulary()` —
+  the *same* class-structured grounding `nl2sparql`'s system prompt uses. That
+  identity is the point: the human's completions and the LLM's grounding must
+  never disagree about which properties a class owns (the per-class grouping
+  exists precisely so a property can't be attached to the wrong class and
+  silently return an empty answer).
+- **Consumer:** `editor.js` — highlighting (concepts tinted by owning source,
+  unmapped concepts flagged as will-refuse), syntax-directed completion in
+  both `c:Name` and full `<base…Name>` spellings, pairing, and
+  `formatSparql()` (whitespace-only pretty-printer for the E1 subset).
+- **Push-down plan** (agreed 2026-08-08, tracked as an `arango-sparql-py`
+  issue): the editor stays app-side while it iterates at demo speed. The
+  trigger to move it is a **second consumer** (lib workbench, nl2sparql
+  playground, or an Arango AI Suite surface). Landing spot:
+  `arango_sparql/static/editor.js` + an `editor_vocab()` helper on the
+  resolver, versioned with the lib and consumed here through the CC-9 pin;
+  the node-driven editor/formatter tests travel with it. Until then, any
+  change to this payload's shape bumps the contract name (v1 → v2) here and
+  in the issue.
+
 ## 4. Functional requirements
 - **FR-1 (P1):** Free-form question → federated answer for the seed use cases, with citations and the cross-source retrieval path shown.
 - **FR-2 (P1):** Pre-run/"in the interest of time" mode (avoid drawing attention to latency — per the sales feedback in [[2026-07-09 - C360 field-feedback review]]).

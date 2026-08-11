@@ -326,6 +326,38 @@ def test_nl_disabled_keeps_prepared_only_gate_behavior(tmp_path) -> None:
     assert service.few_shot_retriever is None
 
 
+def test_unconfigured_catalog_source_is_visible_as_degraded_health(tmp_path) -> None:
+    (tmp_path / "account.json").write_text(json.dumps(_ACCOUNT_CSI))
+    service = FederationService.from_env(
+        {
+            "CDF_CSI_DIR": str(tmp_path),
+            "CDF_NL_DISABLED": "true",
+        }
+    )
+
+    body = TestClient(create_app(service)).get("/health").json()
+    assert body["status"] == "degraded"
+    assert body["sources"] == []
+    assert body["unconfigured_sources"] == ["postgresql:crm"]
+    assert body["source_credentials"]["postgresql:crm"]["configured"] is False
+
+
+@pytest.mark.parametrize("strict_flag", ["CDF_STRICT_STARTUP", "CDF_POLICY_REQUIRED"])
+def test_strict_startup_rejects_unconfigured_catalog_source(
+    tmp_path, strict_flag: str
+) -> None:
+    (tmp_path / "account.json").write_text(json.dumps(_ACCOUNT_CSI))
+
+    with pytest.raises(ValueError, match="postgresql:crm"):
+        FederationService.from_env(
+            {
+                "CDF_CSI_DIR": str(tmp_path),
+                "CDF_NL_DISABLED": "true",
+                strict_flag: "true",
+            }
+        )
+
+
 def test_exactly_one_input_required(client: TestClient) -> None:
     assert client.post("/federate", json={}).status_code == 422
     assert (

@@ -2,19 +2,24 @@
 
 The Contextual Data Fabric demo answers one conceptual question by **federating
 four live sources** — Postgres (CRM), Snowflake (usage telemetry), ClickHouse
-(query analytics), and ArangoDB (documents) — joining their results on a shared
-business key and citing every fact, **without moving any data**.
+(query analytics), and ArangoDB (documents)—joining their results on a shared
+business key and returning answer/leg-level citations, **without moving source
+data into the fabric**.
 
-> **What this proves:** the fabric's architecture, end to end — auto-derived
-> mappings, cross-source query decomposition (incl. single-leg FILTER/OPTIONAL
+> **What this proves:** the query-time architecture over checked-in/generated
+> mapping artifacts—cross-source decomposition (incl. single-leg FILTER/OPTIONAL
 > pushdown), a deterministic join, grounded citations, and honest refusals. It is
 > an **internal / team** demo of the machinery across four live engines.
 
 ## Quick start
 
-Prerequisites: **Docker Desktop running**, Python 3.10+, and the two owned
-sibling libraries checked out under `~/code` (`arango-sparql-py`,
-`arango-schema-analyzer`).
+Prerequisites: **Docker Desktop running**, Python 3.10+, and a gitignored `.env`
+containing Snowflake loader and read-only query credentials. `make install`
+installs the reviewed `arango-sparql-py` commit in
+`deploy/pins/arango-sparql-py.txt`; developers can explicitly opt into an
+editable sibling with `CDF_USE_LOCAL_SIBLINGS=1`. The merge-blocking
+three-local-engine path does not require Snowflake, but `make seed`, `make gate`,
+and `make demo` run the full four-engine path.
 
 ```bash
 cd ~/code/contextual-data-fabric
@@ -30,10 +35,10 @@ running (`make down` stops them, preserving data).
 |---------|--------------|
 | `make install` | Create `.venv`, install the engine + live-leg libraries. Run once. |
 | `make demo` | `up` → `seed` → `gate` → clear port 8099 → serve the browser UI. |
-| `make gate` | Run the seven golden contract checks (g1–g7, incl. the three-source join and the native-ClickHouse FILTER/OPTIONAL leg) against the live stacks (the mandatory pre-demo check). |
+| `make gate` | Run all 15 live contracts against four engines (the mandatory pre-demo check). Two cases assert exact bindings; the remainder assert routing, reconciliation, grounding, or refusal behavior. |
 | `make up` / `make down` | Start / stop the local Docker stacks — Postgres+Ontop, ArangoDB, and ClickHouse (data preserved on `down`; ClickHouse self-seeds on first create). Snowflake is a live cloud source loaded by `make seed`. |
 | `make seed` | (Re)load the source databases (Postgres, Snowflake, ArangoDB) + emit the mappings. |
-| `make test` | Lint + types + unit suite (what CI runs). |
+| `make test` | Catalog integrity, authorization, lint, types, and the unit/contract suite. CI additionally runs live source jobs. |
 
 ## Topology — what runs where
 
@@ -193,6 +198,7 @@ CDF_SECRET_BACKEND=file
 CDF_SECRET_REGISTRY_PATH=/run/cdf-secrets/registry.json
 CDF_SECRET_MOUNT_PATH=/run/cdf-secrets
 CDF_SECRET_POLL_INTERVAL_SECONDS=5
+CDF_STRICT_STARTUP=true
 ```
 
 [`secrets/registry.example.json`](secrets/registry.example.json) contains only
@@ -213,8 +219,12 @@ service user, with POSIX mode `0400` or `0600`. Change `generation` whenever
 any field changes. The engine builds the replacement with the new fields,
 atomically swaps it, permits calls already using the old executor to finish,
 then drains the old pool. A failed replacement keeps the prior generation.
-`GET /health` and MCP `list_sources` expose only backend, generation alias, and
-reload status/time.
+With strict startup enabled (also implied by `CDF_POLICY_REQUIRED=true`), every
+catalog source must resolve connector configuration or startup fails with the
+missing logical source IDs. Development mode may start partially configured;
+`GET /health` then reports `status: degraded`, `unconfigured_sources`, and
+value-free credential state. MCP `list_sources` exposes only policy-authorized
+safe metadata.
 
 Canonical fields are `url/database/user/password` for Arango,
 `dsn` for ClickHouse, `account/user/password` or

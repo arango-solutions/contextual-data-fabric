@@ -4,9 +4,12 @@ from __future__ import annotations
 
 import json
 from dataclasses import replace
+from pathlib import Path
 from types import SimpleNamespace
 
 from cdf.eval.ck25_eval import build_evidence, run_repetition, validate_evidence
+
+ROOT = Path(__file__).resolve().parents[1]
 
 
 class _Client:
@@ -96,4 +99,14 @@ def test_ck25_repetition_records_accuracy_latency_tokens_and_cost(
     report_path.write_text(json.dumps(completed), encoding="utf-8")
     validation = validate_evidence(report_path)
     assert validation["valid"] is True
+    assert validation["total_case_evaluations"] == 147
+
+
+def test_checked_in_ck25_evidence_integrity() -> None:
+    validation = validate_evidence(
+        ROOT / "docs" / "evidence" / "ck25-gpt-4o-mini-3x.json"
+    )
+
+    assert validation["valid"] is True
+    assert validation["passed"] == 17
     assert validation["total_case_evaluations"] == 147

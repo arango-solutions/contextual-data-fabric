@@ -4,20 +4,37 @@ ArangoDB as an **ontology-based metadata / agent-brain hub**: auto-derive a use-
 
 Part of **Project Vantage**. Built for and pressure-tested against the the design partner customer-context engagement.
 
-> **Status:** a working **P1 system** alongside the planning docs (draft v0.3, team review). Beyond the PRD, North Star, use cases, and per-module / per-repo architecture specs, the repo now ships a **working federated-query engine** (`cdf.service` · `POST /federate`), **four source adapters** (Ontop/Postgres, native Snowflake, native ClickHouse, arango-sparql-py/ArangoDB), a **live browser demo** (`make demo` — three live sources joined and cited), a **golden gate** (`make gate`), and CI. Later modules still land per the phased plan.
-> **v0.2** reconciled all specs against the actual repos — the structured→ontology gate is resolved (exists); PRD §10 added cross-cutting requirements (evaluation, agent interface/MCP, consistency, partial failure, caching, security/credentials, deployment, pinning, packaging, resource guardrails).
-> **v0.3** absorbs the deep-analysis passes: **ADR-0001** decides the conceptual-query IR (typed graph-pattern → SPARQL; CSI v1 as the mapping hub; Ontop buy-vs-build open as PRD §9.10) — M5 is now mostly **integration of owned components** (`arango-sparql-py`, `arango-cypher-py`, RSA/`arangodb-schema-analyzer`); AOE PRD §6.17–§6.19 definitizes alignment / A-box / competency questions; use cases are formalized from PJ's 12 locked questions; `customer-context` is cloned + verified.
+> **Status (2026-08-06):** P1 and the recommended P2/P3 code sequence are
+> complete: 20/20 work packages and 7/7 executable implementation gates. The
+> repo ships `POST /federate`, semantic MCP, four live source adapters
+> (Ontop/Postgres, Snowflake, ClickHouse, and ArangoDB), governed NL routing,
+> cost-aware planning, bounded virtual/assembled execution, answer-level
+> provenance, runtime-resolution seams, secret rotation, OIDC and OpenFGA-
+> compatible policy contracts, an authoritative M11 catalog manifest, the
+> browser demo, and executable evidence suites.
+>
+> This is **not a production-readiness or SOTA claim**. Production OpenFGA,
+> IdP/STS/delegation, source-native policy, a released AER integration, public
+> scale/bakeoff evidence, and materially better external NL accuracy remain.
+> The project and SOTA scorecards below define the exact evidence boundaries.
 
 ## Start here
 
 - **[PRD](docs/contextual-data-fabric-prd.md)** — the near-term contract: vision → phased plan → **detailed Phase 1** (1-week federated-query goal) → referenced repos → open decisions → cross-cutting requirements (§10).
 - **[North Star](docs/contextual-data-fabric-north-star.md)** — the end-state vision every phase ladders toward. The horizon to check scope against.
 - **[Use Cases & Competency Questions](docs/use-cases.md)** — personas, interaction model, and the CQ table derived from the 12 locked questions (Q2 proposed for the P1 demo).
-- **[Architecture Index](docs/architecture/README.md)** — the "super-module": module map, module→repo dependencies, phase mapping, and the **building-block version pins**.
+- **[Architecture Index](docs/architecture/README.md)** — the "super-module":
+  module map, module→repo dependencies, phase status, and current dependency
+  integration/pinning gaps.
+- **[Project Scorecard](docs/architecture/project-scorecard.md)** — implementation-gate status and remaining production evidence.
+- **[SOTA Scorecard](docs/architecture/project-sota-scorecard.md)** — weighted, competitor-relative evidence levels and promotion gates.
 - **[ADR-0001 — Conceptual-query language](docs/architecture/module-05-federated-query-engine/adr/ADR-0001-conceptual-query-language.md)** + **[M5 implementation plan](docs/architecture/module-05-federated-query-engine/implementation-plan.md)** — the decided query architecture and the sequenced work packages (incl. the honest 1-week P1 slice).
 - **[ADR-0004 — Identity planes and policy enforcement](docs/architecture/module-05-federated-query-engine/adr/ADR-0004-identity-planes-and-policy-enforcement.md)** — the P3 asker/query identity, request-context, delegation, and future ReBAC enforcement decision.
 - **[Phase-1 deployment topology](docs/architecture/deployment-p1.md)** — what physically runs where for the demo (build-time vs demo-time split).
-- **[Running the demo](deploy/README.md)** — `make install && make demo`, a topology diagram of the three live sources (Postgres, Snowflake, ArangoDB; ClickHouse is a fourth catalog source) and what each contains, the example questions, and troubleshooting.
+- **[Running the demo](deploy/README.md)** — prerequisites, `make install &&
+  make demo`, all four live source kinds, example questions, evidence
+  boundaries, and troubleshooting. The full demo/gate requires configured
+  Snowflake loader and query credentials.
 
 ## Semantic MCP agent surface
 
@@ -58,8 +75,9 @@ deployment's authorization server.
 MCP v2 authenticated HTTP tools map the SDK's official `get_access_token()`
 context into the same immutable, bearer-free CDF `RequestContext` used by HTTP.
 Set `auth_required=True` to refuse tools without an authenticated subject;
-stdio/tests may inject a context factory. Catalog introspection validates the
-context but is not policy-filtered until the next M8 increment.
+stdio/tests may inject a context factory. Source, concept, property, and
+relationship introspection is filtered through the same catalog/OpenFGA-
+compatible policy decision point as query execution.
 
 Runtime entity resolution is optional and catalog-bound. A deployment that
 enables a source's `runtimeResolution.mode: canonical_hub` must inject a
@@ -72,11 +90,22 @@ the checked-in demo manifest keeps all sources at `mode: none`.
 
 ## How it works
 
-Two flows, sharing one artifact: the **aligned master ontology + its functional mappings**. The build-time flow (second diagram) produces that artifact from the sources' schemas; the query-time flow (first diagram) uses it to answer questions — without moving the data.
+Two flows share versioned semantic and mapping artifacts. Query time is
+implemented in this repository. The broader automated build-time alignment flow
+is the cross-repository target architecture described below.
 
 ### Query time — from English to a cited, federated answer
 
-A natural-language question is lifted into a **conceptual query** — a typed graph-pattern IR over the master ontology, serializing to SPARQL ([ADR-0001](docs/architecture/module-05-federated-query-engine/adr/ADR-0001-conceptual-query-language.md)). Because every concept/property in the ontology carries a mapping to the source(s) that realize it, **decomposition is graph partitioning**: the planner (M5) splits the query graph by source. Each partition is then translated into the *native language of its source* — **SQL** pushed down to relational systems (via R2RML/Ontop, or r2g's generator), **AQL** against the unstructured graph already in ArangoDB (via the owned `arango-sparql-py` transpiler), or **rendered back into natural language** for sources that expose an agentic interface (a Snowflake/Databricks cortex) rather than a query endpoint. Results come back and are **joined on canonical entity keys** (M6/AER — the guarantee that the Postgres account row and the Slack sentiment are about the *same* account), then wrapped by M7 into a **grounded envelope**: every claim cited with the actual SQL/AQL/agent-prompt that produced it, source objects, and an as-of timestamp — or a clean **refusal** if a claim can't be cited.
+A natural-language question is lifted into a **conceptual query**—a typed graph
+pattern serialized as SPARQL ([ADR-0001](docs/architecture/module-05-federated-query-engine/adr/ADR-0001-conceptual-query-language.md)).
+The planner partitions it by concept ownership and compiles each partition to
+SQL or AQL. Results are joined on declared canonical keys; deployments may
+additionally inject the guarded M6/AER runtime resolver. The checked-in demo
+uses deterministic shared account IDs and keeps runtime resolution disabled.
+M7 returns a grounded envelope with answer/leg-level citations: conceptual and
+native queries, source objects, row counts, and as-of timestamps—or a clean
+refusal when the answer cannot be supported. Field-level derivation lineage
+remains a SOTA evidence gap.
 
 Source **credentials never travel with any of this**: mappings, citations, and the hub reference sources by logical name only; the connector layer (M1) resolves names to credentials at connection time from a secret store. Existing/demo sources use one least-privilege read-only service identity. A P3 delegated-mode protocol now fails closed unless an external broker and context-aware adapter are supplied; this repo does not provision the STS or source policy.
 Production Docker/Kubernetes deployments use the mounted-file
@@ -110,13 +139,18 @@ flowchart TB
     CTX -->|"answer + prompt text + as-of"| ASM["Reassembly (M5):<br/>join legs on canonical entity keys"]
     CAN -.->|"resolve(entity) → canonical_id"| ASM
 
-    ASM --> ENV["Grounded envelope (M7):<br/>answer + per-claim citations +<br/>retrieval path (SQL / AQL / NL) + as-of"]
+    ASM --> ENV["Grounded envelope (M7):<br/>answer + per-leg citations +<br/>retrieval path (SQL / AQL / NL) + as-of"]
     ENV -->|"cited — or refused if uncitable"| U
 ```
 
 > **Shipped vs. north-star (the `agentic partition` lane).** Today's Snowflake leg takes **SQL directly** — a native `SnowflakeExecutor` (SPARQL→SQL, compiled from the same R2RML), *not* the render-to-NL cortex path — per [ADR-0002](docs/architecture/module-05-federated-query-engine/adr/ADR-0002-snowflake-cortex-agentic-legs.md). The `render → natural language` / `Snowflake / Databricks agentic cortex` lane above is the **general design** for sources that expose *only* an agent (Cortex Analyst, Databricks Genie); it's supported in principle and built on customer demand, and never sits on the deterministic gate path.
 
-### Build time — derive the source ontologies, align them into one
+### Build time — target architecture for deriving and aligning source ontologies
+
+The checked-in demo consumes versioned CSI/R2RML and catalog artifacts. The
+broader automated extraction, alignment, human-review, and temporal belief-
+revision flow below spans owned repositories and remains the North Star; it is
+not claimed as an end-to-end implementation in this checkout.
 
 Each source's **schema** is analyzed into a **source ontology**: relational schemas via `relational-schema-analyzer` (tables, keys, FKs → concepts/properties), existing ArangoDB graphs via `arangodb-schema-analyzer`, and unstructured corpora via AOE's LLM extraction pipeline — all scoped by the **competency questions** in [use-cases.md](docs/use-cases.md) (extract what the questions need, never boil the ocean). The per-source ontologies are then **aligned** (M3, AOE §6.17): embedding retrieval proposes cross-source correspondences, multi-signal scoring auto-resolves the clear cases, an LLM adjudicates only the borderline band, and a human confirms the last ~2%. The result is the **master ontology** — `customer account` ≡ `client account` ≡ `account`, with equivalence axioms materialized — plus the **functional mappings** (CSI v1, exported as R2RML for SQL and MappingBundle for AQL) that make the query-time partitioning and translation deterministic. The ontology is temporal-versioned: source changes cascade through belief revision rather than rebuilding.
 
@@ -172,9 +206,10 @@ flowchart TB
 | M5 | Federated Query Engine | [spec](docs/architecture/module-05-federated-query-engine/specification.md) · [ADR-0001](docs/architecture/module-05-federated-query-engine/adr/ADR-0001-conceptual-query-language.md) · [plan](docs/architecture/module-05-federated-query-engine/implementation-plan.md) |
 | M6 | Entity Resolution / Canonical Hub | [spec](docs/architecture/module-06-entity-resolution/specification.md) |
 | M7 | Grounding & Provenance | [spec](docs/architecture/module-07-grounding-provenance/specification.md) |
-| M8 | Governance / OBAC (future) | [spec](docs/architecture/module-08-governance-obac/specification.md) |
+| M8 | Governance / OBAC | [spec](docs/architecture/module-08-governance-obac/specification.md) |
 | M9 | Demo Harness | [spec](docs/architecture/module-09-demo-harness/specification.md) |
 | M10 | Evaluation & Golden Set | [spec](docs/architecture/module-10-evaluation/specification.md) |
+| M11 | Authoritative Fabric Catalog | [ADR-0003](docs/architecture/module-05-federated-query-engine/adr/ADR-0003-authoritative-catalog-manifest.md) |
 
 ## Enhancement specs for existing repos
 
@@ -186,9 +221,14 @@ Requirement specs telling each existing Arango repo what it must add to serve th
 - **schema-analyzers → metadata sampling** — [spec](docs/architecture/_repo-enhancements/schema-analyzers-metadata-sampling.md)
 - **customer-context → expose graph, grounding envelope & ontology-driven AQL** — [spec](docs/architecture/_repo-enhancements/customer-context-expose-modules.md)
 
-## Phase 1 (≈1 week)
+## Phase 1 acceptance target (completed)
 
-Demonstrate a **federated query across one relational database (live, not mirrored) + unstructured documents already ingested in Arango**, unified by an auto-derived, use-case-scoped ontology, returned grounded and cited with a retrieval path spanning both sources. Proposed demo question: **Q2** (renewal-risk-and-WHY, joining live Postgres CRM to Arango documents) ([use cases](docs/use-cases.md)). See the [PRD §7](docs/contextual-data-fabric-prd.md) for the work breakdown and the [M5 implementation plan](docs/architecture/module-05-federated-query-engine/implementation-plan.md) for the P1 walking skeleton.
+The original target was a federated query across one live relational database
+and ArangoDB, grounded and cited without mirroring source data. It is complete
+and has expanded to four source kinds and a 15-case hosted live contract gate.
+See the [project scorecard](docs/architecture/project-scorecard.md) for current
+evidence and [PRD §7](docs/contextual-data-fabric-prd.md) for the historical work
+breakdown.
 
 ## Authoring new specs
 

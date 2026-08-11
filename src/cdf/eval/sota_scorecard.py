@@ -26,8 +26,10 @@ from typing import Any
 
 from cdf.connectors.redaction import redact
 
-SCHEMA_VERSION = 1
+SCHEMA_VERSION = 2
 REPORT_KIND = "cdf-sota-baseline"
+SCORING_MODEL = Path(__file__).parent / "corpora" / "sota-dimensions-v1.json"
+PARITY_CORPUS = Path(__file__).parent / "corpora" / "interface-parity-v1.json"
 _SUMMARY_COUNT = re.compile(r"(?P<count>\d+)\s+(?P<label>passed|failed|skipped)")
 _FAILED_TEST = re.compile(r"^FAILED\s+(?P<test>\S+)", re.MULTILINE)
 _LIVE_ENV_KEYS = (
@@ -119,6 +121,18 @@ def _specs(python: str, *, live: bool) -> tuple[CheckSpec, ...]:
         CheckSpec(
             "http_mcp_parity",
             (python, "-m", "pytest", "tests/test_interface_parity.py", "-q"),
+            output_kind="parity-text",
+        ),
+        CheckSpec(
+            "ck25_evidence_integrity",
+            (
+                python,
+                "-m",
+                "cdf.eval.ck25_eval",
+                "--validate-evidence",
+                "docs/evidence/ck25-gpt-4o-mini-3x.json",
+            ),
+            output_kind="ck25-json",
         ),
         CheckSpec(
             "ck25_live_evidence",
@@ -308,16 +322,34 @@ def _run_check(
         )
     outcome = command_runner(spec.command, root, environment)
     try:
-        summary = (
-            _json_summary(spec.output_kind, outcome.stdout)
-            if spec.output_kind.endswith("-json")
-            else _text_summary(outcome.stdout, outcome.stderr)
-        )
+        if spec.output_kind.endswith("-json"):
+            summary = _json_summary(spec.output_kind, outcome.stdout)
+        else:
+            summary = _text_summary(outcome.stdout, outcome.stderr)
+            if spec.output_kind == "parity-text":
+                corpus = json.loads(PARITY_CORPUS.read_text(encoding="utf-8"))
+                summary.update(
+                    corpus_version=corpus.get("corpus_version"),
+                    total_cases=len(corpus.get("cases") or []),
+                    all_passed=outcome.returncode == 0,
+                )
     except (json.JSONDecodeError, TypeError, ValueError) as exc:
         summary = {"parse_error": redact(str(exc))}
+    required_summary_flags = {
+        "nl-json": "all_passed",
+        "resolution-json": "passed",
+        "optimizer-json": "all_passed",
+        "performance-json": "all_passed",
+        "ck25-json": "valid",
+        "parity-text": "all_passed",
+    }
+    summary_flag = required_summary_flags.get(spec.output_kind)
+    summary_passed = "parse_error" not in summary and (
+        summary_flag is None or summary.get(summary_flag) is True
+    )
     return CheckResult(
         name=spec.name,
-        status="passed" if outcome.returncode == 0 else "failed",
+        status="passed" if outcome.returncode == 0 and summary_passed else "failed",
         required=spec.required,
         command=_display_command(spec.command),
         exit_code=outcome.returncode,
@@ -334,6 +366,11 @@ def _package_versions() -> dict[str, str | None]:
         "fastapi",
         "mcp",
         "PyJWT",
+        "arango-sparql-py",
+        "arango-query-core",
+        "arangodb-schema-analyzer",
+        "clickhouse-connect",
+        "snowflake-connector-python",
     )
     result: dict[str, str | None] = {}
     for package in packages:
@@ -379,6 +416,53 @@ def _report_hash(report: Mapping[str, Any]) -> str:
     return hashlib.sha256(canonical).hexdigest()
 
 
+def load_scoring_model(path: Path = SCORING_MODEL) -> dict[str, Any]:
+    """Load and validate the machine-readable scorecard dimension registry."""
+
+    document = json.loads(path.read_text(encoding="utf-8"))
+    dimensions = document.get("dimensions")
+    if not isinstance(dimensions, list) or len(dimensions) != 12:
+        raise ValueError("SOTA scoring model must define exactly 12 dimensions")
+
+    seen: set[str] = set()
+    scored: list[dict[str, Any]] = []
+    for item in dimensions:
+        dimension_id = item.get("id")
+        label = item.get("label")
+        weight = item.get("weight")
+        level = item.get("level")
+        if not isinstance(dimension_id, str) or not dimension_id or dimension_id in seen:
+            raise ValueError("SOTA dimension ids must be unique non-empty strings")
+        if not isinstance(label, str) or not label:
+            raise ValueError(f"SOTA dimension {dimension_id!r} must have a label")
+        if not isinstance(weight, int) or weight <= 0:
+            raise ValueError(f"SOTA dimension {dimension_id!r} has an invalid weight")
+        if not isinstance(level, int) or not 0 <= level <= 5:
+            raise ValueError(f"SOTA dimension {dimension_id!r} has an invalid level")
+        seen.add(dimension_id)
+        scored.append(
+            {
+                "id": dimension_id,
+                "label": label,
+                "weight": weight,
+                "level": level,
+                "contribution": round(weight * level / 5, 3),
+            }
+        )
+
+    total_weight = sum(item["weight"] for item in scored)
+    if total_weight != 100:
+        raise ValueError(f"SOTA dimension weights must sum to 100, got {total_weight}")
+    return {
+        "schema_version": document.get("schema_version"),
+        "rubric_version": document.get("rubric_version"),
+        "effective_date": document.get("effective_date"),
+        "score": round(sum(item["contribution"] for item in scored), 3),
+        "max_score": 100,
+        "dimensions": scored,
+    }
+
+
 def build_scorecard(
     *,
     root: Path,
@@ -417,6 +501,11 @@ def build_scorecard(
         "generated_at": timestamp.astimezone(timezone.utc).isoformat(),
         "mode": "live" if live else "offline",
         "passed": required_passed,
+        "pass_semantics": (
+            "all required evidence checks completed successfully; "
+            "this is not a SOTA promotion result"
+        ),
+        "scoring": load_scoring_model(),
         "git": dict(git_metadata) if git_metadata is not None else _git_metadata(root),
         "environment": {
             "python": platform.python_version(),

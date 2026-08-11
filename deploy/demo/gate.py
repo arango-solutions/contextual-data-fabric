@@ -15,11 +15,16 @@ import argparse
 import sys
 from collections.abc import Sequence
 from pathlib import Path
+from typing import Any
 
 from cdf.eval.golden import filter_goldens, load_goldens, run_golden_live
 from cdf.service import FederationService
 
 GOLDEN_DIR = Path(__file__).resolve().parents[1] / "golden"
+EXPECTED_GOLDEN_TOTAL = 15
+EXPECTED_PARTIAL_COUNTS = {
+    ("snowflake:telemetry",): (10, 5),
+}
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -38,6 +43,29 @@ def _parser() -> argparse.ArgumentParser:
     return parser
 
 
+def validate_golden_inventory(
+    all_cases: Sequence[dict[str, Any]],
+    selected: Sequence[dict[str, Any]],
+    skipped: Sequence[dict[str, Any]],
+    excluded_sources: Sequence[str],
+) -> None:
+    """Prevent an empty, shrunken, or unexpectedly filtered gate from passing."""
+
+    if len(all_cases) != EXPECTED_GOLDEN_TOTAL:
+        raise ValueError(
+            f"expected {EXPECTED_GOLDEN_TOTAL} live goldens, found {len(all_cases)}"
+        )
+    if not selected:
+        raise ValueError("golden selection is empty")
+    exclusions = tuple(sorted(set(excluded_sources)))
+    expected = EXPECTED_PARTIAL_COUNTS.get(exclusions)
+    if expected is not None and (len(selected), len(skipped)) != expected:
+        raise ValueError(
+            f"exclusions {exclusions!r} expected {expected[0]} selected and "
+            f"{expected[1]} skipped, got {len(selected)} selected and {len(skipped)} skipped"
+        )
+
+
 def main(argv: Sequence[str] | None = None) -> int:
     args = _parser().parse_args(argv)
     # The mandatory pre-demo gate is DETERMINISTIC: the NL front-end (WP-D1,
@@ -49,12 +77,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not args.nl:
         os.environ["CDF_NL_DISABLED"] = "1"
 
+    all_cases = load_goldens(GOLDEN_DIR)
+    cases, skipped = filter_goldens(all_cases, args.exclude_source)
+    try:
+        validate_golden_inventory(all_cases, cases, skipped, args.exclude_source)
+    except ValueError as exc:
+        print(f"gate: invalid golden inventory: {exc}")
+        return 2
+
     service = FederationService.from_env()
     if not service.executors:
         print("gate: no executors wired — are the stacks up and env vars set?")
         return 2
 
-    cases, skipped = filter_goldens(load_goldens(GOLDEN_DIR), args.exclude_source)
     red = 0
     for case in cases:
         outcome = run_golden_live(case, service)

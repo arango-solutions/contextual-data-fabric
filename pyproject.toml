@@ -45,6 +45,10 @@ where = ["src"]
 
 [tool.pytest.ini_options]
 testpaths = ["tests"]
+# Repo root on sys.path so tests can import the deploy/ namespace package
+# (gate.py inventory tests). `python -m pytest` gets this for free via CWD;
+# the bare `pytest` console script — what CI runs — does not.
+pythonpath = ["."]
 
 [tool.ruff]
 line-length = 100

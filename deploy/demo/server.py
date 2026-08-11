@@ -66,13 +66,35 @@ SELECT ?name ?tier ?source ?url WHERE {
 _SERVICE = FederationService.from_env()
 app = create_app(_SERVICE)
 
+# Inlined at render time so the page stays a single self-contained response.
+EDITOR_JS = (Path(__file__).with_name("editor.js")).read_text()
+
 
 @app.get("/", response_class=HTMLResponse)
 def index() -> str:
     import json as _json
 
     questions = _json.dumps(sorted(_SERVICE.prepared_questions))
-    return PAGE.replace("__SPARQL__", DEFAULT_SPARQL).replace("__QUESTIONS__", questions)
+    # Class-structured vocabulary for the syntax-directed editor: the same
+    # per-class grouping the NL prompt uses, so completion can scope a
+    # subject's properties to its declared class.
+    vocab: dict[str, dict[str, object]] = {}
+    for src in _SERVICE.catalog.vocabulary():
+        for cls in src["classes"]:
+            vocab[cls["name"]] = {
+                "props": cls["properties"],
+                "source": src["source_id"],
+                "kind": src["kind"],
+            }
+    return (
+        PAGE.replace("__SPARQL__", DEFAULT_SPARQL)
+        .replace("__QUESTIONS__", questions)
+        .replace("__EDITOR_JS__", EDITOR_JS)
+        .replace(
+            "__VOCAB__",
+            _json.dumps({"base": _SERVICE.catalog.concept_base, "classes": vocab}),
+        )
+    )
 
 
 PAGE = """<!doctype html>
@@ -143,6 +165,38 @@ PAGE = """<!doctype html>
   details summary { cursor:pointer; color:var(--muted); font-size:12.5px; }
   .meta { color:var(--muted); font-size:12.5px; }
   .err { color:var(--refuse); }
+  /* Syntax-directed SPARQL editor: transparent-text textarea over a painted
+     <pre>; both must share font/padding/border metrics exactly. */
+  .sqed { position:relative; margin-top:8px; }
+  .sqed textarea { position:relative; z-index:1; margin:0 !important; background:transparent;
+    color:transparent; caret-color:var(--codeink); }
+  .sqed textarea::selection { background:color-mix(in srgb,var(--accent) 25%,transparent); }
+  .sqed-hl { position:absolute; inset:0; overflow:hidden; margin:0; padding:12px;
+    border:1px solid transparent; border-radius:8px; background:var(--code);
+    font:13px/1.5 ui-monospace,SFMono-Regular,Menlo,monospace;
+    white-space:pre-wrap; overflow-wrap:break-word; color:var(--codeink); }
+  .sqed-mirror { position:absolute; top:0; left:0; visibility:hidden; pointer-events:none;
+    white-space:pre-wrap; overflow-wrap:break-word; }
+  .sqed-kw { font-weight:700; }
+  .sqed-var { color:var(--accent); }
+  .sqed-com, .sqed-iri { color:var(--muted); }
+  .sqed-str { color:var(--ch); }
+  .sqed-cls { font-weight:600; }
+  .sqed-src-postgresql { color:var(--pg); } .sqed-src-arango { color:var(--ar); }
+  .sqed-src-snowflake { color:var(--sf); } .sqed-src-clickhouse { color:var(--ch); }
+  .sqed-unknown { color:var(--refuse); text-decoration:underline wavy var(--refuse); }
+  .sqed-open-str { background:color-mix(in srgb,var(--refuse) 14%,transparent);
+    text-decoration:underline wavy var(--refuse); }
+  .sqed-match { background:color-mix(in srgb,var(--accent) 22%,transparent); border-radius:2px; }
+  .sqed-unmatch { background:color-mix(in srgb,var(--refuse) 30%,transparent); border-radius:2px; }
+  .sqed-menu { position:absolute; z-index:30; min-width:240px; max-width:380px; max-height:220px;
+    overflow-y:auto; background:var(--panel); border:1px solid var(--line); border-radius:8px;
+    box-shadow:0 8px 24px rgba(0,0,0,.15); }
+  .sqed-menu button { display:flex; gap:10px; align-items:baseline; width:100%; text-align:left;
+    background:none; color:var(--ink); border:0; border-radius:0; padding:6px 10px;
+    font:12px/1.5 ui-monospace,Menlo,monospace; cursor:pointer; }
+  .sqed-menu button:hover, .sqed-menu button.on { background:var(--code); }
+  .sqed-menu .sqed-mh { margin-left:auto; color:var(--muted); font-size:10.5px; }
   .metrics { display:flex; flex-wrap:wrap; gap:6px; margin-top:10px; }
   .metrics span { font:11.5px/1.4 ui-monospace,Menlo,monospace; color:var(--muted);
     background:var(--code); border:1px solid var(--line); border-radius:6px; padding:4px 9px; }
@@ -191,7 +245,15 @@ PAGE = """<!doctype html>
     <p class="meta" style="margin:2px 0 0">Asking a question fills this in with the conceptual
       SPARQL it became; edit it and Run to take the power path.</p>
     <textarea id="q" style="margin-top:8px">__SPARQL__</textarea>
-    <div class="row" style="margin-top:8px"><button id="run" onclick="run()">Run SPARQL</button></div>
+    <p class="meta" style="margin:6px 2px 0">Completion: <b>Tab</b>/<b>Enter</b> accepts, <b>Ctrl-Space</b> opens —
+      classes and properties come from the live catalog, in both <code>c:Name</code> and full
+      <code>&lt;urn:…#Name&gt;</code> spellings; a red-underlined concept is one no source maps.
+      Braces and quotes auto-close; the pair at the caret is marked.</p>
+    <div class="row" style="margin-top:8px">
+      <button id="run" onclick="run()">Run SPARQL</button>
+      <button id="fmt" style="background:transparent;color:var(--muted);border:1px solid var(--line)"
+              onclick="setSparqlEditorValue('q', document.getElementById('q').value)">Format</button>
+    </div>
     <div id="advbody"></div>
   </details>
 
@@ -346,7 +408,7 @@ function render(d, out) {
   // ---- Provenance panel (the single expander between question and answer):
   //      the editable conceptual-query box reflects what actually ran, and
   //      the decomposition + transpiled queries render beneath it. ----
-  if (d.conceptual_sparql) document.getElementById('q').value = d.conceptual_sparql;
+  if (d.conceptual_sparql) setSparqlEditorValue('q', d.conceptual_sparql);
   const body = document.getElementById('advbody');
   body.innerHTML = '';
 
@@ -416,6 +478,10 @@ nlq.addEventListener('keydown', e => {
     closeSuggestions(); ask();
   }
 });
+</script>
+<script>
+__EDITOR_JS__
+initSparqlEditor('q', __VOCAB__);
 </script>
 </div></body></html>
 """

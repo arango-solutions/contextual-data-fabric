@@ -127,6 +127,7 @@ class FederationService:
     assembly_policy: AssemblyPolicy = field(default_factory=AssemblyPolicy)
     connector_registry: ConnectorRegistry | None = None
     source_credentials: Mapping[str, dict[str, Any]] = field(default_factory=dict)
+    unconfigured_sources: tuple[str, ...] = ()
     delegation_broker: DelegationBroker | None = None
     source_base_identities: Mapping[str, BaseSourceIdentity] = field(default_factory=dict)
     policy_pdp: PolicyDecisionPoint = field(default_factory=NonePolicyPDP)
@@ -144,8 +145,20 @@ class FederationService:
     def credential_health(self) -> dict[str, dict[str, Any]]:
         """Return safe, value-free source credential state."""
         if self.connector_registry is not None:
-            return self.connector_registry.health()
-        return {source_id: dict(value) for source_id, value in self.source_credentials.items()}
+            result = self.connector_registry.health()
+        else:
+            result = {
+                source_id: dict(value) for source_id, value in self.source_credentials.items()
+            }
+        for source_id in self.unconfigured_sources:
+            result[source_id] = {
+                "configured": False,
+                "backend": None,
+                "generation": None,
+                "last_reload_status": "missing",
+                "last_reload_time": None,
+            }
+        return result
 
     def authorized_sources(self, context: RequestContext) -> tuple[Any, ...]:
         """Return only source metadata whose existence policy permits disclosing."""
@@ -835,6 +848,9 @@ class FederationService:
           production mounted-file resolver. File mode requires
           ``CDF_SECRET_REGISTRY_PATH`` and optionally ``CDF_SECRET_MOUNT_PATH``.
           ``CDF_SECRET_POLL_INTERVAL_SECONDS`` bounds generation checks.
+        - ``CDF_STRICT_STARTUP=true`` refuses to start when any catalog source
+          lacks resolved connector configuration. ``CDF_POLICY_REQUIRED=true``
+          also enables this fail-fast behavior.
         - ``CDF_PREPARED_QUESTIONS`` — JSON file of ``{question: sparql}``.
         - ``CDF_NL_CORPUS`` — validated v1 corpus path (default: packaged corpus).
         - ``CDF_NL_FEW_SHOT_TOP_K`` — prompt-only lexical examples (default 3).
@@ -879,6 +895,7 @@ class FederationService:
         registry = ConnectorRegistry() if rotating else None
         executors: dict[str, SourceExecutor] = {}
         source_credentials: dict[str, dict[str, Any]] = {}
+        unconfigured_sources: list[str] = []
         secret_value_leases: list[SecretValueLease] = []
         r2rml_dir = Path(env.get("CDF_R2RML_DIR", "deploy/r2rml"))
         poll_interval = _nonnegative_float(
@@ -892,6 +909,7 @@ class FederationService:
             connector_ref = ConnectorRef(ref.source_id, ref.kind, ref.ref)
             resolved = resolver.resolve(connector_ref)
             if resolved is None:
+                unconfigured_sources.append(ref.source_id)
                 continue
             r2rml_path = manifest_r2rml_paths.get(
                 ref.source_id,
@@ -920,6 +938,16 @@ class FederationService:
         executor_mapping: Mapping[str, SourceExecutor] = (
             registry if registry is not None else executors
         )
+        strict_startup = _boolean(env.get("CDF_STRICT_STARTUP", "")) or _boolean(
+            env.get("CDF_POLICY_REQUIRED", "")
+        )
+        if strict_startup and unconfigured_sources:
+            if registry is not None:
+                registry.close()
+            missing = ", ".join(sorted(unconfigured_sources))
+            raise ValueError(
+                f"strict startup requires connector configuration for catalog sources: {missing}"
+            )
 
         questions: dict[str, str] = {}
         questions_file = env.get("CDF_PREPARED_QUESTIONS")
@@ -985,6 +1013,7 @@ class FederationService:
             assembly_policy=AssemblyPolicy.from_env(env),
             connector_registry=registry,
             source_credentials=source_credentials,
+            unconfigured_sources=tuple(sorted(unconfigured_sources)),
             secret_value_leases=tuple(secret_value_leases),
             policy_pdp=policy_pdp_from_env(catalog, env),
             masking_key_resolver=masking_key_resolver_from_env(env),
@@ -1220,9 +1249,11 @@ def create_app(
         if auth_required and not visible:
             return {"status": "ok"}
         visible_ids = {item.source_id for item in visible}
+        visible_unconfigured = visible_ids & set(service.unconfigured_sources)
         return {
-            "status": "ok",
+            "status": "degraded" if visible_unconfigured else "ok",
             "sources": sorted(visible_ids & set(service.executors.keys())),
+            "unconfigured_sources": sorted(visible_unconfigured),
             "source_credentials": {
                 source_id: value
                 for source_id, value in service.credential_health().items()

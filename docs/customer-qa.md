@@ -235,3 +235,53 @@ governance **`TAG`s**. For customers running an external enterprise catalog
 layer — the same discover-then-connect flow works there. The principle: **we
 never ask you to re-describe what your catalog already knows** — declared
 keys, comments, tags, and usage history are all extraction inputs.
+
+---
+
+## The their in-house fabric question (2026-08-09)
+
+> Context: the prospect's own **Data Fabric for Security** white paper
+> (their in-house fabric, acquired by the design partner) arrived 2026-08-09. Its thesis — entities
+> over event logs, a semantic layer that separates how data is stored from
+> how it's queried, metadata-driven integration — **is our thesis**. Open
+> with agreement, not contrast: the people in the room built an
+> entity-centric fabric and won the argument internally. The difference is
+> *where the data lives* and *what an answer must carry*.
+
+### 8. "We already built a data fabric — their in-house fabric. Why do we need this?"
+
+**Because their in-house fabric and the CDF make opposite default choices about data
+movement, and the CDF makes it a per-source choice instead of an
+architectural identity.**
+
+- **their in-house fabric materializes**: ingest → format → enrich → resolve/dedupe → group,
+  into one curated entity store. That is the right shape for security-ops
+  telemetry at volume — continuous entity resolution and pre-joined entities
+  make heavy analytics fast.
+- **The CDF's default is federate-in-place**: the *ontology* moves, the data
+  does not. A question is partitioned by concept ownership, each leg runs
+  natively on the system of record (SQL on Snowflake and Postgres, AQL on
+  ArangoDB), results join on the business key at query time — and every
+  answer carries the exact per-source queries that produced it, or refuses.
+  *Let me show you* — the Provenance & Execution panel in the demo is this
+  contract running live. Nothing in the materializing pipeline produces an
+  answer-level receipt like that: its lineage ends at the pipeline.
+- **We are not federation-only.** When copying a leg is the right call
+  (analytics-heavy workloads, offline sources), r2g is our ETL path — the
+  same schema→ontology→R2RML toolchain that generates the federation
+  mappings also loads relational sources into the graph. Today that is
+  per-source; assembling multiple disparate sources into one materialized
+  fabric is on the roadmap, not on the truck. Materialize vs. federate
+  becomes a deployment decision per source, made under one ontology —
+  not a religion.
+- **Complementary, not competing**: a curated entity store like their in-house fabric's can
+  simply be *a source in the fabric* — federate over it alongside Snowflake
+  and the document graph, and the CDF adds what the white paper doesn't
+  cover: the natural-language front door and the grounded, cite-or-refuse
+  answer contract (golden-gated, adversarially tested).
+
+**Honest asymmetries** (say them before they do): continuous entity
+resolution at ingest and connector breadth are theirs today; ours are
+deterministic business-key joins, standards-based mappings (OWL/SPARQL/
+R2RML rather than a proprietary schema), zero-copy freshness, and
+answer-level provenance.

@@ -23,7 +23,7 @@ related:
 > into the P1 (≈1-week demo) slice vs. P2/P3. Every WP traces to a spec FR
 > and/or an ADR decision.
 
-## Implementation status (2026-08-05)
+## Implementation status (2026-08-06)
 
 **P1 and the recommended P2/P3 implementation sequence are complete.** The
 running module now includes:
@@ -39,8 +39,9 @@ running module now includes:
   declared partial failure, and cite-or-refuse grounding.
 - **D1-thin:** schema-grounded NL → SPARQL with validation/repair plus a
   deterministic prepared-question registry.
-- **F1:** 15 live golden cases covering the five-question arc, four source
-  kinds, empty results, PII refusal, and prompt-injection handling.
+- **F1:** 15 hosted live contracts covering the five-question arc, four source
+  kinds, empty results, PII refusal, and prompt-injection handling. Two assert
+  exact bindings; merge-blocking CI runs the 10 that do not require Snowflake.
 - **M9 surface:** one HTTP seam and browser demo with LLM metrics and a dynamic
   Provenance & Execution workflow.
 - **P2.1:** versioned NL corpus/decomposition evaluation, deterministic routing
@@ -53,7 +54,8 @@ running module now includes:
   graphs with lineage, TTL, budgets, and unconditional cleanup.
 - **P2.3 WP-8:** M1 `SecretResolver` env/mounted-file backends, per-source
   registries, generation-aware atomic executor rotation and draining, central
-  source/assembly error redaction, and safe credential health metadata.
+  source/assembly error redaction, strict startup validation for missing catalog
+  connectors, and safe degraded credential health metadata.
 - **P2.3 WP-13:** local/API-ready M6 semantic canonical-hub resolution:
   precision-first AER service/provider/profile plus an independently guarded CDF
   wrapper and versioned quality gate. A clean AER release and CDF pin are still
@@ -75,10 +77,12 @@ running module now includes:
   resolution bindings; the optional RSA bundle → CSI adapter is implemented
   without fabricating R2RML.
 
-The code sequence is closed. Remaining work is deployment evidence: release and
-pin AER, provision production OpenFGA/IdP/STS, validate source-native delegated
-policy, exercise Snowflake key-pair credentials live, and expand the external
-stochastic NL corpus. The recomputed evidence is recorded in
+The code sequence is closed. Snowflake key-pair authentication has passed a
+hosted four-engine run. Remaining work is deployment and outcome evidence:
+release and pin AER, provision production OpenFGA/IdP/STS, validate
+source-native delegated policy, rerun the full gate on merged `main`, and improve
+the measured 17/147 CK25 NL execution result without tuning on scored answers.
+The recomputed evidence is recorded in
 [[contextual-data-fabric/docs/architecture/project-scorecard|the project
 scorecard]].
 
@@ -253,10 +257,10 @@ no source data is bulk-copied, and uncitable requests refuse cleanly.
    entry with a two-leg parity test. The P1 Cypher→AQL fallback is withdrawn.
 2. ~~**Ontop infra vs r2g P12.2**~~ — **RESOLVED:** Ontop is the Postgres leg;
    native executors handle Snowflake and ClickHouse.
-3. **Free-form SPARQL generation:** D2 now provides a repeatable,
-   fixture-capable corpus/evaluator and governed few-shot fallback. The external
-   49-case stochastic corpus remains an expansion target, not an untested code
-   path.
+3. **Free-form SPARQL generation:** D2 provides a repeatable fixture corpus and
+   governed few-shot fallback. The external 49-case CK25 corpus has now run
+   three times with GPT-4o-mini and achieved only 17/147 (11.6%); this is a
+   measured quality gap, not an untested path or a score promotion.
 4. **Reasoning at build vs query time** (ADR #5): materialize `sameAs`/
    `equivalentClass` in M2/M3 so M5 stays fast/deterministic.
 
@@ -264,7 +268,7 @@ no source data is bulk-copied, and uncitable requests refuse cleanly.
 
 - **P1:** ✅ complete — five-question arc, four live source kinds, real SQL/AQL
   in the retrieval path, deterministic join spine, no bulk copy, clean refusal,
-  and 15 live goldens.
+  and 15 hosted live contracts (10 merge-blocking; 2 exact-binding graded).
 - **P2:** ✅ complete — canonical SPARQL-OBDA loop passes the live and offline
   gates with deterministic planning by default, governed LLM fallback,
   per-source telemetry, budgeted optimization, and explicit bounded assembly.
