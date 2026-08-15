@@ -9,6 +9,7 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from .builder import build_manifest, export_catalog, validate_manifest
+from .collisions import label_report, render_report
 from .model import load_manifest
 
 
@@ -30,6 +31,12 @@ def _parser() -> argparse.ArgumentParser:
     validate = subcommands.add_parser("validate", help="validate manifest and artifacts")
     validate.add_argument("manifest", type=Path)
     validate.add_argument("--root", type=Path)
+    validate.add_argument(
+        "--fail-on-label-collisions",
+        action="store_true",
+        help="exit non-zero when the catalog carries cross-entity label collisions "
+        "(default: report as a warning). Promote to a gate once the catalog is clean.",
+    )
 
     export = subcommands.add_parser("export", help="export validated artifacts")
     export.add_argument("manifest", type=Path)
@@ -77,8 +84,18 @@ def main(argv: Sequence[str] | None = None) -> int:
                 )
             )
         elif args.command == "validate":
-            validate_manifest(args.manifest, root=args.root)
+            loaded = validate_manifest(args.manifest, root=args.root)
             print(f"valid: {args.manifest}")
+            report = label_report(loaded)
+            if not report.is_empty():
+                print("warning: " + render_report(report), file=sys.stderr)
+            if args.fail_on_label_collisions and report.collisions:
+                print(
+                    f"cdf-catalog: {len(report.collisions)} label collision(s) "
+                    "(--fail-on-label-collisions)",
+                    file=sys.stderr,
+                )
+                return 1
         elif args.command == "export":
             outputs = export_catalog(args.manifest, args.target, root=args.root)
             print(json.dumps([str(path) for path in outputs], sort_keys=True))

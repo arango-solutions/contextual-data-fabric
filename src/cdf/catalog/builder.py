@@ -13,6 +13,7 @@ from typing import Any
 from cdf.query.catalog import DEFAULT_CONCEPT_BASE, parse_csi_statistics, source_ref_from_csi
 
 from .model import (
+    LoadedCatalog,
     canonical_content_hash,
     canonical_generation,
     file_sha256,
@@ -292,8 +293,10 @@ def build_manifest(
     return document
 
 
-def validate_manifest(path: Path, *, root: Path | None = None) -> None:
-    load_manifest(path, root=root)
+def validate_manifest(path: Path, *, root: Path | None = None) -> LoadedCatalog:
+    """Validate a manifest + its artifacts, returning the loaded catalog so
+    callers (the CLI) can run the cross-source label analysis on it."""
+    return load_manifest(path, root=root)
 
 
 def export_catalog(path: Path, target: Path, *, root: Path | None = None) -> list[Path]:
