@@ -7,9 +7,18 @@ the two collisions the spec says can *only* be found after the four CSIs merge.
 
 from __future__ import annotations
 
+import json
 from pathlib import Path
 
-from cdf.catalog.collisions import Attribute, analyze, humanize, render_report
+import pytest
+
+from cdf.catalog.collisions import (
+    Attribute,
+    analyze,
+    humanize,
+    load_allowlist,
+    render_report,
+)
 
 _REPO = Path(__file__).resolve().parents[1]
 
@@ -148,3 +157,97 @@ def test_render_report_is_human_readable():
     text = render_report(report)
     assert 'collision  "role"' in text
     assert "[cross-source]" in text
+
+
+# -- allowlist: accepting intentional collisions -----------------------------
+
+
+def _pair(label: str) -> list[Attribute]:
+    return [_attr("Contract", label), _attr("Opportunity", label)]
+
+
+def test_allowlisted_collision_is_accepted_and_excluded_from_gate():
+    report = analyze(
+        _pair("contractId") + _pair("role"),
+        frozenset(),
+        allowed={"contract id": "PK vs FK by design"},
+    )
+    by_label = {c.label: c for c in report.collisions}
+    assert by_label["contract id"].accepted is True
+    assert by_label["contract id"].accepted_reason == "PK vs FK by design"
+    assert by_label["role"].accepted is False
+    # The gate fails only on the unaccepted collision.
+    assert [c.label for c in report.unexpected_collisions] == ["role"]
+    assert [c.label for c in report.accepted_collisions] == ["contract id"]
+
+
+def test_no_allowlist_leaves_every_collision_unexpected():
+    report = analyze(_pair("role"), frozenset())
+    assert report.unexpected_collisions == report.collisions
+    assert report.accepted_collisions == ()
+
+
+def test_render_marks_accepted_collision_with_reason():
+    report = analyze(
+        _pair("contractId"),
+        frozenset(),
+        allowed={"contract id": "shared by design"},
+    )
+    text = render_report(report)
+    assert "1 collision(s) (1 accepted)" in text
+    assert "[accepted — shared by design]" in text
+
+
+def test_load_allowlist_parses_labels_and_reasons(tmp_path: Path):
+    path = tmp_path / "allow.json"
+    path.write_text(
+        json.dumps(
+            {
+                "allowed": [
+                    {"label": "contract id", "reason": "PK/FK by design"},
+                    {"label": "renewal date"},  # reason optional
+                ]
+            }
+        ),
+        encoding="utf-8",
+    )
+    allowed = load_allowlist(path)
+    assert allowed == {"contract id": "PK/FK by design", "renewal date": ""}
+
+
+@pytest.mark.parametrize(
+    "payload",
+    [
+        [],  # not an object
+        {"allowd": []},  # unknown top-level key (typo)
+        {"allowed": {}},  # 'allowed' not a list
+        {"allowed": ["contract id"]},  # entry not an object
+        {"allowed": [{"reason": "no label"}]},  # missing label
+        {"allowed": [{"label": "  "}]},  # blank label
+        {"allowed": [{"label": "x", "note": "unknown field"}]},  # unknown entry field
+        {"allowed": [{"label": "x"}, {"label": "x"}]},  # duplicate label
+    ],
+)
+def test_load_allowlist_rejects_bad_shape(tmp_path: Path, payload: object):
+    path = tmp_path / "bad.json"
+    path.write_text(json.dumps(payload), encoding="utf-8")
+    with pytest.raises(ValueError):
+        load_allowlist(path)
+
+
+def test_real_manifest_allowlist_accepts_the_intentional_collisions():
+    from cdf.catalog.builder import validate_manifest
+    from cdf.catalog.collisions import label_report
+
+    loaded = validate_manifest(_REPO / "deploy" / "catalog" / "manifest.json", root=_REPO)
+    allowed = load_allowlist(
+        _REPO / "deploy" / "catalog" / "label-collisions-allow.json"
+    )
+    report = label_report(loaded, allowed=allowed)
+
+    accepted = {c.label for c in report.accepted_collisions}
+    unexpected = {c.label for c in report.unexpected_collisions}
+    # The three same-source Contract/Opportunity collisions are intentional.
+    assert accepted == {"contract id", "product scope", "renewal date"}
+    # The two real cross-source clashes are NOT accepted — they gate until renamed.
+    assert unexpected == {"role", "event date"}

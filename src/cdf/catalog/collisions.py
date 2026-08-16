@@ -27,9 +27,12 @@ being discovered during a demo.
 
 from __future__ import annotations
 
+import json
 import re
 from collections import defaultdict
+from collections.abc import Mapping
 from dataclasses import dataclass
+from pathlib import Path
 from typing import TYPE_CHECKING
 
 if TYPE_CHECKING:  # pragma: no cover — import guard, avoids a runtime cycle
@@ -88,10 +91,18 @@ class Attribute:
 
 @dataclass(frozen=True)
 class LabelCollision:
-    """One label carried by ≥2 distinct entities."""
+    """One label carried by ≥2 distinct entities.
+
+    ``accepted`` marks a collision a curator has *intentionally* allowed (e.g. a
+    PK/FK pair that legitimately shares a key across two entities). Accepted
+    collisions still surface in the report — with their reason — so the decision
+    stays visible, but they do not trip the ``--fail-on-label-collisions`` gate.
+    """
 
     label: str
     attributes: tuple[Attribute, ...]
+    accepted: bool = False
+    accepted_reason: str | None = None
 
     @property
     def cross_source(self) -> bool:
@@ -125,15 +136,30 @@ class LabelReport:
     def is_empty(self) -> bool:
         return not (self.collisions or self.synonyms or self.hubs)
 
+    @property
+    def unexpected_collisions(self) -> tuple[LabelCollision, ...]:
+        """Collisions that are *not* on the allowlist — what the gate fails on."""
+        return tuple(c for c in self.collisions if not c.accepted)
+
+    @property
+    def accepted_collisions(self) -> tuple[LabelCollision, ...]:
+        """Collisions a curator has intentionally allowed."""
+        return tuple(c for c in self.collisions if c.accepted)
+
 
 def analyze(
     attributes: list[Attribute],
     join_key_labels: frozenset[str],
+    allowed: Mapping[str, str] | None = None,
 ) -> LabelReport:
     """Group labels across the whole merged catalog and report the three smells.
 
-    Pure over its inputs (no I/O), so it is unit-testable without a manifest.
+    ``allowed`` maps an intentionally-tolerated collision label to the reason it
+    is tolerated; those collisions are marked ``accepted`` (still reported, but
+    excluded from the gate). Pure over its inputs (no I/O), so it is
+    unit-testable without a manifest.
     """
+    allowed = allowed or {}
     entities = {(a.source_id, a.entity) for a in attributes}
     excluded = _STRUCTURAL_LABELS | join_key_labels
 
@@ -149,7 +175,14 @@ def analyze(
         by_entity = {(a.source_id, a.entity): a for a in attrs}
         if len(by_entity) > 1:
             reps = sorted(by_entity.values(), key=lambda a: (a.source_id, a.entity))
-            collisions.append(LabelCollision(label=label, attributes=tuple(reps)))
+            collisions.append(
+                LabelCollision(
+                    label=label,
+                    attributes=tuple(reps),
+                    accepted=label in allowed,
+                    accepted_reason=allowed.get(label),
+                )
+            )
 
     # -- synonyms: a content token in ≥2 distinct labels spanning ≥2 entities --
     by_token: dict[str, dict[str, Attribute]] = defaultdict(dict)
@@ -217,28 +250,81 @@ def attributes_from_loaded(loaded: LoadedCatalog) -> list[Attribute]:
     return attributes
 
 
-def label_report(loaded: LoadedCatalog) -> LabelReport:
+def label_report(
+    loaded: LoadedCatalog, allowed: Mapping[str, str] | None = None
+) -> LabelReport:
     """Run the cross-source label analysis over a loaded manifest."""
     attributes = attributes_from_loaded(loaded)
     join_key_labels = frozenset(
         humanize(key) for source in loaded.manifest.sources for key in source.join_keys
     )
-    return analyze(attributes, join_key_labels)
+    return analyze(attributes, join_key_labels, allowed=allowed)
+
+
+def load_allowlist(path: Path) -> dict[str, str]:
+    """Load an intentional-collision allowlist: ``{label: reason}``.
+
+    File shape (JSON)::
+
+        {"allowed": [{"label": "contract id", "reason": "PK/FK by design"}, ...]}
+
+    ``reason`` is optional (defaults to ``""``). Unknown top-level keys, a
+    non-list ``allowed``, non-object entries, missing/blank labels, and duplicate
+    labels are all rejected so a malformed allowlist fails loudly rather than
+    silently tolerating the wrong collisions.
+    """
+    raw = json.loads(path.read_text(encoding="utf-8"))
+    if not isinstance(raw, dict):
+        raise ValueError(f"{path}: allowlist must be a JSON object")
+    unexpected = set(raw) - {"allowed"}
+    if unexpected:
+        raise ValueError(
+            f"{path}: allowlist has unknown fields: {', '.join(sorted(unexpected))}"
+        )
+    entries = raw.get("allowed", [])
+    if not isinstance(entries, list):
+        raise ValueError(f"{path}: allowlist 'allowed' must be an array")
+    result: dict[str, str] = {}
+    for entry in entries:
+        if not isinstance(entry, dict):
+            raise ValueError(f"{path}: allowlist entries must be objects")
+        unknown = set(entry) - {"label", "reason"}
+        if unknown:
+            raise ValueError(
+                f"{path}: allowlist entry has unknown fields: {', '.join(sorted(unknown))}"
+            )
+        label = entry.get("label")
+        if not isinstance(label, str) or not label.strip():
+            raise ValueError(f"{path}: allowlist entry requires a non-empty 'label'")
+        if label in result:
+            raise ValueError(f"{path}: duplicate allowlist label {label!r}")
+        reason = entry.get("reason", "")
+        if not isinstance(reason, str):
+            raise ValueError(f"{path}: allowlist reason for {label!r} must be a string")
+        result[label] = reason
+    return result
 
 
 def render_report(report: LabelReport) -> str:
     """Human-readable warning block (curator-facing; goes to stderr from the CLI)."""
     if report.is_empty():
         return "catalog label integrity: clean (no collisions, synonyms, or hubs)"
+    accepted = len(report.accepted_collisions)
+    accepted_note = f" ({accepted} accepted)" if accepted else ""
     lines = [
-        f"catalog label integrity — {len(report.collisions)} collision(s), "
+        f"catalog label integrity — {len(report.collisions)} collision(s){accepted_note}, "
         f"{len(report.synonyms)} synonym cluster(s), {len(report.hubs)} hub(s) "
         f"across {report.total_entities} entities"
     ]
     for collision in report.collisions:
         where = ", ".join(f"{a.entity} ({a.source_id})" for a in collision.attributes)
-        tag = "  [cross-source]" if collision.cross_source else ""
-        lines.append(f'  collision  "{collision.label}"  {where}{tag}')
+        tags = ""
+        if collision.cross_source:
+            tags += "  [cross-source]"
+        if collision.accepted:
+            reason = f" — {collision.accepted_reason}" if collision.accepted_reason else ""
+            tags += f"  [accepted{reason}]"
+        lines.append(f'  collision  "{collision.label}"  {where}{tags}')
     for cluster in report.synonyms:
         members = ", ".join(a.qualified for a in cluster.attributes)
         lines.append(f'  synonym    "{cluster.token}"  {members}')

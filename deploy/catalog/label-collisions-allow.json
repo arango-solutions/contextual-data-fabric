@@ -1,0 +1,16 @@
+{
+  "allowed": [
+    {
+      "label": "contract id",
+      "reason": "Contract carries its own primary key; Opportunity carries the foreign key to it. One shared key across two entities by design (opportunity -> contract), not a dropped distinction."
+    },
+    {
+      "label": "product scope",
+      "reason": "Contract and Opportunity describe the same product-scope quantity by design (the opportunity's scope carries over to the signed contract)."
+    },
+    {
+      "label": "renewal date",
+      "reason": "Contract and Opportunity describe the same renewal-date quantity by design (the opportunity's projected renewal carries over to the signed contract)."
+    }
+  ]
+}

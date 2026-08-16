@@ -9,8 +9,11 @@ from collections.abc import Sequence
 from pathlib import Path
 
 from .builder import build_manifest, export_catalog, validate_manifest
-from .collisions import label_report, render_report
+from .collisions import label_report, load_allowlist, render_report
 from .model import load_manifest
+
+#: Allowlist auto-discovered next to the manifest when --allow-collisions is omitted.
+_ALLOWLIST_FILENAME = "label-collisions-allow.json"
 
 
 def _parser() -> argparse.ArgumentParser:
@@ -34,8 +37,16 @@ def _parser() -> argparse.ArgumentParser:
     validate.add_argument(
         "--fail-on-label-collisions",
         action="store_true",
-        help="exit non-zero when the catalog carries cross-entity label collisions "
-        "(default: report as a warning). Promote to a gate once the catalog is clean.",
+        help="exit non-zero when the catalog carries UNEXPECTED (non-allowlisted) "
+        "label collisions (default: report as a warning). Promote to a gate once the "
+        "catalog is clean apart from allowlisted collisions.",
+    )
+    validate.add_argument(
+        "--allow-collisions",
+        type=Path,
+        help=f"path to an intentional-collision allowlist (default: {_ALLOWLIST_FILENAME} "
+        "beside the manifest, if present). Allowlisted collisions are reported but do "
+        "not trip --fail-on-label-collisions.",
     )
 
     export = subcommands.add_parser("export", help="export validated artifacts")
@@ -86,13 +97,26 @@ def main(argv: Sequence[str] | None = None) -> int:
         elif args.command == "validate":
             loaded = validate_manifest(args.manifest, root=args.root)
             print(f"valid: {args.manifest}")
-            report = label_report(loaded)
+            allow_path = args.allow_collisions
+            if allow_path is None:
+                candidate = args.manifest.parent / _ALLOWLIST_FILENAME
+                if candidate.is_file():
+                    allow_path = candidate
+            allowed: dict[str, str] = {}
+            if allow_path is not None:
+                allowed = load_allowlist(allow_path)
+                print(
+                    f"allowlist: {allow_path} ({len(allowed)} intentional collision(s))",
+                    file=sys.stderr,
+                )
+            report = label_report(loaded, allowed=allowed)
             if not report.is_empty():
                 print("warning: " + render_report(report), file=sys.stderr)
-            if args.fail_on_label_collisions and report.collisions:
+            if args.fail_on_label_collisions and report.unexpected_collisions:
                 print(
-                    f"cdf-catalog: {len(report.collisions)} label collision(s) "
-                    "(--fail-on-label-collisions)",
+                    f"cdf-catalog: {len(report.unexpected_collisions)} unexpected label "
+                    "collision(s) (--fail-on-label-collisions; allowlisted collisions "
+                    "excluded)",
                     file=sys.stderr,
                 )
                 return 1
