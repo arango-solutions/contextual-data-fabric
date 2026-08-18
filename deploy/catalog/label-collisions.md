@@ -1,29 +1,33 @@
-# Catalog label integrity — allowlist & rename plan
+# Catalog label integrity — allowlist & renames
 
-`make catalog-integrity` runs `cdf-catalog validate`, which reports three
-cross-source label smells found only after the four CSIs merge under one
-manifest (see `src/cdf/catalog/collisions.py`):
+`make catalog-integrity` runs `cdf-catalog validate --fail-on-label-collisions`,
+which reports (and now gates on) three cross-source label smells found only after
+the four CSIs merge under one manifest (see `src/cdf/catalog/collisions.py`):
 
 - **collisions** — one human label carried by more than one entity.
 - **synonyms** — several labels for one quantity.
 - **hubs** — a join key most entities carry.
 
-These are **warnings, not failures** by default. A collision is cleared one of
-two ways: **rename** it (when the label genuinely means two different things),
-or **accept** it on the allowlist (when two entities legitimately share one
-quantity). Once every collision is either renamed away or allowlisted, the gate
-(`--fail-on-label-collisions`) can go on in CI and only *new, unintended*
-collisions will fail the build.
+A collision is cleared one of two ways: **rename** it (when the label genuinely
+means two different things) or **accept** it on the allowlist (when two entities
+legitimately share one quantity). The catalog is now clean apart from three
+allowlisted collisions, so the gate is **on**: only *new, unintended* collisions
+fail the build.
 
-## Current collisions (5)
+## Collisions today (3, all allowlisted)
 
 | label | entities | disposition |
 | --- | --- | --- |
-| `role` | Document (arango), Contact (postgres) | **rename** → `contactRole` (real clash) |
-| `event date` | Document (arango), QueryEvent (clickhouse) | **rename** → `occurredAt` (real clash) |
-| `contract id` | Contract, Opportunity (postgres) | **accept** — PK vs FK by design |
-| `product scope` | Contract, Opportunity (postgres) | **accept** — same quantity by design |
-| `renewal date` | Contract, Opportunity (postgres) | **accept** — same quantity by design |
+| `contract id` | Contract, Opportunity (postgres) | **accepted** — PK vs FK by design |
+| `product scope` | Contract, Opportunity (postgres) | **accepted** — same quantity by design |
+| `renewal date` | Contract, Opportunity (postgres) | **accepted** — same quantity by design |
+
+Two former cross-source clashes were **renamed away** (below):
+
+| was | now | side renamed |
+| --- | --- | --- |
+| `role` on Document (arango) + Contact (postgres) | Contact → `contactRole` | postgres |
+| `event date` on Document (arango) + QueryEvent (clickhouse) | QueryEvent → `occurredAt` | clickhouse |
 
 ## Allowlist — intentional collisions
 
@@ -34,46 +38,41 @@ collisions a curator has intentionally allowed, each with a reason:
 { "allowed": [ { "label": "contract id", "reason": "PK on Contract, FK on Opportunity — one shared key by design" } ] }
 ```
 
-Allowlisted collisions are still reported (tagged `[accepted — <reason>]`) so
-the decision stays visible, but they do not trip `--fail-on-label-collisions`.
-The three Contract/Opportunity collisions above are same-source and describe one
-real shared quantity (the opportunity → contract carryover), so they are
-allowlisted rather than renamed. To accept a new one, add an entry with a
-reason; override the file location with `--allow-collisions PATH`.
+Allowlisted collisions are still reported (tagged `[accepted — <reason>]`) so the
+decision stays visible, but they do not trip `--fail-on-label-collisions`. To
+accept a new one, add an entry with a reason; override the file location with
+`--allow-collisions PATH`.
 
-## Rename plan — the two real cross-source clashes
+## Renames — the two real cross-source clashes (applied)
 
-`role` and `event date` each name **two different things** across two extractors,
-so they are renamed, not accepted. The rename lives in the **producer config**,
-not in the generated CSI: r2g maps `field_mappings: {source_column: target_property}`
-and drives **both** the CSI property (`csi.py`) and the R2RML predicate
-(`r2rml.py`) from the same target value, so one entry moves the label and the
-grounding predicate in lockstep while the physical column is unchanged. Editing
-the generated CSI by hand would desync it from R2RML and be reverted on the next
-regeneration — so the override goes upstream.
+`role` and `event date` each named **two different things** across two
+extractors, so they were renamed rather than accepted. The rename lives in the
+**producer config**, not in the generated CSI: r2g maps
+`field_mappings: {source_column: target_property}` and drives **both** the CSI
+property (`csi.py`) and the R2RML predicate (`r2rml.py`) from the same target
+value, so one entry moves the label and the grounding predicate in lockstep while
+the physical column is unchanged. Only the r2g side of each pair was renamed;
+that clears the collision (the arango `Document.role` / `Document.eventDate`
+become unique) without touching the arango reverse-CSI.
 
-| collision | rename | where the override lives | status |
-| --- | --- | --- | --- |
-| `role` (Contact side) | `role` → `contactRole` | `deploy/mappings/mapping.yaml` → `contacts.field_mappings` | **staged** (this repo) |
-| `event date` (QueryEvent side) | `event_date` → `occurredAt` | ClickHouse r2g config `field_mappings` | **pending** — no committed ClickHouse mapping.yaml yet |
+| collision | rename | override home |
+| --- | --- | --- |
+| `role` (Contact side) | column `role` → `contactRole` | `deploy/mappings/mapping.yaml` → `contacts.field_mappings` |
+| `event date` (QueryEvent side) | column `event_date` → `occurredAt` | `deploy/clickhouse/mapping.yaml` → `query_events.field_mappings` |
 
-Only the r2g side of each pair is renamed; that is enough to clear the collision
-(the arango `Document.role` / `Document.eventDate` become unique) and avoids
-touching the arango reverse-CSI.
+Because there is no wired forward-CSI regeneration in CI (r2g needs a live source
+connection), the current committed artifacts were updated to match those
+overrides directly and consistently — CSI conceptual + physical models, the R2RML
+predicate, and the one NL golden query that referenced `c:role` on Contact
+(`src/cdf/eval/corpora/nl-corpus-v1.json`). The `field_mappings` entries above are
+the durable record, so the next real r2g regeneration reproduces the same names.
 
-**Applying the renames** (needs r2g installed + the source live — not runnable in
-CI): regenerate the affected forward CSIs, then rebuild the hash-pinned manifest:
-
-```bash
-# 1. regenerate the postgres + clickhouse CSIs with r2g (picks up field_mappings)
-# 2. rebuild the manifest so its content hashes match the new CSIs + R2RML
-make catalog-integrity   # or: python -m cdf.catalog.cli build --root . --output deploy/catalog/manifest.json
-```
-
-Until then the two collisions remain flagged (correctly — they are not yet
-cleared). When they are, only the three allowlisted collisions remain, and CI can
-turn the gate on:
+The native executors resolve a SPARQL predicate → column straight from the R2RML
+(`parse_r2rml` in `src/cdf/adapters/clickhouse.py`), and Ontop reads
+`deploy/ontop/input/mapping.ttl`, so moving the predicate (keeping `rr:column`) is
+all the executors need. Verify:
 
 ```bash
+make catalog-integrity   # rebuilds + gates; exit 0 when clean apart from the allowlist
 python -m cdf.catalog.cli validate --root . deploy/catalog/manifest.json --fail-on-label-collisions
 ```

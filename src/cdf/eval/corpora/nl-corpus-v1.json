@@ -85,7 +85,7 @@
         "Show Meridian Logistics' champion engagement status with supporting email, Slack, and meeting-note sources."
       ],
       "expected": {
-        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?title ?status ?source ?url WHERE { ?a a c:Account ; c:accountName \"Meridian Logistics, LLC\" ; c:accountId ?acct . ?p a c:Contact ; c:role \"champion\" ; c:fullName ?name ; c:title ?title ; c:engagementStatus ?status ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
+        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?title ?status ?source ?url WHERE { ?a a c:Account ; c:accountName \"Meridian Logistics, LLC\" ; c:accountId ?acct . ?p a c:Contact ; c:contactRole \"champion\" ; c:fullName ?name ; c:title ?title ; c:engagementStatus ?status ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
         "sources": ["arango:cmf", "postgresql:crm"],
         "join_keys": ["?acct"],
         "refusal": false,

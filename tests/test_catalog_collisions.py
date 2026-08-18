@@ -133,18 +133,25 @@ def test_join_key_on_many_entities_is_a_hub():
 # -- integration: the real demo catalog --------------------------------------
 
 
-def test_real_manifest_finds_the_cross_source_collisions():
+def test_real_manifest_cross_source_collisions_are_cleared():
     from cdf.catalog.builder import validate_manifest
-    from cdf.catalog.collisions import label_report
+    from cdf.catalog.collisions import attributes_from_loaded, label_report
 
     loaded = validate_manifest(_REPO / "deploy" / "catalog" / "manifest.json", root=_REPO)
     report = label_report(loaded)
 
-    by_label = {c.label: c for c in report.collisions}
-    # These two exist ONLY across sources (different extractors) — the spec's point.
-    assert "role" in by_label and by_label["role"].cross_source
-    assert "event date" in by_label and by_label["event date"].cross_source
-    # The spec's named synonym + hub.
+    labels = {c.label for c in report.collisions}
+    # role -> contactRole (Contact) and event date -> occurredAt (QueryEvent) were
+    # renamed at the r2g side, so the two formerly cross-source clashes are gone;
+    # only the three intentional Contract/Opportunity collisions remain.
+    assert "role" not in labels
+    assert "event date" not in labels
+    assert labels == {"contract id", "product scope", "renewal date"}
+    # The renamed labels now exist, each carried by a single entity (not colliding).
+    all_labels = {a.label for a in attributes_from_loaded(loaded)}
+    assert "contact role" in all_labels
+    assert "occurred at" in all_labels
+    # The spec's named synonym + hub are unaffected by the renames.
     assert any(s.token == "seat" and len(s.attributes) == 4 for s in report.synonyms)
     assert any(h.label == "account id" and h.entity_count == 10 for h in report.hubs)
 
@@ -249,5 +256,6 @@ def test_real_manifest_allowlist_accepts_the_intentional_collisions():
     unexpected = {c.label for c in report.unexpected_collisions}
     # The three same-source Contract/Opportunity collisions are intentional.
     assert accepted == {"contract id", "product scope", "renewal date"}
-    # The two real cross-source clashes are NOT accepted — they gate until renamed.
-    assert unexpected == {"role", "event date"}
+    # The two cross-source clashes have been renamed away — nothing else remains,
+    # so the catalog is clean apart from the allowlist and the gate passes.
+    assert unexpected == set()

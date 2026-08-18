@@ -109,7 +109,7 @@ catalog-integrity:
 	@tmp=$$(mktemp); trap 'rm -f "$$tmp"' EXIT; \
 	  $(PY) -m cdf.catalog.cli build --root . --output "$$tmp" >/dev/null; \
 	  diff -u deploy/catalog/manifest.json "$$tmp"
-	$(PY) -m cdf.catalog.cli validate --root . deploy/catalog/manifest.json
+	$(PY) -m cdf.catalog.cli validate --root . deploy/catalog/manifest.json --fail-on-label-collisions
 
 authorization-golden:
 	$(PY) -m pytest tests/test_governance.py -q

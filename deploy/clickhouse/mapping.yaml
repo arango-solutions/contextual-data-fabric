@@ -1,0 +1,22 @@
+source_schema: analytics
+collections:
+  query_events:
+    source_table: query_events
+    target_collection: query_events
+    collection_type: document
+    is_join_table: false
+    # Disambiguate the cross-source "event date" collision: QueryEvent.eventDate
+    # (a ClickHouse analytics event) vs Document.eventDate (arango). r2g maps
+    # {column: property} and drives BOTH the CSI property and the R2RML predicate
+    # from this value (r2g csi.py / r2rml.py), so `event_date` -> `occurredAt`
+    # renames the label and the predicate in lockstep while the physical column
+    # stays `event_date`. See deploy/catalog/label-collisions.md.
+    field_mappings:
+      event_date: occurredAt
+    exclude_fields: []
+    include_fields: null
+    field_expressions: []
+edges: []
+type_overrides: {}
+key_separator: _
+naming_convention: null

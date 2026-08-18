@@ -95,7 +95,7 @@
             "name": "isPrimary"
           },
           {
-            "name": "role"
+            "name": "contactRole"
           },
           {
             "name": "title"
@@ -350,7 +350,7 @@
           "isPrimary": {
             "field": "is_primary"
           },
-          "role": {
+          "contactRole": {
             "field": "role"
           },
           "title": {

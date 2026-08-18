@@ -22,7 +22,7 @@
         rr:objectMap [ rr:column "account_id" ] ;
     ] ;
     rr:predicateObjectMap [
-        rr:predicate <urn:arango-sparql:concept#eventDate> ;
+        rr:predicate <urn:arango-sparql:concept#occurredAt> ;
         rr:objectMap [ rr:column "event_date" ; rr:datatype xsd:date ] ;
     ] ;
     rr:predicateObjectMap [

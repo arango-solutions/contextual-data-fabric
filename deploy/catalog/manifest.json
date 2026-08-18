@@ -1,8 +1,8 @@
 {
   "catalogManifestVersion": "1",
   "conceptBase": "urn:arango-sparql:concept#",
-  "contentHash": "66c674eb68388a2e0315ba61d2237a227fb8701667cf181738dd29c26b0429bf",
-  "generation": "sha256:946b6976e71ba2663a59561483e074981ed9023739afe94cecfd82fa131f435e",
+  "contentHash": "8560e5a8505ecb08ec275f6223f28fb76f88c02af0c1a242f18084722c1f1076",
+  "generation": "sha256:77e826cfa17df021354b057933fca84e8553d4aa8a88671a81caa77b184efd01",
   "sources": [
     {
       "auth": {
@@ -84,10 +84,10 @@
       ],
       "csi": {
         "direction": "forward",
-        "generation": "sha256:d22b5e7bf5bbb2c7a556549f4dcb38a320122ba81498f95db8d58e28df24c13e",
+        "generation": "sha256:11ab657bdad8e2711f615456ab58c35588fa8371c3173511b4baa5fccef0c836",
         "path": "deploy/csi/clickhouse-analytics.json",
         "producer": "r2g",
-        "sha256": "d22b5e7bf5bbb2c7a556549f4dcb38a320122ba81498f95db8d58e28df24c13e"
+        "sha256": "11ab657bdad8e2711f615456ab58c35588fa8371c3173511b4baa5fccef0c836"
       },
       "entitlements": {
         "allowedRoles": [],
@@ -100,10 +100,10 @@
       "kind": "clickhouse",
       "r2rml": {
         "direction": "forward",
-        "generation": "sha256:711379268f5766bd8504057eb7843b00e7296d1af65b949d2980ad5ce49ea9d7",
+        "generation": "sha256:38aba138d7d713a543206da821f6c80f1688782bb77b9105b548da8b93dd413e",
         "path": "deploy/r2rml/clickhouse_analytics.ttl",
         "producer": "r2g",
-        "sha256": "711379268f5766bd8504057eb7843b00e7296d1af65b949d2980ad5ce49ea9d7"
+        "sha256": "38aba138d7d713a543206da821f6c80f1688782bb77b9105b548da8b93dd413e"
       },
       "ref": "analytics",
       "runtimeResolution": {
@@ -153,7 +153,7 @@
         "generation": "2026-07-22T22:12:21.693927+00:00",
         "path": "deploy/csi/postgresql-crm.json",
         "producer": "r2g",
-        "sha256": "b513a09912e32f07938c0e3ec21ac531f49ec2aae0259f72310f5b2aaa14478f"
+        "sha256": "fe5e87e6ee5cc02a7fa56b647cda44093c01469499cc941735b4608921748df4"
       },
       "entitlements": {
         "allowedRoles": [],
@@ -166,10 +166,10 @@
       "kind": "postgresql",
       "r2rml": {
         "direction": "forward",
-        "generation": "sha256:0e8f131578b52a92802fb9fdfd9f20d74e1cd041019c49ec365ec17f6452a121",
+        "generation": "sha256:698106a48e986585dc6f7861cd7629e83307887694f5549917ffbe61fce33065",
         "path": "deploy/ontop/input/mapping.ttl",
         "producer": "r2g",
-        "sha256": "0e8f131578b52a92802fb9fdfd9f20d74e1cd041019c49ec365ec17f6452a121"
+        "sha256": "698106a48e986585dc6f7861cd7629e83307887694f5549917ffbe61fce33065"
       },
       "ref": "crm",
       "runtimeResolution": {

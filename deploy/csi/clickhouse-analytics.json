@@ -15,7 +15,7 @@
             "name": "accountId"
           },
           {
-            "name": "eventDate"
+            "name": "occurredAt"
           },
           {
             "name": "feature"
@@ -43,7 +43,7 @@
           "accountId": {
             "field": "account_id"
           },
-          "eventDate": {
+          "occurredAt": {
             "field": "event_date"
           },
           "feature": {

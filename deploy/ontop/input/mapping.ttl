@@ -126,7 +126,7 @@
         rr:objectMap [ rr:column "is_primary" ; rr:datatype xsd:boolean ] ;
     ] ;
     rr:predicateObjectMap [
-        rr:predicate <urn:arango-sparql:concept#role> ;
+        rr:predicate <urn:arango-sparql:concept#contactRole> ;
         rr:objectMap [ rr:column "role" ] ;
     ] ;
     rr:predicateObjectMap [
