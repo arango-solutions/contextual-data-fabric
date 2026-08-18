@@ -51,7 +51,7 @@ LOAD_ENV = if [ -f ./.env ]; then set -a; . ./.env; set +a; fi;
 PY = .venv/bin/python
 CK25_EVIDENCE ?= docs/evidence/ck25-gpt-4o-mini-3x.json
 
-.PHONY: install up seed gate demo test optimizer-oracle performance-baseline ck25-live sota-baseline sota-baseline-live catalog-integrity authorization-golden down jdbc free-ui
+.PHONY: install up seed gate demo test optimizer-oracle performance-baseline ck25-live sota-baseline sota-baseline-live catalog-integrity authorization-golden down jdbc free-ui milestone-push
 
 install:
 	python3 -m venv .venv
@@ -118,6 +118,12 @@ test: catalog-integrity authorization-golden
 	.venv/bin/ruff check src tests deploy
 	.venv/bin/mypy src
 	$(PY) -m pytest tests -q
+
+# Publish the paramount ArthurKeen/main to the arango-solutions mirror at a
+# milestone (see scripts/milestone-push.sh). Everyday work lands via PRs into
+# ArthurKeen; run this only when cutting a stable update for the solutions team.
+milestone-push:
+	@bash scripts/milestone-push.sh
 
 optimizer-oracle:
 	@$(PY) -m cdf.eval.optimizer_oracle
