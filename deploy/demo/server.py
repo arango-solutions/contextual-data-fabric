@@ -13,6 +13,7 @@ with the cite-or-refuse status.
 
 from __future__ import annotations
 
+import importlib.util
 import os
 from pathlib import Path
 
@@ -69,6 +70,19 @@ app = create_app(_SERVICE)
 # Inlined at render time so the page stays a single self-contained response.
 EDITOR_JS = (Path(__file__).with_name("editor.js")).read_text()
 
+# Sibling module (deploy/demo is scripts, not a package): loaded by path so it
+# resolves identically under `python deploy/demo/server.py`, uvicorn, and tests.
+_spec = importlib.util.spec_from_file_location(
+    "demo_ontology", Path(__file__).with_name("ontology.py")
+)
+assert _spec is not None and _spec.loader is not None
+_demo_ontology = importlib.util.module_from_spec(_spec)
+_spec.loader.exec_module(_demo_ontology)
+
+# Computed once at startup: the catalog (and its curation artifacts) only
+# change on redeploy, and the page embeds it at render time (self-contained).
+_ONTOLOGY = _demo_ontology.payload_from_repo(_SERVICE.catalog, _REPO)
+
 
 @app.get("/", response_class=HTMLResponse)
 def index() -> str:
@@ -94,6 +108,7 @@ def index() -> str:
             "__VOCAB__",
             _json.dumps({"base": _SERVICE.catalog.concept_base, "classes": vocab}),
         )
+        .replace("__ONTOLOGY__", _json.dumps(_ONTOLOGY))
     )
 
 
@@ -210,6 +225,30 @@ PAGE = """<!doctype html>
   .wf-arrow { color:var(--muted); font-size:18px; flex:0 0 auto; }
   .wf-sources { display:grid; gap:5px; flex:0 0 auto; }
   .wf-source { min-width:160px; padding:6px 8px; }
+  /* Ontology map — concepts per source; every encoding is named in the legend. */
+  .onto-legend { display:flex; flex-wrap:wrap; gap:10px; margin-top:10px; color:var(--muted);
+    font-size:12px; align-items:center; }
+  .onto-legend .sw { display:inline-block; width:10px; height:10px; border-radius:3px;
+    margin-right:4px; vertical-align:-1px; }
+  .onto-cols { display:grid; grid-template-columns:repeat(auto-fit,minmax(200px,1fr));
+    gap:12px; margin-top:12px; }
+  .onto-col h3 { margin:0 0 6px; font-size:12px; font-weight:600; }
+  .onto-ent { display:block; width:100%; text-align:left; background:var(--code); color:var(--ink);
+    border:1px solid var(--line); border-left-width:4px; border-radius:8px; padding:8px 10px;
+    margin:0 0 8px; font-size:13px; cursor:pointer; font-weight:400; }
+  .onto-ent b { font-weight:600; }
+  .onto-ent small { display:block; color:var(--muted); font-size:11px; margin-top:2px; }
+  .onto-ent .onto-badges { float:right; }
+  .onto-postgresql { border-left-color:var(--pg); } .onto-snowflake { border-left-color:var(--sf); }
+  .onto-clickhouse { border-left-color:var(--ch); } .onto-arango { border-left-color:var(--ar); }
+  .onto-ent.onto-active { outline:2px solid var(--accent); outline-offset:1px; }
+  .od { font-size:11px; margin-left:4px; }
+  .od-hub { color:var(--ok); } .od-coll { color:var(--refuse); } .od-cacc { color:var(--muted); }
+  .od-syn { color:var(--partial); }
+  .onto-detail { margin-top:12px; border-top:1px solid var(--line); padding-top:10px; }
+  .onto-prop { padding:3px 0; font-size:13px; }
+  .onto-prop code { background:var(--code); padding:1px 6px; border-radius:5px;
+    font:12px ui-monospace,Menlo,monospace; }
 </style></head>
 <body><div class="wrap">
   <h1>Contextual Data Fabric — Federated Query</h1>
@@ -257,6 +296,16 @@ PAGE = """<!doctype html>
     <div id="advbody"></div>
   </details>
 
+  <details id="ontomap" class="card">
+    <summary style="font-weight:600;color:inherit;font-size:14px">Ontology — what you're querying over
+      <span class="meta" style="font-weight:400">— concepts per source, join keys, overlap &amp; collisions</span>
+    </summary>
+    <div class="onto-legend" id="onto-legend"></div>
+    <div class="onto-cols" id="onto-cols"></div>
+    <p class="meta" id="onto-active-note" style="margin:10px 2px 0" hidden></p>
+    <div class="onto-detail" id="onto-detail" hidden></div>
+  </details>
+
   <div id="out"></div>
 
 <script>
@@ -267,6 +316,106 @@ const nativeLanguage = (kind) => kind === 'arango' ? 'AQL' :
   (kind === 'postgresql' || kind === 'snowflake' || kind === 'clickhouse') ? 'SQL' : 'native query';
 
 const EXAMPLES = __QUESTIONS__;
+
+// ---- Ontology map: concepts per source, overlap badges, query highlight ----
+// Data comes from the same catalog + collision analysis the CI catalog-integrity
+// gate runs, embedded at render time; encodings are spelled out in the legend.
+let ONTO = null;
+
+function initOntologyMap(data) {
+  ONTO = data;
+  ONTO._hubs = new Set(data.joinKeys);
+  ONTO._coll = {}; ONTO._syn = {};
+  data.overlap.collisions.forEach(c =>
+    c.attributes.forEach(a => { ONTO._coll[a.entity + '.' + a.property] = c; }));
+  data.overlap.synonyms.forEach(s =>
+    s.attributes.forEach(a => {
+      (ONTO._syn[a.entity + '.' + a.property] = ONTO._syn[a.entity + '.' + a.property] || [])
+        .push(s.token);
+    }));
+
+  const kinds = [...new Set(data.sources.map(s => s.kind))];
+  document.getElementById('onto-legend').innerHTML =
+    kinds.map(k => `<span><span class="sw" style="background:var(--${
+      {postgresql:'pg',snowflake:'sf',clickhouse:'ch',arango:'ar'}[k] || 'accent'})"></span>${esc(k)}</span>`).join('')
+    + `<span class="od od-hub">&#9670; join key (${data.joinKeys.map(esc).join(', ')})</span>`
+    + `<span class="od od-coll">&#9650; label collision (unreviewed)</span>`
+    + `<span class="od od-cacc">&#9650; collision (curator-accepted)</span>`
+    + `<span class="od od-syn">&#9679; synonym cluster</span>`
+    + `<span style="outline:2px solid var(--accent);outline-offset:1px;border-radius:3px;padding:0 4px">used by last query</span>`
+    + `<span>&mdash; click a concept for its properties</span>`;
+
+  const cols = document.getElementById('onto-cols');
+  cols.innerHTML = '';
+  data.sources.forEach(src => {
+    const col = el(`<div class="onto-col"><h3>${srcTag(src.kind, src.source_id)}</h3></div>`);
+    src.classes.forEach(cls => {
+      const chip = el(`<button type="button" class="onto-ent onto-${esc(src.kind)}"
+        data-cls="${esc(cls.name)}"><span class="onto-badges">${clsMarkers(cls)}</span>
+        <b>${esc(cls.name)}</b><small>${cls.properties.length} properties</small></button>`);
+      chip.onclick = () => showConcept(src, cls);
+      col.appendChild(chip);
+    });
+    if ((src.relationships || []).length)
+      col.appendChild(el(`<p class="meta" style="margin:2px 0 0">relationships: ${
+        src.relationships.map(esc).join(', ')}</p>`));
+    cols.appendChild(col);
+  });
+}
+
+function clsMarkers(cls) {
+  let hub = false, collU = false, collA = false, syn = false;
+  cls.properties.forEach(p => {
+    if (ONTO._hubs.has(p)) hub = true;
+    const c = ONTO._coll[cls.name + '.' + p];
+    if (c) { if (c.accepted) collA = true; else collU = true; }
+    if (ONTO._syn[cls.name + '.' + p]) syn = true;
+  });
+  return (hub ? '<span class="od od-hub" title="carries a cross-source join key">&#9670;</span>' : '')
+    + (collU ? '<span class="od od-coll" title="label collision (unreviewed)">&#9650;</span>' : '')
+    + (collA ? '<span class="od od-cacc" title="label collision (curator-accepted)">&#9650;</span>' : '')
+    + (syn ? '<span class="od od-syn" title="member of a synonym cluster">&#9679;</span>' : '');
+}
+
+function showConcept(src, cls) {
+  const box = document.getElementById('onto-detail');
+  const rows = cls.properties.map(p => {
+    const key = cls.name + '.' + p, badges = [];
+    if (ONTO._hubs.has(p)) badges.push('<span class="od od-hub">&#9670; join key</span>');
+    const c = ONTO._coll[key];
+    if (c) {
+      const others = c.attributes.filter(a => !(a.entity === cls.name && a.property === p))
+        .map(a => `${a.entity}.${a.property}`).join(', ');
+      badges.push(`<span class="od ${c.accepted ? 'od-cacc' : 'od-coll'}" title="${esc(c.reason || '')}">` +
+        `&#9650; same label as ${esc(others)}${c.accepted ? ' (accepted)' : ''}</span>`);
+    }
+    const s = ONTO._syn[key];
+    if (s) badges.push(`<span class="od od-syn">&#9679; synonym group: ${esc([...new Set(s)].join(', '))}</span>`);
+    return `<div class="onto-prop"><code>${esc(p)}</code> ${badges.join(' ')}</div>`;
+  }).join('');
+  box.hidden = false;
+  box.innerHTML = `<h3 style="margin:0 0 6px;font-size:13px">${srcTag(src.kind, src.source_id)}
+    <b>${esc(cls.name)}</b></h3>${rows}`;
+}
+
+// After a query runs, ring the concepts its executed legs actually touched —
+// extracted from the per-leg SPARQL in the retrieval path (the cited queries).
+function markOntologyActive(d) {
+  if (!ONTO) return;
+  const text = (d.retrieval_path || []).map(s => s.sparql || '').join(' ');
+  const names = new Set(); const re = /[#:]([A-Za-z_][A-Za-z0-9_]*)/g;
+  let m; while ((m = re.exec(text))) names.add(m[1]);
+  const touched = [];
+  document.querySelectorAll('.onto-ent').forEach(b => {
+    const on = names.has(b.dataset.cls);
+    b.classList.toggle('onto-active', on);
+    if (on) touched.push(b.dataset.cls);
+  });
+  const note = document.getElementById('onto-active-note');
+  note.hidden = !touched.length;
+  if (touched.length)
+    note.innerHTML = 'Last query touched: <b>' + touched.map(esc).join('</b>, <b>') + '</b> (highlighted above)';
+}
 
 function renderMetrics(nl, execution) {
   const box = document.getElementById('metrics');
@@ -360,6 +509,7 @@ async function post(payload, out, stat) {
     if (!r.ok) { out.appendChild(el(`<div class="card err"><b>${r.status}:</b> ${esc(d.detail||JSON.stringify(d))}</div>`)); return; }
     renderMetrics(d.nl_metrics, d.execution_metrics);
     render(d, out);
+    markOntologyActive(d);
   } catch(e) { stat.innerHTML=`<span class="err">${esc(''+e)}</span>`; }
 }
 
@@ -482,6 +632,7 @@ nlq.addEventListener('keydown', e => {
 <script>
 __EDITOR_JS__
 initSparqlEditor('q', __VOCAB__);
+initOntologyMap(__ONTOLOGY__);
 </script>
 </div></body></html>
 """
