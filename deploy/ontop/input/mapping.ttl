@@ -76,6 +76,13 @@
     rr:predicateObjectMap [
         rr:predicate <urn:arango-sparql:concept#valueUsd> ;
         rr:objectMap [ rr:column "value_usd" ; rr:datatype xsd:integer ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate <urn:arango-sparql:concept#contractsToAccounts> ;
+        rr:objectMap [
+            rr:parentTriplesMap <#Account> ;
+            rr:joinCondition [ rr:child "account_id" ; rr:parent "account_id" ] ;
+        ] ;
     ] .
 
 <#Contact>
@@ -132,6 +139,13 @@
     rr:predicateObjectMap [
         rr:predicate <urn:arango-sparql:concept#title> ;
         rr:objectMap [ rr:column "title" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate <urn:arango-sparql:concept#contactsToAccounts> ;
+        rr:objectMap [
+            rr:parentTriplesMap <#Account> ;
+            rr:joinCondition [ rr:child "account_id" ; rr:parent "account_id" ] ;
+        ] ;
     ] .
 
 <#NpsSurvey>
@@ -180,6 +194,13 @@
     rr:predicateObjectMap [
         rr:predicate <urn:arango-sparql:concept#verbatimSentiment> ;
         rr:objectMap [ rr:column "verbatim_sentiment" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate <urn:arango-sparql:concept#npsSurveysToAccounts> ;
+        rr:objectMap [
+            rr:parentTriplesMap <#Account> ;
+            rr:joinCondition [ rr:child "account_id" ; rr:parent "account_id" ] ;
+        ] ;
     ] .
 
 <#Opportunity>
@@ -240,6 +261,20 @@
     rr:predicateObjectMap [
         rr:predicate <urn:arango-sparql:concept#stageDetail> ;
         rr:objectMap [ rr:column "stage_detail" ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate <urn:arango-sparql:concept#opportunitiesToAccounts> ;
+        rr:objectMap [
+            rr:parentTriplesMap <#Account> ;
+            rr:joinCondition [ rr:child "account_id" ; rr:parent "account_id" ] ;
+        ] ;
+    ] ;
+    rr:predicateObjectMap [
+        rr:predicate <urn:arango-sparql:concept#opportunitiesToContracts> ;
+        rr:objectMap [
+            rr:parentTriplesMap <#Contract> ;
+            rr:joinCondition [ rr:child "contract_id" ; rr:parent "contract_id" ] ;
+        ] ;
     ] .
 
 <#Account>

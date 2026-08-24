@@ -65,6 +65,9 @@
         ],
         "properties": [
           {
+            "name": "contactRole"
+          },
+          {
             "name": "id"
           },
           {
@@ -93,9 +96,6 @@
           },
           {
             "name": "isPrimary"
-          },
-          {
-            "name": "contactRole"
           },
           {
             "name": "title"
@@ -212,21 +212,13 @@
             "name": "currentAcvUsd"
           },
           {
-            "name": "currentProductTier",
-            "sampleValues": [
-              "ArangoGraph",
-              "Enterprise"
-            ]
+            "name": "currentProductTier"
           },
           {
             "name": "deploymentDate"
           },
           {
-            "name": "healthBand",
-            "sampleValues": [
-              "healthy",
-              "watch"
-            ]
+            "name": "healthBand"
           },
           {
             "name": "healthScore"
@@ -250,15 +242,90 @@
             "name": "seatsSold"
           },
           {
-            "name": "segment",
-            "sampleValues": [
-              "Enterprise"
-            ]
+            "name": "segment"
           }
         ]
       }
     ],
-    "relationships": []
+    "relationships": [
+      {
+        "type": "contactsToAccounts",
+        "fromEntity": "Contact",
+        "toEntity": "Account"
+      },
+      {
+        "type": "contractsToAccounts",
+        "fromEntity": "Contract",
+        "toEntity": "Account"
+      },
+      {
+        "type": "npsSurveysToAccounts",
+        "fromEntity": "NpsSurvey",
+        "toEntity": "Account"
+      },
+      {
+        "type": "opportunitiesToAccounts",
+        "fromEntity": "Opportunity",
+        "toEntity": "Account"
+      },
+      {
+        "type": "opportunitiesToContracts",
+        "fromEntity": "Opportunity",
+        "toEntity": "Contract"
+      }
+    ],
+    "joinKeys": [
+      {
+        "key": "account_id",
+        "concept": "accountId",
+        "hub": {
+          "kind": "entity",
+          "concept": "accountId",
+          "source": "postgresql:crm",
+          "table": "accounts",
+          "column": "account_id"
+        },
+        "bindings": [
+          {
+            "source": "postgresql:crm",
+            "table": "accounts",
+            "column": "account_id",
+            "entity": "Account",
+            "field": "account_id"
+          },
+          {
+            "source": "postgresql:crm",
+            "table": "contacts",
+            "column": "account_id",
+            "entity": "Contact",
+            "field": "account_id"
+          },
+          {
+            "source": "postgresql:crm",
+            "table": "contracts",
+            "column": "account_id",
+            "entity": "Contract",
+            "field": "account_id"
+          },
+          {
+            "source": "postgresql:crm",
+            "table": "nps_surveys",
+            "column": "account_id",
+            "entity": "NpsSurvey",
+            "field": "account_id"
+          },
+          {
+            "source": "postgresql:crm",
+            "table": "opportunities",
+            "column": "account_id",
+            "entity": "Opportunity",
+            "field": "account_id"
+          }
+        ],
+        "confidence": 1.0,
+        "method": ""
+      }
+    ]
   },
   "arangoPhysicalMapping": {
     "entities": {
@@ -320,6 +387,9 @@
         "style": "COLLECTION",
         "collectionName": "contacts",
         "properties": {
+          "contactRole": {
+            "field": "contactRole"
+          },
           "id": {
             "field": "id"
           },
@@ -349,9 +419,6 @@
           },
           "isPrimary": {
             "field": "is_primary"
-          },
-          "contactRole": {
-            "field": "role"
           },
           "title": {
             "field": "title"
@@ -497,7 +564,88 @@
         }
       }
     },
-    "relationships": {}
+    "relationships": {
+      "contactsToAccounts": {
+        "style": "DEDICATED_COLLECTION",
+        "edgeCollectionName": "contacts_to_accounts"
+      },
+      "contractsToAccounts": {
+        "style": "DEDICATED_COLLECTION",
+        "edgeCollectionName": "contracts_to_accounts"
+      },
+      "npsSurveysToAccounts": {
+        "style": "DEDICATED_COLLECTION",
+        "edgeCollectionName": "nps_surveys_to_accounts"
+      },
+      "opportunitiesToAccounts": {
+        "style": "DEDICATED_COLLECTION",
+        "edgeCollectionName": "opportunities_to_accounts"
+      },
+      "opportunitiesToContracts": {
+        "style": "DEDICATED_COLLECTION",
+        "edgeCollectionName": "opportunities_to_contracts"
+      }
+    }
+  },
+  "provenance": {
+    "producer": "r2g",
+    "producerVersion": "0.2.0",
+    "direction": "forward",
+    "source": {
+      "kind": "postgresql",
+      "ref": "crm",
+      "fingerprint": null
+    },
+    "generatedAt": "2026-08-22T00:00:18.436066+00:00",
+    "labelCollisions": [
+      {
+        "label": "accountId",
+        "entities": [
+          "Account",
+          "Contact",
+          "Contract",
+          "NpsSurvey",
+          "Opportunity"
+        ],
+        "resolution": "join_key",
+        "detail": "declared cross-source join key (P6.7) \u2014 kept bare on every entity so the federation join spine survives; the shared label is intentional, not an ambiguity"
+      },
+      {
+        "label": "contractId",
+        "entities": [
+          "Contract",
+          "Opportunity"
+        ],
+        "resolution": "reported"
+      },
+      {
+        "label": "id",
+        "entities": [
+          "Account",
+          "Contact",
+          "Contract",
+          "NpsSurvey",
+          "Opportunity"
+        ],
+        "resolution": "reported"
+      },
+      {
+        "label": "productScope",
+        "entities": [
+          "Contract",
+          "Opportunity"
+        ],
+        "resolution": "reported"
+      },
+      {
+        "label": "renewalDate",
+        "entities": [
+          "Contract",
+          "Opportunity"
+        ],
+        "resolution": "reported"
+      }
+    ]
   },
   "statistics": {
     "version": "1",
@@ -536,16 +684,5 @@
         }
       }
     }
-  },
-  "provenance": {
-    "producer": "r2g",
-    "producerVersion": "0.2.0",
-    "direction": "forward",
-    "source": {
-      "kind": "postgresql",
-      "ref": "crm",
-      "fingerprint": null
-    },
-    "generatedAt": "2026-07-22T22:12:21.693927+00:00"
   }
 }

@@ -119,7 +119,15 @@
       "primary_key": [
         "id"
       ],
-      "foreign_keys": [],
+      "foreign_keys": [
+        {
+          "foreign_table": "accounts",
+          "column": "account_id",
+          "foreign_column": "account_id",
+          "constraint_name": "overlay:contracts_account_id_fk",
+          "enforced": false
+        }
+      ],
       "is_partitioned": false,
       "partition_of": null
     },
@@ -228,7 +236,15 @@
       "primary_key": [
         "id"
       ],
-      "foreign_keys": [],
+      "foreign_keys": [
+        {
+          "foreign_table": "accounts",
+          "column": "account_id",
+          "foreign_column": "account_id",
+          "constraint_name": "overlay:usage_metrics_account_id_fk",
+          "enforced": false
+        }
+      ],
       "is_partitioned": false,
       "partition_of": null
     },
@@ -323,7 +339,15 @@
       "primary_key": [
         "id"
       ],
-      "foreign_keys": [],
+      "foreign_keys": [
+        {
+          "foreign_table": "accounts",
+          "column": "account_id",
+          "foreign_column": "account_id",
+          "constraint_name": "overlay:contacts_account_id_fk",
+          "enforced": false
+        }
+      ],
       "is_partitioned": false,
       "partition_of": null
     },
@@ -404,7 +428,15 @@
       "primary_key": [
         "id"
       ],
-      "foreign_keys": [],
+      "foreign_keys": [
+        {
+          "foreign_table": "accounts",
+          "column": "account_id",
+          "foreign_column": "account_id",
+          "constraint_name": "overlay:nps_surveys_account_id_fk",
+          "enforced": false
+        }
+      ],
       "is_partitioned": false,
       "partition_of": null
     },
@@ -506,7 +538,22 @@
       "primary_key": [
         "id"
       ],
-      "foreign_keys": [],
+      "foreign_keys": [
+        {
+          "foreign_table": "accounts",
+          "column": "account_id",
+          "foreign_column": "account_id",
+          "constraint_name": "overlay:opportunities_account_id_fk",
+          "enforced": false
+        },
+        {
+          "foreign_table": "contracts",
+          "column": "contract_id",
+          "foreign_column": "contract_id",
+          "constraint_name": "overlay:opportunities_contract_id_fk",
+          "enforced": false
+        }
+      ],
       "is_partitioned": false,
       "partition_of": null
     },

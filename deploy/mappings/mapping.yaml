@@ -55,7 +55,70 @@ collections:
     exclude_fields: []
     include_fields: null
     field_expressions: []
-edges: []
+# Edges derive from the FKs declared in deploy/mappings/crm-keys.overlay.json (the
+# live schema declares none — RSA's inference misses natural-key references;
+# see the overlay's header). usage_metrics_to_accounts is DELIBERATELY OMITTED:
+# usage_metrics is not mapped in this source (UsageMetric is owned by Snowflake,
+# WP-S3), so an edge referencing it would resurrect the dual-owner problem.
+edges:
+- edge_collection: contacts_to_accounts
+  from_collection: contacts
+  to_collection: accounts
+  from_field: account_id
+  to_field: account_id
+- edge_collection: contracts_to_accounts
+  from_collection: contracts
+  to_collection: accounts
+  from_field: account_id
+  to_field: account_id
+- edge_collection: nps_surveys_to_accounts
+  from_collection: nps_surveys
+  to_collection: accounts
+  from_field: account_id
+  to_field: account_id
+- edge_collection: opportunities_to_accounts
+  from_collection: opportunities
+  to_collection: accounts
+  from_field: account_id
+  to_field: account_id
+- edge_collection: opportunities_to_contracts
+  from_collection: opportunities
+  to_collection: contracts
+  from_field: contract_id
+  to_field: contract_id
 type_overrides: {}
 key_separator: _
 naming_convention: null
+# P6.7 declared cross-source join key: accountId is the federation spine
+# (hub = accounts.account_id in this source; also bound in snowflake/clickhouse/
+# arango CSIs). Declaring it exempts the bare label from qualify-renaming
+# (r2g 126bdbe) and emits conceptualModel.joinKeys first-class. NOTE: we still
+# export with --label-policy warn — the OTHER collisions (renewalDate,
+# productScope, contractId on Contract+Opportunity) are curated SEMANTIC
+# collisions (deliberate carry-over, allowlisted in
+# deploy/catalog/label-collisions-allow.json) that qualify would rename,
+# breaking the prepared questions and every consumer.
+shared_keys:
+- key: account_id
+  concept: accountId
+  hub_kind: entity
+  hub_source: postgresql:crm
+  hub_table: accounts
+  hub_column: account_id
+  confidence: 1.0
+  bindings:
+  - source: postgresql:crm
+    table: accounts
+    column: account_id
+  - source: postgresql:crm
+    table: contacts
+    column: account_id
+  - source: postgresql:crm
+    table: contracts
+    column: account_id
+  - source: postgresql:crm
+    table: nps_surveys
+    column: account_id
+  - source: postgresql:crm
+    table: opportunities
+    column: account_id

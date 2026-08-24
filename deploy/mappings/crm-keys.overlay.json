@@ -1,0 +1,20 @@
+{
+  "_comment": "Declared PK/FK/UNIQUE overlay for the crm Postgres source (RSA apply_key_overlay). The live schema declares ZERO foreign keys and references the natural business key (account_id), not the surrogate PK (accounts.id) — RSA's FK inference only targets PKs (filed upstream), so until that release these keys are declared here. Verified against cdf-ontop-postgres-1: uniqueness on the one side, full containment on the many side, for every key below. Overlaid keys surface as enforced=False with overlay:-prefixed constraint names, so they stay distinguishable from source-declared ones. When RSA's inference fix lands, prefer `r2g source infer-fks --accept` and delete this file.",
+  "tables": {
+    "accounts":      { "uniqueConstraints": [["account_id"]] },
+    "contracts":     { "uniqueConstraints": [["contract_id"]],
+                       "foreignKeys": [{"columns": ["account_id"],
+                         "references": {"table": "accounts", "columns": ["account_id"]}}] },
+    "contacts":      { "foreignKeys": [{"columns": ["account_id"],
+                         "references": {"table": "accounts", "columns": ["account_id"]}}] },
+    "nps_surveys":   { "foreignKeys": [{"columns": ["account_id"],
+                         "references": {"table": "accounts", "columns": ["account_id"]}}] },
+    "usage_metrics": { "foreignKeys": [{"columns": ["account_id"],
+                         "references": {"table": "accounts", "columns": ["account_id"]}}] },
+    "opportunities": { "foreignKeys": [
+                         {"columns": ["account_id"],
+                          "references": {"table": "accounts", "columns": ["account_id"]}},
+                         {"columns": ["contract_id"],
+                          "references": {"table": "contracts", "columns": ["contract_id"]}}] }
+  }
+}

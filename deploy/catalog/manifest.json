@@ -1,8 +1,8 @@
 {
   "catalogManifestVersion": "1",
   "conceptBase": "urn:arango-sparql:concept#",
-  "contentHash": "8560e5a8505ecb08ec275f6223f28fb76f88c02af0c1a242f18084722c1f1076",
-  "generation": "sha256:77e826cfa17df021354b057933fca84e8553d4aa8a88671a81caa77b184efd01",
+  "contentHash": "ebab67ccb06a21bad1ec21fc1e987e2843bdd762b664d452415f9d3e4d81b06c",
+  "generation": "sha256:7ddc2e75e686ad30739b9fd159e5787400164573d98aad7cc5547eddf5d4478d",
   "sources": [
     {
       "auth": {
@@ -150,10 +150,10 @@
       ],
       "csi": {
         "direction": "forward",
-        "generation": "2026-07-22T22:12:21.693927+00:00",
+        "generation": "2026-08-22T00:00:18.436066+00:00",
         "path": "deploy/csi/postgresql-crm.json",
         "producer": "r2g",
-        "sha256": "fe5e87e6ee5cc02a7fa56b647cda44093c01469499cc941735b4608921748df4"
+        "sha256": "266a26b81623e2632a9de69db56460c9c5b7ae49bff73f338bb9e0213f400758"
       },
       "entitlements": {
         "allowedRoles": [],
@@ -166,10 +166,10 @@
       "kind": "postgresql",
       "r2rml": {
         "direction": "forward",
-        "generation": "sha256:698106a48e986585dc6f7861cd7629e83307887694f5549917ffbe61fce33065",
+        "generation": "sha256:33181dff41cc1105ae9e4474d5cff955ceb5c89364911a26786b06241ab066dc",
         "path": "deploy/ontop/input/mapping.ttl",
         "producer": "r2g",
-        "sha256": "698106a48e986585dc6f7861cd7629e83307887694f5549917ffbe61fce33065"
+        "sha256": "33181dff41cc1105ae9e4474d5cff955ceb5c89364911a26786b06241ab066dc"
       },
       "ref": "crm",
       "runtimeResolution": {
