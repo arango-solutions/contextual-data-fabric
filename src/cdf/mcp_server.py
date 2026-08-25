@@ -70,6 +70,13 @@ def create_mcp_server(
     """
     from mcp.server import MCPServer
 
+    # ToolError is the SDK's sanctioned "expected tool failure" channel: its
+    # message reaches the caller verbatim. Newer 2.x SDKs mask any OTHER
+    # exception as a generic UnexpectedToolError (sensible hardening — no
+    # internal leakage), which silently ate our auth refusals when they were
+    # raised as bare PermissionError.
+    from mcp.server.mcpserver.exceptions import ToolError
+
     if (token_verifier is None) != (auth is None):
         raise ValueError("token_verifier and auth must be provided together")
 
@@ -101,13 +108,13 @@ def create_mcp_server(
             )
         if context is None:
             if auth_required:
-                raise PermissionError("authorization required")
+                raise ToolError("authorization required")
             return anonymous_request_context()
         if (
             auth_required
             and context.principal.authentication_method == "anonymous-dev"
         ):
-            raise PermissionError("authenticated subject required")
+            raise ToolError("authenticated subject required")
         return context
 
     @server.tool()
