@@ -76,3 +76,57 @@ def test_partial_failure_is_declared_never_silent() -> None:
     }
     outcome = run_golden(case)
     assert outcome.passed, outcome.mismatches
+
+
+def test_expected_refusal_but_accepted_query_fails_the_case() -> None:
+    """The inverse guard: a case pinning a planner refusal must go RED the day
+    the construct is (deliberately or accidentally) admitted — never silently
+    keep passing."""
+    case = {
+        "name": "guard",
+        "question": (
+            "PREFIX c: <urn:arango-sparql:concept#> "
+            "SELECT ?n WHERE { ?a a c:Account ; c:name ?n }"
+        ),
+        "sources": [{
+            "csi": {
+                "csiVersion": "1",
+                "conceptualModel": {"entities": [
+                    {"name": "Account", "properties": [{"name": "name"}]}]},
+                "arangoPhysicalMapping": {"entities": {}, "relationships": {}},
+                "provenance": {"producer": "r2g", "direction": "forward",
+                               "source": {"kind": "postgresql", "ref": "crm"}},
+            },
+            "data": {"rows": [{"n": "Acme"}]},
+        }],
+        "expect": {"unsupported_contains": ["aggregation"]},
+    }
+    outcome = run_golden(case)
+    assert not outcome.passed
+    assert any("was accepted" in m for m in outcome.mismatches)
+
+
+def test_unexpected_planner_refusal_fails_the_case() -> None:
+    """A case with ordinary envelope expectations that hits a planner refusal
+    fails loudly — refusal is never an accidental way to go green."""
+    case = {
+        "name": "guard2",
+        "question": (
+            "PREFIX c: <urn:arango-sparql:concept#> "
+            "SELECT (COUNT(?a) AS ?n) WHERE { ?a a c:Account }"
+        ),
+        "sources": [{
+            "csi": {
+                "csiVersion": "1",
+                "conceptualModel": {"entities": [
+                    {"name": "Account", "properties": [{"name": "name"}]}]},
+                "arangoPhysicalMapping": {"entities": {}, "relationships": {}},
+                "provenance": {"producer": "r2g", "direction": "forward",
+                               "source": {"kind": "postgresql", "ref": "crm"}},
+            },
+        }],
+        "expect": {"status": "grounded"},
+    }
+    outcome = run_golden(case)
+    assert not outcome.passed
+    assert any("unexpected planner refusal" in m for m in outcome.mismatches)

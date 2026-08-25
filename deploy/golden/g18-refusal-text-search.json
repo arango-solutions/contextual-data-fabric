@@ -1,0 +1,7 @@
+{
+  "name": "g18 refusal — text-search FILTER (REGEX) is refused by name until capability-aware routing lands",
+  "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?url WHERE { ?ch a c:Chunk ; c:text ?t ; c:accountId ?acct . ?d a c:Document ; c:citableUrl ?url ; c:accountId ?acct . FILTER(REGEX(?t, \"frustrated\", \"i\")) }",
+  "expect": {
+    "unsupported_contains": ["FILTER supports only"]
+  }
+}

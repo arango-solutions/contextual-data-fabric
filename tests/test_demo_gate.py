@@ -31,8 +31,8 @@ def test_checked_in_live_golden_inventory_is_exact() -> None:
     selected, skipped = filter_goldens(cases, ["snowflake:telemetry"])
 
     validate_golden_inventory(cases, selected, skipped, ["snowflake:telemetry"])
-    assert len(cases) == 15
-    assert len(selected) == 10
+    assert len(cases) == 18
+    assert len(selected) == 13
     assert len(skipped) == 5
 
 

@@ -1,0 +1,7 @@
+{
+  "name": "g16 refusal — CROSS-LEG aggregation (count docs by tier) is refused, never silently mis-aggregated",
+  "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?tier (COUNT(?d) AS ?n) WHERE { ?a a c:Account ; c:currentProductTier ?tier ; c:accountId ?acct . ?d a c:Document ; c:accountId ?acct } GROUP BY ?tier",
+  "expect": {
+    "unsupported_contains": ["aggregation"]
+  }
+}

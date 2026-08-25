@@ -83,6 +83,11 @@ _UNSUPPORTED_NODES = {
     "Graph": "named GRAPH block",
     "Group": "GROUP BY / aggregation",
     "AggregateJoin": "aggregation",
+    # User-authored SERVICE is refused BY DESIGN, not by gap: the planner must
+    # own source placement (concept ownership, OBAC, citations) — a user-pinned
+    # endpoint would bypass all three. Emitting the *plan* in SERVICE form as an
+    # EXPLAIN/interop artifact is a separate idea (issue #15).
+    "ServiceGraphPattern": "SERVICE (user-directed federation)",
 }
 
 #: Comparison operators a pushed-down FILTER conjunct may use.

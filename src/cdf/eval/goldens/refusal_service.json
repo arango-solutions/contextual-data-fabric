@@ -1,0 +1,46 @@
+{
+  "name": "refusal \u2014 user-directed SERVICE is refused by design",
+  "question": "PREFIX c: <urn:arango-sparql:concept#>\nSELECT ?name ?ext WHERE {\n  ?a a c:Account ; c:accountName ?name .\n  SERVICE <http://example.org/sparql> { ?a c:externalScore ?ext }\n}",
+  "sources": [
+    {
+      "csi": {
+        "csiVersion": "1",
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "accountId"
+                },
+                {
+                  "name": "accountName"
+                },
+                {
+                  "name": "currentProductTier"
+                }
+              ]
+            }
+          ]
+        },
+        "arangoPhysicalMapping": {
+          "entities": {},
+          "relationships": {}
+        },
+        "provenance": {
+          "producer": "r2g",
+          "direction": "forward",
+          "source": {
+            "kind": "postgresql",
+            "ref": "crm"
+          }
+        }
+      }
+    }
+  ],
+  "expect": {
+    "unsupported_contains": [
+      "SERVICE"
+    ]
+  }
+}

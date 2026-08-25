@@ -33,7 +33,14 @@ Case schema (only the keys you assert on are checked)::
         "anchor_kind": "postgresql",                # optional — the locked anchor
                                                     #   contract (Q7/Q15): EVERY
                                                     #   citation is of this kind
-        "refusal_contains": ["name"]                # optional substrings
+        "refusal_contains": ["name"],               # optional substrings
+        "unsupported_contains": ["aggregation"]     # optional — expects a PLANNER
+                                                    #   refusal (UnsupportedQueryError,
+                                                    #   the HTTP 422 class); substrings
+                                                    #   matched against the error text.
+                                                    #   When set, envelope keys are
+                                                    #   ignored (there is no envelope);
+                                                    #   an ACCEPTED query fails the case.
       }
     }
 
@@ -59,6 +66,7 @@ from cdf.query import execute_plan, ground, partition_query
 from cdf.query.catalog import SourceCatalog, source_ref_from_csi
 from cdf.query.executor import SourceResult
 from cdf.query.grounding import AnswerEnvelope
+from cdf.query.planner import UnsupportedQueryError
 
 
 class _FixtureExecutor:
@@ -116,9 +124,47 @@ def _bag(rows: Iterable[dict[str, Any]]) -> list[tuple]:
     return sorted(tuple(sorted(r.items())) for r in rows)
 
 
+def _unsupported_outcome(
+    name: str, expect: dict[str, Any], exc: Exception
+) -> GoldenOutcome:
+    """Diff a planner refusal (``UnsupportedQueryError``) against the case.
+
+    A case that sets ``expect.unsupported_contains`` PASSES when the planner
+    refused and every substring appears in the refusal message; other expect
+    keys are ignored for such cases (there is no envelope to diff). A case
+    without that key that hits a planner refusal FAILS loudly — refusal must
+    never be an accidental way to go green.
+    """
+    wants = expect.get("unsupported_contains")
+    mismatches: list[str] = []
+    if wants is None:
+        mismatches.append(f"unexpected planner refusal: {exc}")
+    else:
+        for sub in wants:
+            if sub not in str(exc):
+                mismatches.append(
+                    f"unsupported_contains: {sub!r} not in planner refusal ({exc})"
+                )
+    return GoldenOutcome(name=name, passed=not mismatches, mismatches=tuple(mismatches))
+
+
+def _expected_unsupported_but_accepted(expect: dict[str, Any]) -> list[str]:
+    """The inverse guard: the case expected a planner refusal, but the query
+    was accepted — the construct the gate pins has been (perhaps accidentally)
+    admitted. Surface it as a mismatch so admission changes are deliberate."""
+    if expect.get("unsupported_contains") is not None:
+        return [
+            "expected a planner refusal (unsupported_contains set), but the "
+            "query was accepted — if admission was intentional, rewrite this "
+            "golden as a grounded case"
+        ]
+    return []
+
+
 def run_golden(case: dict[str, Any]) -> GoldenOutcome:
     """Execute one golden case through the M5 pipeline and diff vs. expectations."""
     name = case.get("name", "<unnamed>")
+    expect = case.get("expect", {})
     sources = case.get("sources", [])
     csi_docs = [s["csi"] for s in sources]
 
@@ -128,11 +174,15 @@ def run_golden(case: dict[str, Any]) -> GoldenOutcome:
         for s in sources
     }
 
-    plan = partition_query(case["question"], catalog)
+    try:
+        plan = partition_query(case["question"], catalog)
+    except UnsupportedQueryError as exc:
+        return _unsupported_outcome(name, expect, exc)
     result = execute_plan(plan, executors)
     envelope = ground(result, allow_partial=bool(case.get("allow_partial", False)))
 
-    mismatches = _diff(case.get("expect", {}), envelope)
+    mismatches = _expected_unsupported_but_accepted(expect)
+    mismatches += _diff(expect, envelope)
     return GoldenOutcome(
         name=name, passed=not mismatches, mismatches=tuple(mismatches), envelope=envelope
     )
@@ -146,12 +196,19 @@ def run_golden_live(case: dict[str, Any], service: Any) -> GoldenOutcome:
     real executors answer. Same ``expect`` contract as :func:`run_golden`.
     """
     name = case.get("name", "<unnamed>")
+    expect = case.get("expect", {})
     allow_partial = bool(case.get("allow_partial", False))
-    if case.get("sparql"):
-        envelope = service.federate_sparql(case["sparql"], allow_partial=allow_partial)
-    else:
-        envelope = service.federate_question(case["question"], allow_partial=allow_partial)
-    mismatches = _diff(case.get("expect", {}), envelope)
+    try:
+        if case.get("sparql"):
+            envelope = service.federate_sparql(case["sparql"], allow_partial=allow_partial)
+        else:
+            envelope = service.federate_question(
+                case["question"], allow_partial=allow_partial
+            )
+    except UnsupportedQueryError as exc:
+        return _unsupported_outcome(name, expect, exc)
+    mismatches = _expected_unsupported_but_accepted(expect)
+    mismatches += _diff(expect, envelope)
     return GoldenOutcome(
         name=name, passed=not mismatches, mismatches=tuple(mismatches), envelope=envelope
     )

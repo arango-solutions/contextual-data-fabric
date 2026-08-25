@@ -1,0 +1,89 @@
+{
+  "name": "refusal \u2014 cross-leg aggregation (count docs by tier) is refused by name",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?tier (COUNT(?d) AS ?n) WHERE { ?a a c:Account ; c:currentProductTier ?tier ; c:accountId ?acct . ?d a c:Document ; c:accountId ?acct } GROUP BY ?tier",
+  "sources": [
+    {
+      "csi": {
+        "csiVersion": "1",
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "accountId"
+                },
+                {
+                  "name": "accountName"
+                },
+                {
+                  "name": "currentProductTier"
+                }
+              ]
+            }
+          ]
+        },
+        "arangoPhysicalMapping": {
+          "entities": {},
+          "relationships": {}
+        },
+        "provenance": {
+          "producer": "r2g",
+          "direction": "forward",
+          "source": {
+            "kind": "postgresql",
+            "ref": "crm"
+          }
+        }
+      }
+    },
+    {
+      "csi": {
+        "csiVersion": "1",
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Document",
+              "properties": [
+                {
+                  "name": "accountId"
+                },
+                {
+                  "name": "citableUrl"
+                }
+              ]
+            },
+            {
+              "name": "Chunk",
+              "properties": [
+                {
+                  "name": "accountId"
+                },
+                {
+                  "name": "text"
+                }
+              ]
+            }
+          ]
+        },
+        "arangoPhysicalMapping": {
+          "entities": {},
+          "relationships": {}
+        },
+        "provenance": {
+          "producer": "analyzer",
+          "direction": "reverse",
+          "source": {
+            "kind": "arango",
+            "ref": "cmf"
+          }
+        }
+      }
+    }
+  ],
+  "expect": {
+    "unsupported_contains": [
+      "aggregation"
+    ]
+  }
+}

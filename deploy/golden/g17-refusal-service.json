@@ -1,0 +1,8 @@
+{
+  "name": "g17 refusal — user-directed SERVICE is refused by design (the planner owns placement)",
+  "_note": "the sparql uses \\n line breaks deliberately: rdflib 7.6 mis-parses SERVICE when a #-fragment IRI precedes it on the SAME line (comment-scan quirk)",
+  "sparql": "PREFIX c: <urn:arango-sparql:concept#>\nSELECT ?name ?ext WHERE {\n  ?a a c:Account ; c:accountName ?name .\n  SERVICE <http://example.org/sparql> { ?a c:externalScore ?ext }\n}",
+  "expect": {
+    "unsupported_contains": ["SERVICE"]
+  }
+}

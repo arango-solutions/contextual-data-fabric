@@ -21,9 +21,9 @@ from cdf.eval.golden import filter_goldens, load_goldens, run_golden_live
 from cdf.service import FederationService
 
 GOLDEN_DIR = Path(__file__).resolve().parents[1] / "golden"
-EXPECTED_GOLDEN_TOTAL = 15
+EXPECTED_GOLDEN_TOTAL = 18
 EXPECTED_PARTIAL_COUNTS = {
-    ("snowflake:telemetry",): (10, 5),
+    ("snowflake:telemetry",): (13, 5),
 }
 
 
