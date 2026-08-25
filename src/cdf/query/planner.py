@@ -98,6 +98,20 @@ _FLIP_OP = {">": "<", "<": ">", ">=": "<=", "<=": ">=", "=": "=", "!=": "!="}
 _PATTERN_WRAPPERS = {
     "SelectQuery", "Project", "Distinct", "Reduced", "Slice", "OrderBy", "ToMultiSet",
 }
+#: Wrappers legitimate on the path from the query root down to the ``Group``
+#: node of a top-level aggregation: result modifiers, the aggregation plumbing
+#: itself (``AggregateJoin`` + the ``Extend``s that bind aggregate results to
+#: their SELECT aliases), and ``Filter`` (a HAVING clause). Anything else on
+#: that path means the aggregation is nested inside a shape E1 cannot admit.
+_AGGREGATION_WRAPPERS = _PATTERN_WRAPPERS | {"Extend", "Filter", "AggregateJoin"}
+
+#: Source kinds whose leg can execute a full SPARQL GROUP BY today (rung 2 of
+#: the admission ladder, issue #14): Ontop is a complete SPARQL 1.1 endpoint
+#: and the arango leg's transpiler ships aggregate goldens upstream. The
+#: native snowflake/clickhouse BGP→SQL emitters have no GROUP BY — hardcoded
+#: capability knowledge until the M11 capability registry (issue #15).
+_AGGREGATION_CAPABLE_KINDS = {"postgresql", "arango"}
+
 #: xsd numeric datatypes rendered bare in a pushed-down FILTER (``?v <= 1000``),
 #: so the leg SPARQL stays engine-neutral rather than carrying ``"1000"^^xsd:…``.
 _NUMERIC_XSD = {
@@ -275,6 +289,110 @@ def _serialize(
     return f"SELECT {projection} WHERE {{\n{body}\n}}"
 
 
+def _admit_single_leg_aggregation(
+    algebra: Any, sparql: str, catalog: SourceCatalog
+) -> PartitionPlan:
+    """Admit a TOP-LEVEL aggregation whose whole pattern routes to ONE
+    aggregation-capable source (issue #14 — rung 2 of the admission ladder).
+
+    The winning leg receives the **original query verbatim**: the owning engine
+    executes GROUP BY / aggregates / HAVING / ORDER itself, and the federator
+    treats the returned rows as final bindings (no join stage — there is
+    nothing to join). Cross-source aggregation stays refused: SPARQL aggregates
+    are defined over the *joined* solution multiset, so aggregating per leg and
+    joining afterwards is silently wrong under join multiplicity (the two-phase
+    design over declared-unique join keys is issue #15).
+    """
+    projection = tuple(f"?{v}" for v in (algebra.get("PV") or []))
+
+    # Descend to the Group node through aggregation plumbing only.
+    node: Any = algebra
+    group_node: Any = None
+    while isinstance(node, CompValue):
+        if node.name == "Group":
+            group_node = node
+            break
+        if node.name not in _AGGREGATION_WRAPPERS:
+            raise UnsupportedQueryError(
+                "aggregation is supported only at the query's top level "
+                f"(found {node.name} wrapping the GROUP BY)"
+            )
+        node = node.get("p")
+    if group_node is None:
+        raise UnsupportedQueryError("aggregation without a groupable pattern")
+
+    # The grouped pattern itself must be an E1-decomposable shape (BGP +
+    # simple FILTER conjuncts + self-contained OPTIONAL); _decompose refuses
+    # anything else by name (a genuine BIND, UNION, nested aggregation, …).
+    required: list[_TermTriple] = []
+    filters: list[_Conjunct] = []
+    optional_groups: list[list[_TermTriple]] = []
+    _decompose(group_node["p"], required, filters, optional_groups)
+
+    var_source: dict[Variable, SourceRef] = {}
+    for subject, predicate, obj in required:
+        if predicate == RDF.type and isinstance(obj, URIRef) and isinstance(subject, Variable):
+            source = catalog.source_of_class(str(obj))
+            if source is not None:
+                var_source[subject] = source
+
+    sources: set[SourceRef] = set()
+    unroutable: list[_TermTriple] = []
+    for triple in required + [t for g in optional_groups for t in g]:
+        hit = _route(triple, catalog, var_source)
+        if hit is None:
+            unroutable.append(triple)
+        else:
+            sources.add(hit)
+    if unroutable:
+        missing = ", ".join(t[1].n3() for t in unroutable[:3])
+        raise UnsupportedQueryError(
+            f"aggregation references concept(s) no known source maps: {missing}"
+        )
+    if len(sources) != 1:
+        ids = ", ".join(sorted(s.source_id for s in sources))
+        raise UnsupportedQueryError(
+            f"cross-source aggregation (pattern spans {ids}): SPARQL aggregates "
+            "are defined over the JOINED solution multiset, so per-leg "
+            "aggregation would be silently wrong — refused"
+        )
+    (source,) = sources
+    if source.kind not in _AGGREGATION_CAPABLE_KINDS:
+        raise UnsupportedQueryError(
+            f"aggregation routes to {source.source_id} (kind {source.kind}), "
+            "whose native leg does not emit GROUP BY; aggregation is supported "
+            "today on kinds: " + ", ".join(sorted(_AGGREGATION_CAPABLE_KINDS))
+        )
+
+    # Leg variables: everything the pattern binds PLUS the projection (the
+    # aggregate aliases, e.g. ?n, exist only in the engine's result — they must
+    # be declared leg-supplied or the executor would report them unavailable).
+    ordered_vars: list[str] = []
+    present: set[str] = set()
+    for triple in required + [t for g in optional_groups for t in g]:
+        for var in _triple_vars(triple):
+            name = f"?{var}"
+            if name not in present:
+                present.add(name)
+                ordered_vars.append(name)
+    for name in projection:
+        if name not in present:
+            present.add(name)
+            ordered_vars.append(name)
+
+    sub = SubQuery(
+        source=source,
+        triples=tuple(_public(t) for t in required),
+        variables=tuple(ordered_vars),
+        sparql=sparql,  # verbatim — the owning engine runs the aggregation
+        filters=tuple(_serialize_filter(c) for c in filters),
+        optional_groups=tuple(tuple(_public(t) for t in g) for g in optional_groups),
+    )
+    return PartitionPlan(
+        sub_queries=(sub,), join_keys=(), projection=projection, unresolved=()
+    )
+
+
 def partition_query(sparql: str, catalog: SourceCatalog) -> PartitionPlan:
     """Partition a conceptual SPARQL query into per-source sub-queries.
 
@@ -290,9 +408,15 @@ def partition_query(sparql: str, catalog: SourceCatalog) -> PartitionPlan:
     algebra = prepareQuery(sparql).algebra
     projection = tuple(f"?{v}" for v in (algebra.get("PV") or []))
 
-    # Refuse the hard-unsupported constructs first (nicely named).
+    # Refuse the hard-unsupported constructs first (nicely named) — except
+    # aggregation, which E1.5 admits when the WHOLE query routes to one
+    # aggregation-capable source (issue #14). The Extend nodes an aggregation
+    # produces (binding aggregate results) are plumbing, not user BIND — the
+    # admission path validates the wrapper chain itself.
     unsupported: set[str] = set()
     _check_supported(algebra, unsupported)
+    if unsupported & {"Group", "AggregateJoin"}:
+        return _admit_single_leg_aggregation(algebra, sparql, catalog)
     if unsupported:
         constructs = sorted(_UNSUPPORTED_NODES[n] for n in unsupported)
         raise UnsupportedQueryError(

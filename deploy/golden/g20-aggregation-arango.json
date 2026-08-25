@@ -1,0 +1,13 @@
+{
+  "name": "g20 aggregation \u2014 single-leg GROUP BY ships verbatim to the arango leg (docs per role)",
+  "_note": "groups by `role` (present in BOTH the CI fixtures and the full local corpus) and asserts min_rows instead of exact values \u2014 CI's seed.py loads 3 ci-fixture docs, the full corpus only exists locally",
+  "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?role (COUNT(?d) AS ?n) WHERE { ?d a c:Document ; c:role ?role } GROUP BY ?role",
+  "expect": {
+    "status": "grounded",
+    "anchor_kind": "arango",
+    "sources_touched": [
+      "arango:cmf"
+    ],
+    "min_rows": 1
+  }
+}

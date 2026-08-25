@@ -1,0 +1,26 @@
+{
+  "name": "single-leg aggregation — the leg's aggregated rows are final bindings",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?tier (COUNT(?a) AS ?n) WHERE { ?a a c:Account ; c:currentProductTier ?tier } GROUP BY ?tier",
+  "sources": [
+    {
+      "csi": {
+        "csiVersion": "1",
+        "conceptualModel": {"entities": [
+          {"name": "Account", "properties": [{"name": "accountId"}, {"name": "currentProductTier"}]}]},
+        "arangoPhysicalMapping": {"entities": {}, "relationships": {}},
+        "provenance": {"producer": "r2g", "direction": "forward",
+                       "source": {"kind": "postgresql", "ref": "crm"}}
+      },
+      "data": {
+        "rows": [{"tier": "Enterprise", "n": 2}, {"tier": "ArangoGraph", "n": 1}],
+        "native_query": "SELECT current_product_tier, COUNT(*) FROM accounts GROUP BY 1",
+        "source_objects": ["public.accounts"]
+      }
+    }
+  ],
+  "expect": {
+    "status": "grounded",
+    "anchor_kind": "postgresql",
+    "bindings": [{"tier": "Enterprise", "n": 2}, {"tier": "ArangoGraph", "n": 1}]
+  }
+}

@@ -33,6 +33,9 @@ Case schema (only the keys you assert on are checked)::
         "anchor_kind": "postgresql",                # optional — the locked anchor
                                                     #   contract (Q7/Q15): EVERY
                                                     #   citation is of this kind
+        "min_rows": 1,                              # optional — fail a grounded-
+                                                    #   but-empty result (rows vary
+                                                    #   by environment; shape doesn't)
         "refusal_contains": ["name"],               # optional substrings
         "unsupported_contains": ["aggregation"]     # optional — expects a PLANNER
                                                     #   refusal (UnsupportedQueryError,
@@ -241,6 +244,13 @@ def _diff(expect: dict[str, Any], env: AnswerEnvelope) -> list[str]:
                 f"anchor_kind: expected every citation kind == {expect['anchor_kind']!r}, "
                 f"got {wrong or 'no citations'}"
             )
+
+    if "min_rows" in expect and len(env.bindings) < expect["min_rows"]:
+        out.append(
+            f"min_rows: expected >= {expect['min_rows']} binding rows, "
+            f"got {len(env.bindings)} — a grounded-but-EMPTY result would "
+            "otherwise pass contract-level expectations silently"
+        )
 
     if "bindings" in expect:
         want = _bag(expect["bindings"])

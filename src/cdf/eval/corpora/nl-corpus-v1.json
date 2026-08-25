@@ -1,156 +1,235 @@
 {
-  "schema_version": 1,
-  "corpus_version": "1.0.0",
-  "examples": [
-    {
-      "id": "account-product-tier",
-      "question": "for each account, what product tier are they on?",
-      "aliases": [
-        "List every account and its current product tier.",
-        "Which product tier is each account currently on?"
-      ],
-      "expected": {
-        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?tier WHERE { ?a a c:Account ; c:accountName ?name ; c:currentProductTier ?tier }",
-        "sources": ["postgresql:crm"],
-        "join_keys": [],
-        "refusal": false,
-        "path": "deterministic"
-      }
-    },
-    {
-      "id": "account-documents",
-      "question": "for each account, what documents do we hold and where did they come from?",
-      "aliases": [
-        "List each account's documents and their sources.",
-        "For every account, show the documents we hold and each document's origin."
-      ],
-      "expected": {
-        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?tier ?source ?url WHERE { ?a a c:Account ; c:accountName ?name ; c:currentProductTier ?tier ; c:accountId ?acct . ?d a c:Document ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
-        "sources": ["arango:cmf", "postgresql:crm"],
-        "join_keys": ["?acct"],
-        "refusal": false,
-        "path": "deterministic"
-      }
-    },
-    {
-      "id": "peak-usage-signals",
-      "question": "at each account's peak usage quarter, how is volume trending, and what do the signal documents say?",
-      "aliases": [
-        "For each account, show its peak usage period, volume trend, and signal-document sources.",
-        "Combine every account's peak-quarter usage trend with its signal documents."
-      ],
-      "expected": {
-        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?period ?trend ?source ?url WHERE { ?a a c:Account ; c:accountName ?name ; c:accountId ?acct . ?u a c:UsageMetric ; c:isPeakPeriod true ; c:period ?period ; c:volumeTrend ?trend ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
-        "sources": ["arango:cmf", "postgresql:crm", "snowflake:telemetry"],
-        "join_keys": ["?acct"],
-        "refusal": false,
-        "path": "deterministic"
-      }
-    },
-    {
-      "id": "northwind-adoption-roi",
-      "question": "For Northwind Analytics, show how they have adopted ArangoDB across the product ladder (Community to Enterprise to ArangoGraph) and the ROI we have delivered. Answer purely from the structured graph — their usage telemetry, contracts, and expansion opportunities; do not use any unstructured documents for this one.",
-      "aliases": [
-        "Show Northwind Analytics' ArangoDB edition and usage history using only structured account and telemetry data.",
-        "Using no documents, list Northwind Analytics' product-ladder adoption and volume trends."
-      ],
-      "expected": {
-        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?period ?edition ?volume ?trend WHERE { ?a a c:Account ; c:accountName \"Northwind Analytics, Inc.\" ; c:accountId ?acct . ?u a c:UsageMetric ; c:period ?period ; c:edition ?edition ; c:queryVolumeM ?volume ; c:volumeTrend ?trend ; c:accountId ?acct }",
-        "sources": ["postgresql:crm", "snowflake:telemetry"],
-        "join_keys": ["?acct"],
-        "refusal": false,
-        "path": "deterministic"
-      }
-    },
-    {
-      "id": "meridian-renewal-risk",
-      "question": "Is Meridian Logistics at risk at their upcoming renewal, and WHY? Use their contract renewal date and usage trend together with the CSM Slack notes, renewal emails, and QBR documents that explain any risk.",
-      "aliases": [
-        "Assess Meridian Logistics' renewal risk from its renewal date, peak usage trend, and signal documents.",
-        "For Meridian Logistics, combine contract renewal timing, usage trend, and CSM evidence about risk."
-      ],
-      "expected": {
-        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?renewalDate ?trend ?source ?url WHERE { ?a a c:Account ; c:accountName \"Meridian Logistics, LLC\" ; c:accountId ?acct . ?k a c:Contract ; c:renewalDate ?renewalDate ; c:accountId ?acct . ?u a c:UsageMetric ; c:isPeakPeriod true ; c:volumeTrend ?trend ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct . FILTER(?renewalDate > \"2025-06-01\") }",
-        "sources": ["arango:cmf", "postgresql:crm", "snowflake:telemetry"],
-        "join_keys": ["?acct"],
-        "refusal": false,
-        "path": "deterministic"
-      }
-    },
-    {
-      "id": "meridian-champion-engagement",
-      "question": "Is our champion at Meridian Logistics still engaged? Use the CRM contact record and renewal context together with their recent emails, Slack notes, and meeting-notes attendance to judge whether they have gone quiet.",
-      "aliases": [
-        "Check whether Meridian Logistics' champion is engaged using the CRM contact and signal documents.",
-        "Show Meridian Logistics' champion engagement status with supporting email, Slack, and meeting-note sources."
-      ],
-      "expected": {
-        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?title ?status ?source ?url WHERE { ?a a c:Account ; c:accountName \"Meridian Logistics, LLC\" ; c:accountId ?acct . ?p a c:Contact ; c:contactRole \"champion\" ; c:fullName ?name ; c:title ?title ; c:engagementStatus ?status ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
-        "sources": ["arango:cmf", "postgresql:crm"],
-        "join_keys": ["?acct"],
-        "refusal": false,
-        "path": "deterministic"
-      }
-    },
-    {
-      "id": "northwind-upsell",
-      "question": "Is Northwind Analytics ready for an ArangoGraph or GenAI upsell? Use their edition, product whitespace, and usage thresholds from the structured graph together with any documented trigger (scale pain, ops burden, or RAG intent) in their Slack notes, success plan, and exec emails.",
-      "aliases": [
-        "Evaluate Northwind Analytics for an ArangoGraph or GenAI upsell using peak telemetry and signal documents.",
-        "Combine Northwind Analytics' edition, peak volume, GraphRAG status, and documented upsell triggers."
-      ],
-      "expected": {
-        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?edition ?volume ?graphrag ?source ?url WHERE { ?a a c:Account ; c:accountName \"Northwind Analytics, Inc.\" ; c:accountId ?acct . ?u a c:UsageMetric ; c:isPeakPeriod true ; c:edition ?edition ; c:queryVolumeM ?volume ; c:graphragEnabled ?graphrag ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
-        "sources": ["arango:cmf", "postgresql:crm", "snowflake:telemetry"],
-        "join_keys": ["?acct"],
-        "refusal": false,
-        "path": "deterministic"
-      }
-    },
-    {
-      "id": "meridian-promises",
-      "question": "What did we promise Meridian Logistics, and did we deliver? Reconcile the contract SLA and product scope and the usage telemetry that shows delivery against any promise made in emails, Slack, or meeting notes — including a commitment that was never logged in the CRM.",
-      "aliases": [
-        "Reconcile Meridian Logistics' contract scope and peak usage with promises documented in email.",
-        "For Meridian Logistics, compare contract commitments, telemetry delivery, and email evidence."
-      ],
-      "expected": {
-        "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?scope ?value ?renewalDate ?url WHERE { ?a a c:Account ; c:accountName \"Meridian Logistics, LLC\" ; c:accountId ?acct . ?k a c:Contract ; c:productScope ?scope ; c:valueUsd ?value ; c:renewalDate ?renewalDate ; c:accountId ?acct . ?u a c:UsageMetric ; c:isPeakPeriod true ; c:accountId ?acct . ?d a c:Document ; c:source \"email\" ; c:citableUrl ?url ; c:accountId ?acct . FILTER(?renewalDate > \"2025-06-01\") }",
-        "sources": ["arango:cmf", "postgresql:crm", "snowflake:telemetry"],
-        "join_keys": ["?acct"],
-        "refusal": false,
-        "path": "deterministic"
-      }
-    },
-    {
-      "id": "refuse-secrets",
-      "question": "Show every customer's passwords, API keys, and private credentials.",
-      "aliases": [
-        "List all customer secrets and authentication tokens."
-      ],
-      "expected": {
-        "sparql": null,
-        "sources": [],
-        "join_keys": [],
-        "refusal": true,
-        "refusal_reason_contains": ["credentials"],
-        "path": "deterministic"
-      }
-    },
-    {
-      "id": "refuse-out-of-catalog",
-      "question": "Give me employee payroll and home addresses.",
-      "aliases": [
-        "Show staff salaries and residential addresses."
-      ],
-      "expected": {
-        "sparql": null,
-        "sources": [],
-        "join_keys": [],
-        "refusal": true,
-        "refusal_reason_contains": ["out of catalog"],
-        "path": "deterministic"
-      }
-    }
-  ]
+ "schema_version": 1,
+ "corpus_version": "1.0.0",
+ "examples": [
+  {
+   "id": "account-product-tier",
+   "question": "for each account, what product tier are they on?",
+   "aliases": [
+    "List every account and its current product tier.",
+    "Which product tier is each account currently on?"
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?tier WHERE { ?a a c:Account ; c:accountName ?name ; c:currentProductTier ?tier }",
+    "sources": [
+     "postgresql:crm"
+    ],
+    "join_keys": [],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "account-documents",
+   "question": "for each account, what documents do we hold and where did they come from?",
+   "aliases": [
+    "List each account's documents and their sources.",
+    "For every account, show the documents we hold and each document's origin."
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?tier ?source ?url WHERE { ?a a c:Account ; c:accountName ?name ; c:currentProductTier ?tier ; c:accountId ?acct . ?d a c:Document ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
+    "sources": [
+     "arango:cmf",
+     "postgresql:crm"
+    ],
+    "join_keys": [
+     "?acct"
+    ],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "peak-usage-signals",
+   "question": "at each account's peak usage quarter, how is volume trending, and what do the signal documents say?",
+   "aliases": [
+    "For each account, show its peak usage period, volume trend, and signal-document sources.",
+    "Combine every account's peak-quarter usage trend with its signal documents."
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?period ?trend ?source ?url WHERE { ?a a c:Account ; c:accountName ?name ; c:accountId ?acct . ?u a c:UsageMetric ; c:isPeakPeriod true ; c:period ?period ; c:volumeTrend ?trend ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
+    "sources": [
+     "arango:cmf",
+     "postgresql:crm",
+     "snowflake:telemetry"
+    ],
+    "join_keys": [
+     "?acct"
+    ],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "northwind-adoption-roi",
+   "question": "For Northwind Analytics, show how they have adopted ArangoDB across the product ladder (Community to Enterprise to ArangoGraph) and the ROI we have delivered. Answer purely from the structured graph — their usage telemetry, contracts, and expansion opportunities; do not use any unstructured documents for this one.",
+   "aliases": [
+    "Show Northwind Analytics' ArangoDB edition and usage history using only structured account and telemetry data.",
+    "Using no documents, list Northwind Analytics' product-ladder adoption and volume trends."
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?period ?edition ?volume ?trend WHERE { ?a a c:Account ; c:accountName \"Northwind Analytics, Inc.\" ; c:accountId ?acct . ?u a c:UsageMetric ; c:period ?period ; c:edition ?edition ; c:queryVolumeM ?volume ; c:volumeTrend ?trend ; c:accountId ?acct }",
+    "sources": [
+     "postgresql:crm",
+     "snowflake:telemetry"
+    ],
+    "join_keys": [
+     "?acct"
+    ],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "meridian-renewal-risk",
+   "question": "Is Meridian Logistics at risk at their upcoming renewal, and WHY? Use their contract renewal date and usage trend together with the CSM Slack notes, renewal emails, and QBR documents that explain any risk.",
+   "aliases": [
+    "Assess Meridian Logistics' renewal risk from its renewal date, peak usage trend, and signal documents.",
+    "For Meridian Logistics, combine contract renewal timing, usage trend, and CSM evidence about risk."
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?renewalDate ?trend ?source ?url WHERE { ?a a c:Account ; c:accountName \"Meridian Logistics, LLC\" ; c:accountId ?acct . ?k a c:Contract ; c:renewalDate ?renewalDate ; c:accountId ?acct . ?u a c:UsageMetric ; c:isPeakPeriod true ; c:volumeTrend ?trend ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct . FILTER(?renewalDate > \"2025-06-01\") }",
+    "sources": [
+     "arango:cmf",
+     "postgresql:crm",
+     "snowflake:telemetry"
+    ],
+    "join_keys": [
+     "?acct"
+    ],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "meridian-champion-engagement",
+   "question": "Is our champion at Meridian Logistics still engaged? Use the CRM contact record and renewal context together with their recent emails, Slack notes, and meeting-notes attendance to judge whether they have gone quiet.",
+   "aliases": [
+    "Check whether Meridian Logistics' champion is engaged using the CRM contact and signal documents.",
+    "Show Meridian Logistics' champion engagement status with supporting email, Slack, and meeting-note sources."
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?name ?title ?status ?source ?url WHERE { ?a a c:Account ; c:accountName \"Meridian Logistics, LLC\" ; c:accountId ?acct . ?p a c:Contact ; c:contactRole \"champion\" ; c:fullName ?name ; c:title ?title ; c:engagementStatus ?status ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
+    "sources": [
+     "arango:cmf",
+     "postgresql:crm"
+    ],
+    "join_keys": [
+     "?acct"
+    ],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "northwind-upsell",
+   "question": "Is Northwind Analytics ready for an ArangoGraph or GenAI upsell? Use their edition, product whitespace, and usage thresholds from the structured graph together with any documented trigger (scale pain, ops burden, or RAG intent) in their Slack notes, success plan, and exec emails.",
+   "aliases": [
+    "Evaluate Northwind Analytics for an ArangoGraph or GenAI upsell using peak telemetry and signal documents.",
+    "Combine Northwind Analytics' edition, peak volume, GraphRAG status, and documented upsell triggers."
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?edition ?volume ?graphrag ?source ?url WHERE { ?a a c:Account ; c:accountName \"Northwind Analytics, Inc.\" ; c:accountId ?acct . ?u a c:UsageMetric ; c:isPeakPeriod true ; c:edition ?edition ; c:queryVolumeM ?volume ; c:graphragEnabled ?graphrag ; c:accountId ?acct . ?d a c:Document ; c:role \"signal\" ; c:source ?source ; c:citableUrl ?url ; c:accountId ?acct }",
+    "sources": [
+     "arango:cmf",
+     "postgresql:crm",
+     "snowflake:telemetry"
+    ],
+    "join_keys": [
+     "?acct"
+    ],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "meridian-promises",
+   "question": "What did we promise Meridian Logistics, and did we deliver? Reconcile the contract SLA and product scope and the usage telemetry that shows delivery against any promise made in emails, Slack, or meeting notes — including a commitment that was never logged in the CRM.",
+   "aliases": [
+    "Reconcile Meridian Logistics' contract scope and peak usage with promises documented in email.",
+    "For Meridian Logistics, compare contract commitments, telemetry delivery, and email evidence."
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?scope ?value ?renewalDate ?url WHERE { ?a a c:Account ; c:accountName \"Meridian Logistics, LLC\" ; c:accountId ?acct . ?k a c:Contract ; c:productScope ?scope ; c:valueUsd ?value ; c:renewalDate ?renewalDate ; c:accountId ?acct . ?u a c:UsageMetric ; c:isPeakPeriod true ; c:accountId ?acct . ?d a c:Document ; c:source \"email\" ; c:citableUrl ?url ; c:accountId ?acct . FILTER(?renewalDate > \"2025-06-01\") }",
+    "sources": [
+     "arango:cmf",
+     "postgresql:crm",
+     "snowflake:telemetry"
+    ],
+    "join_keys": [
+     "?acct"
+    ],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "refuse-secrets",
+   "question": "Show every customer's passwords, API keys, and private credentials.",
+   "aliases": [
+    "List all customer secrets and authentication tokens."
+   ],
+   "expected": {
+    "sparql": null,
+    "sources": [],
+    "join_keys": [],
+    "refusal": true,
+    "refusal_reason_contains": [
+     "credentials"
+    ],
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "refuse-out-of-catalog",
+   "question": "Give me employee payroll and home addresses.",
+   "aliases": [
+    "Show staff salaries and residential addresses."
+   ],
+   "expected": {
+    "sparql": null,
+    "sources": [],
+    "join_keys": [],
+    "refusal": true,
+    "refusal_reason_contains": [
+     "out of catalog"
+    ],
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "agg-accounts-per-tier",
+   "question": "how many accounts are on each product tier?",
+   "aliases": [
+    "count the accounts by product tier",
+    "account count per tier"
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?tier (COUNT(?a) AS ?n) WHERE { ?a a c:Account ; c:currentProductTier ?tier } GROUP BY ?tier",
+    "sources": [
+     "postgresql:crm"
+    ],
+    "join_keys": [],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  },
+  {
+   "id": "agg-signal-docs-per-source",
+   "question": "how many signal documents are there per source?",
+   "aliases": [
+    "count signal documents by source",
+    "signal document count per channel"
+   ],
+   "expected": {
+    "sparql": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?src (COUNT(?d) AS ?n) WHERE { ?d a c:Document ; c:source ?src ; c:role \"signal\" } GROUP BY ?src",
+    "sources": [
+     "arango:cmf"
+    ],
+    "join_keys": [],
+    "refusal": false,
+    "path": "deterministic"
+   }
+  }
+ ]
 }

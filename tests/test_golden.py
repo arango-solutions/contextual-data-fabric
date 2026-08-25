@@ -113,7 +113,7 @@ def test_unexpected_planner_refusal_fails_the_case() -> None:
         "name": "guard2",
         "question": (
             "PREFIX c: <urn:arango-sparql:concept#> "
-            "SELECT (COUNT(?a) AS ?n) WHERE { ?a a c:Account }"
+            "SELECT ?a WHERE { { ?a a c:Account } UNION { ?a a c:Account } }"
         ),
         "sources": [{
             "csi": {
