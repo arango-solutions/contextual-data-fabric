@@ -95,6 +95,7 @@ from cdf.query.assembly import (
 from cdf.query.executor import SourceExecutor
 from cdf.query.grounding import AnswerEnvelope, NlMetrics
 from cdf.query.planner import UnsupportedQueryError
+from cdf.query.presentation import split_presentation
 from cdf.resolution import EntityResolver, ResolutionRefusal
 
 
@@ -793,6 +794,10 @@ class FederationService:
         request_context = context or anonymous_request_context()
         if execution_mode not in ("virtual", "assembled"):
             raise ValueError("execution_mode must be 'virtual' or 'assembled'")
+        # Split a trailing presentation directive ("... and display as a pie
+        # chart") from the QUERY before resolution: the directive is advisory
+        # metadata for renderers, never part of the conceptual query (#17).
+        question, presentation = split_presentation(question)
         resolution = self._resolve_question(question, request_context)
         if resolution.sparql is None:
             return AnswerEnvelope(
@@ -814,6 +819,7 @@ class FederationService:
                     ),
                 ),
                 request_metadata=request_context.safe_metadata(),
+                presentation=presentation,
             )
         envelope = self.federate_sparql(
             resolution.sparql,
@@ -821,7 +827,9 @@ class FederationService:
             execution_mode=execution_mode,
             context=request_context,
         )
-        return replace(envelope, nl_metrics=resolution.metrics)
+        return replace(
+            envelope, nl_metrics=resolution.metrics, presentation=presentation
+        )
 
     @classmethod
     def from_env(cls, environ: Mapping[str, str] | None = None) -> FederationService:

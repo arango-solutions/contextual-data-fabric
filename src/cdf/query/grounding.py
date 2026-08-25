@@ -26,6 +26,7 @@ code.
 from __future__ import annotations
 
 from dataclasses import dataclass, replace
+from typing import Any
 
 from cdf.auth import RequestMetadata
 from cdf.governance import (
@@ -112,6 +113,11 @@ class AnswerEnvelope:
     """Plan and per-source execution telemetry; ``None`` when no plan ran."""
     plan_estimate: PlanEstimate | None = None
     """Inspectable deterministic optimizer estimate and physical strategy."""
+    presentation: dict[str, Any] | None = None
+    """Advisory presentation hint parsed from the question (issue #17) — how
+    the caller asked to SEE the answer (e.g. {"requested": "pie"}). Carries no
+    truth content: it lives beside the bindings, never affects them, never
+    rescues a refusal, and renderers validate it against the result shape."""
     admission_refusal: AdmissionRefusal | None = None
     """Structured preflight/runtime refusal, when a configured cap denied work."""
     resolution_events: tuple[ResolutionEvent, ...] = ()

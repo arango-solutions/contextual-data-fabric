@@ -249,6 +249,14 @@ PAGE = """<!doctype html>
   .onto-prop { padding:3px 0; font-size:13px; }
   .onto-prop code { background:var(--code); padding:1px 6px; border-radius:5px;
     font:12px ui-monospace,Menlo,monospace; }
+  /* Presentation hints (#17): charts are deterministic renderings of the cited
+     bindings — every mark is a row from the answer, never a model summary. */
+  .chart-wrap { display:flex; gap:18px; align-items:center; flex-wrap:wrap; margin-top:6px; }
+  .chart-legend { flex-direction:column; align-items:flex-start; gap:4px; margin-top:0; }
+  .bar-row { display:flex; align-items:center; gap:8px; margin:4px 0; font-size:13px; min-width:280px; }
+  .bar-label { min-width:96px; color:var(--muted); text-align:right; }
+  .bar-track { flex:1; background:var(--code); border-radius:4px; height:14px; overflow:hidden; }
+  .bar-fill { display:block; height:100%; }
 </style></head>
 <body><div class="wrap">
   <h1>Contextual Data Fabric — Federated Query</h1>
@@ -417,6 +425,65 @@ function markOntologyActive(d) {
     note.innerHTML = 'Last query touched: <b>' + touched.map(esc).join('</b>, <b>') + '</b> (highlighted above)';
 }
 
+// ---- Presentation hints (#17): render the REQUESTED chart from the cited ----
+// bindings. Honesty rules: a directive never rescues a refusal; the hint is
+// validated against the result shape; an unsuitable chart is overridden with a
+// stated reason; every mark maps 1:1 to an answer row (no model summaries).
+const CHART_COLORS = ['var(--pg)','var(--ar)','var(--sf)','var(--ch)','var(--accent)','var(--partial)','var(--refuse)'];
+
+function renderPresentation(d, out) {
+  const p = d.presentation;
+  if (!p || d.status === 'refused' || p.requested === 'table') return;
+  const rows = d.bindings || [];
+  if (!rows.length) return;
+  const cols = Object.keys(rows[0]);
+  const numCols = cols.filter(c => rows.every(r => typeof r[c] === 'number'));
+  const catCols = cols.filter(c => !numCols.includes(c));
+  const say = (msg) => out.appendChild(el(`<div class="card"><p class="meta" style="margin:0">${esc(msg)}</p></div>`));
+  if (p.requested === 'line') {
+    say('Requested a line chart — timeseries rendering is not implemented yet; showing the table.');
+    return;
+  }
+  if (numCols.length !== 1 || catCols.length !== 1) {
+    say(`Requested a ${p.requested} chart, but the result shape doesn't fit (need exactly one category and one numeric column; got: ${cols.join(', ')}) — showing the table.`);
+    return;
+  }
+  const cat = (p.by && catCols.includes(p.by)) ? p.by : catCols[0];
+  const val = numCols[0];
+  let kind = p.requested, override = '';
+  if (kind === 'pie' && rows.length > 7) {
+    kind = 'bar';
+    override = `Requested pie; rendered bar: ${rows.length} categories mislead as slices.`;
+  }
+  const total = rows.reduce((s, r) => s + r[val], 0);
+  const legend = rows.map((r, i) =>
+    `<span><span class="sw" style="background:${CHART_COLORS[i % CHART_COLORS.length]}"></span>${esc(r[cat])} — <b>${esc(r[val])}</b></span>`).join('');
+  let body = '';
+  if (kind === 'pie') {
+    if (rows.length === 1) {
+      body = `<svg viewBox="0 0 120 120" width="160" height="160"><circle cx="60" cy="60" r="50" fill="${CHART_COLORS[0]}"><title>${esc(rows[0][cat])}: ${esc(rows[0][val])}</title></circle></svg>`;
+    } else {
+      let a0 = -Math.PI / 2, paths = '';
+      rows.forEach((r, i) => {
+        const a1 = a0 + 2 * Math.PI * (r[val] / total);
+        const large = (a1 - a0) > Math.PI ? 1 : 0;
+        const x0 = 60 + 50 * Math.cos(a0), y0 = 60 + 50 * Math.sin(a0);
+        const x1 = 60 + 50 * Math.cos(a1), y1 = 60 + 50 * Math.sin(a1);
+        paths += `<path d="M60,60 L${x0.toFixed(2)},${y0.toFixed(2)} A50,50 0 ${large} 1 ${x1.toFixed(2)},${y1.toFixed(2)} Z" fill="${CHART_COLORS[i % CHART_COLORS.length]}"><title>${esc(r[cat])}: ${esc(r[val])}</title></path>`;
+        a0 = a1;
+      });
+      body = `<svg viewBox="0 0 120 120" width="160" height="160" role="img" aria-label="pie of ${esc(val)} by ${esc(cat)}">${paths}</svg>`;
+    }
+  } else {
+    const max = Math.max(...rows.map(r => r[val]));
+    body = '<div style="flex:1;min-width:280px">' + rows.map((r, i) =>
+      `<div class="bar-row"><span class="bar-label">${esc(r[cat])}</span><span class="bar-track"><span class="bar-fill" style="width:${(100 * r[val] / max).toFixed(1)}%;background:${CHART_COLORS[i % CHART_COLORS.length]}"></span></span><b>${esc(r[val])}</b></div>`).join('') + '</div>';
+  }
+  out.appendChild(el(`<div class="card"><h2 style="margin-top:0">${esc(val)} by ${esc(cat)} — every ${kind === 'pie' ? 'slice' : 'bar'} is a cited answer row</h2>
+    <div class="chart-wrap">${body}<div class="onto-legend chart-legend">${legend}</div></div>
+    ${override ? `<p class="meta">${esc(override)}</p>` : ''}</div>`));
+}
+
 function renderMetrics(nl, execution) {
   const box = document.getElementById('metrics');
   box.innerHTML = '';
@@ -508,6 +575,7 @@ async function post(payload, out, stat) {
     stat.innerHTML='';
     if (!r.ok) { out.appendChild(el(`<div class="card err"><b>${r.status}:</b> ${esc(d.detail||JSON.stringify(d))}</div>`)); return; }
     renderMetrics(d.nl_metrics, d.execution_metrics);
+    renderPresentation(d, out);
     render(d, out);
     markOntologyActive(d);
   } catch(e) { stat.innerHTML=`<span class="err">${esc(''+e)}</span>`; }
