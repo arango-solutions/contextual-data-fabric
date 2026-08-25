@@ -222,3 +222,31 @@ def test_service_refuses_question_without_nl_or_prepared():
     env = service.federate_question("anything")
     assert env.status == "refused"
     assert "no NL front-end" in (env.refusal_reason or "")
+
+
+def test_prompt_teaches_the_e15_fragment():
+    """#13: the prompt must ALLOW what E1.5 partitions (simple FILTER conjuncts,
+    single-source OPTIONAL) and still forbid what the planner refuses — the NL
+    path must not be artificially weaker than the prepared-question registry."""
+    prompt = build_system_prompt(_catalog())
+    assert "FILTER(?var op literal)" in prompt
+    assert "OPTIONAL {" in prompt or "OPTIONAL { ... }" in prompt
+    assert "FILTER(?amount > 1000)" in prompt  # the worked example
+    # Hard prohibitions stay named.
+    assert "UNION" in prompt and "aggregation" in prompt
+    # The old blanket prohibition is gone.
+    assert "Do NOT use FILTER" not in prompt
+
+
+def test_validated_filter_query_passes_the_nl_path():
+    """A model reply using an E1.5 FILTER validates (no repair round) — proving
+    the loop accepts the fragment the prompt now teaches."""
+    reply = (
+        "PREFIX c: <urn:arango-sparql:concept#>\n"
+        "SELECT ?name WHERE { ?a a c:Account ; c:name ?name ; c:arr ?arr .\n"
+        "FILTER(?arr > 10000) }"
+    )
+    client = _FakeClient([reply])
+    result = nl_to_sparql("big accounts", _catalog(), client=client)
+    assert result.sparql is not None and "FILTER" in result.sparql
+    assert result.llm_calls == 1  # accepted first try — no repair round

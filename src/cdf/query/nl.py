@@ -106,8 +106,14 @@ def build_system_prompt(
         "- Type every subject: `?x a c:ClassName`.",
         "- Use on a subject ONLY the properties listed under ITS class above. Do",
         "  not borrow a property from another class (that yields an empty answer).",
-        "- Use ONLY basic triple patterns. Do NOT use FILTER, OPTIONAL, UNION,",
-        "  MINUS, BIND, GRAPH, subqueries, or aggregation.",
+        "- Allowed patterns: basic triples, plus SIMPLE filters and optionals:",
+        "  * FILTER of the form `FILTER(?var op literal)` with op one of",
+        "    < <= = != >= > — conjunctions with && are fine. NOTHING else in a",
+        "    FILTER: no REGEX/CONTAINS/functions, no ||, no `?x op ?y`.",
+        "  * OPTIONAL { ... } whose triples all belong to ONE source's class(es)",
+        "    and introduce only variables used nowhere else.",
+        "- Do NOT use UNION, MINUS, BIND, GRAPH, subqueries, or aggregation",
+        "  (COUNT/SUM/GROUP BY) — those are refused by the engine.",
         "- To join across sources, reuse the SAME variable for a shared property",
         "  that both entities carry (e.g. c:account_id) — that is the join key.",
         '- When the question refers to an entity (e.g. "for each account"), return',
@@ -123,6 +129,11 @@ def build_system_prompt(
         "  SELECT ?labelA ?propB WHERE {",
         "    ?a a c:ClassA ; c:shared_key ?k ; c:labelA ?labelA .",
         "    ?b a c:ClassB ; c:shared_key ?k ; c:propB  ?propB .",
+        "  }",
+        "A range condition rides a simple FILTER on a bound variable:",
+        "  SELECT ?labelA ?amount WHERE {",
+        "    ?a a c:ClassA ; c:labelA ?labelA ; c:amount ?amount .",
+        "    FILTER(?amount > 1000)",
         "  }",
     ]
     return "\n".join(lines)
@@ -296,8 +307,10 @@ def nl_to_sparql(
                 plan = partition_query(sparql, catalog)
             except UnsupportedQueryError as exc:
                 feedback = (
-                    f"{exc} Use only basic triple patterns "
-                    "(no FILTER/OPTIONAL/UNION/BIND/aggregation)."
+                    f"{exc} Allowed: basic triples, FILTER(?var op literal) "
+                    "conjunctions, and single-source OPTIONAL groups. Not "
+                    "allowed: UNION/MINUS/BIND/GRAPH/subqueries/aggregation, "
+                    "REGEX or other filter functions, and cross-source OPTIONAL."
                 )
             except Exception as exc:  # noqa: BLE001 — surface any parse error to the model
                 feedback = (
