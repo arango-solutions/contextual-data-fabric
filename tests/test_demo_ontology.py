@@ -109,3 +109,61 @@ def test_page_embeds_the_ontology_panel():
     assert "initOntologyMap(__ONTOLOGY__)" in page
     assert "markOntologyActive(d)" in page
     assert 'id="ontomap"' in page
+
+
+def test_relationship_details_pass_through():
+    """Structured relationship edges (type/from/to) reach the payload — a
+    diagram is unreadable without them."""
+    vocab = _vocab(
+        ("postgresql:crm", "postgresql", "crm",
+         [("Account", ("accountId", "accountName")),
+          ("Contract", ("accountId", "contractId"))]),
+    )
+    vocab[0]["relationshipDetails"] = [
+        {"type": "contractsToAccounts", "from": "Contract", "to": "Account"}
+    ]
+    payload = demo_ontology.build_ontology_payload(vocab)
+    assert payload["sources"][0]["relationshipDetails"] == [
+        {"type": "contractsToAccounts", "from": "Contract", "to": "Account"}
+    ]
+
+
+def test_spine_edges_connect_carriers_to_the_hub_across_sources():
+    payload = demo_ontology.build_ontology_payload(TWO_SOURCES)
+    spine = payload["spine"]
+    # Document (arango) carries accountId -> hub Account (postgres); the hub
+    # itself gets no self-edge.
+    assert {"key": "accountId", "from": "Document", "fromSource": "arango:cmf",
+            "to": "Account", "toSource": "postgresql:crm"} in spine
+    assert all(e["from"] != "Account" for e in spine)
+
+
+def test_spine_yields_to_declared_relationships():
+    """A declared FK between a pair outranks the inferred spine edge — one
+    edge per pair, the stronger one."""
+    vocab = _vocab(
+        ("postgresql:crm", "postgresql", "crm",
+         [("Account", ("accountId",)), ("Contract", ("accountId",))]),
+    )
+    vocab[0]["relationshipDetails"] = [
+        {"type": "contractsToAccounts", "from": "Contract", "to": "Account"}
+    ]
+    payload = demo_ontology.build_ontology_payload(vocab)
+    assert payload["spine"] == []  # the declared edge covers the only pair
+
+
+def test_spine_draws_nothing_for_a_hubless_key():
+    """A join key naming no catalog entity draws no edges — never a guess."""
+    vocab = _vocab(
+        ("postgresql:crm", "postgresql", "crm",
+         [("Contract", ("tenantId", "contractId"))]),
+    )
+    payload = demo_ontology.build_ontology_payload(vocab, join_keys=("tenantId",))
+    assert payload["spine"] == []
+
+
+def test_page_embeds_the_diagram():
+    page = (REPO / "deploy/demo/server.py").read_text()
+    assert 'id="onto-diagram"' in page
+    assert "renderOntologyDiagram(" in page
+    assert "ed-spine" in page and "onto-arrow" in page

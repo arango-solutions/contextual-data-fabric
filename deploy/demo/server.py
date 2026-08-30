@@ -245,6 +245,22 @@ PAGE = """<!doctype html>
   .od { font-size:11px; margin-left:4px; }
   .od-hub { color:var(--ok); } .od-coll { color:var(--refuse); } .od-cacc { color:var(--muted); }
   .od-syn { color:var(--partial); }
+  /* Ontology DIAGRAM — classes as boxes, declared relationships as solid
+     arrows, the join spine as dashed links; colors match the source badges. */
+  .onto-diagram { width:100%; margin-top:12px; border:1px solid var(--line);
+    border-radius:10px; background:var(--code); }
+  .onto-diagram text { font:11px -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    fill:var(--ink); }
+  .onto-diagram .nd-title { font-size:12px; font-weight:700; }
+  .onto-diagram .nd-prop { font:10px ui-monospace,Menlo,monospace; fill:var(--muted); }
+  .onto-diagram .nd-prop.key { fill:var(--ok); }
+  .onto-diagram .nd-more { font-size:9.5px; fill:var(--muted); font-style:italic; }
+  .onto-diagram .nd-box { fill:var(--panel); stroke-width:2; rx:8; cursor:pointer; }
+  .onto-diagram g.onto-active .nd-box { stroke-width:3.5; filter:drop-shadow(0 0 3px var(--accent)); }
+  .onto-diagram .ed-rel { stroke:var(--muted); stroke-width:1.5; fill:none; }
+  .onto-diagram .ed-spine { stroke:var(--ok); stroke-width:1.3; stroke-dasharray:5 4; fill:none; opacity:.75; }
+  .onto-diagram .ed-label { font-size:9.5px; fill:var(--muted); }
+  .onto-diagram .ed-label-bg { fill:var(--code); opacity:.9; }
   .onto-detail { margin-top:12px; border-top:1px solid var(--line); padding-top:10px; }
   .onto-prop { padding:3px 0; font-size:13px; }
   .onto-prop code { background:var(--code); padding:1px 6px; border-radius:5px;
@@ -309,7 +325,10 @@ PAGE = """<!doctype html>
       <span class="meta" style="font-weight:400">— concepts per source, join keys, overlap &amp; collisions</span>
     </summary>
     <div class="onto-legend" id="onto-legend"></div>
-    <div class="onto-cols" id="onto-cols"></div>
+    <svg id="onto-diagram" class="onto-diagram" viewBox="0 0 1000 640"
+         role="img" aria-label="Aligned ontology diagram: classes per source, relationships, join spine"></svg>
+    <details style="margin-top:10px"><summary class="meta">Concept inventory (per source, click to inspect)</summary>
+    <div class="onto-cols" id="onto-cols"></div></details>
     <p class="meta" id="onto-active-note" style="margin:10px 2px 0" hidden></p>
     <div class="onto-detail" id="onto-detail" hidden></div>
   </details>
@@ -350,6 +369,8 @@ function initOntologyMap(data) {
     + `<span class="od od-coll">&#9650; label collision (unreviewed)</span>`
     + `<span class="od od-cacc">&#9650; collision (curator-accepted)</span>`
     + `<span class="od od-syn">&#9679; synonym cluster</span>`
+    + `<span>&#10230; declared relationship (FK)</span>`
+    + `<span style="color:var(--ok)">&#x2504; shared join key (the federation spine)</span>`
     + `<span style="outline:2px solid var(--accent);outline-offset:1px;border-radius:3px;padding:0 4px">used by last query</span>`
     + `<span>&mdash; click a concept for its properties</span>`;
 
@@ -368,6 +389,116 @@ function initOntologyMap(data) {
       col.appendChild(el(`<p class="meta" style="margin:2px 0 0">relationships: ${
         src.relationships.map(esc).join(', ')}</p>`));
     cols.appendChild(col);
+  });
+
+  renderOntologyDiagram(data);
+}
+
+// ---- The diagram: hub-centered layout, FK arrows, dashed join spine --------
+const KINDVAR = {postgresql:'--pg', snowflake:'--sf', clickhouse:'--ch', arango:'--ar'};
+const kindColor = (k) => `var(${KINDVAR[k] || '--accent'})`;
+
+function relLabel(type) {
+  const m = type.match(/^(.*[a-z])To([A-Z].*)$/);
+  return m ? `${m[1]} → ${m[2][0].toLowerCase()}${m[2].slice(1)}` : type;
+}
+
+function boxSize(cls) {
+  const shown = Math.min(cls.properties.length, 4);
+  const more = cls.properties.length > 4 ? 1 : 0;
+  return {w: 170, h: 30 + 13 * shown + 11 * more + 6};
+}
+
+// Trim an edge endpoint to the target box's border so arrowheads stay visible.
+function trimTo(x1, y1, x2, y2, w, h) {
+  const dx = x1 - x2, dy = y1 - y2;
+  const tx = dx !== 0 ? (w / 2 + 4) / Math.abs(dx) : Infinity;
+  const ty = dy !== 0 ? (h / 2 + 4) / Math.abs(dy) : Infinity;
+  const t = Math.min(tx, ty, 1);
+  return [x2 + dx * t, y2 + dy * t];
+}
+
+function renderOntologyDiagram(data) {
+  const svg = document.getElementById('onto-diagram');
+  const NS = 'http://www.w3.org/2000/svg';
+  svg.innerHTML = `<defs><marker id="onto-arrow" viewBox="0 0 10 10" refX="9" refY="5"
+    markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+    <path d="M 0 0 L 10 5 L 0 10 z" fill="var(--muted)"/></marker></defs>`;
+
+  // Entities (name -> {cls, src}) and the hub (the spine's target, if any).
+  const ent = {};
+  data.sources.forEach(src => src.classes.forEach(cls => { ent[cls.name] = {cls, src}; }));
+  const hub = (data.spine && data.spine.length) ? data.spine[0].to : null;
+
+  // Layout: hub centered; satellites on an ellipse, grouped by source so each
+  // source's classes sit together (the cluster IS the visual source grouping).
+  const cx = 500, cy = 320, RX = 360, RY = 235;
+  const sats = Object.keys(ent).filter(n => n !== hub)
+    .sort((a, b) => ent[a].src.source_id.localeCompare(ent[b].src.source_id) || a.localeCompare(b));
+  const pos = {};
+  sats.forEach((name, i) => {
+    const ang = -Math.PI / 2 + i * (2 * Math.PI / sats.length);
+    pos[name] = {x: cx + RX * Math.cos(ang), y: cy + RY * Math.sin(ang)};
+  });
+  if (hub && ent[hub]) pos[hub] = {x: cx, y: cy};
+
+  const mk = (tag, attrs, text) => {
+    const n = document.createElementNS(NS, tag);
+    for (const [k, v] of Object.entries(attrs)) n.setAttribute(k, v);
+    if (text != null) n.textContent = text;
+    return n;
+  };
+
+  // Edges first (boxes draw over their ends; explicit trims keep arrows visible).
+  const edges = mk('g', {});
+  const declared = [];
+  data.sources.forEach(src => (src.relationshipDetails || []).forEach(r => declared.push(r)));
+  declared.forEach(r => {
+    const a = pos[r.from], b = pos[r.to];
+    if (!a || !b) return;
+    const sa = boxSize(ent[r.from].cls), sb = boxSize(ent[r.to].cls);
+    const [x2, y2] = trimTo(a.x, a.y, b.x, b.y, sb.w, sb.h);
+    const [x1, y1] = trimTo(b.x, b.y, a.x, a.y, sa.w, sa.h);
+    edges.appendChild(mk('line', {x1, y1, x2, y2, class: 'ed-rel', 'marker-end': 'url(#onto-arrow)'}));
+    const mx = (x1 + x2) / 2, my = (y1 + y2) / 2, label = relLabel(r.type);
+    edges.appendChild(mk('rect', {x: mx - label.length * 2.6, y: my - 7,
+      width: label.length * 5.2, height: 12, class: 'ed-label-bg', rx: 3}));
+    edges.appendChild(mk('text', {x: mx, y: my + 2.5, 'text-anchor': 'middle', class: 'ed-label'}, label));
+  });
+  (data.spine || []).forEach(s => {
+    const a = pos[s.from], b = pos[s.to];
+    if (!a || !b) return;
+    const sa = boxSize(ent[s.from].cls), sb = boxSize(ent[s.to].cls);
+    const [x2, y2] = trimTo(a.x, a.y, b.x, b.y, sb.w, sb.h);
+    const [x1, y1] = trimTo(b.x, b.y, a.x, a.y, sa.w, sa.h);
+    const line = mk('line', {x1, y1, x2, y2, class: 'ed-spine'});
+    line.appendChild(mk('title', {}, `shared join key: ${s.key}`));
+    edges.appendChild(line);
+  });
+  svg.appendChild(edges);
+
+  // Class boxes: title, ◆-marked join keys first, up to 4 properties, +n more.
+  Object.entries(pos).forEach(([name, p]) => {
+    const {cls, src} = ent[name];
+    const {w, h} = boxSize(cls);
+    const g = mk('g', {'data-cls': name, cursor: 'pointer'});
+    const box = mk('rect', {x: p.x - w / 2, y: p.y - h / 2, width: w, height: h,
+      class: 'nd-box', rx: 8, stroke: kindColor(src.kind)});
+    g.appendChild(box);
+    g.appendChild(mk('text', {x: p.x, y: p.y - h / 2 + 16, 'text-anchor': 'middle',
+      class: 'nd-title'}, name));
+    const keys = ONTO._hubs;
+    const props = [...cls.properties].sort((a, b) => (keys.has(b) - keys.has(a)) || a.localeCompare(b));
+    props.slice(0, 4).forEach((prop, i) => {
+      g.appendChild(mk('text', {x: p.x - w / 2 + 10, y: p.y - h / 2 + 32 + i * 13,
+        class: 'nd-prop' + (keys.has(prop) ? ' key' : '')},
+        (keys.has(prop) ? '◆ ' : '') + prop));
+    });
+    if (cls.properties.length > 4)
+      g.appendChild(mk('text', {x: p.x - w / 2 + 10, y: p.y - h / 2 + 32 + 4 * 13,
+        class: 'nd-more'}, `+${cls.properties.length - 4} more — click`));
+    g.addEventListener('click', () => showConcept(src, cls));
+    svg.appendChild(g);
   });
 }
 
@@ -414,10 +545,10 @@ function markOntologyActive(d) {
   const names = new Set(); const re = /[#:]([A-Za-z_][A-Za-z0-9_]*)/g;
   let m; while ((m = re.exec(text))) names.add(m[1]);
   const touched = [];
-  document.querySelectorAll('.onto-ent').forEach(b => {
+  document.querySelectorAll('.onto-ent, #onto-diagram g[data-cls]').forEach(b => {
     const on = names.has(b.dataset.cls);
     b.classList.toggle('onto-active', on);
-    if (on) touched.push(b.dataset.cls);
+    if (on && !touched.includes(b.dataset.cls)) touched.push(b.dataset.cls);
   });
   const note = document.getElementById('onto-active-note');
   note.hidden = !touched.length;

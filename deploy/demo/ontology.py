@@ -29,6 +29,58 @@ logger = logging.getLogger(__name__)
 DEFAULT_JOIN_KEYS = ("accountId",)
 
 
+def _hub_entity_for_key(key: str) -> str:
+    """The entity a join key names under CC-12: ``accountId`` → ``Account``.
+
+    Convention-derived, then verified against the catalog by the caller — a
+    key with no matching entity yields no spine edges rather than a guess.
+    """
+    stem = key[:-2] if key.endswith("Id") else key
+    return stem[:1].upper() + stem[1:]
+
+
+def _spine_edges(
+    sources: list[dict[str, Any]], join_keys: tuple[str, ...]
+) -> list[dict[str, str]]:
+    """Dashed diagram edges: join-key carriers → the key's hub entity."""
+    entity_source = {
+        cls["name"]: src["source_id"] for src in sources for cls in src["classes"]
+    }
+    # A declared relationship (an actual FK) between a pair outranks the
+    # inferred spine edge — draw one edge per pair, the stronger one.
+    declared_pairs = {
+        frozenset((rel["from"], rel["to"]))
+        for src in sources
+        for rel in src.get("relationshipDetails", [])
+    }
+    edges: list[dict[str, str]] = []
+    for key in join_keys:
+        hub = _hub_entity_for_key(key)
+        if hub not in entity_source:
+            logger.info(
+                "ontology map: join key %r names no catalog entity (%r) — "
+                "no spine edges drawn for it", key, hub,
+            )
+            continue
+        for src in sources:
+            for cls in src["classes"]:
+                if (
+                    cls["name"] != hub
+                    and key in cls["properties"]
+                    and frozenset((cls["name"], hub)) not in declared_pairs
+                ):
+                    edges.append(
+                        {
+                            "key": key,
+                            "from": cls["name"],
+                            "fromSource": src["source_id"],
+                            "to": hub,
+                            "toSource": entity_source[hub],
+                        }
+                    )
+    return edges
+
+
 def build_ontology_payload(
     vocabulary: list[dict[str, Any]],
     *,
@@ -52,6 +104,8 @@ def build_ontology_payload(
                 "ref": src["ref"],
                 "classes": src["classes"],
                 "relationships": src["relationships"],
+                # Structured edges — a diagram is unreadable without them.
+                "relationshipDetails": src.get("relationshipDetails", []),
             }
         )
         for cls in src["classes"]:
@@ -78,6 +132,13 @@ def build_ontology_payload(
     return {
         "sources": sources,
         "joinKeys": list(join_keys),
+        # Cross-source join-SPINE edges for the diagram: every entity carrying a
+        # declared join key connects (dashed) to that key's hub entity. The hub
+        # is inferred by the CC-12 naming convention — `accountId` names the
+        # `Account` entity's key — and verified to exist; keys whose hub isn't
+        # in the catalog draw no spine (declared elsewhere, e.g. a future
+        # cross-fabric key), never a guessed edge.
+        "spine": _spine_edges(sources, join_keys),
         "overlap": {
             "hubs": [
                 {

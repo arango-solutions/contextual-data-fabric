@@ -245,6 +245,10 @@ class SourceCatalog:
         self._class_properties: dict[str, set[str]] = {}
         # source_id -> relationship (object-property) local-names it exposes.
         self._relationships: dict[str, set[str]] = {}
+        # Structured relationship shapes per source: (type, fromEntity, toEntity).
+        # `vocabulary()` emits both — the flat names (the NL schema card's need)
+        # and the structure (a diagram is unreadable without edges).
+        self._relationship_details: dict[str, set[tuple[str, str, str]]] = {}
         # source_id -> validated optional CSI statistics.
         self._statistics: dict[str, SourceStatistics] = {}
         # Additive M11 catalog metadata. Legacy CSI-directory catalogs leave
@@ -307,6 +311,9 @@ class SourceCatalog:
             if rtype:
                 self._property_sources.setdefault(self.iri(rtype), set()).add(source)
                 self._relationships.setdefault(source.source_id, set()).add(rtype)
+                self._relationship_details.setdefault(source.source_id, set()).add(
+                    (rtype, rel.get("fromEntity") or "", rel.get("toEntity") or "")
+                )
 
         return source
 
@@ -424,6 +431,12 @@ class SourceCatalog:
                     "ref": src.ref,
                     "classes": [],
                     "relationships": sorted(self._relationships.get(src.source_id, set())),
+                    "relationshipDetails": [
+                        {"type": r[0], "from": r[1], "to": r[2]}
+                        for r in sorted(
+                            self._relationship_details.get(src.source_id, set())
+                        )
+                    ],
                     **self.safe_metadata_for(src),
                 },
             )
