@@ -30,8 +30,8 @@
           }
         ],
         "source": "baseline",
-        "lastValidatedAt": "2026-08-05T19:00:59Z",
-        "firstSeenAt": "2026-08-05T19:00:59Z"
+        "lastValidatedAt": "2026-08-30T23:10:52Z",
+        "firstSeenAt": "2026-08-30T23:10:52Z"
       },
       {
         "name": "Document",
@@ -73,8 +73,8 @@
           }
         ],
         "source": "baseline",
-        "lastValidatedAt": "2026-08-05T19:00:59Z",
-        "firstSeenAt": "2026-08-05T19:00:59Z"
+        "lastValidatedAt": "2026-08-30T23:10:52Z",
+        "firstSeenAt": "2026-08-30T23:10:52Z"
       },
       {
         "name": "Ticket",
@@ -100,11 +100,17 @@
           }
         ],
         "source": "baseline",
-        "lastValidatedAt": "2026-08-05T19:00:59Z",
-        "firstSeenAt": "2026-08-05T19:00:59Z"
+        "lastValidatedAt": "2026-08-30T23:10:52Z",
+        "firstSeenAt": "2026-08-30T23:10:52Z"
       }
     ],
-    "relationships": [],
+    "relationships": [
+      {
+        "type": "chunksToDocuments",
+        "fromEntity": "Chunk",
+        "toEntity": "Document"
+      }
+    ],
     "properties": []
   },
   "arangoPhysicalMapping": {
@@ -130,8 +136,8 @@
           }
         },
         "source": "baseline",
-        "lastValidatedAt": "2026-08-05T19:00:59Z",
-        "firstSeenAt": "2026-08-05T19:00:59Z"
+        "lastValidatedAt": "2026-08-30T23:10:52Z",
+        "firstSeenAt": "2026-08-30T23:10:52Z"
       },
       "Document": {
         "style": "COLLECTION",
@@ -163,8 +169,8 @@
           }
         },
         "source": "baseline",
-        "lastValidatedAt": "2026-08-05T19:00:59Z",
-        "firstSeenAt": "2026-08-05T19:00:59Z"
+        "lastValidatedAt": "2026-08-30T23:10:52Z",
+        "firstSeenAt": "2026-08-30T23:10:52Z"
       },
       "Ticket": {
         "style": "COLLECTION",
@@ -184,12 +190,23 @@
           }
         },
         "source": "baseline",
-        "lastValidatedAt": "2026-08-05T19:00:59Z",
-        "firstSeenAt": "2026-08-05T19:00:59Z"
+        "lastValidatedAt": "2026-08-30T23:10:52Z",
+        "firstSeenAt": "2026-08-30T23:10:52Z"
       }
     },
     "relationships": {},
     "shardFamilies": []
+  },
+  "provenance": {
+    "producer": "arango-schema-analyzer",
+    "producerVersion": "0.11.0",
+    "direction": "reverse",
+    "source": {
+      "kind": "arango",
+      "ref": "cmf"
+    },
+    "generatedAt": "2026-08-30T23:10:52Z",
+    "confidence": 0.1
   },
   "statistics": {
     "version": "1",
@@ -227,16 +244,5 @@
         }
       }
     }
-  },
-  "provenance": {
-    "producer": "arango-schema-analyzer",
-    "producerVersion": "0.11.0",
-    "direction": "reverse",
-    "source": {
-      "kind": "arango",
-      "ref": "cmf"
-    },
-    "generatedAt": "2026-08-05T19:00:59Z",
-    "confidence": 0.1
   }
 }

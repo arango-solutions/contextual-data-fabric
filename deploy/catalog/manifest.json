@@ -1,8 +1,8 @@
 {
   "catalogManifestVersion": "1",
   "conceptBase": "urn:arango-sparql:concept#",
-  "contentHash": "ebab67ccb06a21bad1ec21fc1e987e2843bdd762b664d452415f9d3e4d81b06c",
-  "generation": "sha256:7ddc2e75e686ad30739b9fd159e5787400164573d98aad7cc5547eddf5d4478d",
+  "contentHash": "694ba635fbf7eb8feee8e39d7dafa4380c58c72e489d27f3c557596667e3fb7c",
+  "generation": "sha256:6cf3a0eb247de754a4bdd0ca3b93adf58d04da0315385beecce4b6d5c9fc509e",
   "sources": [
     {
       "auth": {
@@ -16,10 +16,10 @@
       ],
       "csi": {
         "direction": "reverse",
-        "generation": "2026-08-05T19:00:59Z",
+        "generation": "2026-08-30T23:10:52Z",
         "path": "deploy/csi/arango-cmf.json",
         "producer": "arango-schema-analyzer",
-        "sha256": "2933f4fec7609e0b279490071f75ee32a7a89debbf669d43979c1946f035d924"
+        "sha256": "31d10c7b5eda08f6630798112d8f3c6585fd96b293e4514dd6e7259a251d7bf9"
       },
       "entitlements": {
         "allowedRoles": [],

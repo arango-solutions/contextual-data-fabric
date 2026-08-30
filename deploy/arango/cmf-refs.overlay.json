@@ -1,0 +1,11 @@
+{
+  "_comment": "Declared attribute references for the cmf graph. ASA derives relationships ONLY from edge collections (correct for property graphs), but this corpus encodes its references as document ATTRIBUTES — the document-store twin of RSA's natural-key blindness on CRM (see deploy/mappings/crm-keys.overlay.json). Each declaration is VERIFIED against the live database at export time (full containment of non-null values) and the export FAILS loudly on a broken declaration — a curator statement that stops being true must announce itself, never silently drop an edge. Emitted into conceptualModel.relationships as structural metadata; there is no physical edge collection, so the relationship is not a queryable predicate (the join rides the shared documentId attribute, which already is).",
+  "references": [
+    {
+      "fromCollection": "chunks",
+      "attribute": "document_id",
+      "toCollection": "documents",
+      "toAttribute": "_key"
+    }
+  ]
+}
