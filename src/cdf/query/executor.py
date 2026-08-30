@@ -39,11 +39,18 @@ from cdf.connectors.delegation import (
     SourceExecutionContext,
 )
 from cdf.connectors.redaction import scrub_exception
-from cdf.governance import (
+
+# Deep imports from the governance LEAF modules (contracts/runtime), not the
+# package facade: cdf.governance/__init__ itself imports cdf.query (via
+# composition), so a facade import here re-enters a partially initialized
+# package whenever cdf.governance is imported first (issue #20).
+from cdf.governance.contracts import (
     AuthorizationEvent,
     AuthorizationFailure,
     AuthorizationRefusal,
     PlanAuthorization,
+)
+from cdf.governance.runtime import (
     authorization_events_for_source,
     verify_authorized_rows,
 )

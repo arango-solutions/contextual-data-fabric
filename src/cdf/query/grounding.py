@@ -29,14 +29,16 @@ from dataclasses import dataclass, replace
 from typing import Any
 
 from cdf.auth import RequestMetadata
-from cdf.governance import (
+
+# Leaf-module imports, not the cdf.governance facade — see executor.py's note
+# on the import cycle (issue #20).
+from cdf.governance.contracts import (
     AuthorizationEvent,
     AuthorizationRefusal,
     MaskingKeyResolver,
     PlanAuthorization,
-    mask_bindings,
-    postflight_refusal,
 )
+from cdf.governance.runtime import mask_bindings, postflight_refusal
 from cdf.resolution import (
     ResolutionEvent,
     ResolutionLegMetrics,
