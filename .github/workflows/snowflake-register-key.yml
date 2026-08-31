@@ -1,0 +1,84 @@
+# Self-service Snowflake key registration/rotation (CC-7).
+#
+# Registers a NEW RSA public key on the user CI already authenticates as —
+# using the existing key-pair secrets (password auth is MFA-blocked for
+# person-type users since the account's trial->paid conversion). Snowflake
+# permits a user to manage their own RSA keys, so this needs no elevated role.
+#
+# Scope guarantees:
+#   - alters ONLY the connecting user (CURRENT_USER()) — never another user
+#   - the input is a PUBLIC key, validated to base64 charset before it is
+#     placed in SQL (nothing injectable can reach the statement)
+#   - additive by default (slot RSA_PUBLIC_KEY_2); the CI key keeps working
+name: snowflake-register-key
+
+on:
+  workflow_dispatch:
+    inputs:
+      public_key:
+        description: "PEM body of the NEW public key (base64, no BEGIN/END lines)"
+        required: true
+      key_slot:
+        description: "Which slot to set"
+        type: choice
+        default: RSA_PUBLIC_KEY_2
+        options: [RSA_PUBLIC_KEY_2, RSA_PUBLIC_KEY]
+
+jobs:
+  register:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    env:
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+      SNOWFLAKE_WAREHOUSE: ${{ secrets.SNOWFLAKE_WAREHOUSE }}
+      SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
+      SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE }}
+      NEW_PUBLIC_KEY: ${{ inputs.public_key }}
+      KEY_SLOT: ${{ inputs.key_slot }}
+    steps:
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - run: pip install snowflake-connector-python cryptography
+      - name: Materialize the CI private key
+        env:
+          SNOWFLAKE_PRIVATE_KEY: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+        run: |
+          test -n "$SNOWFLAKE_PRIVATE_KEY"
+          umask 077
+          printf '%s' "$SNOWFLAKE_PRIVATE_KEY" > "$RUNNER_TEMP/snowflake-key.p8"
+          echo "SNOWFLAKE_PRIVATE_KEY_FILE=$RUNNER_TEMP/snowflake-key.p8" >> "$GITHUB_ENV"
+      - name: Register the key on the connecting user
+        run: |
+          python - <<'EOF'
+          import os, re
+          import snowflake.connector
+
+          key = re.sub(r"\s+", "", os.environ["NEW_PUBLIC_KEY"])
+          key = key.replace("-----BEGINPUBLICKEY-----", "").replace("-----ENDPUBLICKEY-----", "")
+          if not re.fullmatch(r"[A-Za-z0-9+/=]{200,}", key):
+              raise SystemExit("public_key does not look like a PEM body (base64)")
+          slot = os.environ["KEY_SLOT"]
+          if slot not in ("RSA_PUBLIC_KEY", "RSA_PUBLIC_KEY_2"):
+              raise SystemExit(f"invalid key slot {slot!r}")
+
+          conn = snowflake.connector.connect(
+              account=os.environ["SNOWFLAKE_ACCOUNT"],
+              user=os.environ["SNOWFLAKE_USER"],
+              role=os.getenv("SNOWFLAKE_ROLE") or None,
+              warehouse=os.getenv("SNOWFLAKE_WAREHOUSE") or None,
+              private_key_file=os.environ["SNOWFLAKE_PRIVATE_KEY_FILE"],
+              private_key_file_pwd=(os.getenv("SNOWFLAKE_PRIVATE_KEY_PASSPHRASE") or "").encode() or None,
+          )
+          cur = conn.cursor()
+          me = cur.execute("SELECT CURRENT_USER()").fetchone()[0]
+          quoted = '"' + me.replace('"', '""') + '"'
+          cur.execute(f"ALTER USER {quoted} SET {slot} = '{key}'")
+          props = {row[0]: row[1] for row in cur.execute(f"DESC USER {quoted}").fetchall()}
+          fp = props.get(slot + "_FP")
+          conn.close()
+          if not fp:
+              raise SystemExit(f"{slot} fingerprint missing after ALTER — registration did not stick")
+          print(f"registered {slot} on {me}; fingerprint: {fp}")
+          EOF
