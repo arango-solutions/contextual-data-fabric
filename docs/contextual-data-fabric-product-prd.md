@@ -348,11 +348,24 @@ M1–M10 stand. The product adds four, honoring "composable, not monolithic":
 | **M11** | **Fabric Catalog** | The metadata graph in the hub: sources, schemas (versioned), mappings, statistics/profiles/sketches, capabilities, indexes, join keys, embedding spaces, entitlements, delivery modes + watermarks. One write contract for all feeders; OpenLineage export | RSA, ASA, r2g, AOE, hub ArangoDB |
 | **M12** | **Federated Optimizer** | Statistics + cost model, join order/strategy (bind/hash/Bloom-semi-join/broadcast), parallel legs, adaptive re-planning, semantic cache, capability-aware routing, index advisor | M5, M11 |
 | **M13** | **Delivery-Mode Controller** | The federate↔virtualize↔materialize dial: CDC pipelines, topology materialization, watermark bookkeeping, workload-driven allocation (autonomy ladder L1→L3) | M4/M11, hub, CDC connectors |
-| **M14** | **Developer Surfaces** | GraphQL skin (SDL generated from ontology, compiled to the IR), admin console (onboarding wizard = productized `add-source-*` skills, catalog browser, controller review queue) | M5, M8, M11 |
+| **M14** | **Developer Surfaces** | GraphQL skin (SDL generated from ontology, compiled to the IR — an engine skin, stays here) + the fabric's **consumable UI contracts**: catalog manifest, ontology-map payload, answer envelope, `/federate`, gate status. The admin console itself (onboarding wizard, catalog browser, controller review queue) is **delegated to ArGOS** (`~/code/argos` PRD) as fabric tabs — integration #3 after its FR-10 AOE + r2g | M5, M8, M11, ArGOS |
 
 Embedding interop is deliberately **not** a module — it's a discipline spread across
 M11 (space registry), M5/M12 (fusion), M6 (canonical space), M13 (re-embed on
 materialize), governed by one ADR.
+
+**M14 composition rules (re-scoped 2026-08-31).** (1) **No second ontology UI**:
+concept curation, alignment review, and belief revision stay in AOE's
+object-centric workspace; fabric surfaces deep-link into it. (2) **No fabric-local
+console**: the overarching UI is **ArGOS** — the portfolio's context/governance/
+provenance plane — whose context contract opens each tool already bound to the
+right project, ontology, and sources. CDF's job is to be excellently consumable:
+the demo page (M9) stays self-contained and standalone, and every console need
+ships as an ArGOS tab against CDF's contracts. Two cross-PRD seams are tracked in
+ArGOS §9: **Q-10** (one source registry — its FR-3 vs our ADR-0003 manifest/M11;
+decide derivation direction before its M1) and **Q-11** (one ontology-relative
+policy vocabulary — its FR-5 vs our ADR-0004/M8; PDP-shared, PEP-distinct, with
+the fabric's data-plane decisions never blocking on a portfolio-plane call).
 
 ---
 
@@ -403,7 +416,7 @@ target on PJ's corpus; the advisor produces a real index recommendation.
 | P5.1 | **CDC ingestion** for two engines (Postgres logical decoding, Snowflake Streams) with watermarks in the catalog | Q8 |
 | P5.2 | **Topology virtualization** (Option A): keys+edges into hub, on-demand property hydration, invalidation via CDC | Q9 |
 | P5.3 | **Mode-aware envelope**: served-from + watermark per leg; equivalence goldens (same answer, all three modes) | Q8/Q9 |
-| P5.4 | **Allocation controller L1→L2**: workload observation, recommendations with reasoning, gated application as audited catalog transactions | Q8 |
+| P5.4 | **Allocation controller L1→L2**: workload observation, recommendations with reasoning, gated application as audited catalog transactions — **including the approval surface**: L2 cannot ship without one; an interim CLI/PR-style flow is acceptable here, with the polished review queue landing as an ArGOS tab (see M14) | Q8 |
 | P5.5 | **Embedding interop**: space registry enforcement, per-space query embedding + RRF fusion, canonical hub space wired to M6, re-embed-on-materialize | Q10 |
 | P5.6 | Research spikes (flagged, gate-bounded): CSR/Rust virtualization engine vs Option A benchmark; cross-space alignment | Q9/Q10 |
 
@@ -417,7 +430,7 @@ fuses two different embedding models' results with the rule enforced.
 | WP | Work | Answers |
 |----|------|---------|
 | P6.1 | **GraphQL skin** (M14): generated SDL, IR compilation, entitlement-shaped schemas | Q3 |
-| P6.2 | **Admin console**: onboarding wizard (the `add-source-kind`/`add-source-instance` skills, productized), catalog browser, controller review queue, gate dashboard | — |
+| P6.2 | **ArGOS integration** (was: fabric-local admin console): adopt the ArGOS context contract + SDK, expose/harden the M14 contracts, and ship the fabric tabs there — onboarding wizard (the `add-source-*` skills, productized), catalog browser (graduating the P3.6 viewpoint), controller review queue (graduating P5.4's interim flow), gate dashboard | — |
 | P6.3 | **MCP semantic layer GA** (PRD §10.2): `federate()` + introspection tools, multi-tenant OBAC depth (harvest arango-cypher-py's tenant-AST work) | Q1 |
 | P6.4 | **Scale + HA**: stateless engine horizontal scaling, hub as Arango cluster, Helm/packaging, versioned APIs, OTel end-to-end (AOE's observability pattern) | — |
 | P6.5 | **FinOps**: per-question cost attribution (per-leg credits/compute — the S8 measurement, systematized), budgets, showback dashboard | — |
