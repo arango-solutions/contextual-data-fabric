@@ -101,7 +101,10 @@ pattern serialized as SPARQL ([ADR-0001](docs/architecture/module-05-federated-q
 The planner partitions it by concept ownership and compiles each partition to
 SQL or AQL. Results are joined on declared canonical keys; deployments may
 additionally inject the guarded M6/AER runtime resolver. The checked-in demo
-uses deterministic shared account IDs and keeps runtime resolution disabled.
+declares `accountId` as a cross-source join key (r2g P6.7) — the federation
+spine the per-source legs are bind-joined on (`VALUES → IN`), with no
+materialized edge — uses deterministic shared account IDs, and keeps runtime
+resolution disabled.
 M7 returns a grounded envelope with answer/leg-level citations: conceptual and
 native queries, source objects, row counts, and as-of timestamps—or a clean
 refusal when the answer cannot be supported. Field-level derivation lineage
@@ -152,7 +155,7 @@ broader automated extraction, alignment, human-review, and temporal belief-
 revision flow below spans owned repositories and remains the North Star; it is
 not claimed as an end-to-end implementation in this checkout.
 
-Each source's **schema** is analyzed into a **source ontology**: relational schemas via `relational-schema-analyzer` (tables, keys, FKs → concepts/properties), existing ArangoDB graphs via `arangodb-schema-analyzer`, and unstructured corpora via AOE's LLM extraction pipeline — all scoped by the **competency questions** in [use-cases.md](docs/use-cases.md) (extract what the questions need, never boil the ocean). The per-source ontologies are then **aligned** (M3, AOE §6.17): embedding retrieval proposes cross-source correspondences, multi-signal scoring auto-resolves the clear cases, an LLM adjudicates only the borderline band, and a human confirms the last ~2%. The result is the **master ontology** — `customer account` ≡ `client account` ≡ `account`, with equivalence axioms materialized — plus the **functional mappings** (CSI v1, exported as R2RML for SQL and MappingBundle for AQL) that make the query-time partitioning and translation deterministic. The ontology is temporal-versioned: source changes cascade through belief revision rather than rebuilding.
+Each source's **schema** is analyzed into a **source ontology**: relational schemas via `relational-schema-analyzer` (tables, keys, FKs → concepts/properties), existing ArangoDB graphs via `arangodb-schema-analyzer`, and unstructured corpora via AOE's LLM extraction pipeline — all scoped by the **competency questions** in [use-cases.md](docs/use-cases.md) (extract what the questions need, never boil the ocean). The per-source ontologies are then **aligned** (M3, AOE §6.17): embedding retrieval proposes cross-source correspondences, multi-signal scoring auto-resolves the clear cases, an LLM adjudicates only the borderline band, and a human confirms the last ~2%. The result is the **master ontology** — `customer account` ≡ `client account` ≡ `account`, with equivalence axioms materialized — plus the **functional mappings** — **CSI v1**, the forward-direction interchange **r2g** produces (`r2g export-csi`), pairing the conceptual model with its ArangoDB physical mapping, exported as **R2RML** for the relational legs (`r2g export-r2rml`) and shimmed to a **MappingBundle** for AQL — that make the query-time partitioning and translation deterministic. Exported conceptual names follow the CC-12 OWL convention (classes singular PascalCase, properties lowerCamel — `Account`/`accountId`, not `accounts`/`account_name`), while logical tables and columns stay physical. The ontology is temporal-versioned: source changes cascade through belief revision rather than rebuilding.
 
 Three practicalities that matter at enterprise scale:
 
@@ -189,7 +192,7 @@ flowchart TB
     O3 --> AL["Alignment (M3 / AOE §6.17):<br/>embedding retrieval → multi-signal scoring →<br/>selective LLM adjudication → human confirms ~2%"]
 
     AL --> MO[("Master ontology<br/>(equivalence axioms materialized,<br/>temporal-versioned)")]
-    MO --> MAP["Functional mappings (M4):<br/>CSI v1 → R2RML (SQL side)<br/>→ MappingBundle (AQL side)"]
+    MO --> MAP["Functional mappings (M4):<br/>r2g forward CSI v1 (export-csi)<br/>→ R2RML (SQL side)<br/>→ MappingBundle (AQL side)"]
 
     MO -.->|"consulted by"| QT["Query-time flow (above)"]
     MAP -.->|"drives partitioning + translation"| QT

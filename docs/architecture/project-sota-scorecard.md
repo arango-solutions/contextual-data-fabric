@@ -115,11 +115,16 @@ Denodo, and Starburst/Trino.
 
 **Current evidence:** an authoritative, content-hashed manifest covers ten
 classes, source ownership, mappings, join keys, statistics, entitlements,
-runtime resolution, and auth mode. Catalog integrity rebuilds exactly.
+runtime resolution, and auth mode. The r2g-produced forward CSI applies the
+CC-12 OWL naming convention (classes singular PascalCase, properties lowerCamel),
+and `accountId` is declared as the P6.7 cross-source join key that the federated
+legs bind-join on with no materialized edge. Catalog integrity rebuilds exactly.
 
-**Why it is not SOTA-proven:** the demo CSI declares no typed relationships and
-does not publish an OWL 2 QL, SHACL, reasoning, alignment-quality, or metric
-reproducibility benchmark.
+**Why it is not SOTA-proven:** only the relational CRM source's CSI declares
+typed intra-source relationships (the Snowflake, ClickHouse, and graph CSIs
+declare none), so the "typed relationships across at least five heterogeneous
+sources" threshold is unmet; and the demo does not publish an OWL 2 QL, SHACL,
+reasoning, alignment-quality, or metric reproducibility benchmark.
 
 **Leadership threshold:** 25+ classes and typed relationships across at least
 five heterogeneous sources; OWL 2 QL or explicitly mapped equivalent; SHACL
@@ -132,7 +137,10 @@ and Cambridge Semantics Anzo.
 ### 3. Connector and source breadth — 3/5, weight 8, contribution 4.8
 
 **Current evidence:** four engine kinds are live in one federated gate:
-Postgres/Ontop, Snowflake, ClickHouse, and ArangoDB. All four are configured for
+Postgres/Ontop, Snowflake, ClickHouse, and ArangoDB. The ClickHouse leg runs on
+a native BGP→SQL executor — Ontop has no ClickHouse dialect — driven by the same
+r2g forward R2RML/CSI export as the Ontop legs; only the executor differs. All
+four are configured for
 hosted scheduled/manual CI and passed together on the feature branch used to
 land the workflow; the three local engines are merge-blocking and passed on the
 resulting `main` commit. A post-merge four-engine `main` run is still required
@@ -488,8 +496,9 @@ approach — relevant to dimensions 6 (its lineage stops at the pipeline; no
 answer-level cite-or-refuse), 7 (continuous entity resolution at ingest is
 ahead of our deterministic-join posture), and 8 (mature RBAC/lineage claims).
 The CDF's default posture is the opposite (zero-copy federation; the ontology
-moves, the data does not), but materialization is in the toolkit: r2g is the
-ETL path when copying a leg is the right call. Today r2g materializes
+moves, the data does not), but materialization is in the toolkit: the same **r2g** that
+produces the forward CSI v1 + R2RML mappings driving the federated legs is also
+the ETL path when copying a leg is the right call. Today r2g materializes
 per-source; assembling **multiple disparate sources into one materialized
 fabric is not yet plumbed**, so no score credit is claimed for it —
 materialize-vs-federate is a per-source deployment choice, not an
