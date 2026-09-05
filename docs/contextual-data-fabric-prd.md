@@ -278,6 +278,25 @@ r2g's Phase 9 lane discipline ("carry governance metadata, never launder sensiti
 ### 10.8 Deployment topology (CC-8, P1)
 The P1 demo environment is defined in `docs/architecture/deployment-p1.md`: **four live processes on one host** — Postgres + ArangoDB via a repo-owned `docker-compose.yml` (Postgres seeded from r2g's Chinook/Pagila samples), the M5 engine (FastAPI; holds all source credentials per CC-7), and the customer-context Next.js UI run locally — with the LLM API as the only external dependency. **AOE, RSA, and r2g are build-time tools**: they produce the ontology, mappings, and ingested graph *before* the demo and are not on the live path (fewer moving parts in front of the customer; everything live is inspectable AQL/SQL). Vercel hosting is a Phase-2 option, not a P1 assumption.
 
+**Owner-side extraction topology (added 2026-09-05, customer-driven — feeds RD-2/RD-5).**
+The P1 shape — one central application that introspects every source — will not
+survive contact with real data owners: a sovereignty-conscious owner (the a federal prospect
+conversation is the concrete signal) will not let a central application sample
+their databases and schemas at all. The anticipated production topology is
+therefore **distributed extraction**: RSA, AOE, and r2g packaged as separately
+deployable application instances that run **at the data owner's side**, under
+the owner's control and credentials, where the owner performs RD-1 curation and
+RD-2 exclusions locally — and only the **contracts** (curated ontology, CSI,
+R2RML mappings; never data, and not even raw schemas unless the owner chooses)
+travel to the central CDF instance. Consequences to design for: the CSI/R2RML
+artifacts are already credential-free and logical-name-keyed (CC-7), which is
+what makes them safe to travel; the extractor packages need versioned releases
+and a submission/validation seam on the CDF side (catalog admission becomes a
+*receiving* gate, not a local pipeline step); and the owner-side instances need
+their own packaging story (CC-10 grows a second deliverable class). Requirements
+firm up under RD-5's prospect interviews; this paragraph records the working
+hypothesis so no design forecloses it.
+
 ### 10.9 Dependency pinning & compatibility (CC-9, P1)
 The fabric consumes its building blocks as **versioned artifacts, never floating**. Policy:
 - **One pin table** — the compatibility matrix in the [architecture index](architecture/README.md) is the single source of truth for which version of each block the fabric currently builds against (RSA, `arangodb-schema-analyzer`, AER, the r2g Phase-12 module once it ships, AOE, customer-context @ commit).
@@ -366,7 +385,10 @@ ends:
   extraction/mapping time and enforced at catalog admission (upstream of M8's
   query-time OBAC, which governs who may *ask*; RD-2 governs what *exists to be
   asked about*). Extends Q-11's policy vocabulary and the manifest's
-  entitlements.
+  entitlements. The likely delivery shape is CC-8's **owner-side extraction
+  topology** (§10.8): the owner runs the extractors themselves and ships only
+  curated contracts — consent enforced by *where the tools run*, not by trust
+  in a central sampler.
 - **RD-3 · Mapping review (HITL).** r2g-generated mappings (CSI/R2RML) must be
   reviewable and editable with curator changes surviving regeneration —
   r2g's exclusion/comment-preservation debt (roadmap WS-A) is a blocker here,
