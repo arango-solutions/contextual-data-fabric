@@ -51,7 +51,7 @@ capability registry, no text search, join intelligence undesigned-in-code, scale
 evidence level 2, estate components (RSA/ASA/r2g/AOE) carrying known
 one-workaround-deep fixes.
 
-## 1. The two workstreams this roadmap adds to the PRD
+## 1. The three workstreams this roadmap adds to the PRD
 
 ### WS-A — Estate hardening (AOE, ASA, RSA, r2g, query libs)
 
@@ -95,9 +95,17 @@ Three generators, one contract:
    gets tested on topologies we didn't hand-craft.
 3. **Denormalizer:** controlled transformations with recorded intent — embed a 1:N
    into the parent, duplicate a column across entities (a known collision), split
-   or merge tables, rename to synonyms — inverting `r2g analyze-denorm`'s smell
-   catalog into a smell *injector*. catalog-integrity, join-intelligence, and
-   alignment (M3, later) get labeled test beds instead of anecdotes.
+   or merge tables, rename to synonyms, and **strip declared constraints** (emit a
+   variant with no PKs/FKs at all, the Snowflake reality, so the *inference* path
+   is what gets tested) — inverting `r2g analyze-denorm`'s smell catalog into a
+   smell *injector*. catalog-integrity, join-intelligence, and alignment (M3,
+   later) get labeled test beds instead of anecdotes.
+
+Alongside the generated shapes, a **reference-database corpus** (PRD RD-4b): real,
+well-known schemas run through the full extract→map→federate→answer loop —
+Northwind first (r2g already trains against it), then Chinook, Sakila, and an
+AdventureWorks-class schema. Generated shapes give breadth; reference databases
+keep the forge honest against schemas humans actually wrote.
 
 **Why this is the backbone:** it unlocks WS-A validation (feeders tested against
 generated shapes, not one corpus), the scale program (S4: turn the row-count knob),
@@ -110,6 +118,28 @@ and private, and forge-generated federations are publishable by construction.
 Design lands as **ADR-0006** (S1). Home: generator core in r2g (it owns the
 mapping machinery both directions), orchestration + shape/goldens emission in CDF
 under `deploy/forge/` + `cdf.eval`.
+
+### WS-C — Customer-evaluation readiness (PRD §12, added 2026-09-05)
+
+The rung above demo-ready. The PRD's readiness ladder (§12, RD-1…RD-8) names what
+"a customer tests it in an isolated scope" requires; this workstream schedules the
+items the calendar didn't already carry:
+
+| Item | What lands | When |
+|---|---|---|
+| RD-1/RD-3 HITL loops | AOE curation + r2g mapping-review reachable as ArGOS tabs; curator edits survive regeneration (the WS-A r2g debt is the blocker) | contracts S6; consoles sequenced behind ArGOS R1–R3 |
+| RD-2 owner consent | entity/property exclusions enforced at catalog admission (Q-11 vocabulary + manifest entitlements) | design S2, enforcement S3 |
+| RD-4b reference corpus | Northwind through the full loop; Chinook/Sakila following | S3 (with the forge suite) |
+| RD-5 deployment discovery | prospect-interview kit + written deployment-requirements memo | kit S1, memo by S4 |
+| RD-6 secrets graduation | CC-7 P2: secret store behind SecretResolver; source-permission stance | S4 |
+| RD-7 user docs | operator docs skeleton (install → connect → curate → ask → read an envelope), grown per sprint | skeleton S2, gate at S8 |
+| RD-8 team process | branch protection + required review across the estate; library release trains on the CC-9 pins | before first added engineer lands code (interns: S1–S2) |
+
+**Honest statement for stakeholders:** R2 is not a date on this calendar — RD-1's
+console depends on ArGOS's roadmap, and RD-5's answers come from customers. What
+this roadmap commits to is that *every fabric-side gate* (RD-2, RD-4, RD-6, RD-7,
+RD-8 and the RD-3 contract half) is green by S8 (Feb 2027), so customer evaluation
+becomes an ArGOS-sequencing decision, not an engineering one.
 
 ---
 

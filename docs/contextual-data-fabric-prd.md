@@ -323,4 +323,75 @@ The user asking a question must be entitled to the data each leg returns; a quer
 
 Composable-blueprint build: identify sub-modules → PR per sub-module → reconcile with the super-module → iterate (catches requirements drift). **Arthur is the build gatekeeper**; others review, test, and contribute per module. Standups + on-demand check-ins for decisions. This PRD is the shared contract Arthur refactors against — comment inline / via PR.
 
+**Team scaling (added 2026-09-05, ahead of the intern/engineer ramp):** the
+one-architect cadence that built the prototype does not survive a team. Before a
+second regular contributor lands code: (a) **branch protection + required review
+on every repo in the estate** (the fabric already enforces PR-with-green-checks;
+extend to the feeder repos); (b) **release-train discipline for the published
+libraries** — arango-query-core, arango-sparql-py, RSA, ASA, r2g version and tag
+together when a contract (CSI, seams, CC-12) moves, and consumers bump via the
+CC-9 pin, never by tracking HEAD; (c) **the golden gate is the merge arbiter** —
+a change that turns the gate red does not merge, regardless of author. Expect
+coordination overhead to slow raw commit throughput; the gate + pins are what
+keep it from slowing *correctness*.
+
 *Sources: [[2026-07-13 the design partner Customer Context Roadmap]], [[the design partner Feedback Summary]], [[2026-07-10 - C360 the design partner Demo]], [[2026-07-09 - C360 field-feedback review]], [[2026-07-10 - the design partner Feedback Brainstorm]], [[C360 Example Questions]].*
+
+## 12. Readiness ladder — demo-ready is not customer-evaluable *(added 2026-09-05)*
+
+An honest maturity statement, so nobody (including us) mistakes one rung for the
+next. Each rung names its gate; a rung is claimed only when every gate item is
+green.
+
+**R1 — SA/SE demo-ready (current state).** A functional prototype a solutions
+architect can demo to a customer *without changing anything*: laptop deployment,
+three sources in local Docker + hosted Snowflake, the locked question arc +
+adversarial set golden-gated (20 live cases), happy-path only — the corpus,
+ontology, and mappings are pre-built and pre-curated, so no human-in-the-loop
+step is ever exercised. Off-script questions ride the NL front-end and may
+refuse; that refusal is correct behavior, not readiness.
+
+**R2 — customer-evaluable (isolated scope).** A customer's own team can point the
+fabric at *their* schemas in a sandbox and judge the result. Everything below is
+a hard gate, because pointing at real systems is exactly where the happy path
+ends:
+
+- **RD-1 · Ontology curation loop (HITL).** Extraction from a relational schema
+  (and the harmonized ontology across several schemas) must pass through a
+  review-modify-approve step before catalog admission — AOE's curation +
+  belief machinery reached through ArGOS tabs (per the M14 re-scope; CDF ships
+  the contracts, ArGOS ships the console). No curation, no admission.
+- **RD-2 · Source-owner consent & scoping.** The data-source owner decides which
+  entities/properties are *offered to the fabric at all* — exclusions applied at
+  extraction/mapping time and enforced at catalog admission (upstream of M8's
+  query-time OBAC, which governs who may *ask*; RD-2 governs what *exists to be
+  asked about*). Extends Q-11's policy vocabulary and the manifest's
+  entitlements.
+- **RD-3 · Mapping review (HITL).** r2g-generated mappings (CSI/R2RML) must be
+  reviewable and editable with curator changes surviving regeneration —
+  r2g's exclusion/comment-preservation debt (roadmap WS-A) is a blocker here,
+  not a nicety.
+- **RD-4 · Integration-test rigor.** Beyond unit tests and the toy round-trip
+  corpus: (a) M15 Forge-generated federation shapes — varied partitioning and
+  overlap, renamed properties, injected denormalizations, **and
+  constraint-stripped variants (schemas emitted without declared PKs/FKs, so
+  the inference path is what's tested)**; (b) a **reference-database corpus**
+  of real, well-known schemas (Northwind first; then Chinook, Sakila,
+  AdventureWorks-class) run through the full extract→map→federate→answer loop.
+- **RD-5 · Deployment-requirements discovery.** A written statement, gathered
+  from real prospects, of how customers expect to deploy and operate this —
+  starting hypothesis (from the the design partner engagement): data owners will insist on
+  controlling and curating the ontology extracted from their schemas. Feeds
+  CC-8 (topology) and RD-1/RD-2 scope.
+- **RD-6 · Secrets & source-side permissions, hardened.** CC-7's P2 graduation
+  (real secret store behind the SecretResolver seam, key-pair/OAuth per source,
+  rotation) plus a stated position on how *source-granted* permissions bound
+  what each connector may read.
+- **RD-7 · User documentation.** Operator-facing docs (install, connect a
+  source, curate, ask, read an envelope) distinct from this internal spec —
+  today none exist.
+- **RD-8 · Team process at scale.** §11's team-scaling gates in force across the
+  estate before added engineers land code.
+
+**R3 — production pilot.** Out of scope for this section; M8 OBAC full, CC-6
+cost SLOs, and the P5 delivery modes govern that rung.
