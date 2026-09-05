@@ -1,6 +1,6 @@
-# The reviewed pin: arango-solutions main as reviewed 2026-08-06, fetched via
-# the PUBLIC ArthurKeen mirror because the arango-solutions repo is private —
-# an unauthenticated `make install` (fresh clone, CI) must be able to resolve
-# it. The 40-hex SHA is the review contract; it is identical on both remotes.
-# Keep it synchronized with CI and the CC-9 dependency-pin test.
-arango-sparql-py[nl,analyzer] @ git+https://github.com/ArthurKeen/arango-sparql-py.git@603db8efeb5cd40e570d53964247ca65a80e739b
+# Authoritative reviewed pin (CC-9). Reconciled mirrors 2026-09-05: PJ's 07.6
+# path-grounding line (seams 6/7/8 wired, analytic few-shot bank, execution-
+# judge fix) merged with caller postconditions + PUBLISHED arango-query-core
+# >=0.2.0 (ArthurKeen/arango-sparql-py#11; full suite 1666 green). Same SHA on
+# both remotes; keep synchronized with CI and the CC-9 dependency-pin test.
+arango-sparql-py[nl,analyzer] @ git+https://github.com/ArthurKeen/arango-sparql-py.git@e4f64f53846d47f2b0285727e74b9facc0995adc
