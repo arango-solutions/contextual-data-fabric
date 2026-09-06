@@ -54,7 +54,7 @@ LOAD_ENV = if [ -f ./.env ]; then set -a; . ./.env; set +a; fi;
 PY = .venv/bin/python
 CK25_EVIDENCE ?= docs/evidence/ck25-gpt-4o-mini-3x.json
 
-.PHONY: install up seed gate demo test optimizer-oracle performance-baseline ck25-live sota-baseline sota-baseline-live catalog-probe catalog-integrity authorization-golden down jdbc free-ui milestone-push
+.PHONY: install up seed gate demo test optimizer-oracle performance-baseline scale-baseline ck25-live sota-baseline sota-baseline-live catalog-probe catalog-integrity authorization-golden down jdbc free-ui milestone-push
 
 install:
 	python3 -m venv .venv
@@ -139,6 +139,11 @@ optimizer-oracle:
 
 performance-baseline:
 	@$(PY) -m cdf.eval.performance_baseline
+
+# Live latency evidence at the CURRENT corpus scale (seed first):
+#   make seed scale-baseline CDF_SCALE_FACTOR=10
+scale-baseline:
+	$(LOAD_ENV) $(DEMO_ENV) $(PY) -m cdf.eval.scale_baseline
 
 ck25-live:
 	@$(PY) -m cdf.eval.ck25_eval --repetitions 3 --resume --output "$(CK25_EVIDENCE)"

@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "workload_version": "live-scale-v1",
+  "disclosure": "internal laptop-class baseline: local Docker sources + hosted Snowflake; disclosed evidence, not a public scale claim",
+  "generated_at": "2026-09-06T22:50:29+00:00",
+  "scale_factor": 100,
+  "repetitions": 5,
+  "queries": [
+    {
+      "query_id": "anchor-pg",
+      "sparql_sha256": "bd075f49be2d432c56a2701d05b39cba1b4ab461b4a9837d8e22c6c1ff365336",
+      "result_rows": 3,
+      "wall_ms": {
+        "samples": 5,
+        "min_ms": 5.853,
+        "p50_ms": 6.567,
+        "p95_ms": 152.686,
+        "max_ms": 152.686
+      },
+      "legs": {
+        "postgresql:crm": {
+          "kind": "postgresql",
+          "row_count": 3,
+          "duration_ms": 4.597,
+          "seed_row_count": 0
+        }
+      },
+      "engine_total_ms": {
+        "samples": 5,
+        "min_ms": 5.767,
+        "p50_ms": 6.468,
+        "p95_ms": 152.561,
+        "max_ms": 152.561
+      }
+    },
+    {
+      "query_id": "join-2leg-pg-arango",
+      "sparql_sha256": "21a89458ab367aee4246261b8dbf6eb137ede28eec00c7ae2705827b8c74057b",
+      "result_rows": 8000,
+      "wall_ms": {
+        "samples": 5,
+        "min_ms": 32.724,
+        "p50_ms": 33.243,
+        "p95_ms": 60.944,
+        "max_ms": 60.944
+      },
+      "legs": {
+        "arango:cmf": {
+          "kind": "arango",
+          "row_count": 8000,
+          "duration_ms": 21.223,
+          "seed_row_count": 3
+        },
+        "postgresql:crm": {
+          "kind": "postgresql",
+          "row_count": 3,
+          "duration_ms": 5.209,
+          "seed_row_count": 0
+        }
+      },
+      "engine_total_ms": {
+        "samples": 5,
+        "min_ms": 32.344,
+        "p50_ms": 32.611,
+        "p95_ms": 60.423,
+        "max_ms": 60.423
+      }
+    },
+    {
+      "query_id": "join-3leg-pg-snowflake-arango",
+      "sparql_sha256": "0f4ebd58b7b7e9b9219a8386b2f17222f4e26ccf62101bb3c6f4fe3a125b0c37",
+      "result_rows": 12720000,
+      "wall_ms": {
+        "samples": 5,
+        "min_ms": 6880.354,
+        "p50_ms": 7187.467,
+        "p95_ms": 10802.049,
+        "max_ms": 10802.049
+      },
+      "legs": {
+        "arango:cmf": {
+          "kind": "arango",
+          "row_count": 8000,
+          "duration_ms": 18.794,
+          "seed_row_count": 3
+        },
+        "postgresql:crm": {
+          "kind": "postgresql",
+          "row_count": 3,
+          "duration_ms": 10.784,
+          "seed_row_count": 0
+        },
+        "snowflake:telemetry": {
+          "kind": "snowflake",
+          "row_count": 4600,
+          "duration_ms": 687.825,
+          "seed_row_count": 3
+        }
+      },
+      "engine_total_ms": {
+        "samples": 5,
+        "min_ms": 4973.779,
+        "p50_ms": 5308.497,
+        "p95_ms": 9416.692,
+        "max_ms": 9416.692
+      }
+    },
+    {
+      "query_id": "filter-clickhouse-arango",
+      "sparql_sha256": "cf10978d98bb03816ca445ba773f5e21ff790e3350202a7ac2751c83d7adedbb",
+      "result_rows": 1010000,
+      "wall_ms": {
+        "samples": 5,
+        "min_ms": 383.281,
+        "p50_ms": 394.286,
+        "p95_ms": 949.262,
+        "max_ms": 949.262
+      },
+      "legs": {
+        "arango:cmf": {
+          "kind": "arango",
+          "row_count": 8000,
+          "duration_ms": 17.014,
+          "seed_row_count": 3
+        },
+        "clickhouse:analytics": {
+          "kind": "clickhouse",
+          "row_count": 400,
+          "duration_ms": 10.773,
+          "seed_row_count": 0
+        }
+      },
+      "engine_total_ms": {
+        "samples": 5,
+        "min_ms": 306.88,
+        "p50_ms": 318.294,
+        "p95_ms": 514.425,
+        "max_ms": 514.425
+      }
+    }
+  ]
+}

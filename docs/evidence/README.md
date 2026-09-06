@@ -26,3 +26,13 @@ The machine-readable dimension levels and weights live separately at
 that computed score alongside evidence checks. Its `passed` field means required
 checks completed successfully, not that the project crossed a SOTA promotion
 gate.
+
+## Scale baselines (`scale-baseline-<N>x.json`)
+
+Live latency at corpus scale factors 1x/10x/100x (`make seed scale-baseline
+CDF_SCALE_FACTOR=N`): four contract-shaped federated queries, five
+repetitions, wall + engine + per-leg telemetry. Laptop-class disclosed
+evidence, not a public scale claim. Headline from the 2026-09-06 run: the
+3-leg join's result set grows quadratically with the factor (join
+multiplicity), reaching 12.72M rows / ~7.2s p50 at 100x — measured
+motivation for FR-14 admission control, which today does not bound it.
