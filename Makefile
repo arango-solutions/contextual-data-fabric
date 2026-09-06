@@ -54,7 +54,7 @@ LOAD_ENV = if [ -f ./.env ]; then set -a; . ./.env; set +a; fi;
 PY = .venv/bin/python
 CK25_EVIDENCE ?= docs/evidence/ck25-gpt-4o-mini-3x.json
 
-.PHONY: install up seed gate demo test optimizer-oracle performance-baseline scale-baseline ck25-live sota-baseline sota-baseline-live catalog-probe catalog-integrity authorization-golden down jdbc free-ui milestone-push
+.PHONY: install up seed gate demo test optimizer-oracle performance-baseline scale-baseline ck25-live sota-baseline sota-baseline-live catalog-probe catalog-integrity authorization-golden down jdbc free-ui sync-secondary
 
 install:
 	python3 -m venv .venv
@@ -128,11 +128,13 @@ test: catalog-probe catalog-integrity authorization-golden
 	.venv/bin/mypy src
 	$(PY) -m pytest tests -q
 
-# Publish the paramount ArthurKeen/main to the arango-solutions mirror at a
-# milestone (see scripts/milestone-push.sh). Everyday work lands via PRs into
-# ArthurKeen; run this only when cutting a stable update for the solutions team.
-milestone-push:
-	@bash scripts/milestone-push.sh
+# Repo topology (decided 2026-09-06): arango-solutions is PRIMARY — pull from
+# it first, review every PR there. ArthurKeen is the synced SECONDARY (origin
+# carries both push URLs, org first). After a PR merges on the org, bring the
+# secondary forward:
+sync-secondary:
+	git fetch origin main
+	git push arthurkeen origin/main:refs/heads/main
 
 optimizer-oracle:
 	@$(PY) -m cdf.eval.optimizer_oracle

@@ -20,6 +20,8 @@ develop many commits on the arango-solutions mirror while `ArthurKeen` falls beh
 across orgs (`arango-schema-mapper`↔`arango-schema-extractor`, `arango-cypher-py`↔`arango-cypher`,
 `r2g-arango` both). See [[repo-mirror-topology]] and the `~/code/bin/arango-mirror` tool.
 
+**Exception (2026-09-06): `contextual-data-fabric` itself inverted** — arango-solutions is its PRIMARY and ArthurKeen the synced secondary; PRs go to the org. The generic note above still holds for the owned libraries until each repo decides otherwise.
+
 ## Protocol
 
 ### Phase 0 — CHECK BOTH MIRRORS FIRST (do not skip)
