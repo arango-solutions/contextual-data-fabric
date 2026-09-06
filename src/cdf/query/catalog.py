@@ -22,6 +22,7 @@ from typing import TYPE_CHECKING, Any
 from .types import SourceRef
 
 if TYPE_CHECKING:
+    from cdf.catalog.capabilities import SourceCapabilities
     from cdf.catalog.model import (
         AuthMetadata,
         CatalogManifest,
@@ -258,6 +259,7 @@ class SourceCatalog:
         self._join_keys: dict[str, tuple[str, ...]] = {}
         self._runtime_resolution: dict[str, RuntimeResolution] = {}
         self._auth: dict[str, AuthMetadata] = {}
+        self._capabilities: dict[str, SourceCapabilities] = {}
 
     def iri(self, name: str) -> str:
         """The conceptual IRI for a bare entity/property name."""
@@ -342,6 +344,29 @@ class SourceCatalog:
             self._join_keys[source.source_id] = source.join_keys
             self._runtime_resolution[source.source_id] = source.runtime_resolution
             self._auth[source.source_id] = source.auth
+            if source.capabilities is not None:
+                self._capabilities[source.source_id] = source.capabilities
+
+    def capabilities_for(self, source: SourceRef | str) -> SourceCapabilities:
+        """ADR-0005 D4: what this source's engine declares it can execute.
+
+        Manifest declarations win; a CSI-only catalog (no manifest applied —
+        the demo path) falls back to the per-kind executor truth in
+        :func:`cdf.catalog.capabilities.default_capabilities_for_kind`, the one
+        place legacy kind-knowledge still lives. Unknown sources are safe-deny.
+        """
+        # Function-local import: cdf.catalog.model imports this module at
+        # module level, so the reverse edge must stay lazy (cycle discipline).
+        from cdf.catalog.capabilities import NO_CAPABILITIES, default_capabilities_for_kind
+
+        source_id = source.source_id if isinstance(source, SourceRef) else source
+        declared = self._capabilities.get(source_id)
+        if declared is not None:
+            return declared
+        for candidate in self.sources:
+            if candidate.source_id == source_id:
+                return default_capabilities_for_kind(candidate.kind)
+        return NO_CAPABILITIES
 
     def generation_for(self, source: SourceRef | str) -> str | None:
         source_id = source.source_id if isinstance(source, SourceRef) else source

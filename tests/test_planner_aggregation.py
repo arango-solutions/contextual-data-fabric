@@ -103,13 +103,29 @@ def test_cross_source_aggregation_is_refused_by_name():
         partition_query(q, _catalog(PG, AR))
 
 
-def test_aggregation_on_native_leg_kind_is_refused_per_capability():
+def test_aggregation_on_native_leg_is_refused_naming_the_capability():
+    # ADR-0005 D4: the refusal names the missing CAPABILITY, never the kind.
     q = (
         PREFIX + "SELECT (COUNT(?u) AS ?n) WHERE { "
         "?u a c:UsageMetric ; c:queryVolumeM ?v } GROUP BY ?v"
     )
-    with pytest.raises(UnsupportedQueryError, match="kind snowflake"):
+    with pytest.raises(UnsupportedQueryError) as excinfo:
         partition_query(q, _catalog(SF))
+    message = str(excinfo.value)
+    assert "declares no GROUP BY capability" in message
+    assert "aggregation.groupBy" in message
+    assert "kind" not in message  # engine names are not the refusal vocabulary
+
+
+def test_capability_refusal_lists_the_sources_that_do_declare_it():
+    q = (
+        PREFIX + "SELECT (COUNT(?u) AS ?n) WHERE { "
+        "?u a c:UsageMetric ; c:queryVolumeM ?v } GROUP BY ?v"
+    )
+    with pytest.raises(UnsupportedQueryError) as excinfo:
+        partition_query(q, _catalog(SF, PG, AR))
+    message = str(excinfo.value)
+    assert "arango:cmf, postgresql:crm" in message
 
 
 def test_aggregation_over_unmapped_concept_is_refused():

@@ -1,13 +1,28 @@
 {
   "catalogManifestVersion": "1",
   "conceptBase": "urn:arango-sparql:concept#",
-  "contentHash": "694ba635fbf7eb8feee8e39d7dafa4380c58c72e489d27f3c557596667e3fb7c",
-  "generation": "sha256:6cf3a0eb247de754a4bdd0ca3b93adf58d04da0315385beecce4b6d5c9fc509e",
+  "contentHash": "0df79c1a721c883f0c1bb9d2ee26a7f4b6def167ceb90cdda710ef9b9afb8981",
+  "generation": "sha256:ed4876282fd629688134ea6f665a3e770f46610485b7676ff18abc6ad8e44b02",
   "sources": [
     {
       "auth": {
         "delegation": "none",
         "mode": "service"
+      },
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
       },
       "concepts": [
         "Chunk",
@@ -79,6 +94,21 @@
         "delegation": "none",
         "mode": "service"
       },
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "concepts": [
         "QueryEvent"
       ],
@@ -140,6 +170,21 @@
       "auth": {
         "delegation": "none",
         "mode": "service"
+      },
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
       },
       "concepts": [
         "Account",
@@ -219,6 +264,21 @@
       "auth": {
         "delegation": "none",
         "mode": "service"
+      },
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
       },
       "concepts": [
         "UsageMetric"

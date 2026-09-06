@@ -51,7 +51,7 @@ LOAD_ENV = if [ -f ./.env ]; then set -a; . ./.env; set +a; fi;
 PY = .venv/bin/python
 CK25_EVIDENCE ?= docs/evidence/ck25-gpt-4o-mini-3x.json
 
-.PHONY: install up seed gate demo test optimizer-oracle performance-baseline ck25-live sota-baseline sota-baseline-live catalog-integrity authorization-golden down jdbc free-ui milestone-push
+.PHONY: install up seed gate demo test optimizer-oracle performance-baseline ck25-live sota-baseline sota-baseline-live catalog-probe catalog-integrity authorization-golden down jdbc free-ui milestone-push
 
 install:
 	python3 -m venv .venv
@@ -105,6 +105,11 @@ free-ui:
 demo: up seed gate free-ui
 	$(DEMO_ENV) $(PY) deploy/demo/server.py
 
+# CC-14 onboarding check: run every consulted declared capability against the
+# LIVE executors (a declared capability whose probe fails does not exist).
+catalog-probe:
+	$(LOAD_ENV) $(DEMO_ENV) $(PY) -m cdf.catalog.cli probe deploy/catalog/manifest.json --root .
+
 catalog-integrity:
 	@tmp=$$(mktemp); trap 'rm -f "$$tmp"' EXIT; \
 	  $(PY) -m cdf.catalog.cli build --root . --output "$$tmp" >/dev/null; \
@@ -114,7 +119,7 @@ catalog-integrity:
 authorization-golden:
 	$(PY) -m pytest tests/test_governance.py -q
 
-test: catalog-integrity authorization-golden
+test: catalog-probe catalog-integrity authorization-golden
 	.venv/bin/ruff check src tests deploy
 	.venv/bin/mypy src
 	$(PY) -m pytest tests -q

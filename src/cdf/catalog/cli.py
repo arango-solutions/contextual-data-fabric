@@ -53,6 +53,15 @@ def _parser() -> argparse.ArgumentParser:
     export.add_argument("manifest", type=Path)
     export.add_argument("target", type=Path)
     export.add_argument("--root", type=Path)
+
+    probe = subcommands.add_parser(
+        "probe",
+        help="CC-14 onboarding check: run declared capabilities against the LIVE "
+        "executors (env-configured, as the engine wires them); a declared "
+        "capability whose probe fails does not exist",
+    )
+    probe.add_argument("manifest", type=Path)
+    probe.add_argument("--root", type=Path)
     return parser
 
 
@@ -120,6 +129,20 @@ def main(argv: Sequence[str] | None = None) -> int:
                     file=sys.stderr,
                 )
                 return 1
+        elif args.command == "probe":
+            loaded = load_manifest(args.manifest, root=args.root)
+            failures = _probe_manifest(loaded)
+            for line in failures:
+                print(f"PROBE FAIL  {line}", file=sys.stderr)
+            if failures:
+                print(
+                    f"cdf-catalog: {len(failures)} declared capability(ies) failed "
+                    "their live probe (CC-14: a declared capability whose probe "
+                    "fails does not exist — fix the manifest or the source)",
+                    file=sys.stderr,
+                )
+                return 1
+            print(f"probed: every consulted capability verified live ({args.manifest})")
         elif args.command == "export":
             outputs = export_catalog(args.manifest, args.target, root=args.root)
             print(json.dumps([str(path) for path in outputs], sort_keys=True))
@@ -127,6 +150,36 @@ def main(argv: Sequence[str] | None = None) -> int:
         print(f"cdf-catalog: {exc}", file=sys.stderr)
         return 2
     return 0
+
+
+def _probe_manifest(loaded) -> list[str]:
+    """Probe each source's consulted declarations through the real executors.
+
+    Builds the engine exactly as production does (``FederationService.from_env``
+    — credentials stay in the engine env per CC-7); imports are function-local
+    because the service layer imports this package at module level.
+    """
+    from cdf.query.types import SourceRef
+    from cdf.service.app import FederationService
+
+    from .capabilities import default_capabilities_for_kind, probe_capabilities
+
+    service = FederationService.from_env()
+    catalog = service.catalog
+    failures: list[str] = []
+    for source in loaded.manifest.sources:
+        declared = source.capabilities or default_capabilities_for_kind(source.kind)
+        executor = service.executors.get(source.source_id)
+        if executor is None:
+            failures.append(
+                f"{source.source_id}: no executor configured in this environment "
+                "(cannot verify its declared capabilities)"
+            )
+            continue
+        ref = SourceRef(source_id=source.source_id, kind=source.kind, ref=source.ref)
+        concept = catalog.iri(source.concepts[0])
+        failures.extend(probe_capabilities(ref, declared, executor, concept))
+    return failures
 
 
 if __name__ == "__main__":

@@ -12,6 +12,7 @@ from typing import Any
 
 from cdf.query.catalog import DEFAULT_CONCEPT_BASE, parse_csi_statistics, source_ref_from_csi
 
+from .capabilities import capabilities_document, default_capabilities_for_kind
 from .model import (
     LoadedCatalog,
     canonical_content_hash,
@@ -23,7 +24,7 @@ from .model import (
 
 _R2RML_CLASS = re.compile(r"rr:class\s+<([^>]+)>")
 _GOVERNANCE_FIELDS = frozenset(
-    {"joinKeys", "entitlements", "runtimeResolution", "auth"}
+    {"joinKeys", "entitlements", "runtimeResolution", "auth", "capabilities"}
 )
 
 
@@ -232,6 +233,12 @@ def build_manifest_document(
                 "mode": "none",
             },
             "auth": {"mode": "service", "delegation": "none"},
+            # ADR-0005 D4: declared from the per-kind executor truth; an
+            # overlay may override, and the onboarding probe (CC-14) is the
+            # arbiter either way.
+            "capabilities": capabilities_document(
+                default_capabilities_for_kind(record["kind"])
+            ),
         }
         explicit = overlay_by_source.get(record["sourceId"], {})
         if not isinstance(explicit, dict):

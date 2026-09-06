@@ -105,13 +105,6 @@ _PATTERN_WRAPPERS = {
 #: that path means the aggregation is nested inside a shape E1 cannot admit.
 _AGGREGATION_WRAPPERS = _PATTERN_WRAPPERS | {"Extend", "Filter", "AggregateJoin"}
 
-#: Source kinds whose leg can execute a full SPARQL GROUP BY today (rung 2 of
-#: the admission ladder, issue #14): Ontop is a complete SPARQL 1.1 endpoint
-#: and the arango leg's transpiler ships aggregate goldens upstream. The
-#: native snowflake/clickhouse BGP→SQL emitters have no GROUP BY — hardcoded
-#: capability knowledge until the M11 capability registry (issue #15).
-_AGGREGATION_CAPABLE_KINDS = {"postgresql", "arango"}
-
 #: xsd numeric datatypes rendered bare in a pushed-down FILTER (``?v <= 1000``),
 #: so the leg SPARQL stays engine-neutral rather than carrying ``"1000"^^xsd:…``.
 _NUMERIC_XSD = {
@@ -357,11 +350,18 @@ def _admit_single_leg_aggregation(
             "aggregation would be silently wrong — refused"
         )
     (source,) = sources
-    if source.kind not in _AGGREGATION_CAPABLE_KINDS:
+    # ADR-0005 D4: consult the capability registry, never the engine kind —
+    # the refusal names the missing CAPABILITY and the sources that declare it.
+    if not catalog.capabilities_for(source).aggregation.group_by:
+        capable = sorted(
+            candidate.source_id
+            for candidate in catalog.sources
+            if catalog.capabilities_for(candidate).aggregation.group_by
+        )
         raise UnsupportedQueryError(
-            f"aggregation routes to {source.source_id} (kind {source.kind}), "
-            "whose native leg does not emit GROUP BY; aggregation is supported "
-            "today on kinds: " + ", ".join(sorted(_AGGREGATION_CAPABLE_KINDS))
+            f"aggregation routes to {source.source_id}, which declares no "
+            "GROUP BY capability (aggregation.groupBy); sources declaring it: "
+            + (", ".join(capable) if capable else "none")
         )
 
     # Leg variables: everything the pattern binds PLUS the projection (the

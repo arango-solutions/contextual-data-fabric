@@ -19,6 +19,8 @@ from typing import Any, Protocol
 
 from cdf.query.catalog import SourceCatalog, parse_csi_statistics
 
+from .capabilities import SourceCapabilities, parse_capabilities
+
 MANIFEST_VERSION = "1"
 _SHA256_RE = re.compile(r"^[0-9a-f]{64}$")
 _SECRET_KEY_RE = re.compile(
@@ -174,6 +176,9 @@ class CatalogSource:
     entitlements: Entitlements
     runtime_resolution: RuntimeResolution
     auth: AuthMetadata
+    capabilities: SourceCapabilities | None = None
+    """ADR-0005 D4 declarations; ``None`` = legacy manifest (kind defaults
+    apply). CC-14: onboarding probes strip declarations reality contradicts."""
 
 
 @dataclass(frozen=True)
@@ -651,6 +656,7 @@ def parse_manifest(document: Mapping[str, Any]) -> CatalogManifest:
                 "entitlements",
                 "runtimeResolution",
                 "auth",
+                "capabilities",
             },
             path,
         )
@@ -697,6 +703,11 @@ def parse_manifest(document: Mapping[str, Any]) -> CatalogManifest:
                     item.get("runtimeResolution"), f"{path}.runtimeResolution"
                 ),
                 auth=_auth(item.get("auth"), f"{path}.auth"),
+                capabilities=(
+                    None
+                    if item.get("capabilities") is None
+                    else parse_capabilities(item["capabilities"], f"{path}.capabilities")
+                ),
             )
         )
 
