@@ -3,4 +3,4 @@
 # judge fix) merged with caller postconditions + PUBLISHED arango-query-core
 # >=0.2.0 (ArthurKeen/arango-sparql-py#11; full suite 1666 green). Same SHA on
 # both remotes; keep synchronized with CI and the CC-9 dependency-pin test.
-arango-sparql-py[nl,analyzer] @ git+https://github.com/ArthurKeen/arango-sparql-py.git@e4f64f53846d47f2b0285727e74b9facc0995adc
+arango-sparql-py[nl,analyzer] @ git+https://github.com/ArthurKeen/arango-sparql-py.git@4ef6db1f829f8f7bfa61f5e948071c9d9f54ca33

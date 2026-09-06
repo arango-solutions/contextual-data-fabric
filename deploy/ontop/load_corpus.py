@@ -86,9 +86,18 @@ def _collect(corpus_dir: Path, subdir: str, pattern: str) -> list[dict[str, Any]
 def load(corpus_dir: Path, dsn: str) -> None:
     import psycopg
 
+    from cdf.eval.scale import scale_factor_from_env, scale_rows
+
+    factor = scale_factor_from_env()
+
     with psycopg.connect(dsn, autocommit=True) as conn:
         for table, (subdir, pattern) in TABLES.items():
             rows = _collect(corpus_dir, subdir, pattern)
+            # Scale knob (S1): dependent tables multiply; the accounts table
+            # IS the join spine and stays 1x. Verbatim duplicates are fine —
+            # every table gets a synthetic bigserial PK below.
+            if table != "accounts":
+                rows = scale_rows(rows, factor)
             if not rows:
                 sys.exit(f"no rows found for {table} under {corpus_dir}/*/{subdir}/{pattern}")
 

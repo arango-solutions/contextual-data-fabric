@@ -41,3 +41,15 @@ def test_empty_golden_selection_is_rejected() -> None:
 
     with pytest.raises(ValueError, match="selection is empty"):
         validate_golden_inventory(cases, [], cases, ["unknown:all"])
+
+
+def test_gate_refuses_to_run_against_a_scaled_corpus(monkeypatch, capsys) -> None:
+    # Goldens assert exact 1x counts; the scale knob exists for the baseline
+    # program, never the gate. The guard fires before any stack is touched.
+    from deploy.demo.gate import main
+
+    monkeypatch.setenv("CDF_SCALE_FACTOR", "10")
+    assert main([]) == 2
+    out = capsys.readouterr().out
+    assert "CDF_SCALE_FACTOR=10" in out
+    assert "reseed at 1x" in out

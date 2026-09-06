@@ -77,6 +77,19 @@ def main(argv: Sequence[str] | None = None) -> int:
     if not args.nl:
         os.environ["CDF_NL_DISABLED"] = "1"
 
+    # Goldens assert exact 1x counts — gating a scaled corpus is a category
+    # error (the scale knob feeds the S4 baseline program, never the gate).
+    from cdf.eval.scale import ENV_VAR as SCALE_ENV
+    from cdf.eval.scale import scale_factor_from_env
+
+    factor = scale_factor_from_env()
+    if factor != 1:
+        print(
+            f"gate: refusing to run with {SCALE_ENV}={factor} — goldens assert "
+            "exact 1x counts; reseed at 1x before gating"
+        )
+        return 2
+
     all_cases = load_goldens(GOLDEN_DIR)
     cases, skipped = filter_goldens(all_cases, args.exclude_source)
     try:

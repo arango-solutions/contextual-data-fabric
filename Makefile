@@ -20,6 +20,9 @@ export CDF_POSTGRES_PORT ?= 5433
 # tools/run_workbench.sh already assumed.
 export CDF_ONTOP_PORT    ?= 18090
 export CDF_UI_PORT       ?= 8099
+# Corpus scale knob (S1/S4): dependent rows x N with join-spine integrity.
+# The gate refuses factors != 1; use it for `make seed scale-baseline` runs.
+export CDF_SCALE_FACTOR  ?= 1
 export CDF_CLICKHOUSE_HTTP_PORT ?= 8123
 
 # The owned SPARQL->AQL library defaults to the reviewed CC-9 pin. Developers
@@ -90,6 +93,7 @@ seed:
 	PG_DSN=postgresql://cdf:cdf@127.0.0.1:$(CDF_POSTGRES_PORT)/crm $(PY) deploy/ontop/load_corpus.py
 	$(LOAD_ENV) $(PY) deploy/snowflake/load_corpus.py   # telemetry -> Snowflake USAGE_METRICS (46 rows)
 	docker compose -p cdf-ontop -f deploy/ontop/docker-compose.yml restart ontop
+	$(DEMO_ENV) $(PY) deploy/clickhouse/scale_corpus.py  # reseed + scale (idempotent)
 	$(DEMO_ENV) $(PY) deploy/arango/seed.py           # tickets (kept as a small typed collection)
 	$(DEMO_ENV) $(PY) deploy/arango/load_corpus.py    # documents + chunks (account_id stamp)
 	$(DEMO_ENV) $(PY) deploy/arango/export_csi.py     # reverse CSI over the live graph

@@ -87,6 +87,13 @@ def main() -> None:
         else:
             db.create_collection(name)
 
+    # Scale knob (S1): copy 0 is the verbatim corpus; copies 1..N-1 suffix the
+    # document key (-s<i>), and every derived id (chunk keys, _uri, document_id)
+    # cascades from it — account_id, the join spine, rides verbatim.
+    from cdf.eval.scale import scale_factor_from_env
+
+    factor = scale_factor_from_env()
+
     n_docs = n_chunks = 0
     for path in sorted((CORPUS / "unstructured").rglob("*.txt")):
         meta = manifest.get(path.name, {})
@@ -100,36 +107,37 @@ def main() -> None:
         # Strip the data-gen header comment; keep the body.
         body = re.sub(r"^<!--.*?-->\s*", "", text, flags=re.S)
 
-        doc_key = path.stem
-        db.collection("documents").insert(
-            {
-                "_key": doc_key,
-                "_uri": f"documents/{doc_key}",
-                "account_id": account_id,
-                "source": source,
-                "filename": path.name,
-                "citable_url": meta.get("citable_url"),
-                "role": meta.get("role"),
-                "questions_served": meta.get("questions_served", []),
-                "event_date": meta.get("event_date"),
-            },
-            overwrite=True,
-        )
-        n_docs += 1
-
-        for i, chunk in enumerate(_chunk(body)):
-            db.collection("chunks").insert(
+        for copy in range(factor):
+            doc_key = path.stem if copy == 0 else f"{path.stem}-s{copy}"
+            db.collection("documents").insert(
                 {
-                    "_key": f"{doc_key}-{i}",
-                    "_uri": f"chunks/{doc_key}-{i}",
-                    "document_id": doc_key,
-                    "account_id": account_id,  # the locked post-build stamp
-                    "seq": i,
-                    "text": chunk,
+                    "_key": doc_key,
+                    "_uri": f"documents/{doc_key}",
+                    "account_id": account_id,
+                    "source": source,
+                    "filename": path.name,
+                    "citable_url": meta.get("citable_url"),
+                    "role": meta.get("role"),
+                    "questions_served": meta.get("questions_served", []),
+                    "event_date": meta.get("event_date"),
                 },
                 overwrite=True,
             )
-            n_chunks += 1
+            n_docs += 1
+
+            for i, chunk in enumerate(_chunk(body)):
+                db.collection("chunks").insert(
+                    {
+                        "_key": f"{doc_key}-{i}",
+                        "_uri": f"chunks/{doc_key}-{i}",
+                        "document_id": doc_key,
+                        "account_id": account_id,  # the locked post-build stamp
+                        "seq": i,
+                        "text": chunk,
+                    },
+                    overwrite=True,
+                )
+                n_chunks += 1
 
     # Acceptance check (WP-P1.3): every chunk resolves to a document that
     # carries the account_id — and the stamps agree.

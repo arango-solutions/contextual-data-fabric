@@ -82,7 +82,11 @@ def _collect(corpus_dir: Path) -> list[dict[str, Any]]:
 def load(corpus_dir: Path, connect_args: dict[str, Any]) -> None:
     import snowflake.connector
 
-    rows = _collect(corpus_dir)
+    from cdf.eval.scale import scale_factor_from_env, scale_rows
+
+    rows = scale_rows(_collect(corpus_dir), scale_factor_from_env())
+    # Scale knob (S1): account_id rides every copy verbatim (the spine);
+    # the synthetic ID column is AUTOINCREMENT, so duplicates are unique rows.
     if not rows:
         sys.exit(f"no rows found under {corpus_dir}/*/{SUBDIR}/{PATTERN}")
 
