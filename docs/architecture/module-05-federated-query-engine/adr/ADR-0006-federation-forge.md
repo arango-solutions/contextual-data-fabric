@@ -43,8 +43,16 @@ each born with its ground truth attached:
 - the generating ontology **is** the expected aligned ontology;
 - the partition map **is** the expected catalog ownership;
 - the injected denormalizations **are** the expected collision/synonym report;
-- queries composed against the ontology have **computable expected answers**
-  (evaluated once against the pre-partition dataset).
+- queries composed against the ontology have **computable expected
+  outcomes** — an answer (evaluated once against the pre-partition dataset)
+  *or a named refusal*: once the partition map is fixed, every generated
+  question is checked against the capability registry / admission ladder
+  (ADR-0005 — e.g. grouped aggregation whose grouping keys and aggregates
+  land in different systems is a *permanent, correct* refusal, pinned by
+  g16), and the expected result is recorded as either bindings or the
+  refusal's naming contract. A refusal the fabric is *supposed* to make is a
+  passing golden, never a scored failure — which makes generated shapes the
+  first systematic test bed for the admission ladder itself.
 
 No oracle problem, no hand-written fixtures, and — because everything is
 generated — every shape is publishable by construction.
@@ -73,7 +81,9 @@ denormLog:                               # applied transformations, WITH intent
      reported absent — never silently wrong"}
 expected:
   catalog:  shapes/o1/expected-catalog.json   # ownership, join keys, collisions
-  goldens:  shapes/o1/goldens/*.json          # questions + computed answers
+  goldens:  shapes/o1/goldens/*.json          # questions + expected outcome:
+                                              #   bindings, or a NAMED refusal
+                                              #   (capability-checked post-partition)
 ```
 
 Descriptor + seed reproduce the schemas, the data, and the expectations
@@ -127,9 +137,18 @@ estate, so the estate must be in the loop.
 - **CDF owns M15 orchestration** under `deploy/forge/` + `cdf.eval`: shape
   sampling, descriptor emission, expected-catalog/goldens computation,
   `make forge-suite`, and CI wiring (fixture mode per-PR, live mode nightly).
-- Question/golden composition reuses the estate's existing query-shape
-  template machinery (the NL-GEN-01 template catalog in the query libs)
-  rather than inventing a second generator.
+- Question/golden composition reuses **exactly the part of the NL-GEN-01
+  machinery that is actually a library**: the query-shape catalog in
+  `arango-query-core` (nine templates + `build_sparql(binding)`). The other
+  two halves are deliberately NOT reusable surfaces (Phase 07.5,
+  promote-template-core-only): the value-filler depends on a test-only
+  library barred from the shared package, and both it and the paraphraser
+  live in `arango-sparql-py`'s non-installable test tree. The Forge
+  therefore **supplies its own bindings** — trivially, since it generates
+  the data — and does not depend on the test-tree code. Pin note (CC-9):
+  CDF consumes `arango-query-core` second-hand today (via the
+  arango-sparql-py pin); when forge orchestration imports the template
+  catalog directly, CDF adds a direct `arango-query-core` pin.
 
 ### D-5 · Determinism and publishability are requirements, not hopes
 
@@ -138,6 +157,14 @@ shapes contain no customer-derived values, so the S8 evidence sprint can
 publish full shape suites — the scorecard's level-4 ladder ("publicly
 reproducible workloads") is reachable *only* through this property, which is
 why it is a design requirement rather than a nice-to-have.
+
+**The one non-deterministic step is quarantined:** forge goldens use the
+mechanical template questions only. LLM paraphrases (an NL-corpus concern,
+not a golden concern) are **generate-once → human-review → commit** under
+the shape directory with their sha256 in the descriptor — a re-run consumes
+the committed artifact byte-identically; *regenerating* paraphrases is a new
+shape version, because hosted-model calls are not reproducible across model
+updates at any temperature.
 
 ### D-6 · What the Forge is NOT
 
