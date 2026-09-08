@@ -103,7 +103,7 @@ proves the join. This skill makes that repeatable and encodes the traps that cos
 - **PJ's runbook rule:** `make gate` before any demo, no exceptions.
 
 ## References (point, don't duplicate)
-- Worked example: `docs/architecture/p1-closeout-plan.md` "Sprint 2" (WP-S1…S6).
+- Worked example: `docs/archive/p1-closeout-plan.md (archived)` "Sprint 2" (WP-S1…S6).
 - Native-vs-Ontop decision: `ADR-0002` (Snowflake takes SQL directly).
 - Concept vocabulary + CC-12 naming: PRD §7.7, `deploy/csi/*.json`.
 - Executor dispatch: `src/cdf/service/app.py::FederationService.from_env`.
