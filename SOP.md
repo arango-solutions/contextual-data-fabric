@@ -184,7 +184,8 @@ Worth knowing early:
 
 ## 5. Working on tasks
 
-- **Sprints are 3 weeks** (a ceiling, not a target — we may shorten to 2).
+- **Sprints are 2 weeks** (a ceiling, not a target — decided by team
+  consensus 2026-09-08; a sprint ends the moment its exit gate is green).
   The current sprint's tasks live in the roadmap's sprint section plus
   GitHub issues on the primary repo. Pick from there; if it isn't an issue
   yet, file it first — work is issue-driven.
