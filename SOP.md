@@ -201,9 +201,21 @@ Worth knowing early:
   `integrate-owned-lib` skill — its first step (check both org mirrors)
   exists because a teammate's work once lived 148 commits ahead on the
   mirror.
-- **Definition of done**: spec updated → code + tests → `make test` green →
-  `make gate` green (if behavior touched) → PR merged → evidence/docs
-  updated if you changed what the system can do.
+- **The test bar** (every code PR):
+  - **Unit coverage > 80%** on the code you touched — measured, not
+    estimated (`make test` reports it once the coverage gate lands;
+    until then run `pytest --cov` locally).
+  - **Full database round-trips**: behavior that touches a source engine is
+    tested against the real engine (the Docker stacks / hosted Snowflake),
+    not only mocks — the `live-local` CI job runs these on every PR.
+  - **Integration tests run on GitHub**: if your test needs a live system,
+    it must work inside the `live-local` job (the runner stands up all
+    Docker stacks) or be explicitly env-gated with a declared skip — a test
+    that only runs on your laptop doesn't exist.
+- **Definition of done**: spec updated → code + tests meeting the bar above
+  → `make test` green → `make gate` green (if behavior touched) → PR merged
+  → evidence/docs updated if you changed what the system can do — including
+  the **embedded docs** for any new user-facing surface (RD-7b/CC-20).
 
 ## 6. Getting help
 
