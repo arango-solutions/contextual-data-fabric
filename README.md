@@ -2,7 +2,7 @@
 
 ArangoDB as an **ontology-based metadata / agent-brain hub**: auto-derive a use-case-driven ontology across structured + unstructured sources, and answer English questions by **federating queries across systems** — grounded and cited — **without moving the data**.
 
-Part of **Project Vantage**. Built for and pressure-tested against the the design partner customer-context engagement.
+Part of **Project Vantage**. Built for and pressure-tested against a design partner's customer-context engagement.
 
 > **Status (2026-08-06):** P1 and the recommended P2/P3 code sequence are
 > complete: 20/20 work packages and 7/7 executable implementation gates. The

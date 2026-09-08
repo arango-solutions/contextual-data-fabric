@@ -8,7 +8,7 @@ date: 2026-09-06
 owner: Arthur (interviews); findings feed PRD §12 RD-2/RD-5 and CC-8
 related:
   - "[[contextual-data-fabric-prd|PRD]] §12 (readiness ladder), §10.8 (CC-8 owner-side topology)"
-  - "[[customer-qa|Customer Q&A]] (the the design partner engagement — first datapoints)"
+  - "[[customer-qa|Customer Q&A]] (the design-partner engagement — first datapoints)"
 ---
 
 # RD-5 — Deployment-Requirements Interview Kit
@@ -22,7 +22,7 @@ related:
 **H1 (owner-side extraction, CC-8 §10.8):** data owners will not let a central
 application sample their databases and schemas; extraction (RSA/AOE/r2g) must
 run at the owner's side, under their credentials, shipping only curated
-contracts to the fabric. *The a federal prospect signal says yes; one signal is an
+contracts to the fabric. *A federal prospect's stance says yes; one signal is an
 anecdote.*
 
 **H2 (curation is mandatory, RD-1/RD-2):** owners will insist on reviewing and

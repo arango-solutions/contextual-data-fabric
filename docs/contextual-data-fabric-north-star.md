@@ -13,8 +13,8 @@ project:
 related:
   - "[[contextual-data-fabric-prd]]"
   - "[[Customer360]]"
-  - "[[the design partner]]"
-  - "[[2026-07-13 the design partner Customer Context Roadmap]]"
+  - "[[design-partner]]"
+  - "[[2026-07-13 design-partner customer-context roadmap]]"
 topics:
   - "[[Ontology]]"
   - "[[Graph]]"
@@ -97,4 +97,4 @@ See the [[contextual-data-fabric-prd|PRD]] for detail. In brief:
 - Not an academic ontology exercise — conceptual, agent-usable models only.
 - Not a monolith — if a piece can't stand alone as a block, reconsider it.
 
-*Sources: [[2026-07-13 the design partner Customer Context Roadmap]], [[the design partner Feedback Summary]], [[2026-07-10 - C360 the design partner Demo]], [[2026-07-09 - C360 field-feedback review]].*
+*Sources: [[2026-07-13 design-partner customer-context roadmap]], [[design-partner feedback summary]], [[2026-07-10 - C360 design-partner demo]], [[2026-07-09 - C360 field-feedback review]].*

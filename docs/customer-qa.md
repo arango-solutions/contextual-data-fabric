@@ -1,5 +1,5 @@
 ---
-title: Customer Q&A — the design partner questions, answered from the running system
+title: Customer Q&A — design-partner questions, answered from the running system
 type:
   - internal
   - customer-facing-reference
@@ -12,7 +12,7 @@ related:
   - "[[use-cases|Use cases]]"
 ---
 
-# Customer Q&A (the data-platform lead, the engineering lead — 2026-07)
+# Customer Q&A (the customer's data-platform and engineering leads — 2026-07)
 
 > Presenter reference. Every answer below is backed by the **running demo**
 > (four live sources: Postgres CRM, Snowflake telemetry, ClickHouse analytics,
@@ -21,7 +21,7 @@ related:
 
 ---
 
-## the data-platform lead
+## the customer's data-platform lead
 
 ### 1. "How do you define entities — especially for structured data and relationships — programmatically and automatedly?"
 
@@ -104,7 +104,7 @@ Four containment mechanisms, all in the architecture:
 
 ---
 
-## the engineering lead
+## the customer's engineering lead
 
 ### 1. "What's the area of focus for the data Arango works on — is it customer data?"
 
@@ -179,7 +179,7 @@ provenance — not re-guessed by an LLM on every query.**
 
 ---
 
-## the data-platform lead — follow-ups (2026-07-22)
+## the customer's data-platform lead — follow-ups (2026-07-22)
 
 ### 5. "We have thousands of tables in Snowflake — can we put policies/information on the CDF to focus the ontology extraction on the relevant ones? Maybe express the purpose of the integration, e.g. Customer 360?"
 
@@ -238,23 +238,23 @@ keys, comments, tags, and usage history are all extraction inputs.
 
 ---
 
-## The their in-house fabric question (2026-08-09)
+## The in-house-fabric question (2026-08-09)
 
-> Context: the prospect's own **Data Fabric for Security** white paper
-> (their in-house fabric, acquired by the design partner) arrived 2026-08-09. Its thesis — entities
+> Context: the design partner's own publicly-marketed
+> security-data-fabric white paper arrived 2026-08-09. Its thesis — entities
 > over event logs, a semantic layer that separates how data is stored from
 > how it's queried, metadata-driven integration — **is our thesis**. Open
 > with agreement, not contrast: the people in the room built an
 > entity-centric fabric and won the argument internally. The difference is
 > *where the data lives* and *what an answer must carry*.
 
-### 8. "We already built a data fabric — their in-house fabric. Why do we need this?"
+### 8. "We already built our own data fabric. Why do we need this?"
 
-**Because their in-house fabric and the CDF make opposite default choices about data
+**Because their fabric and the CDF make opposite default choices about data
 movement, and the CDF makes it a per-source choice instead of an
 architectural identity.**
 
-- **their in-house fabric materializes**: ingest → format → enrich → resolve/dedupe → group,
+- **Their fabric materializes**: ingest → format → enrich → resolve/dedupe → group,
   into one curated entity store. That is the right shape for security-ops
   telemetry at volume — continuous entity resolution and pre-joined entities
   make heavy analytics fast.
@@ -274,7 +274,7 @@ architectural identity.**
   fabric is on the roadmap, not on the truck. Materialize vs. federate
   becomes a deployment decision per source, made under one ontology —
   not a religion.
-- **Complementary, not competing**: a curated entity store like their in-house fabric's can
+- **Complementary, not competing**: a curated entity store like theirs can
   simply be *a source in the fabric* — federate over it alongside Snowflake
   and the document graph, and the CDF adds what the white paper doesn't
   cover: the natural-language front door and the grounded, cite-or-refuse

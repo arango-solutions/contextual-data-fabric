@@ -12,9 +12,9 @@ project:
   - "[[Arango Contextual Data Fabric]]"
 related:
   - "[[Customer360]]"
-  - "[[the design partner]]"
-  - "[[2026-07-13 the design partner Customer Context Roadmap]]"
-  - "[[the design partner Feedback Summary]]"
+  - "[[design-partner]]"
+  - "[[2026-07-13 design-partner customer-context roadmap]]"
+  - "[[design-partner feedback summary]]"
 people:
   - "[[Arthur Keen]]"
   - "[[MF]]"
@@ -36,7 +36,7 @@ version: 0.3
 > [Product-Strategy PRD](contextual-data-fabric-product-strategy-prd.md).
 
 
-> **Status:** Draft v0.2 for team review. Posted per the [[2026-07-13 the design partner Customer Context Roadmap]] action item ("PJ to draft PRD"). Arthur needs this before refactoring r2g / the ontology extractor so we scope the build rather than over-build.
+> **Status:** Draft v0.2 for team review. Posted per the [[2026-07-13 design-partner customer-context roadmap]] action item ("PJ to draft PRD"). Arthur needs this before refactoring r2g / the ontology extractor so we scope the build rather than over-build.
 >
 > **v0.2 (2026-07-13):** reconciled every "as understood — Arthur to confirm" claim against the actual repos (r2g, relational-schema-analyzer, arango-schema-analyzer, arango-ontoextract, arango-entity-resolution). The ★ structured→ontology question is **resolved (yes)**; the risk has moved to **ontology alignment** and **r2g pushdown query generation**, which are builds, not confirms. Repo references in §8 are now pinned. New §10 adds cross-cutting requirements (evaluation, agent interface, consistency, partial failure, caching, security).
 >
@@ -59,7 +59,7 @@ version: 0.3
 
 Arango holds the ontology, the entity resolution / canonical entities, the mappings, and *selected* context — **not** the bulk of the raw data. Everything else stays at the source and is fetched on demand. (Mental model: the PubMed/NIH ~16 TB **metadata** graph that stores linkages, not raw data.)
 
-This sits under [[Arango Contextual Data Fabric]]and is being built for (and pressure-tested against) the [[the design partner]] customer-context engagement, but the fabric is a general, composable platform capability.
+This sits under [[Arango Contextual Data Fabric]]and is being built for (and pressure-tested against) the [[design-partner]] customer-context engagement, but the fabric is a general, composable platform capability.
 
 ---
 
@@ -68,11 +68,11 @@ This sits under [[Arango Contextual Data Fabric]]and is being built for (and pre
 ### 2.1 The general problem
 In the agent era, the bottleneck is no longer storing data — it is giving agents a **single, governed, semantically-normalized view** across many systems without copying everything into one place. If every agent talks directly to every system (agent-to-agent, "A2A"), you get an **N² translation problem** and you must re-implement business rules and access control on every edge. An **ontology** turns that into a wagon-wheel (linear): translate once to a shared representation; enforce rules once, in one place.
 
-### 2.2 The customer signal ([[the design partner]])
-From the [[2026-07-10 - C360 the design partner Demo]], [[2026-07-09 - C360 field-feedback review]], and [[the design partner Feedback Summary]]:
+### 2.2 The customer signal (the design partner)
+From the [[2026-07-10 - C360 design-partner demo]], [[2026-07-09 - C360 field-feedback review]], and [[design-partner feedback summary]]:
 
 - **Current state:** Snowflake medallion (bronze/silver/gold), **data mesh** with team-owned marts; a "Customer 360 view" exists but **each domain re-creates the same semantics/metrics** — duplication is the pain.
-- **Ask #1 — auto-derive the ontology.** the data-platform lead: *"the biggest challenge is defining these entities… we want to do it in a programmatic way, as new things pop up, not rely on someone's knowledge."* Our hand-modeled graph was flagged as **unrealistic at scale**. Framing: **"structured data in, ontology out."**
+- **Ask #1 — auto-derive the ontology.** The customer's data-platform lead: *"the biggest challenge is defining these entities… we want to do it in a programmatic way, as new things pop up, not rely on someone's knowledge."* Our hand-modeled graph was flagged as **unrealistic at scale**. Framing: **"structured data in, ontology out."**
 - **Ask #2 — Arango as the routing brain, no data duplication.** *"We don't want to move the data… the brain has to be on this side."* Agents hit Arango first; if it can't answer, the ontology routes to the source, fetches live, resolves the entity, returns.
 - **Hard constraints:** no bulk materialization into Arango; **cost and latency are political** (the data-platform lead has discouraged his team from Arango over token costs — see [[2026-07-09 - C360 field-feedback review]]); ontology overlap across domains must be reconciled; **they want to SEE it working**, not conceptual.
 
@@ -361,7 +361,7 @@ a change that turns the gate red does not merge, regardless of author. Expect
 coordination overhead to slow raw commit throughput; the gate + pins are what
 keep it from slowing *correctness*.
 
-*Sources: [[2026-07-13 the design partner Customer Context Roadmap]], [[the design partner Feedback Summary]], [[2026-07-10 - C360 the design partner Demo]], [[2026-07-09 - C360 field-feedback review]], [[2026-07-10 - the design partner Feedback Brainstorm]], [[C360 Example Questions]].*
+*Sources: [[2026-07-13 design-partner customer-context roadmap]], [[design-partner feedback summary]], [[2026-07-10 - C360 design-partner demo]], [[2026-07-09 - C360 field-feedback review]], [[2026-07-10 - design-partner feedback brainstorm]], [[C360 Example Questions]].*
 
 ## 12. Readiness ladder — demo-ready is not customer-evaluable *(added 2026-09-05)*
 
@@ -409,7 +409,7 @@ ends:
   AdventureWorks-class) run through the full extract→map→federate→answer loop.
 - **RD-5 · Deployment-requirements discovery.** A written statement, gathered
   from real prospects, of how customers expect to deploy and operate this —
-  starting hypothesis (from the the design partner engagement): data owners will insist on
+  starting hypothesis (from the design-partner engagement): data owners will insist on
   controlling and curating the ontology extracted from their schemas. Feeds
   CC-8 (topology) and RD-1/RD-2 scope.
 - **RD-6 · Secrets & source-side permissions, hardened.** CC-7's P2 graduation

@@ -73,7 +73,7 @@ demo page by `deploy/demo/server.py`) is generic over one JSON payload:
 
 ## 4. Functional requirements
 - **FR-1 (P1):** Free-form question → federated answer for the seed use cases, with citations and the cross-source retrieval path shown.
-- **FR-2 (P1):** Pre-run/"in the interest of time" mode (avoid drawing attention to latency — per the sales feedback in [[2026-07-09 - C360 field-feedback review]]).
+- **FR-2 (P1):** Pre-run/"in the interest of time" mode (avoid drawing attention to latency — per the field feedback in [[2026-07-09 - C360 field-feedback review]]).
 - **FR-3 (P2):** Show cost/latency panel when the customer is ready for that conversation.
 - **FR-4 (P2):** Portfolio-scale / cross-account questions.
 - **FR-5 (P2, added 2026-09-08):** **Embedded documentation** (PRD RD-7b /

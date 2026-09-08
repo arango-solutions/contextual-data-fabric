@@ -141,7 +141,7 @@ items the calendar didn't already carry:
 | RD-1/RD-3 HITL loops | AOE curation + r2g mapping-review reachable as ArGOS tabs; curator edits survive regeneration (the WS-A r2g debt is the blocker) | contracts S6; consoles sequenced behind ArGOS R1–R3 |
 | RD-2 owner consent | entity/property exclusions enforced at catalog admission (Q-11 vocabulary + manifest entitlements) | design S2, enforcement S3 |
 | RD-4b reference corpus | Northwind through the full loop; Chinook/Sakila following | S3 (with the forge suite) |
-| RD-5 deployment discovery | prospect-interview kit + written deployment-requirements memo; validates CC-8's owner-side extraction hypothesis (RSA/AOE/r2g packaged as owner-run instances shipping only contracts to CDF — the a federal prospect signal) | kit S1, memo by S4 |
+| RD-5 deployment discovery | prospect-interview kit + written deployment-requirements memo; validates CC-8's owner-side extraction hypothesis (RSA/AOE/r2g packaged as owner-run instances shipping only contracts to CDF — the federal-prospect signal) | kit S1, memo by S4 |
 | RD-6 secrets graduation | CC-7 P2: secret store behind SecretResolver; source-permission stance | S4 |
 | RD-7 user docs | operator docs skeleton (install → connect → curate → ask → read an envelope), grown per sprint; **plus embedded in-product docs (RD-7b/CC-20)**: UI help surfaces, field-documented OpenAPI, CLI --help, catalog descriptions surfaced | skeleton S2, embedded-docs lane from S3, gate at S8 |
 | RD-8 team process | branch protection + required review across the estate; library release trains on the CC-9 pins | before first added engineer lands code (interns: S1–S2) |

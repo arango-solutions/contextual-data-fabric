@@ -18,7 +18,7 @@ related:
 
 > **Requirement (one line):** confirm/complete the **structured-data → ontology** path, and expose **alignment**, **belief-management**, and **time-travel** as APIs the fabric's M2/M3 (and later M8) can call.
 >
-> **This is the make-or-break dependency** flagged in the [[the design partner Feedback Summary]] — gate Phase-1 commitments on RE-1.
+> **This is the make-or-break dependency** flagged in the [[design-partner feedback summary]] — gate Phase-1 commitments on RE-1.
 
 ## 1. Current state (verified against `~/code/arango-ontoextract`, v0.2)
 AOE is substantially further along than v0.1 assumed:
