@@ -6,7 +6,7 @@ type:
   - module-spec
 status: draft
 version: 0.1
-owner: PJ (Paul Losiewicz)
+owner: PJ
 building_block: Query
 depends_on_modules: ["04-mapping-layer", "01-connectors", "06-entity-resolution", "07-grounding-provenance"]
 depends_on_repos: ["r2g", "arango-sparql-py", "arango-cypher-py", "arangodb-schema-analyzer", "relational-schema-analyzer", "customer-context"]

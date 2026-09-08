@@ -6,7 +6,7 @@ type:
   - repo-enhancement-spec
 status: active
 version: 0.2
-owner: PJ (Paul Losiewicz)
+owner: PJ
 serves_modules: ["06-entity-resolution"]
 phase_intro: 2
 related:

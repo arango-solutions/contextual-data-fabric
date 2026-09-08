@@ -4,7 +4,7 @@ adr: 0001
 module: 05-federated-query-engine
 status: proposed
 date: 2026-07-13
-deciders: ["Arthur Keen", "PJ (Paul Losiewicz)"]
+deciders: ["Arthur Keen", "PJ"]
 supersedes: []
 related:
   - "[[contextual-data-fabric/docs/architecture/module-05-federated-query-engine/specification|M5 spec]]"

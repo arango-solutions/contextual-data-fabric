@@ -6,7 +6,7 @@ type:
   - module-spec
 status: draft
 version: 0.1
-owner: PJ (Paul Losiewicz)
+owner: PJ
 building_block: Query
 depends_on_modules: ["05-federated-query-engine"]
 depends_on_repos: ["customer-context"]

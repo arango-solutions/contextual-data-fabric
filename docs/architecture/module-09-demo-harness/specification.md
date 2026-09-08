@@ -6,7 +6,7 @@ type:
   - module-spec
 status: draft
 version: 0.1
-owner: PJ (Paul Losiewicz)
+owner: PJ
 building_block: "—"
 depends_on_modules: ["05-federated-query-engine", "07-grounding-provenance"]
 depends_on_repos: ["customer-context"]
@@ -23,7 +23,7 @@ related:
 > **Reconciles against:** [[contextual-data-fabric/docs/architecture/README|the super-module index]].
 
 ## 1. Purpose & responsibility
-Make the fabric visible. Reuse the customer-360 Vercel app pattern: a free-form question box → the federated query engine → the cited envelope + traversal viz. Its job is to let Zscaler (and us) *see it working*, which the customer explicitly demanded — not to be the customer's agent layer.
+Make the fabric visible. Reuse the customer-360 Vercel app pattern: a free-form question box → the federated query engine → the cited envelope + traversal viz. Its job is to let the design partner (and us) *see it working*, which the customer explicitly demanded — not to be the customer's agent layer.
 
 ## 2. Scope
 **In scope:** minimal question UI; wiring to M5 + M7; rendering citations (SQL + AQL + source objects) and the cross-source traversal; running the 1–3 seed questions.
@@ -73,7 +73,7 @@ demo page by `deploy/demo/server.py`) is generic over one JSON payload:
 
 ## 4. Functional requirements
 - **FR-1 (P1):** Free-form question → federated answer for the seed use cases, with citations and the cross-source retrieval path shown.
-- **FR-2 (P1):** Pre-run/"in the interest of time" mode (avoid drawing attention to latency — per the sales feedback in [[2026-07-09 - C360 Review & Feedback with Matthew]]).
+- **FR-2 (P1):** Pre-run/"in the interest of time" mode (avoid drawing attention to latency — per the field feedback in [[2026-07-09 - C360 field-feedback review]]).
 - **FR-3 (P2):** Show cost/latency panel when the customer is ready for that conversation.
 - **FR-4 (P2):** Portfolio-scale / cross-account questions.
 - **FR-5 (P2, added 2026-09-08):** **Embedded documentation** (PRD RD-7b /

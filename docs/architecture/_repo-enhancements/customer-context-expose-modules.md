@@ -6,7 +6,7 @@ type:
   - repo-enhancement-spec
 status: draft
 version: 0.1
-owner: PJ (Paul Losiewicz)
+owner: PJ
 serves_modules: ["01-connectors", "05-federated-query-engine", "07-grounding-provenance", "09-demo-harness"]
 phase_intro: 1
 related:

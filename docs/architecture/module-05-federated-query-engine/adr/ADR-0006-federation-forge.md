@@ -4,7 +4,7 @@ adr: 0006
 module: 05-federated-query-engine
 status: proposed
 date: 2026-09-05
-deciders: ["Arthur Keen", "PJ Losiewicz (review)"]
+deciders: ["Arthur Keen", "PJ (review)"]
 related:
   - "[[ADR-0005-cross-leg-aggregation-and-capability-registry|ADR-0005]]"
   - "docs/roadmap-2026H2.md §WS-B (commission), §S1–S4, S7 (consumers)"

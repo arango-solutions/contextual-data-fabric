@@ -12,14 +12,14 @@ project:
   - "[[Arango Contextual Data Fabric]]"
 related:
   - "[[Customer360]]"
-  - "[[ZScaler]]"
-  - "[[2026-07-13 Zscaler Customer Context Roadmap]]"
-  - "[[ZScaler Feedback Summary]]"
+  - "[[design-partner]]"
+  - "[[2026-07-13 design-partner customer-context roadmap]]"
+  - "[[design-partner feedback summary]]"
 people:
   - "[[Arthur Keen]]"
-  - "[[Michael Fonseca]]"
-  - "[[Michael Gillespie]]"
-  - "[[Daniel Blake Morris]]"
+  - "[[MF]]"
+  - "[[MG]]"
+  - "[[DBM]]"
 topics:
   - "[[Ontology]]"
   - "[[Graph]]"
@@ -36,13 +36,13 @@ version: 0.3
 > [Product-Strategy PRD](contextual-data-fabric-product-strategy-prd.md).
 
 
-> **Status:** Draft v0.2 for team review. Posted per the [[2026-07-13 Zscaler Customer Context Roadmap]] action item ("PJ to draft PRD"). Arthur needs this before refactoring r2g / the ontology extractor so we scope the build rather than over-build.
+> **Status:** Draft v0.2 for team review. Posted per the [[2026-07-13 design-partner customer-context roadmap]] action item ("PJ to draft PRD"). Arthur needs this before refactoring r2g / the ontology extractor so we scope the build rather than over-build.
 >
 > **v0.2 (2026-07-13):** reconciled every "as understood — Arthur to confirm" claim against the actual repos (r2g, relational-schema-analyzer, arango-schema-analyzer, arango-ontoextract, arango-entity-resolution). The ★ structured→ontology question is **resolved (yes)**; the risk has moved to **ontology alignment** and **r2g pushdown query generation**, which are builds, not confirms. Repo references in §8 are now pinned. New §10 adds cross-cutting requirements (evaluation, agent interface, consistency, partial failure, caching, security).
 >
 > **v0.3 (2026-07-14):** absorbed the deep-analysis passes. **ADR-0001** (M5) decides the conceptual-query IR — typed graph-pattern serializing to **SPARQL**, `CSI v1` as the mapping hub, Ontop buy-vs-build open (§9.10) — making M5 mostly integration of owned components (`arango-sparql-py`, `arango-cypher-py`, the analyzers). AOE PRD **§6.17–§6.19** definitizes alignment / A-box / competency questions; r2g Phase 12 is reframed around CSI+R2RML. **Use cases formalized** from PJ's 12 locked questions (`docs/use-cases.md`, §4); `customer-context` cloned + verified.
 >
-> **Reviewers:** [[Arthur Keen]] (build gatekeeper), [[Michael Fonseca]], [[Michael Gillespie]], [[Daniel Blake Morris]].
+> **Reviewers:** [[Arthur Keen]] (build gatekeeper), [[MF]], [[MG]], [[DBM]].
 >
 > **How to read this:** §1–§5 are the general vision and architecture. **§6 is the phased plan; §7 is the detailed Phase 1 (the 1-week near-term goal).** §8 lists the repos to pull into Claude Code context. §9 is open decisions for the team. §10 (new in v0.2) is cross-cutting requirements that bind every module.
 >
@@ -59,7 +59,7 @@ version: 0.3
 
 Arango holds the ontology, the entity resolution / canonical entities, the mappings, and *selected* context — **not** the bulk of the raw data. Everything else stays at the source and is fetched on demand. (Mental model: the PubMed/NIH ~16 TB **metadata** graph that stores linkages, not raw data.)
 
-This sits under [[Arango Contextual Data Fabric]]and is being built for (and pressure-tested against) the [[ZScaler]] customer-context engagement, but the fabric is a general, composable platform capability.
+This sits under [[Arango Contextual Data Fabric]]and is being built for (and pressure-tested against) the [[design-partner]] customer-context engagement, but the fabric is a general, composable platform capability.
 
 ---
 
@@ -68,13 +68,13 @@ This sits under [[Arango Contextual Data Fabric]]and is being built for (and pre
 ### 2.1 The general problem
 In the agent era, the bottleneck is no longer storing data — it is giving agents a **single, governed, semantically-normalized view** across many systems without copying everything into one place. If every agent talks directly to every system (agent-to-agent, "A2A"), you get an **N² translation problem** and you must re-implement business rules and access control on every edge. An **ontology** turns that into a wagon-wheel (linear): translate once to a shared representation; enforce rules once, in one place.
 
-### 2.2 The customer signal ([[ZScaler]])
-From the [[2026-07-10 - C360 ZScaler Demo]], [[2026-07-09 - C360 Review & Feedback with Matthew]], and [[ZScaler Feedback Summary]]:
+### 2.2 The customer signal (the design partner)
+From the [[2026-07-10 - C360 design-partner demo]], [[2026-07-09 - C360 field-feedback review]], and [[design-partner feedback summary]]:
 
 - **Current state:** Snowflake medallion (bronze/silver/gold), **data mesh** with team-owned marts; a "Customer 360 view" exists but **each domain re-creates the same semantics/metrics** — duplication is the pain.
-- **Ask #1 — auto-derive the ontology.** Rah Raman: *"the biggest challenge is defining these entities… we want to do it in a programmatic way, as new things pop up, not rely on someone's knowledge."* Our hand-modeled graph was flagged as **unrealistic at scale**. Framing: **"structured data in, ontology out."**
+- **Ask #1 — auto-derive the ontology.** The customer's data-platform lead: *"the biggest challenge is defining these entities… we want to do it in a programmatic way, as new things pop up, not rely on someone's knowledge."* Our hand-modeled graph was flagged as **unrealistic at scale**. Framing: **"structured data in, ontology out."**
 - **Ask #2 — Arango as the routing brain, no data duplication.** *"We don't want to move the data… the brain has to be on this side."* Agents hit Arango first; if it can't answer, the ontology routes to the source, fetches live, resolves the entity, returns.
-- **Hard constraints:** no bulk materialization into Arango; **cost and latency are political** (Rah has discouraged his team from Arango over token costs — see [[2026-07-09 - C360 Review & Feedback with Matthew]]); ontology overlap across domains must be reconciled; **they want to SEE it working**, not conceptual.
+- **Hard constraints:** no bulk materialization into Arango; **cost and latency are political** (the data-platform lead has discouraged his team from Arango over token costs — see [[2026-07-09 - C360 field-feedback review]]); ontology overlap across domains must be reconciled; **they want to SEE it working**, not conceptual.
 
 ### 2.3 The competitive question we must answer
 **If a customer already has a Snowflake agent and can orchestrate via A2A, what does Arango add?** The prototype must *demonstrate*, not assert:
@@ -149,7 +149,7 @@ The near-term goal (per Arthur) drives Phase 1; later phases widen source covera
 | Phase | Theme | Outcome |
 |-------|-------|---------|
 | **Phase 1 (≈1 week)** | **Federated query to one database + unstructured docs in Arango** | An English question answered by federating **one relational DB (live, not mirrored)** with the **unstructured graph already in Arango**, unified by a small use-case-driven ontology, returned **grounded + cited** with a retrieval path spanning both. Proves the "what does Arango add over A2A" story at small scale. |
-| **Phase 2** | Highest-value connector + assembled pattern | **Snowflake** connector — **pulled forward: due 2026-07-24** (free-tier check RESOLVED: 30-day trial, $400 credits, no credit card; see §7.7); the **assembled/materialized** query pattern for analytics; richer ontology **alignment** across ≥2 structured sources + unstructured; cost/latency instrumentation to directly answer Rah's token objection. |
+| **Phase 2** | Highest-value connector + assembled pattern | **Snowflake** connector — **pulled forward: due 2026-07-24** (free-tier check RESOLVED: 30-day trial, $400 credits, no credit card; see §7.7); the **assembled/materialized** query pattern for analytics; richer ontology **alignment** across ≥2 structured sources + unstructured; cost/latency instrumentation to directly answer the data-platform lead's token objection. |
 | **Phase 3** | Governance + change management | **Ontology-based access control** (IAM-via-ontology / Palantir pattern) via declarative mappings; belief-management **change control**, curation workflows, and **time-travel** surfaced; **Databricks** connector. |
 | **Cross-cutting** | Packaging & standards | Composable **pip-library** packaging of both building blocks; **deterministic** query-pipeline hardening; **OSI** compliance surfaced; synthetic-data generation (deferred) once the architecture is proven. |
 
@@ -177,7 +177,7 @@ Reuse the [[Customer360]] v3 pipeline (repo `customer-context`): connectors/chun
 | **B4** | **Federated query executor** | English → resolve concepts via ontology → decompose → generate **Postgres SQL (pushdown)** + **Arango AQL** → execute → reassemble. LLM decomposer, deterministic mapping execution, LLM as safety net. | PJ |
 | **B5** | **Grounded, cited retrieval path** | Validated answer envelope + citations + retrieval path spanning **actual SQL + AQL + source objects** (extend the existing customer-360 citation/envelope + traversal viz). | PJ |
 | **B6** | **Thin demo harness** | Minimal UI (reuse the customer-360 Vercel app pattern) to run 1–3 seed questions end-to-end, on the CC-8 topology (`docs/architecture/deployment-p1.md`). | PJ |
-| **B7** | **Cost/latency baseline** | Record tokens + wall-clock per seed question on the fabric path (planner, per-leg, total), **and the same question answered the naive way** (all relevant context stuffed to the LLM / simulated A2A) — the comparison point Rah's objection demands. Half a day: instrument-lite logging, one table in the demo appendix. Full instrumentation stays P2 (M5 FR-9). | PJ (measured while building B4) |
+| **B7** | **Cost/latency baseline** | Record tokens + wall-clock per seed question on the fabric path (planner, per-leg, total), **and the same question answered the naive way** (all relevant context stuffed to the LLM / simulated A2A) — the comparison point the data-platform lead's objection demands. Half a day: instrument-lite logging, one table in the demo appendix. Full instrumentation stays P2 (M5 FR-9). | PJ (measured while building B4) |
 
 ### 7.4 Phase 1 success criteria (demo)
 - At least **one** (target 2–3) seed question answered **end-to-end**, federating live Postgres + the Arango unstructured graph.
@@ -287,7 +287,7 @@ The P1 demo environment is defined in `docs/architecture/deployment-p1.md`: **fo
 
 **Owner-side extraction topology (added 2026-09-05, customer-driven — feeds RD-2/RD-5).**
 The P1 shape — one central application that introspects every source — will not
-survive contact with real data owners: a sovereignty-conscious owner (the NASIC
+survive contact with real data owners: a sovereignty-conscious owner (the a federal prospect
 conversation is the concrete signal) will not let a central application sample
 their databases and schemas at all. The anticipated production topology is
 therefore **distributed extraction**: RSA, AOE, and r2g packaged as separately
@@ -361,7 +361,7 @@ a change that turns the gate red does not merge, regardless of author. Expect
 coordination overhead to slow raw commit throughput; the gate + pins are what
 keep it from slowing *correctness*.
 
-*Sources: [[2026-07-13 Zscaler Customer Context Roadmap]], [[ZScaler Feedback Summary]], [[2026-07-10 - C360 ZScaler Demo]], [[2026-07-09 - C360 Review & Feedback with Matthew]], [[2026-07-10 - ZScaler Feedback Brainstorm]], [[C360 Example Questions]].*
+*Sources: [[2026-07-13 design-partner customer-context roadmap]], [[design-partner feedback summary]], [[2026-07-10 - C360 design-partner demo]], [[2026-07-09 - C360 field-feedback review]], [[2026-07-10 - design-partner feedback brainstorm]], [[C360 Example Questions]].*
 
 ## 12. Readiness ladder — demo-ready is not customer-evaluable *(added 2026-09-05)*
 
@@ -409,7 +409,7 @@ ends:
   AdventureWorks-class) run through the full extract→map→federate→answer loop.
 - **RD-5 · Deployment-requirements discovery.** A written statement, gathered
   from real prospects, of how customers expect to deploy and operate this —
-  starting hypothesis (from the Zscaler engagement): data owners will insist on
+  starting hypothesis (from the design-partner engagement): data owners will insist on
   controlling and curating the ontology extracted from their schemas. Feeds
   CC-8 (topology) and RD-1/RD-2 scope.
 - **RD-6 · Secrets & source-side permissions, hardened.** CC-7's P2 graduation

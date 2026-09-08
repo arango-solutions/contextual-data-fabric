@@ -4,7 +4,7 @@ adr: 0002
 module: 05-federated-query-engine
 status: accepted
 date: 2026-07-21
-deciders: ["Arthur Keen", "PJ (Paul Losiewicz)"]
+deciders: ["Arthur Keen", "PJ"]
 related:
   - "[[ADR-0001-conceptual-query-language|ADR-0001]]"
   - "[[contextual-data-fabric-prd|PRD]] §2.3, §7.7, §10.2"
@@ -64,7 +64,7 @@ Four reasons, in the order customers feel them:
 
 1. **Cost & latency (the political one — PRD §2.2).** Our compiled leg costs
    ~zero tokens and milliseconds per question, forever. A Cortex leg bills
-   LLM inference per question on top of warehouse compute. Rah's objection to
+   LLM inference per question on top of warehouse compute. the data-platform lead's objection to
    Arango was *token cost*; an architecture that puts an LLM inside every
    federated leg concedes that argument at the design level. (B7/CC-6 exists
    to prove our number.)

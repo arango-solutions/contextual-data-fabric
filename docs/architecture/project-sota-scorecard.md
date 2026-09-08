@@ -539,7 +539,7 @@ Public capability evidence was reviewed on 2026-08-05 from:
   https://www.w3.org/TR/prov-o/
 - Zscaler Data Fabric for Security: "Data Fabric For Security — What it Is,
   and Why it Uniquely Addresses the Security Data Challenge" (vendor white
-  paper, ©2024; received from the prospect 2026-08-09, on file — public
+  paper, ©2024; obtained 2026-08-09, on file — public
   copies via https://www.zscaler.com/resources/white-papers). Reviewed
   2026-08-09; vendor evidence per the rule below.
 

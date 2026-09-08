@@ -6,7 +6,7 @@ type:
   - module-spec
 status: active
 version: 0.2
-owner: PJ (Paul Losiewicz)
+owner: PJ
 building_block: Both
 depends_on_modules: ["01-connectors", "05-federated-query-engine"]
 depends_on_repos: ["arango-entity-resolution", "customer-context"]
