@@ -120,10 +120,15 @@ CC-12 OWL naming convention (classes singular PascalCase, properties lowerCamel)
 and `accountId` is declared as the P6.7 cross-source join key that the federated
 legs bind-join on with no materialized edge. Catalog integrity rebuilds exactly.
 
-**Why it is not SOTA-proven:** only the relational CRM source's CSI declares
-typed intra-source relationships (the Snowflake, ClickHouse, and graph CSIs
-declare none), so the "typed relationships across at least five heterogeneous
-sources" threshold is unmet; and the demo does not publish an OWL 2 QL, SHACL,
+**Why it is not SOTA-proven:** two of four sources declare typed
+intra-source relationships — the CRM CSI (5, from declared FKs plus the RSA
+overlay) and the graph CSI (1, Chunk→Document, via ASA's declared-references
+overlay); Snowflake and ClickHouse declare none — so the "typed relationships
+across at least five heterogeneous sources" threshold is unmet. Note the
+typing-provenance distinction (PRD §10.12): the graph's relationship is
+curator-DECLARED while its property types are INFERRED by sampling — the demo
+ArangoDB runs schema-free (no JSON-schema validation on any collection,
+live-verified 2026-09-08). And the demo does not publish an OWL 2 QL, SHACL,
 reasoning, alignment-quality, or metric reproducibility benchmark.
 
 **Leadership threshold:** 25+ classes and typed relationships across at least
