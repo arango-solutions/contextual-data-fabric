@@ -13,6 +13,13 @@ version: 0.1
 
 # Contextual Data Fabric — Product PRD: from demo to state of the art
 
+> **Which PRD is this?** This is the **product strategy** — the multi-phase
+> path (P3–P6), positioning, and exit gates layered on top of
+> [the requirements spec](contextual-data-fabric-prd.md). It is NOT the
+> requirements source of truth: never point `/prd-sync` here, and graduate
+> its ⚖-marked decisions into ADRs before building.
+
+
 > **Purpose.** The [P1 PRD](contextual-data-fabric-prd.md) got us to a proven demo. This
 > document is the next contract: the multi-phase path from that demo to a product that
 > stands beside Palantir Foundry and Denodo — open, composable, graph-native, and

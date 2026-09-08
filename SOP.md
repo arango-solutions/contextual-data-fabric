@@ -131,7 +131,7 @@ Worth knowing early:
 | Artifact | Where | What it is |
 |---|---|---|
 | North star | [NORTH_STAR.md](NORTH_STAR.md) → [full doc](docs/contextual-data-fabric-north-star.md) | The fixed end-goal; scope-ambiguity tiebreaker |
-| **The PRD (the spec)** | [docs/contextual-data-fabric-prd.md](docs/contextual-data-fabric-prd.md) | **Source of truth.** Requirements carry stable ids (`FR-*`, `CC-*` cross-cutting, `RD-*` readiness gates) that code and commits cite. *Do not point `/prd-sync` at the product-prd draft.* |
+| **The PRD (the spec)** | [docs/contextual-data-fabric-prd.md](docs/contextual-data-fabric-prd.md) | **Source of truth.** Requirements carry stable ids (`FR-*`, `CC-*` cross-cutting, `RD-*` readiness gates) that code and commits cite. *Do not point `/prd-sync` at the product-strategy PRD.* |
 | Module specs | `docs/architecture/module-01…10/` | One folder per module: `specification.md` (+ `implementation-plan.md`, `adr/`). New modules start from `_TEMPLATE-module-spec.md`; `docs/architecture/README.md` is the index |
 | ADRs | `docs/architecture/module-05-…/adr/ADR-0001…0006` | Decision records — read before touching the area they govern |
 | Roadmap | [docs/roadmap-2026H2.md](docs/roadmap-2026H2.md) | Eight sprints (S1–S8), three workstreams (WS-A estate hardening, WS-B the Forge, WS-C customer-evaluation readiness). Sprint sections name concrete tasks and exit gates |

@@ -29,6 +29,13 @@ version: 0.3
 
 # Contextual Data Fabric — Product Requirements Document
 
+> **Which PRD is this?** This is **the requirements spec** — the source of
+> truth code and commits cite (`FR-*` / `CC-*` / `RD-*` ids) and the only
+> file `/prd-sync` audits. The long-range product strategy (phases P3–P6,
+> positioning, exit gates) lives in the
+> [Product-Strategy PRD](contextual-data-fabric-product-strategy-prd.md).
+
+
 > **Status:** Draft v0.2 for team review. Posted per the [[2026-07-13 Zscaler Customer Context Roadmap]] action item ("PJ to draft PRD"). Arthur needs this before refactoring r2g / the ontology extractor so we scope the build rather than over-build.
 >
 > **v0.2 (2026-07-13):** reconciled every "as understood — Arthur to confirm" claim against the actual repos (r2g, relational-schema-analyzer, arango-schema-analyzer, arango-ontoextract, arango-entity-resolution). The ★ structured→ontology question is **resolved (yes)**; the risk has moved to **ontology alignment** and **r2g pushdown query generation**, which are builds, not confirms. Repo references in §8 are now pinned. New §10 adds cross-cutting requirements (evaluation, agent interface, consistency, partial failure, caching, security).
