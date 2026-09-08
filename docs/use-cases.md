@@ -13,6 +13,8 @@ related:
 
 # Use Cases & Competency Questions (ORSD-style)
 
+> **What this document is:** the living operationalization of [PRD §4](contextual-data-fabric-prd.md) — the locked competency questions the golden set (M10), the prepared-question registry (`deploy/questions.json`), and AOE's §6.19 CQ program are authored from. **Owned by PJ**; questions lock/evolve here on their own cadence — changes to this file do not rev the PRD, and the PRD's requirements never live here.
+
 > **Derivation, not invention.** PJ confirmed (2026-07-14) there are no formal use-case definitions — the system was designed around **12 locked questions** he authored, each proven to require both graphs. This document formalizes what exists into the ORSD/competency-question shape the fabric has adopted (AOE PRD §6.19): personas, interaction model, use cases, and a CQ table. Sources: `customer-context` (`agent/test/questions.eval.test.ts`, `agent/src/index.ts` anchor prompts, `docs/PROJECT-SUMMARY-INTERNAL.md`), PRD §4's portfolio questions, and PJ's answers below.
 
 ## 1. Recorded decisions (PJ, 2026-07-14)
