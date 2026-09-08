@@ -60,7 +60,9 @@ scorecard]]; implementation completeness is not itself evidence of SOTA.
    masking, citations, introspection, and fail-closed OpenFGA behavior.
 7. **Catalog integrity — PASS.**
    The checked-in M11 manifest exactly rebuilds and validates from the current
-   CSI/R2RML inputs.
+   CSI/R2RML inputs — r2g's forward-direction exports for the Postgres, Snowflake,
+   and ClickHouse legs (CC-12 OWL naming; `accountId` declared as the P6.7
+   cross-source join key) plus the reverse CSI over the live ArangoDB graph.
 
 The implementation score is:
 

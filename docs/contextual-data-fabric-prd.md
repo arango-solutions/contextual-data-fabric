@@ -333,6 +333,17 @@ Every derived conceptual model follows the **W3C-community OWL naming style**: *
 - **Singularization is assisted, not blind:** RSA's recorded concern ("English singularization is unreliable") is handled with r2g's `singularize` + a per-source override map, and the M3 "confirm ~2%" curation step is the human backstop for the `courses→course`-class mistakes.
 - **Timing:** adopted **before pinning** (CC-9) while generated artifacts have one consumer — every CSI/R2RML/question/golden regenerates; deferring would make this a breaking change to accreted customer mappings.
 
+**Typing provenance (added 2026-09-08, from PR review — PJ).** The CSI must
+record *how each source's types are known*, per class/property/relationship:
+**declared** (relational DDL; a graph collection with JSON-schema validation
+enabled; a curator's declared-references overlay), or **inferred** (sampled
+from data — the schema-free graph default). Extraction checks for enforcement
+where the engine offers it (ArangoDB collection `schema` properties) and
+records declared typing when present; graph databases split into
+types-declared and types-inferred families and the fabric must never present
+an inferred type with declared confidence. Scorecard claims about "typed
+relationships" cite the provenance class they rest on.
+
 ### 10.13 Access control & identity (CC-13, M8/P3 — later phase)
 The user asking a question must be entitled to the data each leg returns; a query may be **partly answerable** (some legs permitted, others withheld). Today the engine connects to every source as one read-only service identity (CC-7) and `POST /federate` is **anonymous** — no per-user authorization — and the M5 single-leg **FILTER/OPTIONAL pushdown** (E1) runs under the *service* role, so source row-level security is **not** per-user and projected columns are unmasked. This CC commits the phased design; the full research, citations, and open decisions live in [access-control-research.md](architecture/access-control-research.md). It **extends CC-7** (which stops at "no passthrough until M8") and realizes **M8 (Governance/OBAC)** + product-PRD §4.1 ("the steward and the asker").
 
