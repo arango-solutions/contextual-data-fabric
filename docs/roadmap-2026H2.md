@@ -21,8 +21,19 @@ version: 0.1
 > introduces the roadmap's backbone, **M15 — the Federation Forge**: the
 > ontology→schema mapping pipeline run in reverse as a test-federation generator.
 >
-> **Cadence rules (added 2026-08-31).** The 3-week frame is a **ceiling, not a
-> target**, and it works only with the two-tier cadence this repo already runs —
+> **Cadence decision (2026-09-08, team consensus): sprints are 2 weeks,**
+> superseding the 3-week frame and the "revisit at the S4 boundary" rule below
+> — observed velocity already ran ahead of the 3-week boxes, and the team
+> called it. Effective from S2; S1 closes on its exit gate per the
+> finish-early rule. **The S2–S8 date boxes below are stale until the
+> 2026-09-09 roadmap review re-cuts them** — content blocks and exit gates
+> stand; only the calendar re-slices (note for the re-cut: keep the
+> consolidation sprint over the mid-December holiday, wherever it falls in
+> the new numbering).
+>
+> **Cadence rules (added 2026-08-31; frame now 2 weeks).** The sprint frame is
+> a **ceiling, not a target**, and it works only with the two-tier cadence
+> this repo already runs —
 > the inner loop stays PR-sized with every PR landing through the green gate, so
 > sprints are *planning and evidence checkpoints, never integration events*.
 > (1) **Finish-early / pull-forward:** a sprint ends the moment its exit gate is
@@ -31,7 +42,7 @@ version: 0.1
 > law is the one real risk of a 3-week frame, and this rule kills it).
 > (2) **Day-7 checkpoint:** one async mid-sprint status to the owner — gate
 > trajectory, blockers, anything that should redirect — giving 2-week-equivalent
-> steering at 3-week ceremony cost. The scarce resource is owner decision
+> steering at minimal ceremony cost. The scarce resource is owner decision
 > bandwidth, not engineering hours; boundaries are priced accordingly.
 > **Revisit at the S4 boundary:** with four sprints of actuals, if gates are
 > consistently green by day 10, re-cut S5–S8 at two weeks.
