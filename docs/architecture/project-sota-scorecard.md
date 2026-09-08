@@ -492,9 +492,9 @@ The bakeoff must use the same:
 The quarterly review tracks Denodo, Starburst/Trino, Dremio, Databricks,
 Snowflake, Stardog, Ontotext GraphDB, Palantir Foundry/AIP, Timbr, Cambridge
 Semantics Anzo, Ontop, and — as the **materializing entity-fabric
-archetype** — the design partner Data Fabric for Security (their in-house fabric).
+archetype** — a leading cloud-security vendor's entity-fabric platform.
 
-the design partner is tracked as a *contrast class*, not a same-workload competitor: its
+The archetype is tracked as a *contrast class*, not a same-workload competitor: its
 fabric copies source data into a central entity store (ingest → format →
 enrich → resolve/dedupe → group) and is the strongest public write-up of that
 approach — relevant to dimensions 6 (its lineage stops at the pipeline; no
@@ -551,11 +551,9 @@ Public capability evidence was reviewed on 2026-08-05 from:
   https://w3c.github.io/rdf-tests/sparql/sparql11/,
   https://www.w3.org/TR/rdb2rdf-test-cases/, and
   https://www.w3.org/TR/prov-o/
-- the design partner Data Fabric for Security: "Data Fabric For Security — What it Is,
-  and Why it Uniquely Addresses the Security Data Challenge" (vendor white
-  paper, ©2024; obtained 2026-08-09, on file — public
-  copies via https://www.design-partner.com/resources/white-papers). Reviewed
-  2026-08-09; vendor evidence per the rule below.
+- Materializing entity-fabric archetype: a cloud-security vendor's public
+  data-fabric-for-security white paper (©2024; obtained 2026-08-09, on file).
+  Reviewed 2026-08-09; vendor evidence per the rule below.
 
 Vendor benchmarks are treated as vendor evidence unless independently audited.
 Connector counts exclude aliases where the public documentation makes that
