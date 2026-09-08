@@ -5,7 +5,7 @@ type:
   - roadmap
 date: 2026-08-31
 related:
-  - "[[contextual-data-fabric-product-prd]] (requirements; phases P3–P6)"
+  - "[[contextual-data-fabric-product-strategy-prd]] (requirements; phases P3–P6)"
   - "[[contextual-data-fabric-north-star]]"
   - "docs/architecture/project-sota-scorecard.md (evidence gates)"
 status: draft
@@ -14,7 +14,7 @@ version: 0.1
 
 # CDF — Six-Month Roadmap (2026-09-01 → 2027-02-28)
 
-> **How to read this.** The [product PRD](contextual-data-fabric-product-prd.md)
+> **How to read this.** The [product PRD](contextual-data-fabric-product-strategy-prd.md)
 > owns *what and why* (Q1–Q10 decisions, modules M11–M14, phases P3–P6 by theme);
 > this roadmap owns the **calendar**: eight 3-week sprints with exit gates in the
 > house idiom (a sprint is done when its gate is green, or it isn't done). It also

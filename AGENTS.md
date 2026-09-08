@@ -22,6 +22,6 @@ The PRD is at `docs/contextual-data-fabric-prd.md`. It is the source of truth fo
 what this system must do; all implementation should be traceable to a requirement
 in it (the code already cites `FR-*` / `NFR` / `M*` markers from this file).
 
-`docs/contextual-data-fabric-product-prd.md` is a later product-framing draft
+`docs/contextual-data-fabric-product-strategy-prd.md` is a later product-framing draft
 (`status: draft`) layered on top and referencing this PRD — it is **not** the
 requirements spec, so do not point `/prd-sync` at it.

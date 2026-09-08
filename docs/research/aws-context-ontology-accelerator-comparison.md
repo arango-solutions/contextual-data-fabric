@@ -8,7 +8,7 @@ date: 2026-08-19
 status: draft — for team review
 related:
   - "docs/architecture/project-sota-scorecard.md"
-  - "docs/contextual-data-fabric-product-prd.md"
+  - "docs/contextual-data-fabric-product-strategy-prd.md"
   - "docs/contextual-data-fabric-north-star.md"
 ---
 
@@ -260,4 +260,4 @@ lock-in, gain provenance."
 - https://aws.amazon.com/about-aws/whats-new/2026/07/aws-context--ontology-accelarator-generally-available/
 - https://aws.github.io/context-ontology-accelerator/
 - Third-party deploy/experience write-ups: Zenn (AWS Japan deploy guide), Serverworks overview, Zenn local-lab HermiT/Ontop/MCP experiment
-- CDF: this repo @ `main` 2026-08-19; `docs/architecture/project-sota-scorecard.md` v1.2; `docs/contextual-data-fabric-product-prd.md`
+- CDF: this repo @ `main` 2026-08-19; `docs/architecture/project-sota-scorecard.md` v1.2; `docs/contextual-data-fabric-product-strategy-prd.md`

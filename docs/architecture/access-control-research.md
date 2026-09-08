@@ -8,7 +8,7 @@ date: 2026-08-03
 related:
   - "[[contextual-data-fabric-prd]]"          # §10.7 CC-7, §10.8
   - "[[module-08-governance-obac/specification]]"
-  - "[[contextual-data-fabric-product-prd]]"  # §4.1 two identity planes, P3.2/P3.3
+  - "[[contextual-data-fabric-product-strategy-prd]]"  # §4.1 two identity planes, P3.2/P3.3
 audience: architecture / PRD (later phase)
 ---
 
