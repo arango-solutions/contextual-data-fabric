@@ -144,10 +144,32 @@ Worth knowing early:
 
 **The specifications are paramount and are always kept current.**
 
-1. **No feature starts before its spec.** Update the PRD / module spec /
-   ADR *first* — the requirement gets an id, the design gets recorded — then
-   implement, citing the id in code and commits. (ADR-0006 was accepted
-   before one line of Forge code: that's the pattern.)
+1. **No feature starts before its spec — and the spec change is its own
+   PR.** Update the PRD / module spec / ADR in a small, dedicated PR; get it
+   reviewed and **merged to main before the implementation branch starts**.
+   The requirement gets an id, the design gets recorded, reviewers approve
+   the *contract* before any code exists — and the spec on main is always
+   the one everyone audits against. Then implement, citing the id in code
+   and commits. (ADR-0006 was accepted before one line of Forge code:
+   that's the pattern.)
+   - *Why merged-first, not same-PR:* the shared memory's drift baseline
+     (`prd_sha256`, `drift_alerts`) is **per-project, not per-branch**. A
+     PRD edited on a branch plus `/prd-sync` moves the shared baseline to
+     unmerged content and feeds phantom gaps into every teammate's session
+     digest. Corollary: **run `/prd-sync` only when your branch's PRD is
+     identical to main's** — i.e., your spec PR has merged. On a feature
+     branch it then audits your code against the agreed contract, which is
+     exactly what you want.
+   - **How the docs relate** (the traceability chain): North Star → **PRD**
+     (the WHAT — requirement ids, cross-cutting CC-*, readiness RD-*) →
+     **module specs** in `docs/architecture/module-NN/` (the per-module
+     decomposition: scoped FRs, interfaces, acceptance criteria) →
+     **implementation plans + ADRs** (the HOW and the decided trade-offs) →
+     code citing the ids → **goldens** pinning the behavior. A change
+     ripples top-down: touch the PRD when the *requirement* changes, the
+     module spec when the *module contract* changes, an ADR when a
+     *decision* is made — and reconcile upward in the same PR if a lower
+     layer contradicts a higher one.
 2. **When an issue surfaces during implementation or testing, interrogate the
    spec before the code.** Classify it first:
    - *Ambiguous spec* → sharpen the spec, then fix.
