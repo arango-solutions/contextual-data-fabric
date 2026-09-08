@@ -76,6 +76,12 @@ demo page by `deploy/demo/server.py`) is generic over one JSON payload:
 - **FR-2 (P1):** Pre-run/"in the interest of time" mode (avoid drawing attention to latency — per the sales feedback in [[2026-07-09 - C360 Review & Feedback with Matthew]]).
 - **FR-3 (P2):** Show cost/latency panel when the customer is ready for that conversation.
 - **FR-4 (P2):** Portfolio-scale / cross-account questions.
+- **FR-5 (P2, added 2026-09-08):** **Embedded documentation** (PRD RD-7b /
+  CC-20): in-UI help for every panel (what the metrics strip, provenance
+  panel, and editor markers mean — the lens-legend principle applied to the
+  whole surface), the service's OpenAPI schema fully field-documented, and
+  catalog/CSI descriptions surfaced in the vocabulary the editor and agents
+  consume.
 
 ## 5. Non-functional requirements
 Reliable in front of a customer (a confident wrong or flaky demo is the failure mode); reuse existing UI rather than rebuild.

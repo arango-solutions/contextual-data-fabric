@@ -463,6 +463,10 @@ survives a leg failure (declared partial, not flaky).
 - **CC-18 — Cost is attributed.** Every question can report what it cost, per leg.
 - **CC-19 — Controller changes are governed.** Allocation changes are audited,
   reversible catalog transactions with a declared reason — at every autonomy level.
+- **CC-20 — The system documents itself.** Embedded documentation ships with the
+  surface it documents (UI help, OpenAPI field docs, CLI `--help`, catalog
+  descriptions exposed to users and agents); a feature PR that adds a surface
+  without its embedded docs is incomplete (PRD RD-7b).
 
 ---
 

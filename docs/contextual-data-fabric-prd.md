@@ -416,9 +416,17 @@ ends:
   (real secret store behind the SecretResolver seam, key-pair/OAuth per source,
   rotation) plus a stated position on how *source-granted* permissions bound
   what each connector may read.
-- **RD-7 · User documentation.** Operator-facing docs (install, connect a
-  source, curate, ask, read an envelope) distinct from this internal spec —
-  today none exist.
+- **RD-7 · User documentation — external AND embedded.** Two halves, both
+  required: (a) operator-facing docs (install, connect a source, curate,
+  ask, read an envelope) distinct from this internal spec — today none
+  exist; (b) **embedded, in-product documentation** (added 2026-09-08): the
+  system explains itself where it is used — help surfaces in the demo/ArGOS
+  UI, a fully-described OpenAPI schema on the service seam (every field of
+  the envelope documented at `/docs`), `--help` on every CLI that says what
+  and why, and catalog/CSI descriptions surfaced to users and agents (the
+  vocabulary endpoint carries the ontology's own documentation). A system
+  whose trust story is "every answer shows its work" should never need a
+  manual open in a second window to be understood.
 - **RD-8 · Team process at scale.** §11's team-scaling gates in force across the
   estate before added engineers land code.
 

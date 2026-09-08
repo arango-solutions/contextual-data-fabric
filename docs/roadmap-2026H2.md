@@ -143,7 +143,7 @@ items the calendar didn't already carry:
 | RD-4b reference corpus | Northwind through the full loop; Chinook/Sakila following | S3 (with the forge suite) |
 | RD-5 deployment discovery | prospect-interview kit + written deployment-requirements memo; validates CC-8's owner-side extraction hypothesis (RSA/AOE/r2g packaged as owner-run instances shipping only contracts to CDF — the NASIC signal) | kit S1, memo by S4 |
 | RD-6 secrets graduation | CC-7 P2: secret store behind SecretResolver; source-permission stance | S4 |
-| RD-7 user docs | operator docs skeleton (install → connect → curate → ask → read an envelope), grown per sprint | skeleton S2, gate at S8 |
+| RD-7 user docs | operator docs skeleton (install → connect → curate → ask → read an envelope), grown per sprint; **plus embedded in-product docs (RD-7b/CC-20)**: UI help surfaces, field-documented OpenAPI, CLI --help, catalog descriptions surfaced | skeleton S2, embedded-docs lane from S3, gate at S8 |
 | RD-8 team process | branch protection + required review across the estate; library release trains on the CC-9 pins | before first added engineer lands code (interns: S1–S2) |
 
 **Honest statement for stakeholders:** R2 is not a date on this calendar — RD-1's
