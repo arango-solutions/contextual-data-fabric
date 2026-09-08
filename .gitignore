@@ -17,3 +17,4 @@ docs/questions_answers/
 # CNL exploration — local experiment doc, deliberately out of the repo until
 # the spike validates it (see the escrow appendix inside for PRD re-insertion)
 docs/cnl-deterministic-rail.md
+docs/**/*.pdf

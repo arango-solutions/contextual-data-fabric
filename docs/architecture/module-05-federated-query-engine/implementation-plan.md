@@ -175,7 +175,7 @@ A1/A2/A3 → A4 → B1/C1/C2 → E1 → E2 → E3 → F1
 
 Every node on the P1 path is complete and live-gated. The authoritative
 completion record is the
-[[contextual-data-fabric/docs/architecture/p1-closeout-plan|P1 close-out
+[[contextual-data-fabric/docs/archive/p1-closeout-plan|P1 close-out
 record]]. D2 and the P2/P3 work packages are independent follow-on work, not
 blockers on the shipped demo.
 

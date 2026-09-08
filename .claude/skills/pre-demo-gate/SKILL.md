@@ -36,4 +36,4 @@ just passed `make gate` is not cleared to run.
   gate needs that source reachable; an offline demo can only cover the Postgres+Arango core.
 
 ## References
-- `deploy/demo/gate.py`, `Makefile` (`gate`/`demo`/`up`/`seed`), `docs/architecture/p1-closeout-plan.md`.
+- `deploy/demo/gate.py`, `Makefile` (`gate`/`demo`/`up`/`seed`), `docs/archive/p1-closeout-plan.md (archived)`.
