@@ -18,3 +18,6 @@ docs/questions_answers/
 # the spike validates it (see the escrow appendix inside for PRD re-insertion)
 docs/cnl-deterministic-rail.md
 docs/**/*.pdf
+
+# Personal Claude Code settings (permissions history, machine paths) — never shared
+.claude/settings.local.json
