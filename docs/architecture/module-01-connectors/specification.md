@@ -42,7 +42,7 @@ Own the boundary to each external source. Two distinct jobs: (a) a **metadata-sa
 - **FR-5 (P3):** Databricks connector.
 - **FR-6 (P1 floor / P2 hardened):** P1 security floor (PRD §10.7 / CC-7): every source connection uses a **read-only DB role**; credentials come from environment/secret store, never code or mapping artifacts; no raw-credential logging. P2: full credential management + per-source read-only enforcement.
 - **FR-7 (P1):** **Logical source registry + SecretResolver seam.** Connectors are addressed by logical source name; M1 resolves name → credential at `open()` time. P1 backend: `.env`; P2 backend: a secret store (Vault / cloud manager) behind the same seam. Reuse r2g Phase 8's credential pattern (encrypted registry, `$ENV_VAR` resolution at use time, token redaction on read, DSN-scrubbed errors). Nothing outside M1 ever holds a raw credential; all read-back surfaces (incl. MCP tools) redact.
-- **FR-8 (P2):** **Per-source auth hardening:** Snowflake **key-pair auth** (not passwords), Databricks **service principal + OAuth M2M**; rotation via the secret store with no code change. **No per-user passthrough** — deferred to M8 (PRD §10.7 identity model).
+- **FR-8 (P2):** **Per-source auth hardening:** Snowflake **key-pair auth** (not passwords), Databricks **service principal + OAuth M2M**; rotation via the secret store with no code change; Snowflake service users must be `TYPE=SERVICE` on key-pair or workload identity federation (passwords blocked Oct 2026); Databricks PATs are not offered. Per-user identity at the source is **M16's** concern (trust levels, brokers, provisioning); M1 supplies the service credential and `BaseSourceIdentity` and consumes the resulting `SourceExecutionContext` unchanged.
 - **FR-9 (P3 / WP-17 baseline):** Every query source declares
   `service|delegated`. `service` preserves the existing least-privilege
   connector. `delegated` requires a `DelegationBroker` exchange from the
@@ -52,7 +52,11 @@ Own the boundary to each external source. Two distinct jobs: (a) a **metadata-sa
   closed and must never fall back to service credentials. RFC 8693 is the
   preferred exchange where supported; source-specific adapters are explicit.
   CDF does not provision an STS, Snowflake external OAuth, Postgres role
-  mappings, or any source-native policy.
+  mappings, or any source-native policy. **Ownership (2026-09-09):** the
+  broker implementations, the `asserted` level, per-source provisioning
+  checklists and certification goldens live in **M16 (Identity Delegation &
+  Source Trust)**; M1 keeps the `SecretResolver`, the service credential, and
+  the executor-side consumption of `SourceExecutionContext`.
 
 ### P2.3 SecretResolver and rotation contract (WP-8)
 

@@ -144,3 +144,38 @@ systems before selecting delegated mode.
 - Build-plane identity, multi-tenant isolation, external IdP/STS deployment,
   source policy configuration, and OpenFGA policy operation remain explicit
   dependencies rather than simulated capabilities.
+
+## Amendment 2026-09-09 — trust levels, admission and cache invariants, ownership
+
+**Trigger:** the vendor authentication survey
+(`docs/research/vendor-auth-access-control-survey.md`) and the data-source
+reference (`docs/research/data-source-identity-mechanisms.md`).
+
+1. **Three trust levels, not two.** `SourceAuthMode` gains `asserted` between
+   `service` and `delegated`. Under `asserted` the fabric connects as itself and
+   states the authenticated principal through a channel the source's own
+   policies read (Snowflake session variable read by row access policies;
+   Postgres `SET ROLE`). The source enforces per user but has not authenticated
+   the user and its audit records the service identity. The level is recorded
+   per leg in the envelope so a reader can tell which applied. Anonymous
+   principals are refused on `asserted` and `delegated` legs.
+2. **No silent degradation.** A request for a higher level than the source is
+   certified for is refused; a level never falls back to a lower one. This
+   generalizes the existing rule that `delegated` never falls back to service.
+3. **Token-lifetime admission.** A `delegated` leg whose `SourceIdentity.expires_at`
+   precedes the leg's absolute deadline is refused at admission with a named
+   reason. Brokers do not refresh mid-leg (Starburst documents the same
+   constraint for OAuth passthrough).
+4. **Entitlement-scoped caches.** Leg and assembly cache keys include the
+   entitlement scope of the principal the entry was produced for; an entry
+   produced under `service` is never served to an `asserted` or `delegated`
+   request (Denodo and Dremio document this failure mode).
+5. **Hub is always fabric-enforced.** ArangoDB has no document-level security;
+   the hub leg is enforced by the fabric at every level and the envelope says so.
+6. **Ownership.** Brokers, the `asserted` adapters, per-source provisioning
+   checklists and certification goldens are **M16 (Identity Delegation & Source
+   Trust)**. M1 keeps service credentials and `BaseSourceIdentity`; M8 keeps
+   decisions; M5 carries `SourceExecutionContext`. The "operator integrations"
+   this ADR left open now have a module and a first increment (P3.7: Snowflake
+   External OAuth broker; asserted level for Snowflake and Postgres).
+

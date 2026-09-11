@@ -266,8 +266,9 @@ The vendors document three casualties, all relevant to CDF's design:
 
 - **Connection pooling.** Denodo keeps one pool per user and offers Oracle
   proxy authentication as a lighter alternative. Ontop's shared JDBC pool has
-  no per-user hook at all, which is why CDF's delegated Postgres leg would need
-  a native executor or an Ontop change.
+  no per-user hook today, which is why CDF's per-user Postgres leg is delivered
+  by an upstream Ontop change (`SET ROLE` in the statement initializer, then an
+  identity-keyed pool) rather than by routing around Ontop; see PRD §10.13.
 - **Caching.** Denodo's cache "does not check which user populated it"; the
   documented mitigation is to populate it with an unrestricted scheduled user
   or not cache. Dremio disables reflections on impersonated sources. CDF's M12
@@ -467,10 +468,15 @@ and the PRD.
    authenticated, and refused when the principal is anonymous. This is a
    small executor change and a one-paragraph ADR-0004 amendment.
 
-3. **Decide the Postgres delegation route before promising it.** Ontop has no
-   per-user hook. The options are per-user roles with `SET ROLE` from a native
-   Postgres executor, or PG18 `oauth` with a validator module. Both are real
-   work; neither is a config change.
+3. **Keep Ontop and change it, rather than route around it.** Ontop already
+   carries HTTP headers into its `QueryContext` and exposes `ontop_user()` to
+   mappings and lenses (Ontop PR #753); its maintainer wants impersonation built
+   on that object (Ontop discussion #884). The cheap step is a `SET ROLE` per
+   statement in Ontop's `JDBCStatementInitializer` for the `asserted` level; the
+   full step is an identity-keyed connection pool for `delegated`, designed with
+   Ontopic. A native Postgres executor is a fallback only, because it forfeits
+   the aggregation pushdown ADR-0005 grants solely to Ontop and Arango. Decided
+   2026-09-10; PRD §10.13 and ADR-0001's amendment hold the option set.
 
 4. **Add a token-lifetime bound to per-leg deadlines.** Starburst's
    documented constraint applies to any passthrough design. A delegated leg

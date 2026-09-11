@@ -249,3 +249,26 @@ biggest open decisions:
    transpiler tweak.
 5. **How much OWL reasoning at query time vs build time** (recommend: build
    time — materialize `sameAs`/`equivalentClass` into the master ontology).
+
+## Amendment 2026-09-10 — Ontop's role under per-user identity
+
+**Trigger:** PJ's review of the M16 spec (PR #22) observed that, with Snowflake
+native under ADR-0002 and ClickHouse always native, Postgres is Ontop's last
+runtime leg, and that an M16 requirement for a native Postgres executor would
+retire Ontop by implication while this ADR's adopt-not-build decision stood.
+
+**Decision:** Ontop remains the Postgres rewriter *and* executor at every M16
+trust level (`service`, `asserted`, `delegated`). Per-user identity on Postgres
+is delivered by changes in Ontop, contributed upstream: a `SET ROLE` per
+statement driven by Ontop's existing `QueryContext` for `asserted`, and an
+identity-keyed connection pool for `delegated` (Ontop discussion #884). A
+native Postgres executor is a last-resort fallback only, because ADR-0005
+grants single-leg aggregation pushdown solely to Ontop and Arango and a native
+executor would forfeit it. Reformulate-then-execute-in-CDF is demoted for the
+reason Ontop's maintainer gave: the generated SQL needs post-processing to
+match SPARQL results, and the reformulation endpoint is dev-mode only.
+
+**Consequence:** CDF carries a fork build of the Ontop image under CC-9 pin
+discipline until the upstream change ships. M16 FR-5 holds the requirement;
+PRD §10.13 records the option set.
+

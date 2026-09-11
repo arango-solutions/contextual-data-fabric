@@ -34,7 +34,11 @@ principal-bound row/seed scope; masking/drop; citation and introspection
 filtering; OIDC request context; OpenFGA-compatible relationship checks; and
 fail-closed delegated execution seams.
 **Out of scope:** being the customer's IAM system; provisioning OpenFGA, IdP,
-STS, or source-native RLS/masking.
+STS, or source-native RLS/masking. Which identity a leg runs under at the
+source (trust level, brokers, provisioning, certification) is **M16**; M8
+consumes the level to decide how much enforcement the fabric itself must do
+(everything under `service`, defense-in-depth under `delegated`, always
+everything for the ArangoDB hub).
 
 ## 3. Interfaces (inputs / outputs)
 - **Consumes:** master ontology (M3) + mappings (M4) + agent identity/context.
@@ -94,5 +98,11 @@ Policy defined once; enforcement auditable/cited; no policy logic duplicated int
 
 ## 9. Open questions
 - Production OpenFGA model/store/tuple ownership and availability SLO.
-- IdP/STS integration and source-specific delegated identity mapping.
-- Reconciliation between fabric policy and source-native RLS/masking.
+- ~~IdP/STS integration and source-specific delegated identity mapping.~~ Moved to
+  **M16** (2026-09-09).
+- **Reconciliation between fabric policy and source-native RLS/masking** — promote
+  to a section. The vendor survey shows no product has solved policy replication;
+  Denodo and Immuta sell tag-driven "define once" layers as the mitigation, which is
+  what ontology-seated policy is. M8 must state: which side wins on disagreement, how
+  the disagreement is surfaced in the envelope, and how the M11 manifest records
+  which source-native policies the fabric relies on per trust level.

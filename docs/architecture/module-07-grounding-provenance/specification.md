@@ -42,6 +42,8 @@ Our differentiator, extended across the federation boundary. Takes the retrieval
 - **FR-6 (P1):** **Partial-failure rendering** (PRD §10.5 / CC-5) — when M5 reports a failed leg, render the partial answer with the failed leg explicitly declared (the partially-grounded badge); render a clean refusal when the failed leg was load-bearing. Never present a partial answer as complete.
 - **FR-7 (P1):** **As-of timestamps on citations** (PRD §10.4 / CC-4) — each citation shows when its leg was current (live query time vs last-ingest time), so temporal skew between federated sources is visible, not hidden.
 
+- **FR-8 (P3.7, with M16):** **Trust level per leg in the envelope.** Every leg citation carries the source trust level it ran under (`service` / `asserted` / `delegated`), the source subject, the credential scheme, and the identity expiry when delegated — never any secret material. The three levels carry different audit meanings (under `service` and `asserted` the source's own log shows CDF, not the user), so a reader of a cited answer must be able to tell which applied. M16 supplies the values through `SourceExecutionContext`; M7 renders them and M10's certification goldens assert them.
+
 ## 5. Non-functional requirements
 No confident-wrong-answers (refuse over guess); citation path complete across the federation; trust is structural.
 

@@ -80,7 +80,16 @@ already exists.
   and structural grounding** (Foundry asserts trust; we cite or refuse).
 - **Denodo / Starburst (Trino) / dbt semantic layer** federate or standardize SQL but have
   **no ontology, no entity resolution, no grounding, no agent surface**. They answer
-  "query many databases"; we answer "give every agent one governed brain."
+  "query many databases"; we answer "give every agent one governed brain." On
+  per-user delegation to sources they are the mature reference designs, and M16
+  inherits their patterns (RFC 8693 exchange, per-source service-vs-delegated
+  choice) rather than competing on them.
+- **Graph virtualization (PuppyGraph, Stardog, Timbr, RelationalAI, Neo4j Virtual Graph)**
+  runs on a single service identity with engine-side row filtering; only Stardog
+  delegates the user's identity to a warehouse, and none offers column masking
+  ([vendor survey](research/vendor-auth-access-control-survey.md)). CDF's
+  `delegated` level puts it level with Stardog and ahead of the rest; its
+  fail-closed refusal contrasts with PuppyGraph's fail-open row-level security.
 - **GraphRAG products** handle unstructured only; we federate it *with* the systems of
   record and cite across the boundary.
 - The **agent-first surface (MCP + grounded envelope)** is the differentiator none of the
@@ -122,10 +131,15 @@ identities:
   values passing the redaction gate** before they can reach an LLM prompt or the catalog
   (the D1 schema card already obeys this — generalize it). Sampling artifacts stored in
   the catalog are **profiles and sketches, not rows** (§4.5).
-- **Query plane (asker).** Users/agents authenticate to the fabric, never to sources.
-  Entitlements are defined **on the ontology** (M8, the Palantir pattern): concept-,
+- **Query plane (asker).** Users/agents authenticate to the fabric, never to sources
+  directly. Entitlements are defined **on the ontology** (M8, the Palantir pattern): concept-,
   property-, and row-scope rules, defined once, compiled into every leg (WHERE clauses /
-  AQL filters appended by the planner) and enforced again at reassembly.
+  AQL filters appended by the planner) and enforced again at reassembly. Which identity
+  each leg runs under at the source — `service`, `asserted`, or `delegated` — is a
+  per-source certified level owned by **M16** (PRD §10.13, ADR-0004 amendment); the
+  ontology policy sits above source-native RLS/masking, never replaces it. **Open
+  decision:** every surveyed vendor sells SSO and delegation as a paid tier; this PRD
+  must decide whether `delegated` is a tier or the default.
 - **Citations are data.** The envelope must pass the same policy: a user who cannot read
   a source object cannot receive it as a citation. This creates a new refusal class —
   *"refused: insufficient entitlement"* — distinct from *"refused: ungrounded"*, and both
@@ -392,6 +406,7 @@ absorbed into P3 below. Cut lines are ordered within each phase.
 | P3.4 | **E1 → E1.5 expressiveness**: FILTER/IN/range pushdown, ORDER/LIMIT, aggregate pushdown v1 (the assembled analytics pattern) | Q4-prereq |
 | P3.5 | Gate expansion: authorization goldens, aggregate goldens, catalog-integrity checks (zero concept overlap becomes a catalog constraint, not a script) | — |
 | P3.6 | **Catalog browser v0 — read-only, ~free**: the catalog *is* a graph in the hub, so browse it with the ArangoDB **Graph Visualizer** — a "Fabric Catalog" viewpoint + theme + saved queries (sources → schemas → concepts → mappings → ownership; "who owns concept X", "sources missing statistics"). Installer already exists (the `arangodb-visualizer-customizer` skill). Stewards stop debugging the catalog via raw AQL | Q2 |
+| P3.7 | **M16 Identity Delegation v1**: `asserted` level for Snowflake and Postgres, Snowflake External OAuth broker (RFC 8693), token-lifetime admission, per-source provisioning checklists, certification goldens (two users, different rows; anonymous refused; broker removed → fail closed) | Q1 |
 
 **Exit gate:** a new source onboards **through the catalog** with no hand-edited files;
 an analytics question (`GROUP BY` on Snowflake) answers via pushdown; flagging a property
