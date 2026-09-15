@@ -1,0 +1,169 @@
+"""Federation Forge orchestration (ADR-0006, M15) — fixture mode.
+
+These tests need r2g's forge (the generator core) importable; they skip when
+the CC-9 pin in ``deploy/pins/r2g-arango.txt`` is not installed.
+"""
+
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+import pytest
+
+r2g_forge = pytest.importorskip(
+    "r2g.forge", reason="r2g generator core not installed (deploy/pins/r2g-arango.txt)"
+)
+
+from cdf.eval.forge.dataset import synthesize  # noqa: E402
+from cdf.eval.forge.descriptor import (  # noqa: E402
+    DESCRIPTOR_FILE,
+    load_descriptor,
+    validate_descriptor,
+)
+from cdf.eval.forge.fixture_csi import fixture_csi  # noqa: E402
+from cdf.eval.forge.oracle import compose_goldens, expected_catalog  # noqa: E402
+from cdf.eval.forge.sampler import FAMILIES, sample_shape  # noqa: E402
+from cdf.eval.forge.suite import (  # noqa: E402
+    check_determinism,
+    emit_shape,
+    run_shape,
+    sample_suite,
+)
+from cdf.eval.golden import run_golden  # noqa: E402
+
+# ── sampler ─────────────────────────────────────────────────────────────────
+
+
+@pytest.mark.parametrize("family", FAMILIES)
+def test_sampler_is_deterministic_and_single_owner(family: str) -> None:
+    a = sample_shape(7, family)
+    b = sample_shape(7, family)
+    assert a == b
+    names = {e["name"] for e in a.entities()}
+    assert set(a.owner) == names, "every concept has exactly one owner"
+    assert set(a.owner.values()) == {s.name for s in a.systems}, "every system owns a concept"
+    for rel in a.relationships():
+        assert rel["fromEntity"] in names and rel["toEntity"] in names
+        assert rel["type"] == r2g_forge.expected_relationship_type(
+            rel["fromEntity"], rel["toEntity"]
+        )
+
+
+def test_sampler_families_have_their_defining_shape() -> None:
+    two = sample_shape(1, "two_leg")
+    assert len(two.systems) == 2 and two.cross_system_relationships()
+    chain = sample_shape(1, "chain")
+    assert (
+        len(chain.systems) == len(chain.entities())
+        and len(chain.relationships()) == len(chain.entities()) - 1
+    )
+    hub = sample_shape(1, "hub")
+    targets = {r["toEntity"] for r in hub.relationships()}
+    assert len(targets) == 1, "hub: every relationship points at the hub"
+    wide = sample_shape(1, "wide_narrow")
+    sizes = sorted(len(e["properties"]) for e in wide.entities())
+    assert sizes[-1] >= 10 and sizes[0] <= 2
+    six = sample_shape(1, "six_leg")
+    assert len(six.systems) == 6
+
+
+def test_different_seeds_differ() -> None:
+    assert sample_shape(1, "two_leg").ontology != sample_shape(2, "two_leg").ontology
+
+
+def test_ontology_is_accepted_by_r2g_forge() -> None:
+    for family in FAMILIES:
+        shape = sample_shape(3, family)
+        r2g_forge.ForgeOntology.from_conceptual(
+            shape.ontology
+        )  # raises ForgeError if not roundtrippable
+
+
+# ── dataset + fixture CSI ───────────────────────────────────────────────────
+
+
+def test_dataset_is_synthesised_once_and_spine_safe() -> None:
+    shape = sample_shape(5, "two_leg")
+    ds = synthesize(shape, rows_per_entity=6)
+    for rel in shape.relationships():
+        parent_ids = {r["id"] for r in ds.rows(rel["toEntity"])}
+        fk = r2g_forge.foreign_key_column(rel["toEntity"])
+        for row in ds.rows(rel["fromEntity"]):
+            assert row[fk] in parent_ids, "every FK value points at an existing parent row"
+
+
+def test_fixture_csi_is_labelled_and_routes_by_system() -> None:
+    shape = sample_shape(5, "hub")
+    for system in shape.systems:
+        doc = fixture_csi(shape, system)
+        assert doc["provenance"]["producer"] == "cdf-forge-fixture"
+        assert doc["provenance"]["source"] == {"kind": system.kind, "ref": system.name}
+        owned = {e["name"] for e in doc["conceptualModel"]["entities"]}
+        assert owned == {n for n, s in shape.owner.items() if s == system.name}
+        for rel in doc["conceptualModel"]["relationships"]:
+            assert rel["fromEntity"] in owned, "relationships are declared where their FK lives"
+
+
+# ── oracle ──────────────────────────────────────────────────────────────────
+
+
+def test_expected_catalog_marks_cross_system_join_keys() -> None:
+    shape = sample_shape(11, "chain")
+    cat = expected_catalog(shape)
+    assert cat["ownership"] == shape.owner
+    assert all(k["crossSystem"] for k in cat["joinKeys"]), "a chain crosses systems at every hop"
+    assert cat["collisions"] == []
+
+
+def test_join_golden_bindings_follow_the_spine() -> None:
+    shape = sample_shape(2, "two_leg")
+    ds = synthesize(shape, rows_per_entity=5)
+    joins = [c for c in compose_goldens(shape, ds) if c["family"] == "join"]
+    assert joins
+    case = joins[0]
+    assert len(case["sources"]) == 2
+    assert len(case["expect"]["bindings"]) == 5, "one binding per child row (every FK resolves)"
+    assert case["signedOff"] is False
+
+
+@pytest.mark.parametrize("family", FAMILIES)
+def test_generated_goldens_pass_through_the_real_planner(family: str) -> None:
+    """The fixture-mode contract: partition → execute → ground agrees with the oracle."""
+    shape = sample_shape(21, family)
+    ds = synthesize(shape, rows_per_entity=4)
+    outcomes = [run_golden(case) for case in compose_goldens(shape, ds)]
+    failed = [(o.name, o.mismatches) for o in outcomes if not o.passed]
+    assert not failed, failed
+    families = {c["family"] for c in compose_goldens(shape, ds)}
+    assert {"lookup", "join"} <= families
+
+
+# ── emit + determinism ──────────────────────────────────────────────────────
+
+
+def test_emit_is_byte_identical_on_regeneration(tmp_path: Path) -> None:
+    shape = sample_shape(8, "wide_narrow")
+    emitted = emit_shape(shape, tmp_path, rows_per_entity=3)
+    assert check_determinism(shape, emitted.directory, rows_per_entity=3) == []
+    doc = load_descriptor(emitted.directory / DESCRIPTOR_FILE)
+    assert doc["name"] == shape.name and doc["partitionMap"] == shape.partition_map()
+    for rel in doc["expected"]["goldens"]:
+        assert (emitted.directory / rel).exists()
+    assert all(not o.mismatches for o in run_shape(emitted))
+
+
+def test_descriptor_validation_rejects_bad_partition_targets(tmp_path: Path) -> None:
+    shape = sample_shape(8, "two_leg")
+    emitted = emit_shape(shape, tmp_path, rows_per_entity=2)
+    doc = json.loads(json.dumps(load_descriptor(emitted.directory / DESCRIPTOR_FILE)))
+    concept = next(iter(doc["partitionMap"]))
+    doc["partitionMap"][concept]["system"] = "nowhere"
+    with pytest.raises(ValueError, match="unknown system"):
+        validate_descriptor(doc)
+
+
+def test_sample_suite_cycles_families() -> None:
+    shapes = sample_suite(shapes=7, seed=100)
+    assert [s.family for s in shapes] == [FAMILIES[i % len(FAMILIES)] for i in range(7)]
+    assert len({s.name for s in shapes}) == 7
