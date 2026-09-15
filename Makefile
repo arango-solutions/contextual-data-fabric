@@ -13,6 +13,8 @@
 
 # Host ports — overridable; defaults match this machine's running stacks.
 export CDF_ARANGO_PORT   ?= 8530
+FORGE_SHAPES ?= 10
+FORGE_SEED   ?= 421
 export CDF_POSTGRES_PORT ?= 5433
 # 8090 is not free on this machine: dalio-bff binds 127.0.0.1:8090, and an
 # explicit loopback bind wins over Docker's wildcard, so the stack comes up
@@ -33,6 +35,7 @@ export CDF_CLICKHOUSE_HTTP_PORT ?= 8123
 CDF_SIBLINGS ?= $(HOME)/code
 CDF_USE_LOCAL_SIBLINGS ?= 0
 ARANGO_SPARQL_PIN ?= deploy/pins/arango-sparql-py.txt
+R2G_PIN ?= deploy/pins/r2g-arango.txt
 
 # Engine environment (CC-7: credentials stay here, in the engine's env).
 DEMO_ENV = ARANGO_URL=http://127.0.0.1:$(CDF_ARANGO_PORT) ARANGO_DB=cmf \
@@ -57,7 +60,7 @@ LOAD_ENV = if [ -f ./.env ]; then set -a; . ./.env; set +a; fi;
 PY = .venv/bin/python
 CK25_EVIDENCE ?= docs/evidence/ck25-gpt-4o-mini-3x.json
 
-.PHONY: install up seed gate demo test optimizer-oracle performance-baseline scale-baseline ck25-live sota-baseline sota-baseline-live catalog-probe catalog-integrity authorization-golden down jdbc free-ui sync-secondary
+.PHONY: install up seed gate demo test forge-suite optimizer-oracle performance-baseline scale-baseline ck25-live sota-baseline sota-baseline-live catalog-probe catalog-integrity authorization-golden down jdbc free-ui sync-secondary
 
 install:
 	python3 -m venv .venv
@@ -78,6 +81,7 @@ install:
 	  $(PY) -m pip install -e "$(CDF_SIBLINGS)/arango-sparql-py[nl,analyzer]"; \
 	else \
 	  $(PY) -m pip install -r "$(ARANGO_SPARQL_PIN)"; \
+	  $(PY) -m pip install -e ".[forge]" -r "$(R2G_PIN)"; \
 	fi
 	@echo "OK — now: make demo   (Docker must be running)"
 
@@ -147,6 +151,13 @@ performance-baseline:
 
 # Live latency evidence at the CURRENT corpus scale (seed first):
 #   make seed scale-baseline CDF_SCALE_FACTOR=10
+# Federation Forge (ADR-0006, M15) — fixture mode: sample shapes, emit the
+# descriptors + expected catalog/goldens, prove byte-identical regeneration,
+# and run every golden through the real planner/executor/grounding with
+# fixture executors. No engines needed. Live mode is the nightly job (S3).
+forge-suite:
+	$(PY) -m cdf.eval.forge suite --shapes $(FORGE_SHAPES) --seed $(FORGE_SEED) --out deploy/forge/shapes --check-determinism --run
+
 scale-baseline:
 	$(LOAD_ENV) $(DEMO_ENV) $(PY) -m cdf.eval.scale_baseline
 

@@ -24,6 +24,9 @@ auth = ["PyJWT[crypto]>=2.13,<3.0"]
 assembly = ["python-arango>=8.0,<9.0"]
 # Manual external-corpus evidence generation (CK25 execution judge).
 benchmark = ["PyYAML>=6.0", "pyoxigraph>=0.3.22"]
+# Federation Forge orchestration (ADR-0006 / M15): descriptors are YAML; the
+# generator core (r2g) is installed from deploy/pins/r2g-arango.txt (CC-9).
+forge = ["PyYAML>=6.0"]
 
 [project.scripts]
 cdf-mcp = "cdf.mcp_server:main"
@@ -67,5 +70,5 @@ select = ["E", "F", "I", "W", "UP", "B"]
 # The live-source adapters lazy-import the owned engine libraries, which ship no
 # type stubs; they are optional (not core deps) and only loaded on the live path.
 [[tool.mypy.overrides]]
-module = ["arango_sparql.*", "arango.*", "clickhouse_connect.*", "snowflake.*"]
+module = ["arango_sparql.*", "arango.*", "clickhouse_connect.*", "snowflake.*", "r2g", "r2g.*", "yaml"]
 ignore_missing_imports = true
