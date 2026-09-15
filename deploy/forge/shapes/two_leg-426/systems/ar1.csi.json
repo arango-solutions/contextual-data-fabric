@@ -1,0 +1,111 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Asset": {
+        "collectionName": "assets",
+        "properties": {
+          "accountId": {
+            "field": "account_id"
+          },
+          "archived": {
+            "field": "archived"
+          },
+          "id": {
+            "field": "id"
+          },
+          "primary": {
+            "field": "primary"
+          }
+        },
+        "style": "COLLECTION"
+      },
+      "Product": {
+        "collectionName": "products",
+        "properties": {
+          "accountId": {
+            "field": "account_id"
+          },
+          "currency": {
+            "field": "currency"
+          },
+          "id": {
+            "field": "id"
+          },
+          "margin": {
+            "field": "margin"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Asset",
+        "properties": [
+          {
+            "name": "accountId",
+            "type": "integer"
+          },
+          {
+            "name": "archived",
+            "type": "boolean"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "primary",
+            "type": "boolean"
+          }
+        ]
+      },
+      {
+        "name": "Product",
+        "properties": [
+          {
+            "name": "accountId",
+            "type": "integer"
+          },
+          {
+            "name": "currency",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "margin",
+            "type": "float"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Asset",
+        "toEntity": "Account",
+        "type": "assetsToAccounts"
+      },
+      {
+        "fromEntity": "Product",
+        "toEntity": "Account",
+        "type": "productsToAccounts"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "arango",
+      "ref": "ar1"
+    }
+  }
+}

@@ -1,0 +1,372 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "order_billable": true,
+        "product_expired": false
+      },
+      {
+        "order_billable": true,
+        "product_expired": true
+      },
+      {
+        "order_billable": false,
+        "product_expired": false
+      },
+      {
+        "order_billable": false,
+        "product_expired": true
+      },
+      {
+        "order_billable": true,
+        "product_expired": false
+      },
+      {
+        "order_billable": true,
+        "product_expired": false
+      },
+      {
+        "order_billable": true,
+        "product_expired": true
+      },
+      {
+        "order_billable": false,
+        "product_expired": false
+      },
+      {
+        "order_billable": false,
+        "product_expired": false
+      },
+      {
+        "order_billable": true,
+        "product_expired": false
+      },
+      {
+        "order_billable": false,
+        "product_expired": false
+      },
+      {
+        "order_billable": false,
+        "product_expired": false
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1",
+      "arango:ar5"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "six_leg-425--join--Product-Order",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_expired ?order_billable WHERE { ?product a c:Product ; c:expired ?product_expired ; c:productsToOrders ?order . ?order a c:Order ; c:billable ?order_billable }",
+  "shape": "six_leg-425",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Product": {
+              "collectionName": "products",
+              "properties": {
+                "expired": {
+                  "field": "expired"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "orderId": {
+                  "field": "order_id"
+                },
+                "quantity": {
+                  "field": "quantity"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "total": {
+                  "field": "total"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Product",
+              "properties": [
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "orderId",
+                  "type": "integer"
+                },
+                {
+                  "name": "quantity",
+                  "type": "integer"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "total",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Product",
+              "toEntity": "Order",
+              "type": "productsToOrders"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar5"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for products",
+        "rows": [
+          {
+            "order": 3,
+            "product": 1,
+            "product_expired": false
+          },
+          {
+            "order": 9,
+            "product": 2,
+            "product_expired": true
+          },
+          {
+            "order": 7,
+            "product": 3,
+            "product_expired": false
+          },
+          {
+            "order": 7,
+            "product": 4,
+            "product_expired": true
+          },
+          {
+            "order": 3,
+            "product": 5,
+            "product_expired": false
+          },
+          {
+            "order": 4,
+            "product": 6,
+            "product_expired": false
+          },
+          {
+            "order": 2,
+            "product": 7,
+            "product_expired": true
+          },
+          {
+            "order": 8,
+            "product": 8,
+            "product_expired": false
+          },
+          {
+            "order": 10,
+            "product": 9,
+            "product_expired": false
+          },
+          {
+            "order": 6,
+            "product": 10,
+            "product_expired": false
+          },
+          {
+            "order": 5,
+            "product": 11,
+            "product_expired": false
+          },
+          {
+            "order": 12,
+            "product": 12,
+            "product_expired": false
+          }
+        ],
+        "source_objects": [
+          "products"
+        ]
+      },
+      "system": "ar5"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Order": {
+              "collectionName": "orders",
+              "properties": {
+                "billable": {
+                  "field": "billable"
+                },
+                "deviceId": {
+                  "field": "device_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "region": {
+                  "field": "region"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "shipmentId": {
+                  "field": "shipment_id"
+                },
+                "weight": {
+                  "field": "weight"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Order",
+              "properties": [
+                {
+                  "name": "billable",
+                  "type": "boolean"
+                },
+                {
+                  "name": "deviceId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "shipmentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "weight",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Order",
+              "toEntity": "Device",
+              "type": "ordersToDevices"
+            },
+            {
+              "fromEntity": "Order",
+              "toEntity": "Shipment",
+              "type": "ordersToShipments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for orders",
+        "rows": [
+          {
+            "order": 1,
+            "order_billable": true
+          },
+          {
+            "order": 2,
+            "order_billable": true
+          },
+          {
+            "order": 3,
+            "order_billable": true
+          },
+          {
+            "order": 4,
+            "order_billable": true
+          },
+          {
+            "order": 5,
+            "order_billable": false
+          },
+          {
+            "order": 6,
+            "order_billable": true
+          },
+          {
+            "order": 7,
+            "order_billable": false
+          },
+          {
+            "order": 8,
+            "order_billable": false
+          },
+          {
+            "order": 9,
+            "order_billable": true
+          },
+          {
+            "order": 10,
+            "order_billable": false
+          },
+          {
+            "order": 11,
+            "order_billable": false
+          },
+          {
+            "order": 12,
+            "order_billable": false
+          }
+        ],
+        "source_objects": [
+          "orders"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

@@ -1,0 +1,65 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "account_id",
+      "crossSystem": true,
+      "from": "Contract",
+      "fromSystem": "sf1",
+      "parentColumn": "id",
+      "relationship": "contractsToAccounts",
+      "to": "Account",
+      "toSystem": "ch1"
+    },
+    {
+      "childColumn": "account_id",
+      "crossSystem": true,
+      "from": "Payment",
+      "fromSystem": "sf1",
+      "parentColumn": "id",
+      "relationship": "paymentsToAccounts",
+      "to": "Account",
+      "toSystem": "ch1"
+    },
+    {
+      "childColumn": "account_id",
+      "crossSystem": true,
+      "from": "Session",
+      "fromSystem": "pg1",
+      "parentColumn": "id",
+      "relationship": "sessionsToAccounts",
+      "to": "Account",
+      "toSystem": "ch1"
+    }
+  ],
+  "ownership": {
+    "Account": "ch1",
+    "Contract": "sf1",
+    "Payment": "sf1",
+    "Session": "pg1"
+  },
+  "shape": "hub-428",
+  "systems": {
+    "ch1": {
+      "dialect": "clickhouse",
+      "kind": "clickhouse",
+      "sourceId": "clickhouse:ch1"
+    },
+    "pg1": {
+      "dialect": "postgres",
+      "kind": "postgresql",
+      "sourceId": "postgresql:pg1"
+    },
+    "sf1": {
+      "dialect": "snowflake",
+      "kind": "snowflake",
+      "sourceId": "snowflake:sf1"
+    }
+  },
+  "tables": {
+    "Account": "accounts",
+    "Contract": "contracts",
+    "Payment": "payments",
+    "Session": "sessions"
+  }
+}

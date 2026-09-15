@@ -1,0 +1,85 @@
+{
+  "entities": [
+    {
+      "name": "Account",
+      "properties": [
+        {
+          "name": "amount",
+          "type": "float"
+        },
+        {
+          "name": "rank",
+          "type": "integer"
+        },
+        {
+          "name": "ratio",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "Contract",
+      "properties": [
+        {
+          "name": "archived",
+          "type": "boolean"
+        },
+        {
+          "name": "primary",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "properties": [
+        {
+          "name": "region",
+          "type": "string"
+        },
+        {
+          "name": "score",
+          "type": "integer"
+        },
+        {
+          "name": "verified",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Session",
+      "properties": [
+        {
+          "name": "expired",
+          "type": "boolean"
+        },
+        {
+          "name": "flagged",
+          "type": "boolean"
+        },
+        {
+          "name": "weight",
+          "type": "float"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Contract",
+      "toEntity": "Account",
+      "type": "contractsToAccounts"
+    },
+    {
+      "fromEntity": "Payment",
+      "toEntity": "Account",
+      "type": "paymentsToAccounts"
+    },
+    {
+      "fromEntity": "Session",
+      "toEntity": "Account",
+      "type": "sessionsToAccounts"
+    }
+  ]
+}

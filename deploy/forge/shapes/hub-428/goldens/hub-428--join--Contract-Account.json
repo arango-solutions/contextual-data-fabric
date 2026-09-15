@@ -1,0 +1,377 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "account_amount": 9879.887019,
+        "contract_archived": false
+      },
+      {
+        "account_amount": 92871.030985,
+        "contract_archived": false
+      },
+      {
+        "account_amount": 9879.887019,
+        "contract_archived": true
+      },
+      {
+        "account_amount": 26044.173198,
+        "contract_archived": true
+      },
+      {
+        "account_amount": 64933.450121,
+        "contract_archived": true
+      },
+      {
+        "account_amount": 88532.479835,
+        "contract_archived": false
+      },
+      {
+        "account_amount": 66776.476722,
+        "contract_archived": true
+      },
+      {
+        "account_amount": 26044.173198,
+        "contract_archived": false
+      },
+      {
+        "account_amount": 25490.693635,
+        "contract_archived": true
+      },
+      {
+        "account_amount": 88532.479835,
+        "contract_archived": false
+      },
+      {
+        "account_amount": 56358.957885,
+        "contract_archived": false
+      },
+      {
+        "account_amount": 64702.633431,
+        "contract_archived": true
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1",
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "hub-428--join--Contract-Account",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_archived ?account_amount WHERE { ?contract a c:Contract ; c:archived ?contract_archived ; c:contractsToAccounts ?account . ?account a c:Account ; c:amount ?account_amount }",
+  "shape": "hub-428",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Contract": {
+              "collectionName": "contracts",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "archived": {
+                  "field": "archived"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "region": {
+                  "field": "region"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "verified": {
+                  "field": "verified"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Contract",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            },
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Contract",
+              "toEntity": "Account",
+              "type": "contractsToAccounts"
+            },
+            {
+              "fromEntity": "Payment",
+              "toEntity": "Account",
+              "type": "paymentsToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for contracts",
+        "rows": [
+          {
+            "account": 2,
+            "contract": 1,
+            "contract_archived": false
+          },
+          {
+            "account": 9,
+            "contract": 2,
+            "contract_archived": false
+          },
+          {
+            "account": 2,
+            "contract": 3,
+            "contract_archived": true
+          },
+          {
+            "account": 3,
+            "contract": 4,
+            "contract_archived": true
+          },
+          {
+            "account": 11,
+            "contract": 5,
+            "contract_archived": true
+          },
+          {
+            "account": 12,
+            "contract": 6,
+            "contract_archived": false
+          },
+          {
+            "account": 10,
+            "contract": 7,
+            "contract_archived": true
+          },
+          {
+            "account": 3,
+            "contract": 8,
+            "contract_archived": false
+          },
+          {
+            "account": 1,
+            "contract": 9,
+            "contract_archived": true
+          },
+          {
+            "account": 12,
+            "contract": 10,
+            "contract_archived": false
+          },
+          {
+            "account": 6,
+            "contract": 11,
+            "contract_archived": false
+          },
+          {
+            "account": 7,
+            "contract": 12,
+            "contract_archived": true
+          }
+        ],
+        "source_objects": [
+          "contracts"
+        ]
+      },
+      "system": "sf1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "rank": {
+                  "field": "rank"
+                },
+                "ratio": {
+                  "field": "ratio"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
+        "rows": [
+          {
+            "account": 1,
+            "account_amount": 25490.693635
+          },
+          {
+            "account": 2,
+            "account_amount": 9879.887019
+          },
+          {
+            "account": 3,
+            "account_amount": 26044.173198
+          },
+          {
+            "account": 4,
+            "account_amount": 77182.003159
+          },
+          {
+            "account": 5,
+            "account_amount": 60769.627371
+          },
+          {
+            "account": 6,
+            "account_amount": 56358.957885
+          },
+          {
+            "account": 7,
+            "account_amount": 64702.633431
+          },
+          {
+            "account": 8,
+            "account_amount": 96350.500781
+          },
+          {
+            "account": 9,
+            "account_amount": 92871.030985
+          },
+          {
+            "account": 10,
+            "account_amount": 66776.476722
+          },
+          {
+            "account": 11,
+            "account_amount": 64933.450121
+          },
+          {
+            "account": 12,
+            "account_amount": 88532.479835
+          }
+        ],
+        "source_objects": [
+          "accounts"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

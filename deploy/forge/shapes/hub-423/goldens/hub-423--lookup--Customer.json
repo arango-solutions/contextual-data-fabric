@@ -1,0 +1,211 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "customer_balance": 11075.908845,
+        "customer_enabled": false
+      },
+      {
+        "customer_balance": 34669.136692,
+        "customer_enabled": true
+      },
+      {
+        "customer_balance": 52306.295095,
+        "customer_enabled": true
+      },
+      {
+        "customer_balance": 28589.087396,
+        "customer_enabled": false
+      },
+      {
+        "customer_balance": 6420.453771,
+        "customer_enabled": false
+      },
+      {
+        "customer_balance": 35.015176,
+        "customer_enabled": true
+      },
+      {
+        "customer_balance": 89040.721838,
+        "customer_enabled": false
+      },
+      {
+        "customer_balance": 98782.941935,
+        "customer_enabled": false
+      },
+      {
+        "customer_balance": 83293.05105,
+        "customer_enabled": false
+      },
+      {
+        "customer_balance": 99512.288775,
+        "customer_enabled": false
+      },
+      {
+        "customer_balance": 34522.257918,
+        "customer_enabled": false
+      },
+      {
+        "customer_balance": 66623.502903,
+        "customer_enabled": false
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "hub-423--lookup--Customer",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_balance ?customer_enabled WHERE { ?customer a c:Customer ; c:balance ?customer_balance ; c:enabled ?customer_enabled }",
+  "shape": "hub-423",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "balance": {
+                  "field": "balance"
+                },
+                "enabled": {
+                  "field": "enabled"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "vendorId": {
+                  "field": "vendor_id"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "balance",
+                  "type": "float"
+                },
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "vendorId",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Vendor",
+              "type": "customersToVendors"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
+        "rows": [
+          {
+            "customer": 1,
+            "customer_balance": 11075.908845,
+            "customer_enabled": false
+          },
+          {
+            "customer": 2,
+            "customer_balance": 34669.136692,
+            "customer_enabled": true
+          },
+          {
+            "customer": 3,
+            "customer_balance": 52306.295095,
+            "customer_enabled": true
+          },
+          {
+            "customer": 4,
+            "customer_balance": 28589.087396,
+            "customer_enabled": false
+          },
+          {
+            "customer": 5,
+            "customer_balance": 6420.453771,
+            "customer_enabled": false
+          },
+          {
+            "customer": 6,
+            "customer_balance": 35.015176,
+            "customer_enabled": true
+          },
+          {
+            "customer": 7,
+            "customer_balance": 89040.721838,
+            "customer_enabled": false
+          },
+          {
+            "customer": 8,
+            "customer_balance": 98782.941935,
+            "customer_enabled": false
+          },
+          {
+            "customer": 9,
+            "customer_balance": 83293.05105,
+            "customer_enabled": false
+          },
+          {
+            "customer": 10,
+            "customer_balance": 99512.288775,
+            "customer_enabled": false
+          },
+          {
+            "customer": 11,
+            "customer_balance": 34522.257918,
+            "customer_enabled": false
+          },
+          {
+            "customer": 12,
+            "customer_balance": 66623.502903,
+            "customer_enabled": false
+          }
+        ],
+        "source_objects": [
+          "customers"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

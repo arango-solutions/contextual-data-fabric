@@ -1,0 +1,81 @@
+forgeShapeVersion: 1
+name: six_leg-425
+family: six_leg
+seed: 425
+ontology: ontology.json
+scale:
+  rowsPerEntity: 12
+systems:
+  ar1:
+    dialect: arango
+    kind: arango
+  ar2:
+    dialect: arango
+    kind: arango
+  ar3:
+    dialect: arango
+    kind: arango
+  ar4:
+    dialect: arango
+    kind: arango
+  ar5:
+    dialect: arango
+    kind: arango
+  pg1:
+    dialect: postgres
+    kind: postgresql
+partitionMap:
+  Device:
+    dialect: arango
+    system: ar3
+  Invoice:
+    dialect: arango
+    system: ar2
+  Order:
+    dialect: arango
+    system: ar1
+  Product:
+    dialect: arango
+    system: ar5
+  Shipment:
+    dialect: arango
+    system: ar4
+  Vendor:
+    dialect: postgres
+    system: pg1
+denormLog: []
+expected:
+  catalog: expected-catalog.json
+  goldens:
+  - goldens/six_leg-425--lookup--Device.json
+  - goldens/six_leg-425--lookup--Invoice.json
+  - goldens/six_leg-425--lookup--Order.json
+  - goldens/six_leg-425--lookup--Product.json
+  - goldens/six_leg-425--lookup--Shipment.json
+  - goldens/six_leg-425--lookup--Vendor.json
+  - goldens/six_leg-425--join--Invoice-Shipment.json
+  - goldens/six_leg-425--join--Order-Device.json
+  - goldens/six_leg-425--join--Order-Shipment.json
+  - goldens/six_leg-425--join--Product-Order.json
+  - goldens/six_leg-425--join--Shipment-Device.json
+  - goldens/six_leg-425--join--Vendor-Device.json
+  - goldens/six_leg-425--join--Vendor-Order.json
+  - goldens/six_leg-425--chain--Invoice-Shipment-Device.json
+  - goldens/six_leg-425--aggregate--Device.json
+  - goldens/six_leg-425--aggregate--Order.json
+  - goldens/six_leg-425--aggregate--Product.json
+  - goldens/six_leg-425--aggregate--Vendor.json
+  - goldens/six_leg-425--crossleg-aggregate--Invoice-Shipment.json
+fixture:
+  producer: cdf-forge-fixture
+  systems:
+    ar1: systems/ar1.csi.json
+    ar2: systems/ar2.csi.json
+    ar3: systems/ar3.csi.json
+    ar4: systems/ar4.csi.json
+    ar5: systems/ar5.csi.json
+    pg1: systems/pg1.csi.json
+  note: Fixture-mode CSI documents are synthesised by CDF from the descriptor and
+    labelled as such; live mode replaces them with r2g/RSA/ASA-produced CSI.
+generator:
+  rows: r2g-arango 0.4.1

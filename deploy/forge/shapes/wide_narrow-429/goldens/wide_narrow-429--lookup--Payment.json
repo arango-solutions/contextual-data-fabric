@@ -1,0 +1,268 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "payment_active": false,
+        "payment_billable": true
+      },
+      {
+        "payment_active": false,
+        "payment_billable": true
+      },
+      {
+        "payment_active": false,
+        "payment_billable": false
+      },
+      {
+        "payment_active": true,
+        "payment_billable": false
+      },
+      {
+        "payment_active": true,
+        "payment_billable": true
+      },
+      {
+        "payment_active": false,
+        "payment_billable": true
+      },
+      {
+        "payment_active": true,
+        "payment_billable": false
+      },
+      {
+        "payment_active": false,
+        "payment_billable": true
+      },
+      {
+        "payment_active": false,
+        "payment_billable": false
+      },
+      {
+        "payment_active": false,
+        "payment_billable": true
+      },
+      {
+        "payment_active": true,
+        "payment_billable": true
+      },
+      {
+        "payment_active": true,
+        "payment_billable": false
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "wide_narrow-429--lookup--Payment",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_active ?payment_billable WHERE { ?payment a c:Payment ; c:active ?payment_active ; c:billable ?payment_billable }",
+  "shape": "wide_narrow-429",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "active": {
+                  "field": "active"
+                },
+                "billable": {
+                  "field": "billable"
+                },
+                "category": {
+                  "field": "category"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "flagged": {
+                  "field": "flagged"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "margin": {
+                  "field": "margin"
+                },
+                "rank": {
+                  "field": "rank"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "seats": {
+                  "field": "seats"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "weight": {
+                  "field": "weight"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
+                  "name": "billable",
+                  "type": "boolean"
+                },
+                {
+                  "name": "category",
+                  "type": "string"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "margin",
+                  "type": "float"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "seats",
+                  "type": "integer"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "weight",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
+        "rows": [
+          {
+            "payment": 1,
+            "payment_active": false,
+            "payment_billable": true
+          },
+          {
+            "payment": 2,
+            "payment_active": false,
+            "payment_billable": true
+          },
+          {
+            "payment": 3,
+            "payment_active": false,
+            "payment_billable": false
+          },
+          {
+            "payment": 4,
+            "payment_active": true,
+            "payment_billable": false
+          },
+          {
+            "payment": 5,
+            "payment_active": true,
+            "payment_billable": true
+          },
+          {
+            "payment": 6,
+            "payment_active": false,
+            "payment_billable": true
+          },
+          {
+            "payment": 7,
+            "payment_active": true,
+            "payment_billable": false
+          },
+          {
+            "payment": 8,
+            "payment_active": false,
+            "payment_billable": true
+          },
+          {
+            "payment": 9,
+            "payment_active": false,
+            "payment_billable": false
+          },
+          {
+            "payment": 10,
+            "payment_active": false,
+            "payment_billable": true
+          },
+          {
+            "payment": 11,
+            "payment_active": true,
+            "payment_billable": true
+          },
+          {
+            "payment": 12,
+            "payment_active": true,
+            "payment_billable": false
+          }
+        ],
+        "source_objects": [
+          "payments"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

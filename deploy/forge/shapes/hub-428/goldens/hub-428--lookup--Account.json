@@ -1,0 +1,198 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "account_amount": 25490.693635,
+        "account_rank": 6769
+      },
+      {
+        "account_amount": 9879.887019,
+        "account_rank": 78670
+      },
+      {
+        "account_amount": 26044.173198,
+        "account_rank": 12521
+      },
+      {
+        "account_amount": 77182.003159,
+        "account_rank": 79740
+      },
+      {
+        "account_amount": 60769.627371,
+        "account_rank": 1269
+      },
+      {
+        "account_amount": 56358.957885,
+        "account_rank": 83715
+      },
+      {
+        "account_amount": 64702.633431,
+        "account_rank": 36524
+      },
+      {
+        "account_amount": 96350.500781,
+        "account_rank": 37740
+      },
+      {
+        "account_amount": 92871.030985,
+        "account_rank": 26889
+      },
+      {
+        "account_amount": 66776.476722,
+        "account_rank": 92297
+      },
+      {
+        "account_amount": 64933.450121,
+        "account_rank": 79113
+      },
+      {
+        "account_amount": 88532.479835,
+        "account_rank": 66279
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "hub-428--lookup--Account",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_amount ?account_rank WHERE { ?account a c:Account ; c:amount ?account_amount ; c:rank ?account_rank }",
+  "shape": "hub-428",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "rank": {
+                  "field": "rank"
+                },
+                "ratio": {
+                  "field": "ratio"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
+        "rows": [
+          {
+            "account": 1,
+            "account_amount": 25490.693635,
+            "account_rank": 6769
+          },
+          {
+            "account": 2,
+            "account_amount": 9879.887019,
+            "account_rank": 78670
+          },
+          {
+            "account": 3,
+            "account_amount": 26044.173198,
+            "account_rank": 12521
+          },
+          {
+            "account": 4,
+            "account_amount": 77182.003159,
+            "account_rank": 79740
+          },
+          {
+            "account": 5,
+            "account_amount": 60769.627371,
+            "account_rank": 1269
+          },
+          {
+            "account": 6,
+            "account_amount": 56358.957885,
+            "account_rank": 83715
+          },
+          {
+            "account": 7,
+            "account_amount": 64702.633431,
+            "account_rank": 36524
+          },
+          {
+            "account": 8,
+            "account_amount": 96350.500781,
+            "account_rank": 37740
+          },
+          {
+            "account": 9,
+            "account_amount": 92871.030985,
+            "account_rank": 26889
+          },
+          {
+            "account": 10,
+            "account_amount": 66776.476722,
+            "account_rank": 92297
+          },
+          {
+            "account": 11,
+            "account_amount": 64933.450121,
+            "account_rank": 79113
+          },
+          {
+            "account": 12,
+            "account_amount": 88532.479835,
+            "account_rank": 66279
+          }
+        ],
+        "source_objects": [
+          "accounts"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

@@ -1,0 +1,292 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "account_segment": "segment-78079",
+        "account_sku": "sku-85806"
+      },
+      {
+        "account_segment": "segment-37440",
+        "account_sku": "sku-90286"
+      },
+      {
+        "account_segment": "segment-45858",
+        "account_sku": "sku-97340"
+      },
+      {
+        "account_segment": "segment-14159",
+        "account_sku": "sku-93108"
+      },
+      {
+        "account_segment": "segment-94750",
+        "account_sku": "sku-77049"
+      },
+      {
+        "account_segment": "segment-12193",
+        "account_sku": "sku-04605"
+      },
+      {
+        "account_segment": "segment-98008",
+        "account_sku": "sku-00617"
+      },
+      {
+        "account_segment": "segment-07307",
+        "account_sku": "sku-26687"
+      },
+      {
+        "account_segment": "segment-34898",
+        "account_sku": "sku-53820"
+      },
+      {
+        "account_segment": "segment-87281",
+        "account_sku": "sku-79725"
+      },
+      {
+        "account_segment": "segment-14504",
+        "account_sku": "sku-74225"
+      },
+      {
+        "account_segment": "segment-30802",
+        "account_sku": "sku-60082"
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "wide_narrow-429--lookup--Account",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_segment ?account_sku WHERE { ?account a c:Account ; c:segment ?account_segment ; c:sku ?account_sku }",
+  "shape": "wide_narrow-429",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "sku": {
+                  "field": "sku"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "total": {
+                  "field": "total"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Device": {
+              "collectionName": "devices",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "total",
+                  "type": "float"
+                }
+              ]
+            },
+            {
+              "name": "Device",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Account",
+              "toEntity": "Payment",
+              "type": "accountsToPayments"
+            },
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Payment",
+              "type": "customersToPayments"
+            },
+            {
+              "fromEntity": "Device",
+              "toEntity": "Payment",
+              "type": "devicesToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
+        "rows": [
+          {
+            "account": 1,
+            "account_segment": "segment-78079",
+            "account_sku": "sku-85806"
+          },
+          {
+            "account": 2,
+            "account_segment": "segment-37440",
+            "account_sku": "sku-90286"
+          },
+          {
+            "account": 3,
+            "account_segment": "segment-45858",
+            "account_sku": "sku-97340"
+          },
+          {
+            "account": 4,
+            "account_segment": "segment-14159",
+            "account_sku": "sku-93108"
+          },
+          {
+            "account": 5,
+            "account_segment": "segment-94750",
+            "account_sku": "sku-77049"
+          },
+          {
+            "account": 6,
+            "account_segment": "segment-12193",
+            "account_sku": "sku-04605"
+          },
+          {
+            "account": 7,
+            "account_segment": "segment-98008",
+            "account_sku": "sku-00617"
+          },
+          {
+            "account": 8,
+            "account_segment": "segment-07307",
+            "account_sku": "sku-26687"
+          },
+          {
+            "account": 9,
+            "account_segment": "segment-34898",
+            "account_sku": "sku-53820"
+          },
+          {
+            "account": 10,
+            "account_segment": "segment-87281",
+            "account_sku": "sku-79725"
+          },
+          {
+            "account": 11,
+            "account_segment": "segment-14504",
+            "account_sku": "sku-74225"
+          },
+          {
+            "account": 12,
+            "account_segment": "segment-30802",
+            "account_sku": "sku-60082"
+          }
+        ],
+        "source_objects": [
+          "accounts"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

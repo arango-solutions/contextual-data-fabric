@@ -1,0 +1,50 @@
+forgeShapeVersion: 1
+name: wide_narrow-429
+family: wide_narrow
+seed: 429
+ontology: ontology.json
+scale:
+  rowsPerEntity: 12
+systems:
+  ar1:
+    dialect: arango
+    kind: arango
+  ch1:
+    dialect: clickhouse
+    kind: clickhouse
+partitionMap:
+  Account:
+    dialect: clickhouse
+    system: ch1
+  Customer:
+    dialect: clickhouse
+    system: ch1
+  Device:
+    dialect: clickhouse
+    system: ch1
+  Payment:
+    dialect: arango
+    system: ar1
+denormLog: []
+expected:
+  catalog: expected-catalog.json
+  goldens:
+  - goldens/wide_narrow-429--lookup--Account.json
+  - goldens/wide_narrow-429--lookup--Customer.json
+  - goldens/wide_narrow-429--lookup--Device.json
+  - goldens/wide_narrow-429--lookup--Payment.json
+  - goldens/wide_narrow-429--join--Account-Payment.json
+  - goldens/wide_narrow-429--join--Customer-Payment.json
+  - goldens/wide_narrow-429--join--Device-Payment.json
+  - goldens/wide_narrow-429--aggregate--Device.json
+  - goldens/wide_narrow-429--aggregate--Payment.json
+  - goldens/wide_narrow-429--crossleg-aggregate--Account-Payment.json
+fixture:
+  producer: cdf-forge-fixture
+  systems:
+    ar1: systems/ar1.csi.json
+    ch1: systems/ch1.csi.json
+  note: Fixture-mode CSI documents are synthesised by CDF from the descriptor and
+    labelled as such; live mode replaces them with r2g/RSA/ASA-produced CSI.
+generator:
+  rows: r2g-arango 0.4.1

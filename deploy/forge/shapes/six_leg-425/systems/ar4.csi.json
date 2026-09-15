@@ -1,0 +1,81 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Shipment": {
+        "collectionName": "shipments",
+        "properties": {
+          "deviceId": {
+            "field": "device_id"
+          },
+          "id": {
+            "field": "id"
+          },
+          "margin": {
+            "field": "margin"
+          },
+          "notes": {
+            "field": "notes"
+          },
+          "ratio": {
+            "field": "ratio"
+          },
+          "sku": {
+            "field": "sku"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Shipment",
+        "properties": [
+          {
+            "name": "deviceId",
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "margin",
+            "type": "float"
+          },
+          {
+            "name": "notes",
+            "type": "string"
+          },
+          {
+            "name": "ratio",
+            "type": "float"
+          },
+          {
+            "name": "sku",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Shipment",
+        "toEntity": "Device",
+        "type": "shipmentsToDevices"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "arango",
+      "ref": "ar4"
+    }
+  }
+}

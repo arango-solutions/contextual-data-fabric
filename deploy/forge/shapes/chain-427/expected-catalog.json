@@ -1,0 +1,53 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "session_id",
+      "crossSystem": true,
+      "from": "Product",
+      "fromSystem": "sf1",
+      "parentColumn": "id",
+      "relationship": "productsToSessions",
+      "to": "Session",
+      "toSystem": "ch1"
+    },
+    {
+      "childColumn": "campaign_id",
+      "crossSystem": true,
+      "from": "Session",
+      "fromSystem": "ch1",
+      "parentColumn": "id",
+      "relationship": "sessionsToCampaigns",
+      "to": "Campaign",
+      "toSystem": "ar1"
+    }
+  ],
+  "ownership": {
+    "Campaign": "ar1",
+    "Product": "sf1",
+    "Session": "ch1"
+  },
+  "shape": "chain-427",
+  "systems": {
+    "ar1": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar1"
+    },
+    "ch1": {
+      "dialect": "clickhouse",
+      "kind": "clickhouse",
+      "sourceId": "clickhouse:ch1"
+    },
+    "sf1": {
+      "dialect": "snowflake",
+      "kind": "snowflake",
+      "sourceId": "snowflake:sf1"
+    }
+  },
+  "tables": {
+    "Campaign": "campaigns",
+    "Product": "products",
+    "Session": "sessions"
+  }
+}

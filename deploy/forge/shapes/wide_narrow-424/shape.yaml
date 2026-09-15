@@ -1,0 +1,55 @@
+forgeShapeVersion: 1
+name: wide_narrow-424
+family: wide_narrow
+seed: 424
+ontology: ontology.json
+scale:
+  rowsPerEntity: 12
+systems:
+  ch1:
+    dialect: clickhouse
+    kind: clickhouse
+  ar1:
+    dialect: arango
+    kind: arango
+  pg1:
+    dialect: postgres
+    kind: postgresql
+partitionMap:
+  Invoice:
+    dialect: arango
+    system: ar1
+  Region:
+    dialect: clickhouse
+    system: ch1
+  Session:
+    dialect: postgres
+    system: pg1
+  Shipment:
+    dialect: postgres
+    system: pg1
+denormLog: []
+expected:
+  catalog: expected-catalog.json
+  goldens:
+  - goldens/wide_narrow-424--lookup--Invoice.json
+  - goldens/wide_narrow-424--lookup--Region.json
+  - goldens/wide_narrow-424--lookup--Session.json
+  - goldens/wide_narrow-424--lookup--Shipment.json
+  - goldens/wide_narrow-424--join--Invoice-Region.json
+  - goldens/wide_narrow-424--join--Session-Region.json
+  - goldens/wide_narrow-424--join--Shipment-Region.json
+  - goldens/wide_narrow-424--aggregate--Region.json
+  - goldens/wide_narrow-424--aggregate--Session.json
+  - goldens/wide_narrow-424--aggregate--Shipment.json
+  - goldens/wide_narrow-424--crossleg-aggregate--Invoice-Region.json
+fixture:
+  producer: cdf-forge-fixture
+  systems:
+    ch1: systems/ch1.csi.json
+    ar1: systems/ar1.csi.json
+    pg1: systems/pg1.csi.json
+  note: Fixture-mode CSI documents are synthesised by CDF from the descriptor and
+    labelled as such; live mode replaces them with r2g/RSA/ASA-produced CSI.
+generator:
+  rows: r2g-arango 0.4.1

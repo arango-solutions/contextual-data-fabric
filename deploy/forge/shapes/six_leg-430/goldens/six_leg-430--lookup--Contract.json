@@ -1,0 +1,218 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "contract_currency": "currency-14004",
+        "contract_latencyMs": 23227.575544
+      },
+      {
+        "contract_currency": "currency-65604",
+        "contract_latencyMs": 73103.550298
+      },
+      {
+        "contract_currency": "currency-80005",
+        "contract_latencyMs": 40349.203625
+      },
+      {
+        "contract_currency": "currency-38538",
+        "contract_latencyMs": 12034.869081
+      },
+      {
+        "contract_currency": "currency-85570",
+        "contract_latencyMs": 15167.924078
+      },
+      {
+        "contract_currency": "currency-95679",
+        "contract_latencyMs": 11949.387565
+      },
+      {
+        "contract_currency": "currency-65515",
+        "contract_latencyMs": 36189.274613
+      },
+      {
+        "contract_currency": "currency-57175",
+        "contract_latencyMs": 38965.493562
+      },
+      {
+        "contract_currency": "currency-40668",
+        "contract_latencyMs": 79276.502986
+      },
+      {
+        "contract_currency": "currency-85723",
+        "contract_latencyMs": 72686.833974
+      },
+      {
+        "contract_currency": "currency-90778",
+        "contract_latencyMs": 10370.74127
+      },
+      {
+        "contract_currency": "currency-34402",
+        "contract_latencyMs": 74551.925682
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch3"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "six_leg-430--lookup--Contract",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_currency ?contract_latencyMs WHERE { ?contract a c:Contract ; c:currency ?contract_currency ; c:latencyMs ?contract_latencyMs }",
+  "shape": "six_leg-430",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Contract": {
+              "collectionName": "contracts",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "retries": {
+                  "field": "retries"
+                },
+                "seats": {
+                  "field": "seats"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Contract",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "retries",
+                  "type": "integer"
+                },
+                {
+                  "name": "seats",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Contract",
+              "toEntity": "Asset",
+              "type": "contractsToAssets"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch3"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for contracts",
+        "rows": [
+          {
+            "contract": 1,
+            "contract_currency": "currency-14004",
+            "contract_latencyMs": 23227.575544
+          },
+          {
+            "contract": 2,
+            "contract_currency": "currency-65604",
+            "contract_latencyMs": 73103.550298
+          },
+          {
+            "contract": 3,
+            "contract_currency": "currency-80005",
+            "contract_latencyMs": 40349.203625
+          },
+          {
+            "contract": 4,
+            "contract_currency": "currency-38538",
+            "contract_latencyMs": 12034.869081
+          },
+          {
+            "contract": 5,
+            "contract_currency": "currency-85570",
+            "contract_latencyMs": 15167.924078
+          },
+          {
+            "contract": 6,
+            "contract_currency": "currency-95679",
+            "contract_latencyMs": 11949.387565
+          },
+          {
+            "contract": 7,
+            "contract_currency": "currency-65515",
+            "contract_latencyMs": 36189.274613
+          },
+          {
+            "contract": 8,
+            "contract_currency": "currency-57175",
+            "contract_latencyMs": 38965.493562
+          },
+          {
+            "contract": 9,
+            "contract_currency": "currency-40668",
+            "contract_latencyMs": 79276.502986
+          },
+          {
+            "contract": 10,
+            "contract_currency": "currency-85723",
+            "contract_latencyMs": 72686.833974
+          },
+          {
+            "contract": 11,
+            "contract_currency": "currency-90778",
+            "contract_latencyMs": 10370.74127
+          },
+          {
+            "contract": 12,
+            "contract_currency": "currency-34402",
+            "contract_latencyMs": 74551.925682
+          }
+        ],
+        "source_objects": [
+          "contracts"
+        ]
+      },
+      "system": "ch3"
+    }
+  ]
+}

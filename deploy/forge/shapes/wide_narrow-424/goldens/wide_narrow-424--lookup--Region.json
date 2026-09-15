@@ -1,0 +1,254 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "region_active": false,
+        "region_amount": 80193.264547
+      },
+      {
+        "region_active": false,
+        "region_amount": 66106.795171
+      },
+      {
+        "region_active": false,
+        "region_amount": 92913.560853
+      },
+      {
+        "region_active": true,
+        "region_amount": 26008.50867
+      },
+      {
+        "region_active": true,
+        "region_amount": 63513.317336
+      },
+      {
+        "region_active": false,
+        "region_amount": 29831.837695
+      },
+      {
+        "region_active": true,
+        "region_amount": 12473.150453
+      },
+      {
+        "region_active": false,
+        "region_amount": 81972.032355
+      },
+      {
+        "region_active": false,
+        "region_amount": 50489.43487
+      },
+      {
+        "region_active": true,
+        "region_amount": 83406.840727
+      },
+      {
+        "region_active": true,
+        "region_amount": 3595.306311
+      },
+      {
+        "region_active": true,
+        "region_amount": 41155.902122
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "wide_narrow-424--lookup--Region",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_active ?region_amount WHERE { ?region a c:Region ; c:active ?region_active ; c:amount ?region_amount }",
+  "shape": "wide_narrow-424",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Region": {
+              "collectionName": "regions",
+              "properties": {
+                "active": {
+                  "field": "active"
+                },
+                "amount": {
+                  "field": "amount"
+                },
+                "currency": {
+                  "field": "currency"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "notes": {
+                  "field": "notes"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "quantity": {
+                  "field": "quantity"
+                },
+                "ratio": {
+                  "field": "ratio"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "units": {
+                  "field": "units"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Region",
+              "properties": [
+                {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "notes",
+                  "type": "string"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "quantity",
+                  "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "units",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for regions",
+        "rows": [
+          {
+            "region": 1,
+            "region_active": false,
+            "region_amount": 80193.264547
+          },
+          {
+            "region": 2,
+            "region_active": false,
+            "region_amount": 66106.795171
+          },
+          {
+            "region": 3,
+            "region_active": false,
+            "region_amount": 92913.560853
+          },
+          {
+            "region": 4,
+            "region_active": true,
+            "region_amount": 26008.50867
+          },
+          {
+            "region": 5,
+            "region_active": true,
+            "region_amount": 63513.317336
+          },
+          {
+            "region": 6,
+            "region_active": false,
+            "region_amount": 29831.837695
+          },
+          {
+            "region": 7,
+            "region_active": true,
+            "region_amount": 12473.150453
+          },
+          {
+            "region": 8,
+            "region_active": false,
+            "region_amount": 81972.032355
+          },
+          {
+            "region": 9,
+            "region_active": false,
+            "region_amount": 50489.43487
+          },
+          {
+            "region": 10,
+            "region_active": true,
+            "region_amount": 83406.840727
+          },
+          {
+            "region": 11,
+            "region_active": true,
+            "region_amount": 3595.306311
+          },
+          {
+            "region": 12,
+            "region_active": true,
+            "region_amount": 41155.902122
+          }
+        ],
+        "source_objects": [
+          "regions"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

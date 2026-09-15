@@ -1,0 +1,204 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "vendor_tier": "tier-71168",
+        "vendor_verified": true
+      },
+      {
+        "vendor_tier": "tier-62500",
+        "vendor_verified": false
+      },
+      {
+        "vendor_tier": "tier-64347",
+        "vendor_verified": true
+      },
+      {
+        "vendor_tier": "tier-83293",
+        "vendor_verified": true
+      },
+      {
+        "vendor_tier": "tier-02136",
+        "vendor_verified": false
+      },
+      {
+        "vendor_tier": "tier-41326",
+        "vendor_verified": true
+      },
+      {
+        "vendor_tier": "tier-97083",
+        "vendor_verified": false
+      },
+      {
+        "vendor_tier": "tier-56593",
+        "vendor_verified": true
+      },
+      {
+        "vendor_tier": "tier-60807",
+        "vendor_verified": true
+      },
+      {
+        "vendor_tier": "tier-20997",
+        "vendor_verified": true
+      },
+      {
+        "vendor_tier": "tier-91833",
+        "vendor_verified": true
+      },
+      {
+        "vendor_tier": "tier-05679",
+        "vendor_verified": false
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "chain-422--lookup--Vendor",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_tier ?vendor_verified WHERE { ?vendor a c:Vendor ; c:tier ?vendor_tier ; c:verified ?vendor_verified }",
+  "shape": "chain-422",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Vendor": {
+              "collectionName": "vendors",
+              "properties": {
+                "campaignId": {
+                  "field": "campaign_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "verified": {
+                  "field": "verified"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Vendor",
+              "properties": [
+                {
+                  "name": "campaignId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Vendor",
+              "toEntity": "Campaign",
+              "type": "vendorsToCampaigns"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for vendors",
+        "rows": [
+          {
+            "vendor": 1,
+            "vendor_tier": "tier-71168",
+            "vendor_verified": true
+          },
+          {
+            "vendor": 2,
+            "vendor_tier": "tier-62500",
+            "vendor_verified": false
+          },
+          {
+            "vendor": 3,
+            "vendor_tier": "tier-64347",
+            "vendor_verified": true
+          },
+          {
+            "vendor": 4,
+            "vendor_tier": "tier-83293",
+            "vendor_verified": true
+          },
+          {
+            "vendor": 5,
+            "vendor_tier": "tier-02136",
+            "vendor_verified": false
+          },
+          {
+            "vendor": 6,
+            "vendor_tier": "tier-41326",
+            "vendor_verified": true
+          },
+          {
+            "vendor": 7,
+            "vendor_tier": "tier-97083",
+            "vendor_verified": false
+          },
+          {
+            "vendor": 8,
+            "vendor_tier": "tier-56593",
+            "vendor_verified": true
+          },
+          {
+            "vendor": 9,
+            "vendor_tier": "tier-60807",
+            "vendor_verified": true
+          },
+          {
+            "vendor": 10,
+            "vendor_tier": "tier-20997",
+            "vendor_verified": true
+          },
+          {
+            "vendor": 11,
+            "vendor_tier": "tier-91833",
+            "vendor_verified": true
+          },
+          {
+            "vendor": 12,
+            "vendor_tier": "tier-05679",
+            "vendor_verified": false
+          }
+        ],
+        "source_objects": [
+          "vendors"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

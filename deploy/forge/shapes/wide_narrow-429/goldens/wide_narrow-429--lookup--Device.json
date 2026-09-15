@@ -1,0 +1,292 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "device_currency": "currency-15093",
+        "device_primary": true
+      },
+      {
+        "device_currency": "currency-05843",
+        "device_primary": true
+      },
+      {
+        "device_currency": "currency-25400",
+        "device_primary": true
+      },
+      {
+        "device_currency": "currency-98970",
+        "device_primary": false
+      },
+      {
+        "device_currency": "currency-97144",
+        "device_primary": true
+      },
+      {
+        "device_currency": "currency-42926",
+        "device_primary": true
+      },
+      {
+        "device_currency": "currency-88782",
+        "device_primary": false
+      },
+      {
+        "device_currency": "currency-06586",
+        "device_primary": false
+      },
+      {
+        "device_currency": "currency-25035",
+        "device_primary": false
+      },
+      {
+        "device_currency": "currency-86425",
+        "device_primary": false
+      },
+      {
+        "device_currency": "currency-57678",
+        "device_primary": false
+      },
+      {
+        "device_currency": "currency-19989",
+        "device_primary": false
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "wide_narrow-429--lookup--Device",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_currency ?device_primary WHERE { ?device a c:Device ; c:currency ?device_currency ; c:primary ?device_primary }",
+  "shape": "wide_narrow-429",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "sku": {
+                  "field": "sku"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "total": {
+                  "field": "total"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Device": {
+              "collectionName": "devices",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "total",
+                  "type": "float"
+                }
+              ]
+            },
+            {
+              "name": "Device",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Account",
+              "toEntity": "Payment",
+              "type": "accountsToPayments"
+            },
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Payment",
+              "type": "customersToPayments"
+            },
+            {
+              "fromEntity": "Device",
+              "toEntity": "Payment",
+              "type": "devicesToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for devices",
+        "rows": [
+          {
+            "device": 1,
+            "device_currency": "currency-15093",
+            "device_primary": true
+          },
+          {
+            "device": 2,
+            "device_currency": "currency-05843",
+            "device_primary": true
+          },
+          {
+            "device": 3,
+            "device_currency": "currency-25400",
+            "device_primary": true
+          },
+          {
+            "device": 4,
+            "device_currency": "currency-98970",
+            "device_primary": false
+          },
+          {
+            "device": 5,
+            "device_currency": "currency-97144",
+            "device_primary": true
+          },
+          {
+            "device": 6,
+            "device_currency": "currency-42926",
+            "device_primary": true
+          },
+          {
+            "device": 7,
+            "device_currency": "currency-88782",
+            "device_primary": false
+          },
+          {
+            "device": 8,
+            "device_currency": "currency-06586",
+            "device_primary": false
+          },
+          {
+            "device": 9,
+            "device_currency": "currency-25035",
+            "device_primary": false
+          },
+          {
+            "device": 10,
+            "device_currency": "currency-86425",
+            "device_primary": false
+          },
+          {
+            "device": 11,
+            "device_currency": "currency-57678",
+            "device_primary": false
+          },
+          {
+            "device": 12,
+            "device_currency": "currency-19989",
+            "device_primary": false
+          }
+        ],
+        "source_objects": [
+          "devices"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

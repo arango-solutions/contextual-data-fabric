@@ -1,0 +1,262 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "shipment_currency": "currency-66979",
+        "shipment_latencyMs": 42587.182683
+      },
+      {
+        "shipment_currency": "currency-22698",
+        "shipment_latencyMs": 15477.769899
+      },
+      {
+        "shipment_currency": "currency-85826",
+        "shipment_latencyMs": 93109.257323
+      },
+      {
+        "shipment_currency": "currency-71856",
+        "shipment_latencyMs": 67571.107133
+      },
+      {
+        "shipment_currency": "currency-53719",
+        "shipment_latencyMs": 15870.171792
+      },
+      {
+        "shipment_currency": "currency-23964",
+        "shipment_latencyMs": 19040.414141
+      },
+      {
+        "shipment_currency": "currency-09571",
+        "shipment_latencyMs": 82572.159331
+      },
+      {
+        "shipment_currency": "currency-40746",
+        "shipment_latencyMs": 8212.131659
+      },
+      {
+        "shipment_currency": "currency-69416",
+        "shipment_latencyMs": 44681.745748
+      },
+      {
+        "shipment_currency": "currency-02181",
+        "shipment_latencyMs": 86684.456285
+      },
+      {
+        "shipment_currency": "currency-91760",
+        "shipment_latencyMs": 64876.865035
+      },
+      {
+        "shipment_currency": "currency-49499",
+        "shipment_latencyMs": 21795.954355
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "two_leg-421--lookup--Shipment",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_currency ?shipment_latencyMs WHERE { ?shipment a c:Shipment ; c:currency ?shipment_currency ; c:latencyMs ?shipment_latencyMs }",
+  "shape": "two_leg-421",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "channel": {
+                  "field": "channel"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "seats": {
+                  "field": "seats"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Shipment": {
+              "collectionName": "shipments",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "retries": {
+                  "field": "retries"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "seats",
+                  "type": "integer"
+                }
+              ]
+            },
+            {
+              "name": "Shipment",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "retries",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Payment",
+              "toEntity": "Asset",
+              "type": "paymentsToAssets"
+            },
+            {
+              "fromEntity": "Shipment",
+              "toEntity": "Asset",
+              "type": "shipmentsToAssets"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
+        "rows": [
+          {
+            "shipment": 1,
+            "shipment_currency": "currency-66979",
+            "shipment_latencyMs": 42587.182683
+          },
+          {
+            "shipment": 2,
+            "shipment_currency": "currency-22698",
+            "shipment_latencyMs": 15477.769899
+          },
+          {
+            "shipment": 3,
+            "shipment_currency": "currency-85826",
+            "shipment_latencyMs": 93109.257323
+          },
+          {
+            "shipment": 4,
+            "shipment_currency": "currency-71856",
+            "shipment_latencyMs": 67571.107133
+          },
+          {
+            "shipment": 5,
+            "shipment_currency": "currency-53719",
+            "shipment_latencyMs": 15870.171792
+          },
+          {
+            "shipment": 6,
+            "shipment_currency": "currency-23964",
+            "shipment_latencyMs": 19040.414141
+          },
+          {
+            "shipment": 7,
+            "shipment_currency": "currency-09571",
+            "shipment_latencyMs": 82572.159331
+          },
+          {
+            "shipment": 8,
+            "shipment_currency": "currency-40746",
+            "shipment_latencyMs": 8212.131659
+          },
+          {
+            "shipment": 9,
+            "shipment_currency": "currency-69416",
+            "shipment_latencyMs": 44681.745748
+          },
+          {
+            "shipment": 10,
+            "shipment_currency": "currency-02181",
+            "shipment_latencyMs": 86684.456285
+          },
+          {
+            "shipment": 11,
+            "shipment_currency": "currency-91760",
+            "shipment_latencyMs": 64876.865035
+          },
+          {
+            "shipment": 12,
+            "shipment_currency": "currency-49499",
+            "shipment_latencyMs": 21795.954355
+          }
+        ],
+        "source_objects": [
+          "shipments"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

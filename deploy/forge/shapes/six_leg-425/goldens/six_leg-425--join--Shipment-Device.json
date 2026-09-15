@@ -1,0 +1,340 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "device_currency": "currency-07605",
+        "shipment_margin": 49294.889586
+      },
+      {
+        "device_currency": "currency-88897",
+        "shipment_margin": 77964.896701
+      },
+      {
+        "device_currency": "currency-38382",
+        "shipment_margin": 62342.81235
+      },
+      {
+        "device_currency": "currency-70444",
+        "shipment_margin": 23784.819809
+      },
+      {
+        "device_currency": "currency-96212",
+        "shipment_margin": 79157.929276
+      },
+      {
+        "device_currency": "currency-79109",
+        "shipment_margin": 70981.282009
+      },
+      {
+        "device_currency": "currency-83300",
+        "shipment_margin": 79031.069355
+      },
+      {
+        "device_currency": "currency-48852",
+        "shipment_margin": 34051.025162
+      },
+      {
+        "device_currency": "currency-79109",
+        "shipment_margin": 777.883647
+      },
+      {
+        "device_currency": "currency-07605",
+        "shipment_margin": 54387.807378
+      },
+      {
+        "device_currency": "currency-78844",
+        "shipment_margin": 65742.180219
+      },
+      {
+        "device_currency": "currency-48852",
+        "shipment_margin": 73574.685751
+      }
+    ],
+    "sources_touched": [
+      "arango:ar3",
+      "arango:ar4"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "six_leg-425--join--Shipment-Device",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_margin ?device_currency WHERE { ?shipment a c:Shipment ; c:margin ?shipment_margin ; c:shipmentsToDevices ?device . ?device a c:Device ; c:currency ?device_currency }",
+  "shape": "six_leg-425",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Shipment": {
+              "collectionName": "shipments",
+              "properties": {
+                "deviceId": {
+                  "field": "device_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "margin": {
+                  "field": "margin"
+                },
+                "notes": {
+                  "field": "notes"
+                },
+                "ratio": {
+                  "field": "ratio"
+                },
+                "sku": {
+                  "field": "sku"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Shipment",
+              "properties": [
+                {
+                  "name": "deviceId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "margin",
+                  "type": "float"
+                },
+                {
+                  "name": "notes",
+                  "type": "string"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Shipment",
+              "toEntity": "Device",
+              "type": "shipmentsToDevices"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar4"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
+        "rows": [
+          {
+            "device": 2,
+            "shipment": 1,
+            "shipment_margin": 49294.889586
+          },
+          {
+            "device": 12,
+            "shipment": 2,
+            "shipment_margin": 77964.896701
+          },
+          {
+            "device": 11,
+            "shipment": 3,
+            "shipment_margin": 62342.81235
+          },
+          {
+            "device": 6,
+            "shipment": 4,
+            "shipment_margin": 23784.819809
+          },
+          {
+            "device": 3,
+            "shipment": 5,
+            "shipment_margin": 79157.929276
+          },
+          {
+            "device": 4,
+            "shipment": 6,
+            "shipment_margin": 70981.282009
+          },
+          {
+            "device": 9,
+            "shipment": 7,
+            "shipment_margin": 79031.069355
+          },
+          {
+            "device": 7,
+            "shipment": 8,
+            "shipment_margin": 34051.025162
+          },
+          {
+            "device": 4,
+            "shipment": 9,
+            "shipment_margin": 777.883647
+          },
+          {
+            "device": 2,
+            "shipment": 10,
+            "shipment_margin": 54387.807378
+          },
+          {
+            "device": 5,
+            "shipment": 11,
+            "shipment_margin": 65742.180219
+          },
+          {
+            "device": 7,
+            "shipment": 12,
+            "shipment_margin": 73574.685751
+          }
+        ],
+        "source_objects": [
+          "shipments"
+        ]
+      },
+      "system": "ar4"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Device": {
+              "collectionName": "devices",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "flagged": {
+                  "field": "flagged"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Device",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar3"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for devices",
+        "rows": [
+          {
+            "device": 1,
+            "device_currency": "currency-54921"
+          },
+          {
+            "device": 2,
+            "device_currency": "currency-07605"
+          },
+          {
+            "device": 3,
+            "device_currency": "currency-96212"
+          },
+          {
+            "device": 4,
+            "device_currency": "currency-79109"
+          },
+          {
+            "device": 5,
+            "device_currency": "currency-78844"
+          },
+          {
+            "device": 6,
+            "device_currency": "currency-70444"
+          },
+          {
+            "device": 7,
+            "device_currency": "currency-48852"
+          },
+          {
+            "device": 8,
+            "device_currency": "currency-62234"
+          },
+          {
+            "device": 9,
+            "device_currency": "currency-83300"
+          },
+          {
+            "device": 10,
+            "device_currency": "currency-53297"
+          },
+          {
+            "device": 11,
+            "device_currency": "currency-38382"
+          },
+          {
+            "device": 12,
+            "device_currency": "currency-88897"
+          }
+        ],
+        "source_objects": [
+          "devices"
+        ]
+      },
+      "system": "ar3"
+    }
+  ]
+}

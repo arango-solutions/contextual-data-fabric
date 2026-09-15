@@ -1,0 +1,134 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "payment_id",
+      "crossSystem": true,
+      "from": "Asset",
+      "fromSystem": "pg1",
+      "parentColumn": "id",
+      "relationship": "assetsToPayments",
+      "to": "Payment",
+      "toSystem": "ch2"
+    },
+    {
+      "childColumn": "asset_id",
+      "crossSystem": true,
+      "from": "Campaign",
+      "fromSystem": "pg2",
+      "parentColumn": "id",
+      "relationship": "campaignsToAssets",
+      "to": "Asset",
+      "toSystem": "pg1"
+    },
+    {
+      "childColumn": "customer_id",
+      "crossSystem": true,
+      "from": "Campaign",
+      "fromSystem": "pg2",
+      "parentColumn": "id",
+      "relationship": "campaignsToCustomers",
+      "to": "Customer",
+      "toSystem": "sf1"
+    },
+    {
+      "childColumn": "asset_id",
+      "crossSystem": true,
+      "from": "Contract",
+      "fromSystem": "ch3",
+      "parentColumn": "id",
+      "relationship": "contractsToAssets",
+      "to": "Asset",
+      "toSystem": "pg1"
+    },
+    {
+      "childColumn": "asset_id",
+      "crossSystem": true,
+      "from": "Customer",
+      "fromSystem": "sf1",
+      "parentColumn": "id",
+      "relationship": "customersToAssets",
+      "to": "Asset",
+      "toSystem": "pg1"
+    },
+    {
+      "childColumn": "payment_id",
+      "crossSystem": true,
+      "from": "Customer",
+      "fromSystem": "sf1",
+      "parentColumn": "id",
+      "relationship": "customersToPayments",
+      "to": "Payment",
+      "toSystem": "ch2"
+    },
+    {
+      "childColumn": "asset_id",
+      "crossSystem": true,
+      "from": "Ticket",
+      "fromSystem": "ch1",
+      "parentColumn": "id",
+      "relationship": "ticketsToAssets",
+      "to": "Asset",
+      "toSystem": "pg1"
+    },
+    {
+      "childColumn": "customer_id",
+      "crossSystem": true,
+      "from": "Ticket",
+      "fromSystem": "ch1",
+      "parentColumn": "id",
+      "relationship": "ticketsToCustomers",
+      "to": "Customer",
+      "toSystem": "sf1"
+    }
+  ],
+  "ownership": {
+    "Asset": "pg1",
+    "Campaign": "pg2",
+    "Contract": "ch3",
+    "Customer": "sf1",
+    "Payment": "ch2",
+    "Ticket": "ch1"
+  },
+  "shape": "six_leg-430",
+  "systems": {
+    "ch1": {
+      "dialect": "clickhouse",
+      "kind": "clickhouse",
+      "sourceId": "clickhouse:ch1"
+    },
+    "ch2": {
+      "dialect": "clickhouse",
+      "kind": "clickhouse",
+      "sourceId": "clickhouse:ch2"
+    },
+    "ch3": {
+      "dialect": "clickhouse",
+      "kind": "clickhouse",
+      "sourceId": "clickhouse:ch3"
+    },
+    "pg1": {
+      "dialect": "postgres",
+      "kind": "postgresql",
+      "sourceId": "postgresql:pg1"
+    },
+    "pg2": {
+      "dialect": "postgres",
+      "kind": "postgresql",
+      "sourceId": "postgresql:pg2"
+    },
+    "sf1": {
+      "dialect": "snowflake",
+      "kind": "snowflake",
+      "sourceId": "snowflake:sf1"
+    }
+  },
+  "tables": {
+    "Asset": "assets",
+    "Campaign": "campaigns",
+    "Contract": "contracts",
+    "Customer": "customers",
+    "Payment": "payments",
+    "Ticket": "tickets"
+  }
+}

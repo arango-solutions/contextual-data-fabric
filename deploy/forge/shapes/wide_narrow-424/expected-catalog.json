@@ -1,0 +1,65 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "region_id",
+      "crossSystem": true,
+      "from": "Invoice",
+      "fromSystem": "ar1",
+      "parentColumn": "id",
+      "relationship": "invoicesToRegions",
+      "to": "Region",
+      "toSystem": "ch1"
+    },
+    {
+      "childColumn": "region_id",
+      "crossSystem": true,
+      "from": "Session",
+      "fromSystem": "pg1",
+      "parentColumn": "id",
+      "relationship": "sessionsToRegions",
+      "to": "Region",
+      "toSystem": "ch1"
+    },
+    {
+      "childColumn": "region_id",
+      "crossSystem": true,
+      "from": "Shipment",
+      "fromSystem": "pg1",
+      "parentColumn": "id",
+      "relationship": "shipmentsToRegions",
+      "to": "Region",
+      "toSystem": "ch1"
+    }
+  ],
+  "ownership": {
+    "Invoice": "ar1",
+    "Region": "ch1",
+    "Session": "pg1",
+    "Shipment": "pg1"
+  },
+  "shape": "wide_narrow-424",
+  "systems": {
+    "ar1": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar1"
+    },
+    "ch1": {
+      "dialect": "clickhouse",
+      "kind": "clickhouse",
+      "sourceId": "clickhouse:ch1"
+    },
+    "pg1": {
+      "dialect": "postgres",
+      "kind": "postgresql",
+      "sourceId": "postgresql:pg1"
+    }
+  },
+  "tables": {
+    "Invoice": "invoices",
+    "Region": "regions",
+    "Session": "sessions",
+    "Shipment": "shipments"
+  }
+}

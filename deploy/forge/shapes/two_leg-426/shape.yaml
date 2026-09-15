@@ -1,0 +1,49 @@
+forgeShapeVersion: 1
+name: two_leg-426
+family: two_leg
+seed: 426
+ontology: ontology.json
+scale:
+  rowsPerEntity: 12
+systems:
+  pg1:
+    dialect: postgres
+    kind: postgresql
+  ar1:
+    dialect: arango
+    kind: arango
+partitionMap:
+  Account:
+    dialect: postgres
+    system: pg1
+  Asset:
+    dialect: arango
+    system: ar1
+  Invoice:
+    dialect: postgres
+    system: pg1
+  Product:
+    dialect: arango
+    system: ar1
+denormLog: []
+expected:
+  catalog: expected-catalog.json
+  goldens:
+  - goldens/two_leg-426--lookup--Account.json
+  - goldens/two_leg-426--lookup--Asset.json
+  - goldens/two_leg-426--lookup--Invoice.json
+  - goldens/two_leg-426--lookup--Product.json
+  - goldens/two_leg-426--join--Asset-Account.json
+  - goldens/two_leg-426--join--Product-Account.json
+  - goldens/two_leg-426--aggregate--Account.json
+  - goldens/two_leg-426--aggregate--Asset.json
+  - goldens/two_leg-426--crossleg-aggregate--Asset-Account.json
+fixture:
+  producer: cdf-forge-fixture
+  systems:
+    pg1: systems/pg1.csi.json
+    ar1: systems/ar1.csi.json
+  note: Fixture-mode CSI documents are synthesised by CDF from the descriptor and
+    labelled as such; live mode replaces them with r2g/RSA/ASA-produced CSI.
+generator:
+  rows: r2g-arango 0.4.1

@@ -1,0 +1,58 @@
+forgeShapeVersion: 1
+name: hub-423
+family: hub
+seed: 423
+ontology: ontology.json
+scale:
+  rowsPerEntity: 12
+systems:
+  sf1:
+    dialect: snowflake
+    kind: snowflake
+  ch1:
+    dialect: clickhouse
+    kind: clickhouse
+  pg1:
+    dialect: postgres
+    kind: postgresql
+  ar1:
+    dialect: arango
+    kind: arango
+partitionMap:
+  Account:
+    dialect: arango
+    system: ar1
+  Customer:
+    dialect: clickhouse
+    system: ch1
+  Invoice:
+    dialect: postgres
+    system: pg1
+  Vendor:
+    dialect: snowflake
+    system: sf1
+denormLog: []
+expected:
+  catalog: expected-catalog.json
+  goldens:
+  - goldens/hub-423--lookup--Account.json
+  - goldens/hub-423--lookup--Customer.json
+  - goldens/hub-423--lookup--Invoice.json
+  - goldens/hub-423--lookup--Vendor.json
+  - goldens/hub-423--join--Account-Vendor.json
+  - goldens/hub-423--join--Customer-Vendor.json
+  - goldens/hub-423--join--Invoice-Vendor.json
+  - goldens/hub-423--aggregate--Account.json
+  - goldens/hub-423--aggregate--Customer.json
+  - goldens/hub-423--crossleg-aggregate--Account-Vendor.json
+fixture:
+  producer: cdf-forge-fixture
+  systems:
+    sf1: systems/sf1.csi.json
+    ch1: systems/ch1.csi.json
+    pg1: systems/pg1.csi.json
+    ar1: systems/ar1.csi.json
+  note: Fixture-mode CSI documents are synthesised by CDF from the descriptor and
+    labelled as such; live mode replaces them with r2g/RSA/ASA-produced CSI.
+generator:
+  rows: r2g-arango 0.4.1

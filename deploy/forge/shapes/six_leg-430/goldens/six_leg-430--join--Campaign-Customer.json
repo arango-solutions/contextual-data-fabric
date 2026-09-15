@@ -1,0 +1,377 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "campaign_billable": true,
+        "customer_channel": "channel-23294"
+      },
+      {
+        "campaign_billable": false,
+        "customer_channel": "channel-32600"
+      },
+      {
+        "campaign_billable": false,
+        "customer_channel": "channel-91595"
+      },
+      {
+        "campaign_billable": false,
+        "customer_channel": "channel-43990"
+      },
+      {
+        "campaign_billable": false,
+        "customer_channel": "channel-68944"
+      },
+      {
+        "campaign_billable": false,
+        "customer_channel": "channel-43990"
+      },
+      {
+        "campaign_billable": true,
+        "customer_channel": "channel-47173"
+      },
+      {
+        "campaign_billable": false,
+        "customer_channel": "channel-53364"
+      },
+      {
+        "campaign_billable": false,
+        "customer_channel": "channel-43990"
+      },
+      {
+        "campaign_billable": true,
+        "customer_channel": "channel-53364"
+      },
+      {
+        "campaign_billable": true,
+        "customer_channel": "channel-47173"
+      },
+      {
+        "campaign_billable": false,
+        "customer_channel": "channel-32600"
+      }
+    ],
+    "sources_touched": [
+      "postgresql:pg2",
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "six_leg-430--join--Campaign-Customer",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable ?customer_channel WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable ; c:campaignsToCustomers ?customer . ?customer a c:Customer ; c:channel ?customer_channel }",
+  "shape": "six_leg-430",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Campaign": {
+              "collectionName": "campaigns",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "billable": {
+                  "field": "billable"
+                },
+                "customerId": {
+                  "field": "customer_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "notes": {
+                  "field": "notes"
+                },
+                "rank": {
+                  "field": "rank"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Campaign",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "billable",
+                  "type": "boolean"
+                },
+                {
+                  "name": "customerId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "notes",
+                  "type": "string"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Campaign",
+              "toEntity": "Asset",
+              "type": "campaignsToAssets"
+            },
+            {
+              "fromEntity": "Campaign",
+              "toEntity": "Customer",
+              "type": "campaignsToCustomers"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg2"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for campaigns",
+        "rows": [
+          {
+            "campaign": 1,
+            "campaign_billable": true,
+            "customer": 1
+          },
+          {
+            "campaign": 2,
+            "campaign_billable": false,
+            "customer": 7
+          },
+          {
+            "campaign": 3,
+            "campaign_billable": false,
+            "customer": 9
+          },
+          {
+            "campaign": 4,
+            "campaign_billable": false,
+            "customer": 4
+          },
+          {
+            "campaign": 5,
+            "campaign_billable": false,
+            "customer": 11
+          },
+          {
+            "campaign": 6,
+            "campaign_billable": false,
+            "customer": 4
+          },
+          {
+            "campaign": 7,
+            "campaign_billable": true,
+            "customer": 6
+          },
+          {
+            "campaign": 8,
+            "campaign_billable": false,
+            "customer": 8
+          },
+          {
+            "campaign": 9,
+            "campaign_billable": false,
+            "customer": 4
+          },
+          {
+            "campaign": 10,
+            "campaign_billable": true,
+            "customer": 8
+          },
+          {
+            "campaign": 11,
+            "campaign_billable": true,
+            "customer": 6
+          },
+          {
+            "campaign": 12,
+            "campaign_billable": false,
+            "customer": 7
+          }
+        ],
+        "source_objects": [
+          "campaigns"
+        ]
+      },
+      "system": "pg2"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "channel": {
+                  "field": "channel"
+                },
+                "code": {
+                  "field": "code"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "total": {
+                  "field": "total"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "code",
+                  "type": "string"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "total",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Asset",
+              "type": "customersToAssets"
+            },
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Payment",
+              "type": "customersToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
+        "rows": [
+          {
+            "customer": 1,
+            "customer_channel": "channel-23294"
+          },
+          {
+            "customer": 2,
+            "customer_channel": "channel-08805"
+          },
+          {
+            "customer": 3,
+            "customer_channel": "channel-21211"
+          },
+          {
+            "customer": 4,
+            "customer_channel": "channel-43990"
+          },
+          {
+            "customer": 5,
+            "customer_channel": "channel-14567"
+          },
+          {
+            "customer": 6,
+            "customer_channel": "channel-47173"
+          },
+          {
+            "customer": 7,
+            "customer_channel": "channel-32600"
+          },
+          {
+            "customer": 8,
+            "customer_channel": "channel-53364"
+          },
+          {
+            "customer": 9,
+            "customer_channel": "channel-91595"
+          },
+          {
+            "customer": 10,
+            "customer_channel": "channel-08933"
+          },
+          {
+            "customer": 11,
+            "customer_channel": "channel-68944"
+          },
+          {
+            "customer": 12,
+            "customer_channel": "channel-49997"
+          }
+        ],
+        "source_objects": [
+          "customers"
+        ]
+      },
+      "system": "sf1"
+    }
+  ]
+}

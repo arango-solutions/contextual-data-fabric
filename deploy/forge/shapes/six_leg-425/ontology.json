@@ -1,0 +1,155 @@
+{
+  "entities": [
+    {
+      "name": "Device",
+      "properties": [
+        {
+          "name": "currency",
+          "type": "string"
+        },
+        {
+          "name": "flagged",
+          "type": "boolean"
+        },
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Invoice",
+      "properties": [
+        {
+          "name": "category",
+          "type": "string"
+        },
+        {
+          "name": "latencyMs",
+          "type": "float"
+        },
+        {
+          "name": "rank",
+          "type": "integer"
+        },
+        {
+          "name": "seats",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Order",
+      "properties": [
+        {
+          "name": "billable",
+          "type": "boolean"
+        },
+        {
+          "name": "region",
+          "type": "string"
+        },
+        {
+          "name": "score",
+          "type": "integer"
+        },
+        {
+          "name": "weight",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "properties": [
+        {
+          "name": "expired",
+          "type": "boolean"
+        },
+        {
+          "name": "quantity",
+          "type": "integer"
+        },
+        {
+          "name": "tier",
+          "type": "string"
+        },
+        {
+          "name": "total",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "Shipment",
+      "properties": [
+        {
+          "name": "margin",
+          "type": "float"
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        },
+        {
+          "name": "ratio",
+          "type": "float"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Vendor",
+      "properties": [
+        {
+          "name": "archived",
+          "type": "boolean"
+        },
+        {
+          "name": "retries",
+          "type": "integer"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Invoice",
+      "toEntity": "Shipment",
+      "type": "invoicesToShipments"
+    },
+    {
+      "fromEntity": "Order",
+      "toEntity": "Device",
+      "type": "ordersToDevices"
+    },
+    {
+      "fromEntity": "Order",
+      "toEntity": "Shipment",
+      "type": "ordersToShipments"
+    },
+    {
+      "fromEntity": "Product",
+      "toEntity": "Order",
+      "type": "productsToOrders"
+    },
+    {
+      "fromEntity": "Shipment",
+      "toEntity": "Device",
+      "type": "shipmentsToDevices"
+    },
+    {
+      "fromEntity": "Vendor",
+      "toEntity": "Device",
+      "type": "vendorsToDevices"
+    },
+    {
+      "fromEntity": "Vendor",
+      "toEntity": "Order",
+      "type": "vendorsToOrders"
+    }
+  ]
+}

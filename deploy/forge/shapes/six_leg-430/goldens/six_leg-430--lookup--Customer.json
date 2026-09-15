@@ -1,0 +1,230 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "customer_channel": "channel-23294",
+        "customer_code": "code-26533"
+      },
+      {
+        "customer_channel": "channel-08805",
+        "customer_code": "code-05672"
+      },
+      {
+        "customer_channel": "channel-21211",
+        "customer_code": "code-14095"
+      },
+      {
+        "customer_channel": "channel-43990",
+        "customer_code": "code-72671"
+      },
+      {
+        "customer_channel": "channel-14567",
+        "customer_code": "code-85281"
+      },
+      {
+        "customer_channel": "channel-47173",
+        "customer_code": "code-12031"
+      },
+      {
+        "customer_channel": "channel-32600",
+        "customer_code": "code-18143"
+      },
+      {
+        "customer_channel": "channel-53364",
+        "customer_code": "code-13876"
+      },
+      {
+        "customer_channel": "channel-91595",
+        "customer_code": "code-21585"
+      },
+      {
+        "customer_channel": "channel-08933",
+        "customer_code": "code-97842"
+      },
+      {
+        "customer_channel": "channel-68944",
+        "customer_code": "code-72301"
+      },
+      {
+        "customer_channel": "channel-49997",
+        "customer_code": "code-74435"
+      }
+    ],
+    "sources_touched": [
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "six_leg-430--lookup--Customer",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_channel ?customer_code WHERE { ?customer a c:Customer ; c:channel ?customer_channel ; c:code ?customer_code }",
+  "shape": "six_leg-430",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "channel": {
+                  "field": "channel"
+                },
+                "code": {
+                  "field": "code"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "total": {
+                  "field": "total"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "code",
+                  "type": "string"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "total",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Asset",
+              "type": "customersToAssets"
+            },
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Payment",
+              "type": "customersToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
+        "rows": [
+          {
+            "customer": 1,
+            "customer_channel": "channel-23294",
+            "customer_code": "code-26533"
+          },
+          {
+            "customer": 2,
+            "customer_channel": "channel-08805",
+            "customer_code": "code-05672"
+          },
+          {
+            "customer": 3,
+            "customer_channel": "channel-21211",
+            "customer_code": "code-14095"
+          },
+          {
+            "customer": 4,
+            "customer_channel": "channel-43990",
+            "customer_code": "code-72671"
+          },
+          {
+            "customer": 5,
+            "customer_channel": "channel-14567",
+            "customer_code": "code-85281"
+          },
+          {
+            "customer": 6,
+            "customer_channel": "channel-47173",
+            "customer_code": "code-12031"
+          },
+          {
+            "customer": 7,
+            "customer_channel": "channel-32600",
+            "customer_code": "code-18143"
+          },
+          {
+            "customer": 8,
+            "customer_channel": "channel-53364",
+            "customer_code": "code-13876"
+          },
+          {
+            "customer": 9,
+            "customer_channel": "channel-91595",
+            "customer_code": "code-21585"
+          },
+          {
+            "customer": 10,
+            "customer_channel": "channel-08933",
+            "customer_code": "code-97842"
+          },
+          {
+            "customer": 11,
+            "customer_channel": "channel-68944",
+            "customer_code": "code-72301"
+          },
+          {
+            "customer": 12,
+            "customer_channel": "channel-49997",
+            "customer_code": "code-74435"
+          }
+        ],
+        "source_objects": [
+          "customers"
+        ]
+      },
+      "system": "sf1"
+    }
+  ]
+}

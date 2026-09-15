@@ -1,0 +1,323 @@
+{
+  "expect": {
+    "unsupported_contains": [
+      "cross-source aggregation"
+    ]
+  },
+  "family": "cross_leg_aggregation",
+  "name": "wide_narrow-429--crossleg-aggregate--Account-Payment",
+  "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_active (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:accountsToPayments ?payment . ?payment a c:Payment ; c:active ?payment_active } GROUP BY ?payment_active",
+  "shape": "wide_narrow-429",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "sku": {
+                  "field": "sku"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "total": {
+                  "field": "total"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Device": {
+              "collectionName": "devices",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "total",
+                  "type": "float"
+                }
+              ]
+            },
+            {
+              "name": "Device",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Account",
+              "toEntity": "Payment",
+              "type": "accountsToPayments"
+            },
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Payment",
+              "type": "customersToPayments"
+            },
+            {
+              "fromEntity": "Device",
+              "toEntity": "Payment",
+              "type": "devicesToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
+        "rows": [],
+        "source_objects": [
+          "accounts"
+        ]
+      },
+      "system": "ch1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "active": {
+                  "field": "active"
+                },
+                "billable": {
+                  "field": "billable"
+                },
+                "category": {
+                  "field": "category"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "flagged": {
+                  "field": "flagged"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "margin": {
+                  "field": "margin"
+                },
+                "rank": {
+                  "field": "rank"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "seats": {
+                  "field": "seats"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "weight": {
+                  "field": "weight"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
+                  "name": "billable",
+                  "type": "boolean"
+                },
+                {
+                  "name": "category",
+                  "type": "string"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "margin",
+                  "type": "float"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "seats",
+                  "type": "integer"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "weight",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
+        "rows": [],
+        "source_objects": [
+          "payments"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

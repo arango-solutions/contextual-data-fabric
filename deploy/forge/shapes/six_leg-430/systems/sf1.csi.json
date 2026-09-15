@@ -1,0 +1,93 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Customer": {
+        "collectionName": "customers",
+        "properties": {
+          "assetId": {
+            "field": "asset_id"
+          },
+          "channel": {
+            "field": "channel"
+          },
+          "code": {
+            "field": "code"
+          },
+          "expired": {
+            "field": "expired"
+          },
+          "id": {
+            "field": "id"
+          },
+          "paymentId": {
+            "field": "payment_id"
+          },
+          "total": {
+            "field": "total"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Customer",
+        "properties": [
+          {
+            "name": "assetId",
+            "type": "integer"
+          },
+          {
+            "name": "channel",
+            "type": "string"
+          },
+          {
+            "name": "code",
+            "type": "string"
+          },
+          {
+            "name": "expired",
+            "type": "boolean"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "type": "integer"
+          },
+          {
+            "name": "total",
+            "type": "float"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Customer",
+        "toEntity": "Asset",
+        "type": "customersToAssets"
+      },
+      {
+        "fromEntity": "Customer",
+        "toEntity": "Payment",
+        "type": "customersToPayments"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "snowflake",
+      "ref": "sf1"
+    }
+  }
+}

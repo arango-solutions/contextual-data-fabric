@@ -1,0 +1,81 @@
+{
+  "entities": [
+    {
+      "name": "Account",
+      "properties": [
+        {
+          "name": "archived",
+          "type": "boolean"
+        },
+        {
+          "name": "discount",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "Customer",
+      "properties": [
+        {
+          "name": "balance",
+          "type": "float"
+        },
+        {
+          "name": "enabled",
+          "type": "boolean"
+        },
+        {
+          "name": "tier",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Invoice",
+      "properties": [
+        {
+          "name": "status",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Vendor",
+      "properties": [
+        {
+          "name": "ratio",
+          "type": "float"
+        },
+        {
+          "name": "retries",
+          "type": "integer"
+        },
+        {
+          "name": "segment",
+          "type": "string"
+        },
+        {
+          "name": "weight",
+          "type": "float"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Account",
+      "toEntity": "Vendor",
+      "type": "accountsToVendors"
+    },
+    {
+      "fromEntity": "Customer",
+      "toEntity": "Vendor",
+      "type": "customersToVendors"
+    },
+    {
+      "fromEntity": "Invoice",
+      "toEntity": "Vendor",
+      "type": "invoicesToVendors"
+    }
+  ]
+}

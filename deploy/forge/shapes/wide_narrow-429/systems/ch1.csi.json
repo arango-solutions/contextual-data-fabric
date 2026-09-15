@@ -1,0 +1,155 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Account": {
+        "collectionName": "accounts",
+        "properties": {
+          "id": {
+            "field": "id"
+          },
+          "paymentId": {
+            "field": "payment_id"
+          },
+          "segment": {
+            "field": "segment"
+          },
+          "sku": {
+            "field": "sku"
+          }
+        },
+        "style": "COLLECTION"
+      },
+      "Customer": {
+        "collectionName": "customers",
+        "properties": {
+          "id": {
+            "field": "id"
+          },
+          "paymentId": {
+            "field": "payment_id"
+          },
+          "priority": {
+            "field": "priority"
+          },
+          "total": {
+            "field": "total"
+          }
+        },
+        "style": "COLLECTION"
+      },
+      "Device": {
+        "collectionName": "devices",
+        "properties": {
+          "currency": {
+            "field": "currency"
+          },
+          "id": {
+            "field": "id"
+          },
+          "paymentId": {
+            "field": "payment_id"
+          },
+          "primary": {
+            "field": "primary"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Account",
+        "properties": [
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "type": "integer"
+          },
+          {
+            "name": "segment",
+            "type": "string"
+          },
+          {
+            "name": "sku",
+            "type": "string"
+          }
+        ]
+      },
+      {
+        "name": "Customer",
+        "properties": [
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "type": "integer"
+          },
+          {
+            "name": "priority",
+            "type": "integer"
+          },
+          {
+            "name": "total",
+            "type": "float"
+          }
+        ]
+      },
+      {
+        "name": "Device",
+        "properties": [
+          {
+            "name": "currency",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "paymentId",
+            "type": "integer"
+          },
+          {
+            "name": "primary",
+            "type": "boolean"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Account",
+        "toEntity": "Payment",
+        "type": "accountsToPayments"
+      },
+      {
+        "fromEntity": "Customer",
+        "toEntity": "Payment",
+        "type": "customersToPayments"
+      },
+      {
+        "fromEntity": "Device",
+        "toEntity": "Payment",
+        "type": "devicesToPayments"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "clickhouse",
+      "ref": "ch1"
+    }
+  }
+}

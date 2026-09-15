@@ -1,0 +1,153 @@
+{
+  "expect": {
+    "unsupported_contains": [
+      "declares no GROUP BY capability",
+      "snowflake:sf1"
+    ]
+  },
+  "family": "single_leg_aggregation",
+  "name": "hub-428--aggregate--Payment",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_verified (COUNT(?payment) AS ?n) WHERE { ?payment a c:Payment ; c:verified ?payment_verified } GROUP BY ?payment_verified",
+  "shape": "hub-428",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Contract": {
+              "collectionName": "contracts",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "archived": {
+                  "field": "archived"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "region": {
+                  "field": "region"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "verified": {
+                  "field": "verified"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Contract",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            },
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Contract",
+              "toEntity": "Account",
+              "type": "contractsToAccounts"
+            },
+            {
+              "fromEntity": "Payment",
+              "toEntity": "Account",
+              "type": "paymentsToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
+        "rows": [
+          {
+            "n": 7,
+            "payment_verified": false
+          },
+          {
+            "n": 5,
+            "payment_verified": true
+          }
+        ],
+        "source_objects": [
+          "payments"
+        ]
+      },
+      "system": "sf1"
+    }
+  ]
+}

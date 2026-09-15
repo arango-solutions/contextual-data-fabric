@@ -1,0 +1,105 @@
+{
+  "entities": [
+    {
+      "name": "Invoice",
+      "properties": [
+        {
+          "name": "channel",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Region",
+      "properties": [
+        {
+          "name": "active",
+          "type": "boolean"
+        },
+        {
+          "name": "amount",
+          "type": "float"
+        },
+        {
+          "name": "currency",
+          "type": "string"
+        },
+        {
+          "name": "expired",
+          "type": "boolean"
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        },
+        {
+          "name": "priority",
+          "type": "integer"
+        },
+        {
+          "name": "quantity",
+          "type": "integer"
+        },
+        {
+          "name": "ratio",
+          "type": "float"
+        },
+        {
+          "name": "segment",
+          "type": "string"
+        },
+        {
+          "name": "tier",
+          "type": "string"
+        },
+        {
+          "name": "units",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Session",
+      "properties": [
+        {
+          "name": "billable",
+          "type": "boolean"
+        },
+        {
+          "name": "version",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Shipment",
+      "properties": [
+        {
+          "name": "region",
+          "type": "string"
+        },
+        {
+          "name": "verified",
+          "type": "boolean"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Invoice",
+      "toEntity": "Region",
+      "type": "invoicesToRegions"
+    },
+    {
+      "fromEntity": "Session",
+      "toEntity": "Region",
+      "type": "sessionsToRegions"
+    },
+    {
+      "fromEntity": "Shipment",
+      "toEntity": "Region",
+      "type": "shipmentsToRegions"
+    }
+  ]
+}

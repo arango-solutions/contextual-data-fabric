@@ -1,0 +1,173 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "invoice_channel": "channel-41540"
+      },
+      {
+        "invoice_channel": "channel-05919"
+      },
+      {
+        "invoice_channel": "channel-65937"
+      },
+      {
+        "invoice_channel": "channel-77837"
+      },
+      {
+        "invoice_channel": "channel-29973"
+      },
+      {
+        "invoice_channel": "channel-57421"
+      },
+      {
+        "invoice_channel": "channel-24627"
+      },
+      {
+        "invoice_channel": "channel-93544"
+      },
+      {
+        "invoice_channel": "channel-46176"
+      },
+      {
+        "invoice_channel": "channel-95322"
+      },
+      {
+        "invoice_channel": "channel-84424"
+      },
+      {
+        "invoice_channel": "channel-09097"
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "wide_narrow-424--lookup--Invoice",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_channel WHERE { ?invoice a c:Invoice ; c:channel ?invoice_channel }",
+  "shape": "wide_narrow-424",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Invoice": {
+              "collectionName": "invoices",
+              "properties": {
+                "channel": {
+                  "field": "channel"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "regionId": {
+                  "field": "region_id"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Invoice",
+              "properties": [
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "regionId",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Invoice",
+              "toEntity": "Region",
+              "type": "invoicesToRegions"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for invoices",
+        "rows": [
+          {
+            "invoice": 1,
+            "invoice_channel": "channel-41540"
+          },
+          {
+            "invoice": 2,
+            "invoice_channel": "channel-05919"
+          },
+          {
+            "invoice": 3,
+            "invoice_channel": "channel-65937"
+          },
+          {
+            "invoice": 4,
+            "invoice_channel": "channel-77837"
+          },
+          {
+            "invoice": 5,
+            "invoice_channel": "channel-29973"
+          },
+          {
+            "invoice": 6,
+            "invoice_channel": "channel-57421"
+          },
+          {
+            "invoice": 7,
+            "invoice_channel": "channel-24627"
+          },
+          {
+            "invoice": 8,
+            "invoice_channel": "channel-93544"
+          },
+          {
+            "invoice": 9,
+            "invoice_channel": "channel-46176"
+          },
+          {
+            "invoice": 10,
+            "invoice_channel": "channel-95322"
+          },
+          {
+            "invoice": 11,
+            "invoice_channel": "channel-84424"
+          },
+          {
+            "invoice": 12,
+            "invoice_channel": "channel-09097"
+          }
+        ],
+        "source_objects": [
+          "invoices"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

@@ -1,0 +1,93 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Order": {
+        "collectionName": "orders",
+        "properties": {
+          "billable": {
+            "field": "billable"
+          },
+          "deviceId": {
+            "field": "device_id"
+          },
+          "id": {
+            "field": "id"
+          },
+          "region": {
+            "field": "region"
+          },
+          "score": {
+            "field": "score"
+          },
+          "shipmentId": {
+            "field": "shipment_id"
+          },
+          "weight": {
+            "field": "weight"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Order",
+        "properties": [
+          {
+            "name": "billable",
+            "type": "boolean"
+          },
+          {
+            "name": "deviceId",
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "region",
+            "type": "string"
+          },
+          {
+            "name": "score",
+            "type": "integer"
+          },
+          {
+            "name": "shipmentId",
+            "type": "integer"
+          },
+          {
+            "name": "weight",
+            "type": "float"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Order",
+        "toEntity": "Device",
+        "type": "ordersToDevices"
+      },
+      {
+        "fromEntity": "Order",
+        "toEntity": "Shipment",
+        "type": "ordersToShipments"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "arango",
+      "ref": "ar1"
+    }
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Vendor": {
+        "collectionName": "vendors",
+        "properties": {
+          "archived": {
+            "field": "archived"
+          },
+          "deviceId": {
+            "field": "device_id"
+          },
+          "id": {
+            "field": "id"
+          },
+          "orderId": {
+            "field": "order_id"
+          },
+          "retries": {
+            "field": "retries"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Vendor",
+        "properties": [
+          {
+            "name": "archived",
+            "type": "boolean"
+          },
+          {
+            "name": "deviceId",
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "orderId",
+            "type": "integer"
+          },
+          {
+            "name": "retries",
+            "type": "integer"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Vendor",
+        "toEntity": "Device",
+        "type": "vendorsToDevices"
+      },
+      {
+        "fromEntity": "Vendor",
+        "toEntity": "Order",
+        "type": "vendorsToOrders"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "postgresql",
+      "ref": "pg1"
+    }
+  }
+}

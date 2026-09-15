@@ -1,0 +1,70 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "vendor_id",
+      "crossSystem": true,
+      "from": "Asset",
+      "fromSystem": "sf1",
+      "parentColumn": "id",
+      "relationship": "assetsToVendors",
+      "to": "Vendor",
+      "toSystem": "ch1"
+    },
+    {
+      "childColumn": "asset_id",
+      "crossSystem": true,
+      "from": "Shipment",
+      "fromSystem": "ar1",
+      "parentColumn": "id",
+      "relationship": "shipmentsToAssets",
+      "to": "Asset",
+      "toSystem": "sf1"
+    },
+    {
+      "childColumn": "campaign_id",
+      "crossSystem": true,
+      "from": "Vendor",
+      "fromSystem": "ch1",
+      "parentColumn": "id",
+      "relationship": "vendorsToCampaigns",
+      "to": "Campaign",
+      "toSystem": "pg1"
+    }
+  ],
+  "ownership": {
+    "Asset": "sf1",
+    "Campaign": "pg1",
+    "Shipment": "ar1",
+    "Vendor": "ch1"
+  },
+  "shape": "chain-422",
+  "systems": {
+    "ar1": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar1"
+    },
+    "ch1": {
+      "dialect": "clickhouse",
+      "kind": "clickhouse",
+      "sourceId": "clickhouse:ch1"
+    },
+    "pg1": {
+      "dialect": "postgres",
+      "kind": "postgresql",
+      "sourceId": "postgresql:pg1"
+    },
+    "sf1": {
+      "dialect": "snowflake",
+      "kind": "snowflake",
+      "sourceId": "snowflake:sf1"
+    }
+  },
+  "tables": {
+    "Asset": "assets",
+    "Campaign": "campaigns",
+    "Shipment": "shipments",
+    "Vendor": "vendors"
+  }
+}

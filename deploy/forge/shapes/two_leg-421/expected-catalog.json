@@ -1,0 +1,48 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "asset_id",
+      "crossSystem": true,
+      "from": "Payment",
+      "fromSystem": "ar1",
+      "parentColumn": "id",
+      "relationship": "paymentsToAssets",
+      "to": "Asset",
+      "toSystem": "pg1"
+    },
+    {
+      "childColumn": "asset_id",
+      "crossSystem": true,
+      "from": "Shipment",
+      "fromSystem": "ar1",
+      "parentColumn": "id",
+      "relationship": "shipmentsToAssets",
+      "to": "Asset",
+      "toSystem": "pg1"
+    }
+  ],
+  "ownership": {
+    "Asset": "pg1",
+    "Payment": "ar1",
+    "Shipment": "ar1"
+  },
+  "shape": "two_leg-421",
+  "systems": {
+    "ar1": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar1"
+    },
+    "pg1": {
+      "dialect": "postgres",
+      "kind": "postgresql",
+      "sourceId": "postgresql:pg1"
+    }
+  },
+  "tables": {
+    "Asset": "assets",
+    "Payment": "payments",
+    "Shipment": "shipments"
+  }
+}

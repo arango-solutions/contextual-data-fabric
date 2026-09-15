@@ -1,0 +1,125 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Payment": {
+        "collectionName": "payments",
+        "properties": {
+          "assetId": {
+            "field": "asset_id"
+          },
+          "channel": {
+            "field": "channel"
+          },
+          "id": {
+            "field": "id"
+          },
+          "priority": {
+            "field": "priority"
+          },
+          "seats": {
+            "field": "seats"
+          }
+        },
+        "style": "COLLECTION"
+      },
+      "Shipment": {
+        "collectionName": "shipments",
+        "properties": {
+          "assetId": {
+            "field": "asset_id"
+          },
+          "currency": {
+            "field": "currency"
+          },
+          "id": {
+            "field": "id"
+          },
+          "latencyMs": {
+            "field": "latency_ms"
+          },
+          "retries": {
+            "field": "retries"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Payment",
+        "properties": [
+          {
+            "name": "assetId",
+            "type": "integer"
+          },
+          {
+            "name": "channel",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "priority",
+            "type": "integer"
+          },
+          {
+            "name": "seats",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "Shipment",
+        "properties": [
+          {
+            "name": "assetId",
+            "type": "integer"
+          },
+          {
+            "name": "currency",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "latencyMs",
+            "type": "float"
+          },
+          {
+            "name": "retries",
+            "type": "integer"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Payment",
+        "toEntity": "Asset",
+        "type": "paymentsToAssets"
+      },
+      {
+        "fromEntity": "Shipment",
+        "toEntity": "Asset",
+        "type": "shipmentsToAssets"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "arango",
+      "ref": "ar1"
+    }
+  }
+}

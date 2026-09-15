@@ -1,0 +1,375 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "invoice_channel": "channel-41540",
+        "region_active": true
+      },
+      {
+        "invoice_channel": "channel-05919",
+        "region_active": false
+      },
+      {
+        "invoice_channel": "channel-65937",
+        "region_active": true
+      },
+      {
+        "invoice_channel": "channel-77837",
+        "region_active": true
+      },
+      {
+        "invoice_channel": "channel-29973",
+        "region_active": false
+      },
+      {
+        "invoice_channel": "channel-57421",
+        "region_active": false
+      },
+      {
+        "invoice_channel": "channel-24627",
+        "region_active": false
+      },
+      {
+        "invoice_channel": "channel-93544",
+        "region_active": true
+      },
+      {
+        "invoice_channel": "channel-46176",
+        "region_active": false
+      },
+      {
+        "invoice_channel": "channel-95322",
+        "region_active": false
+      },
+      {
+        "invoice_channel": "channel-84424",
+        "region_active": true
+      },
+      {
+        "invoice_channel": "channel-09097",
+        "region_active": false
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1",
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "wide_narrow-424--join--Invoice-Region",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_channel ?region_active WHERE { ?invoice a c:Invoice ; c:channel ?invoice_channel ; c:invoicesToRegions ?region . ?region a c:Region ; c:active ?region_active }",
+  "shape": "wide_narrow-424",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Invoice": {
+              "collectionName": "invoices",
+              "properties": {
+                "channel": {
+                  "field": "channel"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "regionId": {
+                  "field": "region_id"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Invoice",
+              "properties": [
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "regionId",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Invoice",
+              "toEntity": "Region",
+              "type": "invoicesToRegions"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for invoices",
+        "rows": [
+          {
+            "invoice": 1,
+            "invoice_channel": "channel-41540",
+            "region": 11
+          },
+          {
+            "invoice": 2,
+            "invoice_channel": "channel-05919",
+            "region": 1
+          },
+          {
+            "invoice": 3,
+            "invoice_channel": "channel-65937",
+            "region": 11
+          },
+          {
+            "invoice": 4,
+            "invoice_channel": "channel-77837",
+            "region": 12
+          },
+          {
+            "invoice": 5,
+            "invoice_channel": "channel-29973",
+            "region": 1
+          },
+          {
+            "invoice": 6,
+            "invoice_channel": "channel-57421",
+            "region": 3
+          },
+          {
+            "invoice": 7,
+            "invoice_channel": "channel-24627",
+            "region": 3
+          },
+          {
+            "invoice": 8,
+            "invoice_channel": "channel-93544",
+            "region": 10
+          },
+          {
+            "invoice": 9,
+            "invoice_channel": "channel-46176",
+            "region": 2
+          },
+          {
+            "invoice": 10,
+            "invoice_channel": "channel-95322",
+            "region": 8
+          },
+          {
+            "invoice": 11,
+            "invoice_channel": "channel-84424",
+            "region": 10
+          },
+          {
+            "invoice": 12,
+            "invoice_channel": "channel-09097",
+            "region": 2
+          }
+        ],
+        "source_objects": [
+          "invoices"
+        ]
+      },
+      "system": "ar1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Region": {
+              "collectionName": "regions",
+              "properties": {
+                "active": {
+                  "field": "active"
+                },
+                "amount": {
+                  "field": "amount"
+                },
+                "currency": {
+                  "field": "currency"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "notes": {
+                  "field": "notes"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "quantity": {
+                  "field": "quantity"
+                },
+                "ratio": {
+                  "field": "ratio"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "units": {
+                  "field": "units"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Region",
+              "properties": [
+                {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "notes",
+                  "type": "string"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "quantity",
+                  "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "units",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for regions",
+        "rows": [
+          {
+            "region": 1,
+            "region_active": false
+          },
+          {
+            "region": 2,
+            "region_active": false
+          },
+          {
+            "region": 3,
+            "region_active": false
+          },
+          {
+            "region": 4,
+            "region_active": true
+          },
+          {
+            "region": 5,
+            "region_active": true
+          },
+          {
+            "region": 6,
+            "region_active": false
+          },
+          {
+            "region": 7,
+            "region_active": true
+          },
+          {
+            "region": 8,
+            "region_active": false
+          },
+          {
+            "region": 9,
+            "region_active": false
+          },
+          {
+            "region": 10,
+            "region_active": true
+          },
+          {
+            "region": 11,
+            "region_active": true
+          },
+          {
+            "region": 12,
+            "region_active": true
+          }
+        ],
+        "source_objects": [
+          "regions"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

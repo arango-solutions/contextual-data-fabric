@@ -1,0 +1,257 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "account_enabled": true,
+        "account_region": "region-95752"
+      },
+      {
+        "account_enabled": true,
+        "account_region": "region-16194"
+      },
+      {
+        "account_enabled": false,
+        "account_region": "region-73573"
+      },
+      {
+        "account_enabled": false,
+        "account_region": "region-51217"
+      },
+      {
+        "account_enabled": false,
+        "account_region": "region-40944"
+      },
+      {
+        "account_enabled": true,
+        "account_region": "region-12020"
+      },
+      {
+        "account_enabled": false,
+        "account_region": "region-38443"
+      },
+      {
+        "account_enabled": false,
+        "account_region": "region-45148"
+      },
+      {
+        "account_enabled": false,
+        "account_region": "region-66161"
+      },
+      {
+        "account_enabled": true,
+        "account_region": "region-41983"
+      },
+      {
+        "account_enabled": true,
+        "account_region": "region-50729"
+      },
+      {
+        "account_enabled": false,
+        "account_region": "region-32127"
+      }
+    ],
+    "sources_touched": [
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "two_leg-426--lookup--Account",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_enabled ?account_region WHERE { ?account a c:Account ; c:enabled ?account_enabled ; c:region ?account_region }",
+  "shape": "two_leg-426",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "enabled": {
+                  "field": "enabled"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "region": {
+                  "field": "region"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "version": {
+                  "field": "version"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Invoice": {
+              "collectionName": "invoices",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "quantity": {
+                  "field": "quantity"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "segment": {
+                  "field": "segment"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "version",
+                  "type": "integer"
+                }
+              ]
+            },
+            {
+              "name": "Invoice",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "quantity",
+                  "type": "integer"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Invoice",
+              "toEntity": "Account",
+              "type": "invoicesToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
+        "rows": [
+          {
+            "account": 1,
+            "account_enabled": true,
+            "account_region": "region-95752"
+          },
+          {
+            "account": 2,
+            "account_enabled": true,
+            "account_region": "region-16194"
+          },
+          {
+            "account": 3,
+            "account_enabled": false,
+            "account_region": "region-73573"
+          },
+          {
+            "account": 4,
+            "account_enabled": false,
+            "account_region": "region-51217"
+          },
+          {
+            "account": 5,
+            "account_enabled": false,
+            "account_region": "region-40944"
+          },
+          {
+            "account": 6,
+            "account_enabled": true,
+            "account_region": "region-12020"
+          },
+          {
+            "account": 7,
+            "account_enabled": false,
+            "account_region": "region-38443"
+          },
+          {
+            "account": 8,
+            "account_enabled": false,
+            "account_region": "region-45148"
+          },
+          {
+            "account": 9,
+            "account_enabled": false,
+            "account_region": "region-66161"
+          },
+          {
+            "account": 10,
+            "account_enabled": true,
+            "account_region": "region-41983"
+          },
+          {
+            "account": 11,
+            "account_enabled": true,
+            "account_region": "region-50729"
+          },
+          {
+            "account": 12,
+            "account_enabled": false,
+            "account_region": "region-32127"
+          }
+        ],
+        "source_objects": [
+          "accounts"
+        ]
+      },
+      "system": "pg1"
+    }
+  ]
+}

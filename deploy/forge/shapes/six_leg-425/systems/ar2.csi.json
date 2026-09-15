@@ -1,0 +1,81 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Invoice": {
+        "collectionName": "invoices",
+        "properties": {
+          "category": {
+            "field": "category"
+          },
+          "id": {
+            "field": "id"
+          },
+          "latencyMs": {
+            "field": "latency_ms"
+          },
+          "rank": {
+            "field": "rank"
+          },
+          "seats": {
+            "field": "seats"
+          },
+          "shipmentId": {
+            "field": "shipment_id"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Invoice",
+        "properties": [
+          {
+            "name": "category",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "latencyMs",
+            "type": "float"
+          },
+          {
+            "name": "rank",
+            "type": "integer"
+          },
+          {
+            "name": "seats",
+            "type": "integer"
+          },
+          {
+            "name": "shipmentId",
+            "type": "integer"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Invoice",
+        "toEntity": "Shipment",
+        "type": "invoicesToShipments"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "arango",
+      "ref": "ar2"
+    }
+  }
+}

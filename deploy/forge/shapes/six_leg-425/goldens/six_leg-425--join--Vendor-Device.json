@@ -1,0 +1,338 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "device_currency": "currency-53297",
+        "vendor_archived": true
+      },
+      {
+        "device_currency": "currency-70444",
+        "vendor_archived": false
+      },
+      {
+        "device_currency": "currency-53297",
+        "vendor_archived": false
+      },
+      {
+        "device_currency": "currency-96212",
+        "vendor_archived": true
+      },
+      {
+        "device_currency": "currency-78844",
+        "vendor_archived": false
+      },
+      {
+        "device_currency": "currency-78844",
+        "vendor_archived": true
+      },
+      {
+        "device_currency": "currency-53297",
+        "vendor_archived": false
+      },
+      {
+        "device_currency": "currency-79109",
+        "vendor_archived": true
+      },
+      {
+        "device_currency": "currency-62234",
+        "vendor_archived": false
+      },
+      {
+        "device_currency": "currency-38382",
+        "vendor_archived": true
+      },
+      {
+        "device_currency": "currency-83300",
+        "vendor_archived": false
+      },
+      {
+        "device_currency": "currency-96212",
+        "vendor_archived": true
+      }
+    ],
+    "sources_touched": [
+      "arango:ar3",
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "six_leg-425--join--Vendor-Device",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?device_currency WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:vendorsToDevices ?device . ?device a c:Device ; c:currency ?device_currency }",
+  "shape": "six_leg-425",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Vendor": {
+              "collectionName": "vendors",
+              "properties": {
+                "archived": {
+                  "field": "archived"
+                },
+                "deviceId": {
+                  "field": "device_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "orderId": {
+                  "field": "order_id"
+                },
+                "retries": {
+                  "field": "retries"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Vendor",
+              "properties": [
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "deviceId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "orderId",
+                  "type": "integer"
+                },
+                {
+                  "name": "retries",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Vendor",
+              "toEntity": "Device",
+              "type": "vendorsToDevices"
+            },
+            {
+              "fromEntity": "Vendor",
+              "toEntity": "Order",
+              "type": "vendorsToOrders"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for vendors",
+        "rows": [
+          {
+            "device": 10,
+            "vendor": 1,
+            "vendor_archived": true
+          },
+          {
+            "device": 6,
+            "vendor": 2,
+            "vendor_archived": false
+          },
+          {
+            "device": 10,
+            "vendor": 3,
+            "vendor_archived": false
+          },
+          {
+            "device": 3,
+            "vendor": 4,
+            "vendor_archived": true
+          },
+          {
+            "device": 5,
+            "vendor": 5,
+            "vendor_archived": false
+          },
+          {
+            "device": 5,
+            "vendor": 6,
+            "vendor_archived": true
+          },
+          {
+            "device": 10,
+            "vendor": 7,
+            "vendor_archived": false
+          },
+          {
+            "device": 4,
+            "vendor": 8,
+            "vendor_archived": true
+          },
+          {
+            "device": 8,
+            "vendor": 9,
+            "vendor_archived": false
+          },
+          {
+            "device": 11,
+            "vendor": 10,
+            "vendor_archived": true
+          },
+          {
+            "device": 9,
+            "vendor": 11,
+            "vendor_archived": false
+          },
+          {
+            "device": 3,
+            "vendor": 12,
+            "vendor_archived": true
+          }
+        ],
+        "source_objects": [
+          "vendors"
+        ]
+      },
+      "system": "pg1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Device": {
+              "collectionName": "devices",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "flagged": {
+                  "field": "flagged"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Device",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar3"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for devices",
+        "rows": [
+          {
+            "device": 1,
+            "device_currency": "currency-54921"
+          },
+          {
+            "device": 2,
+            "device_currency": "currency-07605"
+          },
+          {
+            "device": 3,
+            "device_currency": "currency-96212"
+          },
+          {
+            "device": 4,
+            "device_currency": "currency-79109"
+          },
+          {
+            "device": 5,
+            "device_currency": "currency-78844"
+          },
+          {
+            "device": 6,
+            "device_currency": "currency-70444"
+          },
+          {
+            "device": 7,
+            "device_currency": "currency-48852"
+          },
+          {
+            "device": 8,
+            "device_currency": "currency-62234"
+          },
+          {
+            "device": 9,
+            "device_currency": "currency-83300"
+          },
+          {
+            "device": 10,
+            "device_currency": "currency-53297"
+          },
+          {
+            "device": 11,
+            "device_currency": "currency-38382"
+          },
+          {
+            "device": 12,
+            "device_currency": "currency-88897"
+          }
+        ],
+        "source_objects": [
+          "devices"
+        ]
+      },
+      "system": "ar3"
+    }
+  ]
+}

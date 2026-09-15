@@ -1,0 +1,117 @@
+{
+  "entities": [
+    {
+      "name": "Account",
+      "properties": [
+        {
+          "name": "segment",
+          "type": "string"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Customer",
+      "properties": [
+        {
+          "name": "priority",
+          "type": "integer"
+        },
+        {
+          "name": "total",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "Device",
+      "properties": [
+        {
+          "name": "currency",
+          "type": "string"
+        },
+        {
+          "name": "primary",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "properties": [
+        {
+          "name": "active",
+          "type": "boolean"
+        },
+        {
+          "name": "billable",
+          "type": "boolean"
+        },
+        {
+          "name": "category",
+          "type": "string"
+        },
+        {
+          "name": "expired",
+          "type": "boolean"
+        },
+        {
+          "name": "flagged",
+          "type": "boolean"
+        },
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "latencyMs",
+          "type": "float"
+        },
+        {
+          "name": "margin",
+          "type": "float"
+        },
+        {
+          "name": "rank",
+          "type": "integer"
+        },
+        {
+          "name": "score",
+          "type": "integer"
+        },
+        {
+          "name": "seats",
+          "type": "integer"
+        },
+        {
+          "name": "tier",
+          "type": "string"
+        },
+        {
+          "name": "weight",
+          "type": "float"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Account",
+      "toEntity": "Payment",
+      "type": "accountsToPayments"
+    },
+    {
+      "fromEntity": "Customer",
+      "toEntity": "Payment",
+      "type": "customersToPayments"
+    },
+    {
+      "fromEntity": "Device",
+      "toEntity": "Payment",
+      "type": "devicesToPayments"
+    }
+  ]
+}

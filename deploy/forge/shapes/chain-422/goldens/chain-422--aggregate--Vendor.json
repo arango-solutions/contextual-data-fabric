@@ -1,0 +1,102 @@
+{
+  "expect": {
+    "unsupported_contains": [
+      "declares no GROUP BY capability",
+      "clickhouse:ch1"
+    ]
+  },
+  "family": "single_leg_aggregation",
+  "name": "chain-422--aggregate--Vendor",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_verified (COUNT(?vendor) AS ?n) WHERE { ?vendor a c:Vendor ; c:verified ?vendor_verified } GROUP BY ?vendor_verified",
+  "shape": "chain-422",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Vendor": {
+              "collectionName": "vendors",
+              "properties": {
+                "campaignId": {
+                  "field": "campaign_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "verified": {
+                  "field": "verified"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Vendor",
+              "properties": [
+                {
+                  "name": "campaignId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Vendor",
+              "toEntity": "Campaign",
+              "type": "vendorsToCampaigns"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for vendors",
+        "rows": [
+          {
+            "n": 4,
+            "vendor_verified": false
+          },
+          {
+            "n": 8,
+            "vendor_verified": true
+          }
+        ],
+        "source_objects": [
+          "vendors"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

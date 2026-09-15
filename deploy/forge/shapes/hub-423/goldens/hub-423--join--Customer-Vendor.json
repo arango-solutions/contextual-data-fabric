@@ -1,0 +1,340 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "customer_balance": 11075.908845,
+        "vendor_ratio": 91720.549233
+      },
+      {
+        "customer_balance": 34669.136692,
+        "vendor_ratio": 43079.973175
+      },
+      {
+        "customer_balance": 52306.295095,
+        "vendor_ratio": 43274.499025
+      },
+      {
+        "customer_balance": 28589.087396,
+        "vendor_ratio": 57011.360447
+      },
+      {
+        "customer_balance": 6420.453771,
+        "vendor_ratio": 57011.360447
+      },
+      {
+        "customer_balance": 35.015176,
+        "vendor_ratio": 91720.549233
+      },
+      {
+        "customer_balance": 89040.721838,
+        "vendor_ratio": 10277.0534
+      },
+      {
+        "customer_balance": 98782.941935,
+        "vendor_ratio": 60121.462835
+      },
+      {
+        "customer_balance": 83293.05105,
+        "vendor_ratio": 60121.462835
+      },
+      {
+        "customer_balance": 99512.288775,
+        "vendor_ratio": 43274.499025
+      },
+      {
+        "customer_balance": 34522.257918,
+        "vendor_ratio": 10277.0534
+      },
+      {
+        "customer_balance": 66623.502903,
+        "vendor_ratio": 57011.360447
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1",
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "hub-423--join--Customer-Vendor",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_balance ?vendor_ratio WHERE { ?customer a c:Customer ; c:balance ?customer_balance ; c:customersToVendors ?vendor . ?vendor a c:Vendor ; c:ratio ?vendor_ratio }",
+  "shape": "hub-423",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "balance": {
+                  "field": "balance"
+                },
+                "enabled": {
+                  "field": "enabled"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "vendorId": {
+                  "field": "vendor_id"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "balance",
+                  "type": "float"
+                },
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "vendorId",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Vendor",
+              "type": "customersToVendors"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
+        "rows": [
+          {
+            "customer": 1,
+            "customer_balance": 11075.908845,
+            "vendor": 5
+          },
+          {
+            "customer": 2,
+            "customer_balance": 34669.136692,
+            "vendor": 3
+          },
+          {
+            "customer": 3,
+            "customer_balance": 52306.295095,
+            "vendor": 11
+          },
+          {
+            "customer": 4,
+            "customer_balance": 28589.087396,
+            "vendor": 6
+          },
+          {
+            "customer": 5,
+            "customer_balance": 6420.453771,
+            "vendor": 6
+          },
+          {
+            "customer": 6,
+            "customer_balance": 35.015176,
+            "vendor": 5
+          },
+          {
+            "customer": 7,
+            "customer_balance": 89040.721838,
+            "vendor": 7
+          },
+          {
+            "customer": 8,
+            "customer_balance": 98782.941935,
+            "vendor": 4
+          },
+          {
+            "customer": 9,
+            "customer_balance": 83293.05105,
+            "vendor": 4
+          },
+          {
+            "customer": 10,
+            "customer_balance": 99512.288775,
+            "vendor": 11
+          },
+          {
+            "customer": 11,
+            "customer_balance": 34522.257918,
+            "vendor": 7
+          },
+          {
+            "customer": 12,
+            "customer_balance": 66623.502903,
+            "vendor": 6
+          }
+        ],
+        "source_objects": [
+          "customers"
+        ]
+      },
+      "system": "ch1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Vendor": {
+              "collectionName": "vendors",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "ratio": {
+                  "field": "ratio"
+                },
+                "retries": {
+                  "field": "retries"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "weight": {
+                  "field": "weight"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Vendor",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                },
+                {
+                  "name": "retries",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "weight",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for vendors",
+        "rows": [
+          {
+            "vendor": 1,
+            "vendor_ratio": 32301.803055
+          },
+          {
+            "vendor": 2,
+            "vendor_ratio": 92033.759295
+          },
+          {
+            "vendor": 3,
+            "vendor_ratio": 43079.973175
+          },
+          {
+            "vendor": 4,
+            "vendor_ratio": 60121.462835
+          },
+          {
+            "vendor": 5,
+            "vendor_ratio": 91720.549233
+          },
+          {
+            "vendor": 6,
+            "vendor_ratio": 57011.360447
+          },
+          {
+            "vendor": 7,
+            "vendor_ratio": 10277.0534
+          },
+          {
+            "vendor": 8,
+            "vendor_ratio": 70672.088911
+          },
+          {
+            "vendor": 9,
+            "vendor_ratio": 84482.768626
+          },
+          {
+            "vendor": 10,
+            "vendor_ratio": 8327.67382
+          },
+          {
+            "vendor": 11,
+            "vendor_ratio": 43274.499025
+          },
+          {
+            "vendor": 12,
+            "vendor_ratio": 6820.545173
+          }
+        ],
+        "source_objects": [
+          "vendors"
+        ]
+      },
+      "system": "sf1"
+    }
+  ]
+}

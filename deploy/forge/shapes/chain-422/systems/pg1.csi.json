@@ -1,0 +1,61 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Campaign": {
+        "collectionName": "campaigns",
+        "properties": {
+          "balance": {
+            "field": "balance"
+          },
+          "channel": {
+            "field": "channel"
+          },
+          "id": {
+            "field": "id"
+          },
+          "status": {
+            "field": "status"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Campaign",
+        "properties": [
+          {
+            "name": "balance",
+            "type": "float"
+          },
+          {
+            "name": "channel",
+            "type": "string"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "relationships": []
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "postgresql",
+      "ref": "pg1"
+    }
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "payment_id",
+      "crossSystem": true,
+      "from": "Account",
+      "fromSystem": "ch1",
+      "parentColumn": "id",
+      "relationship": "accountsToPayments",
+      "to": "Payment",
+      "toSystem": "ar1"
+    },
+    {
+      "childColumn": "payment_id",
+      "crossSystem": true,
+      "from": "Customer",
+      "fromSystem": "ch1",
+      "parentColumn": "id",
+      "relationship": "customersToPayments",
+      "to": "Payment",
+      "toSystem": "ar1"
+    },
+    {
+      "childColumn": "payment_id",
+      "crossSystem": true,
+      "from": "Device",
+      "fromSystem": "ch1",
+      "parentColumn": "id",
+      "relationship": "devicesToPayments",
+      "to": "Payment",
+      "toSystem": "ar1"
+    }
+  ],
+  "ownership": {
+    "Account": "ch1",
+    "Customer": "ch1",
+    "Device": "ch1",
+    "Payment": "ar1"
+  },
+  "shape": "wide_narrow-429",
+  "systems": {
+    "ar1": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar1"
+    },
+    "ch1": {
+      "dialect": "clickhouse",
+      "kind": "clickhouse",
+      "sourceId": "clickhouse:ch1"
+    }
+  },
+  "tables": {
+    "Account": "accounts",
+    "Customer": "customers",
+    "Device": "devices",
+    "Payment": "payments"
+  }
+}

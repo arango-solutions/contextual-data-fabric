@@ -1,0 +1,67 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Product": {
+        "collectionName": "products",
+        "properties": {
+          "id": {
+            "field": "id"
+          },
+          "segment": {
+            "field": "segment"
+          },
+          "sessionId": {
+            "field": "session_id"
+          },
+          "version": {
+            "field": "version"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Product",
+        "properties": [
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "segment",
+            "type": "string"
+          },
+          {
+            "name": "sessionId",
+            "type": "integer"
+          },
+          {
+            "name": "version",
+            "type": "integer"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Product",
+        "toEntity": "Session",
+        "type": "productsToSessions"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "snowflake",
+      "ref": "sf1"
+    }
+  }
+}

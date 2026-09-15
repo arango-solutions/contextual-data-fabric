@@ -1,0 +1,377 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "asset_archived": true,
+        "payment_channel": "channel-56928"
+      },
+      {
+        "asset_archived": true,
+        "payment_channel": "channel-01977"
+      },
+      {
+        "asset_archived": true,
+        "payment_channel": "channel-71358"
+      },
+      {
+        "asset_archived": true,
+        "payment_channel": "channel-48054"
+      },
+      {
+        "asset_archived": true,
+        "payment_channel": "channel-44953"
+      },
+      {
+        "asset_archived": false,
+        "payment_channel": "channel-42332"
+      },
+      {
+        "asset_archived": false,
+        "payment_channel": "channel-71102"
+      },
+      {
+        "asset_archived": true,
+        "payment_channel": "channel-39717"
+      },
+      {
+        "asset_archived": false,
+        "payment_channel": "channel-22872"
+      },
+      {
+        "asset_archived": false,
+        "payment_channel": "channel-23621"
+      },
+      {
+        "asset_archived": true,
+        "payment_channel": "channel-60895"
+      },
+      {
+        "asset_archived": true,
+        "payment_channel": "channel-71327"
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1",
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "two_leg-421--join--Payment-Asset",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_channel ?asset_archived WHERE { ?payment a c:Payment ; c:channel ?payment_channel ; c:paymentsToAssets ?asset . ?asset a c:Asset ; c:archived ?asset_archived }",
+  "shape": "two_leg-421",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "channel": {
+                  "field": "channel"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "seats": {
+                  "field": "seats"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Shipment": {
+              "collectionName": "shipments",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "retries": {
+                  "field": "retries"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "seats",
+                  "type": "integer"
+                }
+              ]
+            },
+            {
+              "name": "Shipment",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "retries",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Payment",
+              "toEntity": "Asset",
+              "type": "paymentsToAssets"
+            },
+            {
+              "fromEntity": "Shipment",
+              "toEntity": "Asset",
+              "type": "shipmentsToAssets"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
+        "rows": [
+          {
+            "asset": 5,
+            "payment": 1,
+            "payment_channel": "channel-56928"
+          },
+          {
+            "asset": 4,
+            "payment": 2,
+            "payment_channel": "channel-01977"
+          },
+          {
+            "asset": 2,
+            "payment": 3,
+            "payment_channel": "channel-71358"
+          },
+          {
+            "asset": 5,
+            "payment": 4,
+            "payment_channel": "channel-48054"
+          },
+          {
+            "asset": 8,
+            "payment": 5,
+            "payment_channel": "channel-44953"
+          },
+          {
+            "asset": 12,
+            "payment": 6,
+            "payment_channel": "channel-42332"
+          },
+          {
+            "asset": 10,
+            "payment": 7,
+            "payment_channel": "channel-71102"
+          },
+          {
+            "asset": 5,
+            "payment": 8,
+            "payment_channel": "channel-39717"
+          },
+          {
+            "asset": 3,
+            "payment": 9,
+            "payment_channel": "channel-22872"
+          },
+          {
+            "asset": 11,
+            "payment": 10,
+            "payment_channel": "channel-23621"
+          },
+          {
+            "asset": 2,
+            "payment": 11,
+            "payment_channel": "channel-60895"
+          },
+          {
+            "asset": 2,
+            "payment": 12,
+            "payment_channel": "channel-71327"
+          }
+        ],
+        "source_objects": [
+          "payments"
+        ]
+      },
+      "system": "ar1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Asset": {
+              "collectionName": "assets",
+              "properties": {
+                "archived": {
+                  "field": "archived"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Asset",
+              "properties": [
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for assets",
+        "rows": [
+          {
+            "asset": 1,
+            "asset_archived": false
+          },
+          {
+            "asset": 2,
+            "asset_archived": true
+          },
+          {
+            "asset": 3,
+            "asset_archived": false
+          },
+          {
+            "asset": 4,
+            "asset_archived": true
+          },
+          {
+            "asset": 5,
+            "asset_archived": true
+          },
+          {
+            "asset": 6,
+            "asset_archived": true
+          },
+          {
+            "asset": 7,
+            "asset_archived": true
+          },
+          {
+            "asset": 8,
+            "asset_archived": true
+          },
+          {
+            "asset": 9,
+            "asset_archived": false
+          },
+          {
+            "asset": 10,
+            "asset_archived": false
+          },
+          {
+            "asset": 11,
+            "asset_archived": false
+          },
+          {
+            "asset": 12,
+            "asset_archived": false
+          }
+        ],
+        "source_objects": [
+          "assets"
+        ]
+      },
+      "system": "pg1"
+    }
+  ]
+}

@@ -1,0 +1,484 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "customer_priority": 94736,
+        "payment_active": false
+      },
+      {
+        "customer_priority": 83603,
+        "payment_active": false
+      },
+      {
+        "customer_priority": 82885,
+        "payment_active": false
+      },
+      {
+        "customer_priority": 63351,
+        "payment_active": false
+      },
+      {
+        "customer_priority": 2766,
+        "payment_active": true
+      },
+      {
+        "customer_priority": 17903,
+        "payment_active": true
+      },
+      {
+        "customer_priority": 2207,
+        "payment_active": true
+      },
+      {
+        "customer_priority": 25686,
+        "payment_active": false
+      },
+      {
+        "customer_priority": 12618,
+        "payment_active": false
+      },
+      {
+        "customer_priority": 61004,
+        "payment_active": false
+      },
+      {
+        "customer_priority": 24835,
+        "payment_active": false
+      },
+      {
+        "customer_priority": 97934,
+        "payment_active": false
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1",
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "wide_narrow-429--join--Customer-Payment",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_priority ?payment_active WHERE { ?customer a c:Customer ; c:priority ?customer_priority ; c:customersToPayments ?payment . ?payment a c:Payment ; c:active ?payment_active }",
+  "shape": "wide_narrow-429",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "sku": {
+                  "field": "sku"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "total": {
+                  "field": "total"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Device": {
+              "collectionName": "devices",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "total",
+                  "type": "float"
+                }
+              ]
+            },
+            {
+              "name": "Device",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Account",
+              "toEntity": "Payment",
+              "type": "accountsToPayments"
+            },
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Payment",
+              "type": "customersToPayments"
+            },
+            {
+              "fromEntity": "Device",
+              "toEntity": "Payment",
+              "type": "devicesToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
+        "rows": [
+          {
+            "customer": 1,
+            "customer_priority": 94736,
+            "payment": 8
+          },
+          {
+            "customer": 2,
+            "customer_priority": 83603,
+            "payment": 9
+          },
+          {
+            "customer": 3,
+            "customer_priority": 82885,
+            "payment": 10
+          },
+          {
+            "customer": 4,
+            "customer_priority": 63351,
+            "payment": 3
+          },
+          {
+            "customer": 5,
+            "customer_priority": 2766,
+            "payment": 4
+          },
+          {
+            "customer": 6,
+            "customer_priority": 17903,
+            "payment": 5
+          },
+          {
+            "customer": 7,
+            "customer_priority": 2207,
+            "payment": 4
+          },
+          {
+            "customer": 8,
+            "customer_priority": 25686,
+            "payment": 2
+          },
+          {
+            "customer": 9,
+            "customer_priority": 12618,
+            "payment": 1
+          },
+          {
+            "customer": 10,
+            "customer_priority": 61004,
+            "payment": 9
+          },
+          {
+            "customer": 11,
+            "customer_priority": 24835,
+            "payment": 8
+          },
+          {
+            "customer": 12,
+            "customer_priority": 97934,
+            "payment": 9
+          }
+        ],
+        "source_objects": [
+          "customers"
+        ]
+      },
+      "system": "ch1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "active": {
+                  "field": "active"
+                },
+                "billable": {
+                  "field": "billable"
+                },
+                "category": {
+                  "field": "category"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "flagged": {
+                  "field": "flagged"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "margin": {
+                  "field": "margin"
+                },
+                "rank": {
+                  "field": "rank"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "seats": {
+                  "field": "seats"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "weight": {
+                  "field": "weight"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
+                  "name": "billable",
+                  "type": "boolean"
+                },
+                {
+                  "name": "category",
+                  "type": "string"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "margin",
+                  "type": "float"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "seats",
+                  "type": "integer"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "weight",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
+        "rows": [
+          {
+            "payment": 1,
+            "payment_active": false
+          },
+          {
+            "payment": 2,
+            "payment_active": false
+          },
+          {
+            "payment": 3,
+            "payment_active": false
+          },
+          {
+            "payment": 4,
+            "payment_active": true
+          },
+          {
+            "payment": 5,
+            "payment_active": true
+          },
+          {
+            "payment": 6,
+            "payment_active": false
+          },
+          {
+            "payment": 7,
+            "payment_active": true
+          },
+          {
+            "payment": 8,
+            "payment_active": false
+          },
+          {
+            "payment": 9,
+            "payment_active": false
+          },
+          {
+            "payment": 10,
+            "payment_active": false
+          },
+          {
+            "payment": 11,
+            "payment_active": true
+          },
+          {
+            "payment": 12,
+            "payment_active": true
+          }
+        ],
+        "source_objects": [
+          "payments"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

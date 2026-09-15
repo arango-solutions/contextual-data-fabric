@@ -1,0 +1,106 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "device_flagged": false,
+        "n": 6
+      },
+      {
+        "device_flagged": true,
+        "n": 6
+      }
+    ],
+    "sources_touched": [
+      "arango:ar3"
+    ],
+    "status": "grounded"
+  },
+  "family": "single_leg_aggregation",
+  "name": "six_leg-425--aggregate--Device",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_flagged (COUNT(?device) AS ?n) WHERE { ?device a c:Device ; c:flagged ?device_flagged } GROUP BY ?device_flagged",
+  "shape": "six_leg-425",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Device": {
+              "collectionName": "devices",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "flagged": {
+                  "field": "flagged"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Device",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar3"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for devices",
+        "rows": [
+          {
+            "device_flagged": false,
+            "n": 6
+          },
+          {
+            "device_flagged": true,
+            "n": 6
+          }
+        ],
+        "source_objects": [
+          "devices"
+        ]
+      },
+      "system": "ar3"
+    }
+  ]
+}

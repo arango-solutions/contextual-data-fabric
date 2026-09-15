@@ -1,0 +1,216 @@
+{
+  "expect": {
+    "unsupported_contains": [
+      "cross-source aggregation"
+    ]
+  },
+  "family": "cross_leg_aggregation",
+  "name": "hub-428--crossleg-aggregate--Contract-Account",
+  "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_amount (COUNT(?contract) AS ?n) WHERE { ?contract a c:Contract ; c:contractsToAccounts ?account . ?account a c:Account ; c:amount ?account_amount } GROUP BY ?account_amount",
+  "shape": "hub-428",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Contract": {
+              "collectionName": "contracts",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "archived": {
+                  "field": "archived"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "region": {
+                  "field": "region"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "verified": {
+                  "field": "verified"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Contract",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            },
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Contract",
+              "toEntity": "Account",
+              "type": "contractsToAccounts"
+            },
+            {
+              "fromEntity": "Payment",
+              "toEntity": "Account",
+              "type": "paymentsToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for contracts",
+        "rows": [],
+        "source_objects": [
+          "contracts"
+        ]
+      },
+      "system": "sf1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "rank": {
+                  "field": "rank"
+                },
+                "ratio": {
+                  "field": "ratio"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
+        "rows": [],
+        "source_objects": [
+          "accounts"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

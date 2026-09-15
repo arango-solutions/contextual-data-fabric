@@ -1,0 +1,63 @@
+{
+  "entities": [
+    {
+      "name": "Asset",
+      "properties": [
+        {
+          "name": "archived",
+          "type": "boolean"
+        },
+        {
+          "name": "label",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "properties": [
+        {
+          "name": "channel",
+          "type": "string"
+        },
+        {
+          "name": "priority",
+          "type": "integer"
+        },
+        {
+          "name": "seats",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Shipment",
+      "properties": [
+        {
+          "name": "currency",
+          "type": "string"
+        },
+        {
+          "name": "latencyMs",
+          "type": "float"
+        },
+        {
+          "name": "retries",
+          "type": "integer"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Payment",
+      "toEntity": "Asset",
+      "type": "paymentsToAssets"
+    },
+    {
+      "fromEntity": "Shipment",
+      "toEntity": "Asset",
+      "type": "shipmentsToAssets"
+    }
+  ]
+}

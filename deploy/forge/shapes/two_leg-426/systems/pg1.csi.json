@@ -1,0 +1,120 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Account": {
+        "collectionName": "accounts",
+        "properties": {
+          "enabled": {
+            "field": "enabled"
+          },
+          "id": {
+            "field": "id"
+          },
+          "region": {
+            "field": "region"
+          },
+          "tier": {
+            "field": "tier"
+          },
+          "version": {
+            "field": "version"
+          }
+        },
+        "style": "COLLECTION"
+      },
+      "Invoice": {
+        "collectionName": "invoices",
+        "properties": {
+          "accountId": {
+            "field": "account_id"
+          },
+          "id": {
+            "field": "id"
+          },
+          "quantity": {
+            "field": "quantity"
+          },
+          "score": {
+            "field": "score"
+          },
+          "segment": {
+            "field": "segment"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Account",
+        "properties": [
+          {
+            "name": "enabled",
+            "type": "boolean"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "region",
+            "type": "string"
+          },
+          {
+            "name": "tier",
+            "type": "string"
+          },
+          {
+            "name": "version",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "Invoice",
+        "properties": [
+          {
+            "name": "accountId",
+            "type": "integer"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "quantity",
+            "type": "integer"
+          },
+          {
+            "name": "score",
+            "type": "integer"
+          },
+          {
+            "name": "segment",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Invoice",
+        "toEntity": "Account",
+        "type": "invoicesToAccounts"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "postgresql",
+      "ref": "pg1"
+    }
+  }
+}

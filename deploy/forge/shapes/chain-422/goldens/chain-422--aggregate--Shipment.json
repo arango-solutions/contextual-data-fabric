@@ -1,0 +1,112 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "n": 6,
+        "shipment_expired": false
+      },
+      {
+        "n": 6,
+        "shipment_expired": true
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1"
+    ],
+    "status": "grounded"
+  },
+  "family": "single_leg_aggregation",
+  "name": "chain-422--aggregate--Shipment",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_expired (COUNT(?shipment) AS ?n) WHERE { ?shipment a c:Shipment ; c:expired ?shipment_expired } GROUP BY ?shipment_expired",
+  "shape": "chain-422",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Shipment": {
+              "collectionName": "shipments",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "retries": {
+                  "field": "retries"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Shipment",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "retries",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Shipment",
+              "toEntity": "Asset",
+              "type": "shipmentsToAssets"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
+        "rows": [
+          {
+            "n": 6,
+            "shipment_expired": false
+          },
+          {
+            "n": 6,
+            "shipment_expired": true
+          }
+        ],
+        "source_objects": [
+          "shipments"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

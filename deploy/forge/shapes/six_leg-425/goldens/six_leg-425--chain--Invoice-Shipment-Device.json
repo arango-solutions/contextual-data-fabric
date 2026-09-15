@@ -1,0 +1,506 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "device_currency": "currency-70444",
+        "invoice_category": "category-08104",
+        "shipment_margin": 23784.819809
+      },
+      {
+        "device_currency": "currency-96212",
+        "invoice_category": "category-41313",
+        "shipment_margin": 79157.929276
+      },
+      {
+        "device_currency": "currency-88897",
+        "invoice_category": "category-02088",
+        "shipment_margin": 77964.896701
+      },
+      {
+        "device_currency": "currency-07605",
+        "invoice_category": "category-87130",
+        "shipment_margin": 49294.889586
+      },
+      {
+        "device_currency": "currency-78844",
+        "invoice_category": "category-54662",
+        "shipment_margin": 65742.180219
+      },
+      {
+        "device_currency": "currency-96212",
+        "invoice_category": "category-15917",
+        "shipment_margin": 79157.929276
+      },
+      {
+        "device_currency": "currency-83300",
+        "invoice_category": "category-80737",
+        "shipment_margin": 79031.069355
+      },
+      {
+        "device_currency": "currency-88897",
+        "invoice_category": "category-51834",
+        "shipment_margin": 77964.896701
+      },
+      {
+        "device_currency": "currency-79109",
+        "invoice_category": "category-00255",
+        "shipment_margin": 70981.282009
+      },
+      {
+        "device_currency": "currency-83300",
+        "invoice_category": "category-50834",
+        "shipment_margin": 79031.069355
+      },
+      {
+        "device_currency": "currency-96212",
+        "invoice_category": "category-75708",
+        "shipment_margin": 79157.929276
+      },
+      {
+        "device_currency": "currency-79109",
+        "invoice_category": "category-41894",
+        "shipment_margin": 777.883647
+      }
+    ],
+    "sources_touched": [
+      "arango:ar2",
+      "arango:ar3",
+      "arango:ar4"
+    ],
+    "status": "grounded"
+  },
+  "family": "chain",
+  "name": "six_leg-425--chain--Invoice-Shipment-Device",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_category ?shipment_margin ?device_currency WHERE { ?invoice a c:Invoice ; c:category ?invoice_category ; c:invoicesToShipments ?shipment . ?shipment a c:Shipment ; c:margin ?shipment_margin ; c:shipmentsToDevices ?device . ?device a c:Device ; c:currency ?device_currency }",
+  "shape": "six_leg-425",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Invoice": {
+              "collectionName": "invoices",
+              "properties": {
+                "category": {
+                  "field": "category"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "rank": {
+                  "field": "rank"
+                },
+                "seats": {
+                  "field": "seats"
+                },
+                "shipmentId": {
+                  "field": "shipment_id"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Invoice",
+              "properties": [
+                {
+                  "name": "category",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                },
+                {
+                  "name": "seats",
+                  "type": "integer"
+                },
+                {
+                  "name": "shipmentId",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Invoice",
+              "toEntity": "Shipment",
+              "type": "invoicesToShipments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar2"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for invoices",
+        "rows": [
+          {
+            "invoice": 1,
+            "invoice_category": "category-08104",
+            "shipment": 4
+          },
+          {
+            "invoice": 2,
+            "invoice_category": "category-41313",
+            "shipment": 5
+          },
+          {
+            "invoice": 3,
+            "invoice_category": "category-02088",
+            "shipment": 2
+          },
+          {
+            "invoice": 4,
+            "invoice_category": "category-87130",
+            "shipment": 1
+          },
+          {
+            "invoice": 5,
+            "invoice_category": "category-54662",
+            "shipment": 11
+          },
+          {
+            "invoice": 6,
+            "invoice_category": "category-15917",
+            "shipment": 5
+          },
+          {
+            "invoice": 7,
+            "invoice_category": "category-80737",
+            "shipment": 7
+          },
+          {
+            "invoice": 8,
+            "invoice_category": "category-51834",
+            "shipment": 2
+          },
+          {
+            "invoice": 9,
+            "invoice_category": "category-00255",
+            "shipment": 6
+          },
+          {
+            "invoice": 10,
+            "invoice_category": "category-50834",
+            "shipment": 7
+          },
+          {
+            "invoice": 11,
+            "invoice_category": "category-75708",
+            "shipment": 5
+          },
+          {
+            "invoice": 12,
+            "invoice_category": "category-41894",
+            "shipment": 9
+          }
+        ],
+        "source_objects": [
+          "invoices"
+        ]
+      },
+      "system": "ar2"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Shipment": {
+              "collectionName": "shipments",
+              "properties": {
+                "deviceId": {
+                  "field": "device_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "margin": {
+                  "field": "margin"
+                },
+                "notes": {
+                  "field": "notes"
+                },
+                "ratio": {
+                  "field": "ratio"
+                },
+                "sku": {
+                  "field": "sku"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Shipment",
+              "properties": [
+                {
+                  "name": "deviceId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "margin",
+                  "type": "float"
+                },
+                {
+                  "name": "notes",
+                  "type": "string"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Shipment",
+              "toEntity": "Device",
+              "type": "shipmentsToDevices"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar4"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
+        "rows": [
+          {
+            "device": 2,
+            "shipment": 1,
+            "shipment_margin": 49294.889586
+          },
+          {
+            "device": 12,
+            "shipment": 2,
+            "shipment_margin": 77964.896701
+          },
+          {
+            "device": 11,
+            "shipment": 3,
+            "shipment_margin": 62342.81235
+          },
+          {
+            "device": 6,
+            "shipment": 4,
+            "shipment_margin": 23784.819809
+          },
+          {
+            "device": 3,
+            "shipment": 5,
+            "shipment_margin": 79157.929276
+          },
+          {
+            "device": 4,
+            "shipment": 6,
+            "shipment_margin": 70981.282009
+          },
+          {
+            "device": 9,
+            "shipment": 7,
+            "shipment_margin": 79031.069355
+          },
+          {
+            "device": 7,
+            "shipment": 8,
+            "shipment_margin": 34051.025162
+          },
+          {
+            "device": 4,
+            "shipment": 9,
+            "shipment_margin": 777.883647
+          },
+          {
+            "device": 2,
+            "shipment": 10,
+            "shipment_margin": 54387.807378
+          },
+          {
+            "device": 5,
+            "shipment": 11,
+            "shipment_margin": 65742.180219
+          },
+          {
+            "device": 7,
+            "shipment": 12,
+            "shipment_margin": 73574.685751
+          }
+        ],
+        "source_objects": [
+          "shipments"
+        ]
+      },
+      "system": "ar4"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Device": {
+              "collectionName": "devices",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "flagged": {
+                  "field": "flagged"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Device",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar3"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for devices",
+        "rows": [
+          {
+            "device": 1,
+            "device_currency": "currency-54921"
+          },
+          {
+            "device": 2,
+            "device_currency": "currency-07605"
+          },
+          {
+            "device": 3,
+            "device_currency": "currency-96212"
+          },
+          {
+            "device": 4,
+            "device_currency": "currency-79109"
+          },
+          {
+            "device": 5,
+            "device_currency": "currency-78844"
+          },
+          {
+            "device": 6,
+            "device_currency": "currency-70444"
+          },
+          {
+            "device": 7,
+            "device_currency": "currency-48852"
+          },
+          {
+            "device": 8,
+            "device_currency": "currency-62234"
+          },
+          {
+            "device": 9,
+            "device_currency": "currency-83300"
+          },
+          {
+            "device": 10,
+            "device_currency": "currency-53297"
+          },
+          {
+            "device": 11,
+            "device_currency": "currency-38382"
+          },
+          {
+            "device": 12,
+            "device_currency": "currency-88897"
+          }
+        ],
+        "source_objects": [
+          "devices"
+        ]
+      },
+      "system": "ar3"
+    }
+  ]
+}

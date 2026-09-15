@@ -1,0 +1,131 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Payment": {
+        "collectionName": "payments",
+        "properties": {
+          "active": {
+            "field": "active"
+          },
+          "billable": {
+            "field": "billable"
+          },
+          "category": {
+            "field": "category"
+          },
+          "expired": {
+            "field": "expired"
+          },
+          "flagged": {
+            "field": "flagged"
+          },
+          "id": {
+            "field": "id"
+          },
+          "label": {
+            "field": "label"
+          },
+          "latencyMs": {
+            "field": "latency_ms"
+          },
+          "margin": {
+            "field": "margin"
+          },
+          "rank": {
+            "field": "rank"
+          },
+          "score": {
+            "field": "score"
+          },
+          "seats": {
+            "field": "seats"
+          },
+          "tier": {
+            "field": "tier"
+          },
+          "weight": {
+            "field": "weight"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Payment",
+        "properties": [
+          {
+            "name": "active",
+            "type": "boolean"
+          },
+          {
+            "name": "billable",
+            "type": "boolean"
+          },
+          {
+            "name": "category",
+            "type": "string"
+          },
+          {
+            "name": "expired",
+            "type": "boolean"
+          },
+          {
+            "name": "flagged",
+            "type": "boolean"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "label",
+            "type": "string"
+          },
+          {
+            "name": "latencyMs",
+            "type": "float"
+          },
+          {
+            "name": "margin",
+            "type": "float"
+          },
+          {
+            "name": "rank",
+            "type": "integer"
+          },
+          {
+            "name": "score",
+            "type": "integer"
+          },
+          {
+            "name": "seats",
+            "type": "integer"
+          },
+          {
+            "name": "tier",
+            "type": "string"
+          },
+          {
+            "name": "weight",
+            "type": "float"
+          }
+        ]
+      }
+    ],
+    "relationships": []
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "arango",
+      "ref": "ar1"
+    }
+  }
+}

@@ -1,0 +1,377 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "customer_channel": "channel-53364",
+        "ticket_primary": true
+      },
+      {
+        "customer_channel": "channel-91595",
+        "ticket_primary": true
+      },
+      {
+        "customer_channel": "channel-49997",
+        "ticket_primary": true
+      },
+      {
+        "customer_channel": "channel-08933",
+        "ticket_primary": true
+      },
+      {
+        "customer_channel": "channel-68944",
+        "ticket_primary": false
+      },
+      {
+        "customer_channel": "channel-23294",
+        "ticket_primary": false
+      },
+      {
+        "customer_channel": "channel-08933",
+        "ticket_primary": false
+      },
+      {
+        "customer_channel": "channel-49997",
+        "ticket_primary": true
+      },
+      {
+        "customer_channel": "channel-49997",
+        "ticket_primary": true
+      },
+      {
+        "customer_channel": "channel-08933",
+        "ticket_primary": false
+      },
+      {
+        "customer_channel": "channel-49997",
+        "ticket_primary": true
+      },
+      {
+        "customer_channel": "channel-91595",
+        "ticket_primary": false
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1",
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "six_leg-430--join--Ticket-Customer",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?ticket_primary ?customer_channel WHERE { ?ticket a c:Ticket ; c:primary ?ticket_primary ; c:ticketsToCustomers ?customer . ?customer a c:Customer ; c:channel ?customer_channel }",
+  "shape": "six_leg-430",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Ticket": {
+              "collectionName": "tickets",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "customerId": {
+                  "field": "customer_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "primary": {
+                  "field": "primary"
+                },
+                "ratio": {
+                  "field": "ratio"
+                },
+                "sku": {
+                  "field": "sku"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Ticket",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "customerId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Ticket",
+              "toEntity": "Asset",
+              "type": "ticketsToAssets"
+            },
+            {
+              "fromEntity": "Ticket",
+              "toEntity": "Customer",
+              "type": "ticketsToCustomers"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for tickets",
+        "rows": [
+          {
+            "customer": 8,
+            "ticket": 1,
+            "ticket_primary": true
+          },
+          {
+            "customer": 9,
+            "ticket": 2,
+            "ticket_primary": true
+          },
+          {
+            "customer": 12,
+            "ticket": 3,
+            "ticket_primary": true
+          },
+          {
+            "customer": 10,
+            "ticket": 4,
+            "ticket_primary": true
+          },
+          {
+            "customer": 11,
+            "ticket": 5,
+            "ticket_primary": false
+          },
+          {
+            "customer": 1,
+            "ticket": 6,
+            "ticket_primary": false
+          },
+          {
+            "customer": 10,
+            "ticket": 7,
+            "ticket_primary": false
+          },
+          {
+            "customer": 12,
+            "ticket": 8,
+            "ticket_primary": true
+          },
+          {
+            "customer": 12,
+            "ticket": 9,
+            "ticket_primary": true
+          },
+          {
+            "customer": 10,
+            "ticket": 10,
+            "ticket_primary": false
+          },
+          {
+            "customer": 12,
+            "ticket": 11,
+            "ticket_primary": true
+          },
+          {
+            "customer": 9,
+            "ticket": 12,
+            "ticket_primary": false
+          }
+        ],
+        "source_objects": [
+          "tickets"
+        ]
+      },
+      "system": "ch1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "channel": {
+                  "field": "channel"
+                },
+                "code": {
+                  "field": "code"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "total": {
+                  "field": "total"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "code",
+                  "type": "string"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "total",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Asset",
+              "type": "customersToAssets"
+            },
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Payment",
+              "type": "customersToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
+        "rows": [
+          {
+            "customer": 1,
+            "customer_channel": "channel-23294"
+          },
+          {
+            "customer": 2,
+            "customer_channel": "channel-08805"
+          },
+          {
+            "customer": 3,
+            "customer_channel": "channel-21211"
+          },
+          {
+            "customer": 4,
+            "customer_channel": "channel-43990"
+          },
+          {
+            "customer": 5,
+            "customer_channel": "channel-14567"
+          },
+          {
+            "customer": 6,
+            "customer_channel": "channel-47173"
+          },
+          {
+            "customer": 7,
+            "customer_channel": "channel-32600"
+          },
+          {
+            "customer": 8,
+            "customer_channel": "channel-53364"
+          },
+          {
+            "customer": 9,
+            "customer_channel": "channel-91595"
+          },
+          {
+            "customer": 10,
+            "customer_channel": "channel-08933"
+          },
+          {
+            "customer": 11,
+            "customer_channel": "channel-68944"
+          },
+          {
+            "customer": 12,
+            "customer_channel": "channel-49997"
+          }
+        ],
+        "source_objects": [
+          "customers"
+        ]
+      },
+      "system": "sf1"
+    }
+  ]
+}

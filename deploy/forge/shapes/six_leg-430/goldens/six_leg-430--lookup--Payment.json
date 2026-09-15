@@ -1,0 +1,191 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "payment_priority": 35644,
+        "payment_region": "region-86763"
+      },
+      {
+        "payment_priority": 18036,
+        "payment_region": "region-03964"
+      },
+      {
+        "payment_priority": 20290,
+        "payment_region": "region-27950"
+      },
+      {
+        "payment_priority": 59730,
+        "payment_region": "region-41932"
+      },
+      {
+        "payment_priority": 40232,
+        "payment_region": "region-24756"
+      },
+      {
+        "payment_priority": 9380,
+        "payment_region": "region-25273"
+      },
+      {
+        "payment_priority": 74736,
+        "payment_region": "region-53086"
+      },
+      {
+        "payment_priority": 53497,
+        "payment_region": "region-18469"
+      },
+      {
+        "payment_priority": 27655,
+        "payment_region": "region-08641"
+      },
+      {
+        "payment_priority": 96076,
+        "payment_region": "region-43408"
+      },
+      {
+        "payment_priority": 32415,
+        "payment_region": "region-56631"
+      },
+      {
+        "payment_priority": 37418,
+        "payment_region": "region-27003"
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch2"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "six_leg-430--lookup--Payment",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_priority ?payment_region WHERE { ?payment a c:Payment ; c:priority ?payment_priority ; c:region ?payment_region }",
+  "shape": "six_leg-430",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "region": {
+                  "field": "region"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "region",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch2"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
+        "rows": [
+          {
+            "payment": 1,
+            "payment_priority": 35644,
+            "payment_region": "region-86763"
+          },
+          {
+            "payment": 2,
+            "payment_priority": 18036,
+            "payment_region": "region-03964"
+          },
+          {
+            "payment": 3,
+            "payment_priority": 20290,
+            "payment_region": "region-27950"
+          },
+          {
+            "payment": 4,
+            "payment_priority": 59730,
+            "payment_region": "region-41932"
+          },
+          {
+            "payment": 5,
+            "payment_priority": 40232,
+            "payment_region": "region-24756"
+          },
+          {
+            "payment": 6,
+            "payment_priority": 9380,
+            "payment_region": "region-25273"
+          },
+          {
+            "payment": 7,
+            "payment_priority": 74736,
+            "payment_region": "region-53086"
+          },
+          {
+            "payment": 8,
+            "payment_priority": 53497,
+            "payment_region": "region-18469"
+          },
+          {
+            "payment": 9,
+            "payment_priority": 27655,
+            "payment_region": "region-08641"
+          },
+          {
+            "payment": 10,
+            "payment_priority": 96076,
+            "payment_region": "region-43408"
+          },
+          {
+            "payment": 11,
+            "payment_priority": 32415,
+            "payment_region": "region-56631"
+          },
+          {
+            "payment": 12,
+            "payment_priority": 37418,
+            "payment_region": "region-27003"
+          }
+        ],
+        "source_objects": [
+          "payments"
+        ]
+      },
+      "system": "ch2"
+    }
+  ]
+}

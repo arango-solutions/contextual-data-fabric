@@ -1,0 +1,333 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "account_amount": 56358.957885,
+        "session_expired": true
+      },
+      {
+        "account_amount": 88532.479835,
+        "session_expired": true
+      },
+      {
+        "account_amount": 26044.173198,
+        "session_expired": true
+      },
+      {
+        "account_amount": 66776.476722,
+        "session_expired": false
+      },
+      {
+        "account_amount": 77182.003159,
+        "session_expired": true
+      },
+      {
+        "account_amount": 92871.030985,
+        "session_expired": true
+      },
+      {
+        "account_amount": 25490.693635,
+        "session_expired": true
+      },
+      {
+        "account_amount": 64933.450121,
+        "session_expired": true
+      },
+      {
+        "account_amount": 92871.030985,
+        "session_expired": true
+      },
+      {
+        "account_amount": 26044.173198,
+        "session_expired": true
+      },
+      {
+        "account_amount": 25490.693635,
+        "session_expired": false
+      },
+      {
+        "account_amount": 92871.030985,
+        "session_expired": false
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1",
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "hub-428--join--Session-Account",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_expired ?account_amount WHERE { ?session a c:Session ; c:expired ?session_expired ; c:sessionsToAccounts ?account . ?account a c:Account ; c:amount ?account_amount }",
+  "shape": "hub-428",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Session": {
+              "collectionName": "sessions",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "expired": {
+                  "field": "expired"
+                },
+                "flagged": {
+                  "field": "flagged"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "weight": {
+                  "field": "weight"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Session",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "expired",
+                  "type": "boolean"
+                },
+                {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "weight",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Session",
+              "toEntity": "Account",
+              "type": "sessionsToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for sessions",
+        "rows": [
+          {
+            "account": 6,
+            "session": 1,
+            "session_expired": true
+          },
+          {
+            "account": 12,
+            "session": 2,
+            "session_expired": true
+          },
+          {
+            "account": 3,
+            "session": 3,
+            "session_expired": true
+          },
+          {
+            "account": 10,
+            "session": 4,
+            "session_expired": false
+          },
+          {
+            "account": 4,
+            "session": 5,
+            "session_expired": true
+          },
+          {
+            "account": 9,
+            "session": 6,
+            "session_expired": true
+          },
+          {
+            "account": 1,
+            "session": 7,
+            "session_expired": true
+          },
+          {
+            "account": 11,
+            "session": 8,
+            "session_expired": true
+          },
+          {
+            "account": 9,
+            "session": 9,
+            "session_expired": true
+          },
+          {
+            "account": 3,
+            "session": 10,
+            "session_expired": true
+          },
+          {
+            "account": 1,
+            "session": 11,
+            "session_expired": false
+          },
+          {
+            "account": 9,
+            "session": 12,
+            "session_expired": false
+          }
+        ],
+        "source_objects": [
+          "sessions"
+        ]
+      },
+      "system": "pg1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "rank": {
+                  "field": "rank"
+                },
+                "ratio": {
+                  "field": "ratio"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
+        "rows": [
+          {
+            "account": 1,
+            "account_amount": 25490.693635
+          },
+          {
+            "account": 2,
+            "account_amount": 9879.887019
+          },
+          {
+            "account": 3,
+            "account_amount": 26044.173198
+          },
+          {
+            "account": 4,
+            "account_amount": 77182.003159
+          },
+          {
+            "account": 5,
+            "account_amount": 60769.627371
+          },
+          {
+            "account": 6,
+            "account_amount": 56358.957885
+          },
+          {
+            "account": 7,
+            "account_amount": 64702.633431
+          },
+          {
+            "account": 8,
+            "account_amount": 96350.500781
+          },
+          {
+            "account": 9,
+            "account_amount": 92871.030985
+          },
+          {
+            "account": 10,
+            "account_amount": 66776.476722
+          },
+          {
+            "account": 11,
+            "account_amount": 64933.450121
+          },
+          {
+            "account": 12,
+            "account_amount": 88532.479835
+          }
+        ],
+        "source_objects": [
+          "accounts"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

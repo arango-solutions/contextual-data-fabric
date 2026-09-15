@@ -1,0 +1,59 @@
+forgeShapeVersion: 1
+name: chain-422
+family: chain
+seed: 422
+ontology: ontology.json
+scale:
+  rowsPerEntity: 12
+systems:
+  pg1:
+    dialect: postgres
+    kind: postgresql
+  ch1:
+    dialect: clickhouse
+    kind: clickhouse
+  sf1:
+    dialect: snowflake
+    kind: snowflake
+  ar1:
+    dialect: arango
+    kind: arango
+partitionMap:
+  Asset:
+    dialect: snowflake
+    system: sf1
+  Campaign:
+    dialect: postgres
+    system: pg1
+  Shipment:
+    dialect: arango
+    system: ar1
+  Vendor:
+    dialect: clickhouse
+    system: ch1
+denormLog: []
+expected:
+  catalog: expected-catalog.json
+  goldens:
+  - goldens/chain-422--lookup--Asset.json
+  - goldens/chain-422--lookup--Campaign.json
+  - goldens/chain-422--lookup--Shipment.json
+  - goldens/chain-422--lookup--Vendor.json
+  - goldens/chain-422--join--Asset-Vendor.json
+  - goldens/chain-422--join--Shipment-Asset.json
+  - goldens/chain-422--join--Vendor-Campaign.json
+  - goldens/chain-422--chain--Asset-Vendor-Campaign.json
+  - goldens/chain-422--aggregate--Shipment.json
+  - goldens/chain-422--aggregate--Vendor.json
+  - goldens/chain-422--crossleg-aggregate--Asset-Vendor.json
+fixture:
+  producer: cdf-forge-fixture
+  systems:
+    pg1: systems/pg1.csi.json
+    ch1: systems/ch1.csi.json
+    sf1: systems/sf1.csi.json
+    ar1: systems/ar1.csi.json
+  note: Fixture-mode CSI documents are synthesised by CDF from the descriptor and
+    labelled as such; live mode replaces them with r2g/RSA/ASA-produced CSI.
+generator:
+  rows: r2g-arango 0.4.1

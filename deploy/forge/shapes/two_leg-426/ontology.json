@@ -1,0 +1,85 @@
+{
+  "entities": [
+    {
+      "name": "Account",
+      "properties": [
+        {
+          "name": "enabled",
+          "type": "boolean"
+        },
+        {
+          "name": "region",
+          "type": "string"
+        },
+        {
+          "name": "tier",
+          "type": "string"
+        },
+        {
+          "name": "version",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Asset",
+      "properties": [
+        {
+          "name": "archived",
+          "type": "boolean"
+        },
+        {
+          "name": "primary",
+          "type": "boolean"
+        }
+      ]
+    },
+    {
+      "name": "Invoice",
+      "properties": [
+        {
+          "name": "quantity",
+          "type": "integer"
+        },
+        {
+          "name": "score",
+          "type": "integer"
+        },
+        {
+          "name": "segment",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "properties": [
+        {
+          "name": "currency",
+          "type": "string"
+        },
+        {
+          "name": "margin",
+          "type": "float"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Asset",
+      "toEntity": "Account",
+      "type": "assetsToAccounts"
+    },
+    {
+      "fromEntity": "Invoice",
+      "toEntity": "Account",
+      "type": "invoicesToAccounts"
+    },
+    {
+      "fromEntity": "Product",
+      "toEntity": "Account",
+      "type": "productsToAccounts"
+    }
+  ]
+}

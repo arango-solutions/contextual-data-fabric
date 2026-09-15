@@ -1,0 +1,211 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "asset_label": "label-22110",
+        "asset_quantity": 39465
+      },
+      {
+        "asset_label": "label-83711",
+        "asset_quantity": 21037
+      },
+      {
+        "asset_label": "label-72385",
+        "asset_quantity": 7863
+      },
+      {
+        "asset_label": "label-03913",
+        "asset_quantity": 86424
+      },
+      {
+        "asset_label": "label-41806",
+        "asset_quantity": 92131
+      },
+      {
+        "asset_label": "label-77720",
+        "asset_quantity": 37248
+      },
+      {
+        "asset_label": "label-03085",
+        "asset_quantity": 91746
+      },
+      {
+        "asset_label": "label-61000",
+        "asset_quantity": 92236
+      },
+      {
+        "asset_label": "label-66924",
+        "asset_quantity": 69518
+      },
+      {
+        "asset_label": "label-54316",
+        "asset_quantity": 11222
+      },
+      {
+        "asset_label": "label-68396",
+        "asset_quantity": 7528
+      },
+      {
+        "asset_label": "label-94667",
+        "asset_quantity": 80528
+      }
+    ],
+    "sources_touched": [
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "six_leg-430--lookup--Asset",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_label ?asset_quantity WHERE { ?asset a c:Asset ; c:label ?asset_label ; c:quantity ?asset_quantity }",
+  "shape": "six_leg-430",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Asset": {
+              "collectionName": "assets",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "quantity": {
+                  "field": "quantity"
+                },
+                "score": {
+                  "field": "score"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Asset",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "quantity",
+                  "type": "integer"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Asset",
+              "toEntity": "Payment",
+              "type": "assetsToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for assets",
+        "rows": [
+          {
+            "asset": 1,
+            "asset_label": "label-22110",
+            "asset_quantity": 39465
+          },
+          {
+            "asset": 2,
+            "asset_label": "label-83711",
+            "asset_quantity": 21037
+          },
+          {
+            "asset": 3,
+            "asset_label": "label-72385",
+            "asset_quantity": 7863
+          },
+          {
+            "asset": 4,
+            "asset_label": "label-03913",
+            "asset_quantity": 86424
+          },
+          {
+            "asset": 5,
+            "asset_label": "label-41806",
+            "asset_quantity": 92131
+          },
+          {
+            "asset": 6,
+            "asset_label": "label-77720",
+            "asset_quantity": 37248
+          },
+          {
+            "asset": 7,
+            "asset_label": "label-03085",
+            "asset_quantity": 91746
+          },
+          {
+            "asset": 8,
+            "asset_label": "label-61000",
+            "asset_quantity": 92236
+          },
+          {
+            "asset": 9,
+            "asset_label": "label-66924",
+            "asset_quantity": 69518
+          },
+          {
+            "asset": 10,
+            "asset_label": "label-54316",
+            "asset_quantity": 11222
+          },
+          {
+            "asset": 11,
+            "asset_label": "label-68396",
+            "asset_quantity": 7528
+          },
+          {
+            "asset": 12,
+            "asset_label": "label-94667",
+            "asset_quantity": 80528
+          }
+        ],
+        "source_objects": [
+          "assets"
+        ]
+      },
+      "system": "pg1"
+    }
+  ]
+}

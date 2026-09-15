@@ -1,0 +1,59 @@
+{
+  "entities": [
+    {
+      "name": "Campaign",
+      "properties": [
+        {
+          "name": "notes",
+          "type": "string"
+        },
+        {
+          "name": "tier",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Product",
+      "properties": [
+        {
+          "name": "segment",
+          "type": "string"
+        },
+        {
+          "name": "version",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Session",
+      "properties": [
+        {
+          "name": "latencyMs",
+          "type": "float"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Product",
+      "toEntity": "Session",
+      "type": "productsToSessions"
+    },
+    {
+      "fromEntity": "Session",
+      "toEntity": "Campaign",
+      "type": "sessionsToCampaigns"
+    }
+  ]
+}

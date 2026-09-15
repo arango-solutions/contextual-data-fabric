@@ -1,0 +1,77 @@
+{
+  "entities": [
+    {
+      "name": "Asset",
+      "properties": [
+        {
+          "name": "currency",
+          "type": "string"
+        },
+        {
+          "name": "latencyMs",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "Campaign",
+      "properties": [
+        {
+          "name": "balance",
+          "type": "float"
+        },
+        {
+          "name": "channel",
+          "type": "string"
+        },
+        {
+          "name": "status",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Shipment",
+      "properties": [
+        {
+          "name": "expired",
+          "type": "boolean"
+        },
+        {
+          "name": "retries",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Vendor",
+      "properties": [
+        {
+          "name": "tier",
+          "type": "string"
+        },
+        {
+          "name": "verified",
+          "type": "boolean"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Asset",
+      "toEntity": "Vendor",
+      "type": "assetsToVendors"
+    },
+    {
+      "fromEntity": "Shipment",
+      "toEntity": "Asset",
+      "type": "shipmentsToAssets"
+    },
+    {
+      "fromEntity": "Vendor",
+      "toEntity": "Campaign",
+      "type": "vendorsToCampaigns"
+    }
+  ]
+}

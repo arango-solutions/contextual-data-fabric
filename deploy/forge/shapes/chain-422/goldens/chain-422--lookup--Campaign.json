@@ -1,0 +1,198 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "campaign_balance": 38595.553705,
+        "campaign_channel": "channel-00811"
+      },
+      {
+        "campaign_balance": 97170.227396,
+        "campaign_channel": "channel-79105"
+      },
+      {
+        "campaign_balance": 62025.932369,
+        "campaign_channel": "channel-39642"
+      },
+      {
+        "campaign_balance": 46317.342607,
+        "campaign_channel": "channel-36241"
+      },
+      {
+        "campaign_balance": 4413.791356,
+        "campaign_channel": "channel-48808"
+      },
+      {
+        "campaign_balance": 80834.607498,
+        "campaign_channel": "channel-51089"
+      },
+      {
+        "campaign_balance": 96566.818474,
+        "campaign_channel": "channel-31554"
+      },
+      {
+        "campaign_balance": 19011.861831,
+        "campaign_channel": "channel-56301"
+      },
+      {
+        "campaign_balance": 37528.48377,
+        "campaign_channel": "channel-35792"
+      },
+      {
+        "campaign_balance": 11675.072995,
+        "campaign_channel": "channel-01851"
+      },
+      {
+        "campaign_balance": 65234.456522,
+        "campaign_channel": "channel-05314"
+      },
+      {
+        "campaign_balance": 38820.784888,
+        "campaign_channel": "channel-08893"
+      }
+    ],
+    "sources_touched": [
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "chain-422--lookup--Campaign",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_balance ?campaign_channel WHERE { ?campaign a c:Campaign ; c:balance ?campaign_balance ; c:channel ?campaign_channel }",
+  "shape": "chain-422",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Campaign": {
+              "collectionName": "campaigns",
+              "properties": {
+                "balance": {
+                  "field": "balance"
+                },
+                "channel": {
+                  "field": "channel"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "status": {
+                  "field": "status"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Campaign",
+              "properties": [
+                {
+                  "name": "balance",
+                  "type": "float"
+                },
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for campaigns",
+        "rows": [
+          {
+            "campaign": 1,
+            "campaign_balance": 38595.553705,
+            "campaign_channel": "channel-00811"
+          },
+          {
+            "campaign": 2,
+            "campaign_balance": 97170.227396,
+            "campaign_channel": "channel-79105"
+          },
+          {
+            "campaign": 3,
+            "campaign_balance": 62025.932369,
+            "campaign_channel": "channel-39642"
+          },
+          {
+            "campaign": 4,
+            "campaign_balance": 46317.342607,
+            "campaign_channel": "channel-36241"
+          },
+          {
+            "campaign": 5,
+            "campaign_balance": 4413.791356,
+            "campaign_channel": "channel-48808"
+          },
+          {
+            "campaign": 6,
+            "campaign_balance": 80834.607498,
+            "campaign_channel": "channel-51089"
+          },
+          {
+            "campaign": 7,
+            "campaign_balance": 96566.818474,
+            "campaign_channel": "channel-31554"
+          },
+          {
+            "campaign": 8,
+            "campaign_balance": 19011.861831,
+            "campaign_channel": "channel-56301"
+          },
+          {
+            "campaign": 9,
+            "campaign_balance": 37528.48377,
+            "campaign_channel": "channel-35792"
+          },
+          {
+            "campaign": 10,
+            "campaign_balance": 11675.072995,
+            "campaign_channel": "channel-01851"
+          },
+          {
+            "campaign": 11,
+            "campaign_balance": 65234.456522,
+            "campaign_channel": "channel-05314"
+          },
+          {
+            "campaign": 12,
+            "campaign_balance": 38820.784888,
+            "campaign_channel": "channel-08893"
+          }
+        ],
+        "source_objects": [
+          "campaigns"
+        ]
+      },
+      "system": "pg1"
+    }
+  ]
+}

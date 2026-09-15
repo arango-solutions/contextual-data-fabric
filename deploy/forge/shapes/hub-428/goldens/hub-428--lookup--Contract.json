@@ -1,0 +1,255 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "contract_archived": false,
+        "contract_primary": false
+      },
+      {
+        "contract_archived": false,
+        "contract_primary": false
+      },
+      {
+        "contract_archived": true,
+        "contract_primary": false
+      },
+      {
+        "contract_archived": true,
+        "contract_primary": true
+      },
+      {
+        "contract_archived": true,
+        "contract_primary": false
+      },
+      {
+        "contract_archived": false,
+        "contract_primary": true
+      },
+      {
+        "contract_archived": true,
+        "contract_primary": true
+      },
+      {
+        "contract_archived": false,
+        "contract_primary": false
+      },
+      {
+        "contract_archived": true,
+        "contract_primary": false
+      },
+      {
+        "contract_archived": false,
+        "contract_primary": false
+      },
+      {
+        "contract_archived": false,
+        "contract_primary": true
+      },
+      {
+        "contract_archived": true,
+        "contract_primary": false
+      }
+    ],
+    "sources_touched": [
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "hub-428--lookup--Contract",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_archived ?contract_primary WHERE { ?contract a c:Contract ; c:archived ?contract_archived ; c:primary ?contract_primary }",
+  "shape": "hub-428",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Contract": {
+              "collectionName": "contracts",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "archived": {
+                  "field": "archived"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "region": {
+                  "field": "region"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "verified": {
+                  "field": "verified"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Contract",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            },
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Contract",
+              "toEntity": "Account",
+              "type": "contractsToAccounts"
+            },
+            {
+              "fromEntity": "Payment",
+              "toEntity": "Account",
+              "type": "paymentsToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for contracts",
+        "rows": [
+          {
+            "contract": 1,
+            "contract_archived": false,
+            "contract_primary": false
+          },
+          {
+            "contract": 2,
+            "contract_archived": false,
+            "contract_primary": false
+          },
+          {
+            "contract": 3,
+            "contract_archived": true,
+            "contract_primary": false
+          },
+          {
+            "contract": 4,
+            "contract_archived": true,
+            "contract_primary": true
+          },
+          {
+            "contract": 5,
+            "contract_archived": true,
+            "contract_primary": false
+          },
+          {
+            "contract": 6,
+            "contract_archived": false,
+            "contract_primary": true
+          },
+          {
+            "contract": 7,
+            "contract_archived": true,
+            "contract_primary": true
+          },
+          {
+            "contract": 8,
+            "contract_archived": false,
+            "contract_primary": false
+          },
+          {
+            "contract": 9,
+            "contract_archived": true,
+            "contract_primary": false
+          },
+          {
+            "contract": 10,
+            "contract_archived": false,
+            "contract_primary": false
+          },
+          {
+            "contract": 11,
+            "contract_archived": false,
+            "contract_primary": true
+          },
+          {
+            "contract": 12,
+            "contract_archived": true,
+            "contract_primary": false
+          }
+        ],
+        "source_objects": [
+          "contracts"
+        ]
+      },
+      "system": "sf1"
+    }
+  ]
+}

@@ -1,0 +1,326 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "campaign_balance": 37528.48377,
+        "vendor_tier": "tier-71168"
+      },
+      {
+        "campaign_balance": 65234.456522,
+        "vendor_tier": "tier-62500"
+      },
+      {
+        "campaign_balance": 38820.784888,
+        "vendor_tier": "tier-64347"
+      },
+      {
+        "campaign_balance": 97170.227396,
+        "vendor_tier": "tier-83293"
+      },
+      {
+        "campaign_balance": 38820.784888,
+        "vendor_tier": "tier-02136"
+      },
+      {
+        "campaign_balance": 37528.48377,
+        "vendor_tier": "tier-41326"
+      },
+      {
+        "campaign_balance": 96566.818474,
+        "vendor_tier": "tier-97083"
+      },
+      {
+        "campaign_balance": 97170.227396,
+        "vendor_tier": "tier-56593"
+      },
+      {
+        "campaign_balance": 11675.072995,
+        "vendor_tier": "tier-60807"
+      },
+      {
+        "campaign_balance": 46317.342607,
+        "vendor_tier": "tier-20997"
+      },
+      {
+        "campaign_balance": 96566.818474,
+        "vendor_tier": "tier-91833"
+      },
+      {
+        "campaign_balance": 96566.818474,
+        "vendor_tier": "tier-05679"
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1",
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "chain-422--join--Vendor-Campaign",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_tier ?campaign_balance WHERE { ?vendor a c:Vendor ; c:tier ?vendor_tier ; c:vendorsToCampaigns ?campaign . ?campaign a c:Campaign ; c:balance ?campaign_balance }",
+  "shape": "chain-422",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Vendor": {
+              "collectionName": "vendors",
+              "properties": {
+                "campaignId": {
+                  "field": "campaign_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "verified": {
+                  "field": "verified"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Vendor",
+              "properties": [
+                {
+                  "name": "campaignId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Vendor",
+              "toEntity": "Campaign",
+              "type": "vendorsToCampaigns"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for vendors",
+        "rows": [
+          {
+            "campaign": 9,
+            "vendor": 1,
+            "vendor_tier": "tier-71168"
+          },
+          {
+            "campaign": 11,
+            "vendor": 2,
+            "vendor_tier": "tier-62500"
+          },
+          {
+            "campaign": 12,
+            "vendor": 3,
+            "vendor_tier": "tier-64347"
+          },
+          {
+            "campaign": 2,
+            "vendor": 4,
+            "vendor_tier": "tier-83293"
+          },
+          {
+            "campaign": 12,
+            "vendor": 5,
+            "vendor_tier": "tier-02136"
+          },
+          {
+            "campaign": 9,
+            "vendor": 6,
+            "vendor_tier": "tier-41326"
+          },
+          {
+            "campaign": 7,
+            "vendor": 7,
+            "vendor_tier": "tier-97083"
+          },
+          {
+            "campaign": 2,
+            "vendor": 8,
+            "vendor_tier": "tier-56593"
+          },
+          {
+            "campaign": 10,
+            "vendor": 9,
+            "vendor_tier": "tier-60807"
+          },
+          {
+            "campaign": 4,
+            "vendor": 10,
+            "vendor_tier": "tier-20997"
+          },
+          {
+            "campaign": 7,
+            "vendor": 11,
+            "vendor_tier": "tier-91833"
+          },
+          {
+            "campaign": 7,
+            "vendor": 12,
+            "vendor_tier": "tier-05679"
+          }
+        ],
+        "source_objects": [
+          "vendors"
+        ]
+      },
+      "system": "ch1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Campaign": {
+              "collectionName": "campaigns",
+              "properties": {
+                "balance": {
+                  "field": "balance"
+                },
+                "channel": {
+                  "field": "channel"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "status": {
+                  "field": "status"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Campaign",
+              "properties": [
+                {
+                  "name": "balance",
+                  "type": "float"
+                },
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for campaigns",
+        "rows": [
+          {
+            "campaign": 1,
+            "campaign_balance": 38595.553705
+          },
+          {
+            "campaign": 2,
+            "campaign_balance": 97170.227396
+          },
+          {
+            "campaign": 3,
+            "campaign_balance": 62025.932369
+          },
+          {
+            "campaign": 4,
+            "campaign_balance": 46317.342607
+          },
+          {
+            "campaign": 5,
+            "campaign_balance": 4413.791356
+          },
+          {
+            "campaign": 6,
+            "campaign_balance": 80834.607498
+          },
+          {
+            "campaign": 7,
+            "campaign_balance": 96566.818474
+          },
+          {
+            "campaign": 8,
+            "campaign_balance": 19011.861831
+          },
+          {
+            "campaign": 9,
+            "campaign_balance": 37528.48377
+          },
+          {
+            "campaign": 10,
+            "campaign_balance": 11675.072995
+          },
+          {
+            "campaign": 11,
+            "campaign_balance": 65234.456522
+          },
+          {
+            "campaign": 12,
+            "campaign_balance": 38820.784888
+          }
+        ],
+        "source_objects": [
+          "campaigns"
+        ]
+      },
+      "system": "pg1"
+    }
+  ]
+}

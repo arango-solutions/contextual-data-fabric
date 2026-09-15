@@ -1,0 +1,292 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "customer_priority": 94736,
+        "customer_total": 65389.745432
+      },
+      {
+        "customer_priority": 83603,
+        "customer_total": 20743.902829
+      },
+      {
+        "customer_priority": 82885,
+        "customer_total": 97035.471897
+      },
+      {
+        "customer_priority": 63351,
+        "customer_total": 94613.748982
+      },
+      {
+        "customer_priority": 2766,
+        "customer_total": 55703.050909
+      },
+      {
+        "customer_priority": 17903,
+        "customer_total": 31346.706932
+      },
+      {
+        "customer_priority": 2207,
+        "customer_total": 57439.076418
+      },
+      {
+        "customer_priority": 25686,
+        "customer_total": 90955.921575
+      },
+      {
+        "customer_priority": 12618,
+        "customer_total": 11055.043751
+      },
+      {
+        "customer_priority": 61004,
+        "customer_total": 34384.337536
+      },
+      {
+        "customer_priority": 24835,
+        "customer_total": 40860.930801
+      },
+      {
+        "customer_priority": 97934,
+        "customer_total": 4338.203327
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "wide_narrow-429--lookup--Customer",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_priority ?customer_total WHERE { ?customer a c:Customer ; c:priority ?customer_priority ; c:total ?customer_total }",
+  "shape": "wide_narrow-429",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "sku": {
+                  "field": "sku"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Customer": {
+              "collectionName": "customers",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "total": {
+                  "field": "total"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Device": {
+              "collectionName": "devices",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                }
+              ]
+            },
+            {
+              "name": "Customer",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "total",
+                  "type": "float"
+                }
+              ]
+            },
+            {
+              "name": "Device",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Account",
+              "toEntity": "Payment",
+              "type": "accountsToPayments"
+            },
+            {
+              "fromEntity": "Customer",
+              "toEntity": "Payment",
+              "type": "customersToPayments"
+            },
+            {
+              "fromEntity": "Device",
+              "toEntity": "Payment",
+              "type": "devicesToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
+        "rows": [
+          {
+            "customer": 1,
+            "customer_priority": 94736,
+            "customer_total": 65389.745432
+          },
+          {
+            "customer": 2,
+            "customer_priority": 83603,
+            "customer_total": 20743.902829
+          },
+          {
+            "customer": 3,
+            "customer_priority": 82885,
+            "customer_total": 97035.471897
+          },
+          {
+            "customer": 4,
+            "customer_priority": 63351,
+            "customer_total": 94613.748982
+          },
+          {
+            "customer": 5,
+            "customer_priority": 2766,
+            "customer_total": 55703.050909
+          },
+          {
+            "customer": 6,
+            "customer_priority": 17903,
+            "customer_total": 31346.706932
+          },
+          {
+            "customer": 7,
+            "customer_priority": 2207,
+            "customer_total": 57439.076418
+          },
+          {
+            "customer": 8,
+            "customer_priority": 25686,
+            "customer_total": 90955.921575
+          },
+          {
+            "customer": 9,
+            "customer_priority": 12618,
+            "customer_total": 11055.043751
+          },
+          {
+            "customer": 10,
+            "customer_priority": 61004,
+            "customer_total": 34384.337536
+          },
+          {
+            "customer": 11,
+            "customer_priority": 24835,
+            "customer_total": 40860.930801
+          },
+          {
+            "customer": 12,
+            "customer_priority": 97934,
+            "customer_total": 4338.203327
+          }
+        ],
+        "source_objects": [
+          "customers"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

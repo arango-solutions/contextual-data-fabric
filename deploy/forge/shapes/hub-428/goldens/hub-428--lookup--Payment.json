@@ -1,0 +1,255 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "payment_region": "region-78370",
+        "payment_score": 68741
+      },
+      {
+        "payment_region": "region-79561",
+        "payment_score": 27647
+      },
+      {
+        "payment_region": "region-49989",
+        "payment_score": 26015
+      },
+      {
+        "payment_region": "region-43619",
+        "payment_score": 81908
+      },
+      {
+        "payment_region": "region-68658",
+        "payment_score": 87441
+      },
+      {
+        "payment_region": "region-88504",
+        "payment_score": 87864
+      },
+      {
+        "payment_region": "region-37969",
+        "payment_score": 41531
+      },
+      {
+        "payment_region": "region-01504",
+        "payment_score": 62462
+      },
+      {
+        "payment_region": "region-27926",
+        "payment_score": 51161
+      },
+      {
+        "payment_region": "region-63033",
+        "payment_score": 58435
+      },
+      {
+        "payment_region": "region-59278",
+        "payment_score": 46871
+      },
+      {
+        "payment_region": "region-91761",
+        "payment_score": 69001
+      }
+    ],
+    "sources_touched": [
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "hub-428--lookup--Payment",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_region ?payment_score WHERE { ?payment a c:Payment ; c:region ?payment_region ; c:score ?payment_score }",
+  "shape": "hub-428",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Contract": {
+              "collectionName": "contracts",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "archived": {
+                  "field": "archived"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "region": {
+                  "field": "region"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "verified": {
+                  "field": "verified"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Contract",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            },
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Contract",
+              "toEntity": "Account",
+              "type": "contractsToAccounts"
+            },
+            {
+              "fromEntity": "Payment",
+              "toEntity": "Account",
+              "type": "paymentsToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
+        "rows": [
+          {
+            "payment": 1,
+            "payment_region": "region-78370",
+            "payment_score": 68741
+          },
+          {
+            "payment": 2,
+            "payment_region": "region-79561",
+            "payment_score": 27647
+          },
+          {
+            "payment": 3,
+            "payment_region": "region-49989",
+            "payment_score": 26015
+          },
+          {
+            "payment": 4,
+            "payment_region": "region-43619",
+            "payment_score": 81908
+          },
+          {
+            "payment": 5,
+            "payment_region": "region-68658",
+            "payment_score": 87441
+          },
+          {
+            "payment": 6,
+            "payment_region": "region-88504",
+            "payment_score": 87864
+          },
+          {
+            "payment": 7,
+            "payment_region": "region-37969",
+            "payment_score": 41531
+          },
+          {
+            "payment": 8,
+            "payment_region": "region-01504",
+            "payment_score": 62462
+          },
+          {
+            "payment": 9,
+            "payment_region": "region-27926",
+            "payment_score": 51161
+          },
+          {
+            "payment": 10,
+            "payment_region": "region-63033",
+            "payment_score": 58435
+          },
+          {
+            "payment": 11,
+            "payment_region": "region-59278",
+            "payment_score": 46871
+          },
+          {
+            "payment": 12,
+            "payment_region": "region-91761",
+            "payment_score": 69001
+          }
+        ],
+        "source_objects": [
+          "payments"
+        ]
+      },
+      "system": "sf1"
+    }
+  ]
+}

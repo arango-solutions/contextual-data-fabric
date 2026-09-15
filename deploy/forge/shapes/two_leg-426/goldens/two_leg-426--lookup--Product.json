@@ -1,0 +1,248 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "product_currency": "currency-08563",
+        "product_margin": 80089.704834
+      },
+      {
+        "product_currency": "currency-74190",
+        "product_margin": 15390.815646
+      },
+      {
+        "product_currency": "currency-07642",
+        "product_margin": 25178.337075
+      },
+      {
+        "product_currency": "currency-40054",
+        "product_margin": 42518.432301
+      },
+      {
+        "product_currency": "currency-59737",
+        "product_margin": 33035.267
+      },
+      {
+        "product_currency": "currency-70386",
+        "product_margin": 77778.581632
+      },
+      {
+        "product_currency": "currency-82521",
+        "product_margin": 3912.016673
+      },
+      {
+        "product_currency": "currency-32954",
+        "product_margin": 31843.480697
+      },
+      {
+        "product_currency": "currency-94338",
+        "product_margin": 32494.304353
+      },
+      {
+        "product_currency": "currency-64222",
+        "product_margin": 56038.770653
+      },
+      {
+        "product_currency": "currency-79302",
+        "product_margin": 47308.191974
+      },
+      {
+        "product_currency": "currency-29211",
+        "product_margin": 57334.140528
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "two_leg-426--lookup--Product",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_currency ?product_margin WHERE { ?product a c:Product ; c:currency ?product_currency ; c:margin ?product_margin }",
+  "shape": "two_leg-426",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Asset": {
+              "collectionName": "assets",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "archived": {
+                  "field": "archived"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Product": {
+              "collectionName": "products",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "margin": {
+                  "field": "margin"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Asset",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            },
+            {
+              "name": "Product",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "margin",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Asset",
+              "toEntity": "Account",
+              "type": "assetsToAccounts"
+            },
+            {
+              "fromEntity": "Product",
+              "toEntity": "Account",
+              "type": "productsToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for products",
+        "rows": [
+          {
+            "product": 1,
+            "product_currency": "currency-08563",
+            "product_margin": 80089.704834
+          },
+          {
+            "product": 2,
+            "product_currency": "currency-74190",
+            "product_margin": 15390.815646
+          },
+          {
+            "product": 3,
+            "product_currency": "currency-07642",
+            "product_margin": 25178.337075
+          },
+          {
+            "product": 4,
+            "product_currency": "currency-40054",
+            "product_margin": 42518.432301
+          },
+          {
+            "product": 5,
+            "product_currency": "currency-59737",
+            "product_margin": 33035.267
+          },
+          {
+            "product": 6,
+            "product_currency": "currency-70386",
+            "product_margin": 77778.581632
+          },
+          {
+            "product": 7,
+            "product_currency": "currency-82521",
+            "product_margin": 3912.016673
+          },
+          {
+            "product": 8,
+            "product_currency": "currency-32954",
+            "product_margin": 31843.480697
+          },
+          {
+            "product": 9,
+            "product_currency": "currency-94338",
+            "product_margin": 32494.304353
+          },
+          {
+            "product": 10,
+            "product_currency": "currency-64222",
+            "product_margin": 56038.770653
+          },
+          {
+            "product": 11,
+            "product_currency": "currency-79302",
+            "product_margin": 47308.191974
+          },
+          {
+            "product": 12,
+            "product_currency": "currency-29211",
+            "product_margin": 57334.140528
+          }
+        ],
+        "source_objects": [
+          "products"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

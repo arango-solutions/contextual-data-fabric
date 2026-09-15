@@ -1,0 +1,358 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "asset_label": "label-77720",
+        "campaign_billable": true
+      },
+      {
+        "asset_label": "label-77720",
+        "campaign_billable": false
+      },
+      {
+        "asset_label": "label-41806",
+        "campaign_billable": false
+      },
+      {
+        "asset_label": "label-77720",
+        "campaign_billable": false
+      },
+      {
+        "asset_label": "label-72385",
+        "campaign_billable": false
+      },
+      {
+        "asset_label": "label-41806",
+        "campaign_billable": false
+      },
+      {
+        "asset_label": "label-03913",
+        "campaign_billable": true
+      },
+      {
+        "asset_label": "label-03913",
+        "campaign_billable": false
+      },
+      {
+        "asset_label": "label-66924",
+        "campaign_billable": false
+      },
+      {
+        "asset_label": "label-77720",
+        "campaign_billable": true
+      },
+      {
+        "asset_label": "label-41806",
+        "campaign_billable": true
+      },
+      {
+        "asset_label": "label-68396",
+        "campaign_billable": false
+      }
+    ],
+    "sources_touched": [
+      "postgresql:pg1",
+      "postgresql:pg2"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "six_leg-430--join--Campaign-Asset",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable ?asset_label WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable ; c:campaignsToAssets ?asset . ?asset a c:Asset ; c:label ?asset_label }",
+  "shape": "six_leg-430",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Campaign": {
+              "collectionName": "campaigns",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "billable": {
+                  "field": "billable"
+                },
+                "customerId": {
+                  "field": "customer_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "notes": {
+                  "field": "notes"
+                },
+                "rank": {
+                  "field": "rank"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Campaign",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "billable",
+                  "type": "boolean"
+                },
+                {
+                  "name": "customerId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "notes",
+                  "type": "string"
+                },
+                {
+                  "name": "rank",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Campaign",
+              "toEntity": "Asset",
+              "type": "campaignsToAssets"
+            },
+            {
+              "fromEntity": "Campaign",
+              "toEntity": "Customer",
+              "type": "campaignsToCustomers"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg2"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for campaigns",
+        "rows": [
+          {
+            "asset": 6,
+            "campaign": 1,
+            "campaign_billable": true
+          },
+          {
+            "asset": 6,
+            "campaign": 2,
+            "campaign_billable": false
+          },
+          {
+            "asset": 5,
+            "campaign": 3,
+            "campaign_billable": false
+          },
+          {
+            "asset": 6,
+            "campaign": 4,
+            "campaign_billable": false
+          },
+          {
+            "asset": 3,
+            "campaign": 5,
+            "campaign_billable": false
+          },
+          {
+            "asset": 5,
+            "campaign": 6,
+            "campaign_billable": false
+          },
+          {
+            "asset": 4,
+            "campaign": 7,
+            "campaign_billable": true
+          },
+          {
+            "asset": 4,
+            "campaign": 8,
+            "campaign_billable": false
+          },
+          {
+            "asset": 9,
+            "campaign": 9,
+            "campaign_billable": false
+          },
+          {
+            "asset": 6,
+            "campaign": 10,
+            "campaign_billable": true
+          },
+          {
+            "asset": 5,
+            "campaign": 11,
+            "campaign_billable": true
+          },
+          {
+            "asset": 11,
+            "campaign": 12,
+            "campaign_billable": false
+          }
+        ],
+        "source_objects": [
+          "campaigns"
+        ]
+      },
+      "system": "pg2"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Asset": {
+              "collectionName": "assets",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                },
+                "paymentId": {
+                  "field": "payment_id"
+                },
+                "quantity": {
+                  "field": "quantity"
+                },
+                "score": {
+                  "field": "score"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Asset",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                },
+                {
+                  "name": "paymentId",
+                  "type": "integer"
+                },
+                {
+                  "name": "quantity",
+                  "type": "integer"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Asset",
+              "toEntity": "Payment",
+              "type": "assetsToPayments"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for assets",
+        "rows": [
+          {
+            "asset": 1,
+            "asset_label": "label-22110"
+          },
+          {
+            "asset": 2,
+            "asset_label": "label-83711"
+          },
+          {
+            "asset": 3,
+            "asset_label": "label-72385"
+          },
+          {
+            "asset": 4,
+            "asset_label": "label-03913"
+          },
+          {
+            "asset": 5,
+            "asset_label": "label-41806"
+          },
+          {
+            "asset": 6,
+            "asset_label": "label-77720"
+          },
+          {
+            "asset": 7,
+            "asset_label": "label-03085"
+          },
+          {
+            "asset": 8,
+            "asset_label": "label-61000"
+          },
+          {
+            "asset": 9,
+            "asset_label": "label-66924"
+          },
+          {
+            "asset": 10,
+            "asset_label": "label-54316"
+          },
+          {
+            "asset": 11,
+            "asset_label": "label-68396"
+          },
+          {
+            "asset": 12,
+            "asset_label": "label-94667"
+          }
+        ],
+        "source_objects": [
+          "assets"
+        ]
+      },
+      "system": "pg1"
+    }
+  ]
+}

@@ -1,0 +1,429 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "account_enabled": false,
+        "product_currency": "currency-08563"
+      },
+      {
+        "account_enabled": false,
+        "product_currency": "currency-74190"
+      },
+      {
+        "account_enabled": true,
+        "product_currency": "currency-07642"
+      },
+      {
+        "account_enabled": true,
+        "product_currency": "currency-40054"
+      },
+      {
+        "account_enabled": true,
+        "product_currency": "currency-59737"
+      },
+      {
+        "account_enabled": false,
+        "product_currency": "currency-70386"
+      },
+      {
+        "account_enabled": false,
+        "product_currency": "currency-82521"
+      },
+      {
+        "account_enabled": false,
+        "product_currency": "currency-32954"
+      },
+      {
+        "account_enabled": true,
+        "product_currency": "currency-94338"
+      },
+      {
+        "account_enabled": false,
+        "product_currency": "currency-64222"
+      },
+      {
+        "account_enabled": false,
+        "product_currency": "currency-79302"
+      },
+      {
+        "account_enabled": false,
+        "product_currency": "currency-29211"
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1",
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "two_leg-426--join--Product-Account",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_currency ?account_enabled WHERE { ?product a c:Product ; c:currency ?product_currency ; c:productsToAccounts ?account . ?account a c:Account ; c:enabled ?account_enabled }",
+  "shape": "two_leg-426",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Asset": {
+              "collectionName": "assets",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "archived": {
+                  "field": "archived"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "primary": {
+                  "field": "primary"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Product": {
+              "collectionName": "products",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "margin": {
+                  "field": "margin"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Asset",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                }
+              ]
+            },
+            {
+              "name": "Product",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "margin",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Asset",
+              "toEntity": "Account",
+              "type": "assetsToAccounts"
+            },
+            {
+              "fromEntity": "Product",
+              "toEntity": "Account",
+              "type": "productsToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for products",
+        "rows": [
+          {
+            "account": 12,
+            "product": 1,
+            "product_currency": "currency-08563"
+          },
+          {
+            "account": 12,
+            "product": 2,
+            "product_currency": "currency-74190"
+          },
+          {
+            "account": 10,
+            "product": 3,
+            "product_currency": "currency-07642"
+          },
+          {
+            "account": 11,
+            "product": 4,
+            "product_currency": "currency-40054"
+          },
+          {
+            "account": 2,
+            "product": 5,
+            "product_currency": "currency-59737"
+          },
+          {
+            "account": 4,
+            "product": 6,
+            "product_currency": "currency-70386"
+          },
+          {
+            "account": 9,
+            "product": 7,
+            "product_currency": "currency-82521"
+          },
+          {
+            "account": 3,
+            "product": 8,
+            "product_currency": "currency-32954"
+          },
+          {
+            "account": 10,
+            "product": 9,
+            "product_currency": "currency-94338"
+          },
+          {
+            "account": 8,
+            "product": 10,
+            "product_currency": "currency-64222"
+          },
+          {
+            "account": 8,
+            "product": 11,
+            "product_currency": "currency-79302"
+          },
+          {
+            "account": 7,
+            "product": 12,
+            "product_currency": "currency-29211"
+          }
+        ],
+        "source_objects": [
+          "products"
+        ]
+      },
+      "system": "ar1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "enabled": {
+                  "field": "enabled"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "region": {
+                  "field": "region"
+                },
+                "tier": {
+                  "field": "tier"
+                },
+                "version": {
+                  "field": "version"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Invoice": {
+              "collectionName": "invoices",
+              "properties": {
+                "accountId": {
+                  "field": "account_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "quantity": {
+                  "field": "quantity"
+                },
+                "score": {
+                  "field": "score"
+                },
+                "segment": {
+                  "field": "segment"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                },
+                {
+                  "name": "version",
+                  "type": "integer"
+                }
+              ]
+            },
+            {
+              "name": "Invoice",
+              "properties": [
+                {
+                  "name": "accountId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "quantity",
+                  "type": "integer"
+                },
+                {
+                  "name": "score",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Invoice",
+              "toEntity": "Account",
+              "type": "invoicesToAccounts"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
+        "rows": [
+          {
+            "account": 1,
+            "account_enabled": true
+          },
+          {
+            "account": 2,
+            "account_enabled": true
+          },
+          {
+            "account": 3,
+            "account_enabled": false
+          },
+          {
+            "account": 4,
+            "account_enabled": false
+          },
+          {
+            "account": 5,
+            "account_enabled": false
+          },
+          {
+            "account": 6,
+            "account_enabled": true
+          },
+          {
+            "account": 7,
+            "account_enabled": false
+          },
+          {
+            "account": 8,
+            "account_enabled": false
+          },
+          {
+            "account": 9,
+            "account_enabled": false
+          },
+          {
+            "account": 10,
+            "account_enabled": true
+          },
+          {
+            "account": 11,
+            "account_enabled": true
+          },
+          {
+            "account": 12,
+            "account_enabled": false
+          }
+        ],
+        "source_objects": [
+          "accounts"
+        ]
+      },
+      "system": "pg1"
+    }
+  ]
+}

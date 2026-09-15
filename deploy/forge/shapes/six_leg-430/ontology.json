@@ -1,0 +1,152 @@
+{
+  "entities": [
+    {
+      "name": "Asset",
+      "properties": [
+        {
+          "name": "label",
+          "type": "string"
+        },
+        {
+          "name": "quantity",
+          "type": "integer"
+        },
+        {
+          "name": "score",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Campaign",
+      "properties": [
+        {
+          "name": "billable",
+          "type": "boolean"
+        },
+        {
+          "name": "notes",
+          "type": "string"
+        },
+        {
+          "name": "rank",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Contract",
+      "properties": [
+        {
+          "name": "currency",
+          "type": "string"
+        },
+        {
+          "name": "latencyMs",
+          "type": "float"
+        },
+        {
+          "name": "retries",
+          "type": "integer"
+        },
+        {
+          "name": "seats",
+          "type": "integer"
+        }
+      ]
+    },
+    {
+      "name": "Customer",
+      "properties": [
+        {
+          "name": "channel",
+          "type": "string"
+        },
+        {
+          "name": "code",
+          "type": "string"
+        },
+        {
+          "name": "expired",
+          "type": "boolean"
+        },
+        {
+          "name": "total",
+          "type": "float"
+        }
+      ]
+    },
+    {
+      "name": "Payment",
+      "properties": [
+        {
+          "name": "priority",
+          "type": "integer"
+        },
+        {
+          "name": "region",
+          "type": "string"
+        }
+      ]
+    },
+    {
+      "name": "Ticket",
+      "properties": [
+        {
+          "name": "primary",
+          "type": "boolean"
+        },
+        {
+          "name": "ratio",
+          "type": "float"
+        },
+        {
+          "name": "sku",
+          "type": "string"
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "fromEntity": "Asset",
+      "toEntity": "Payment",
+      "type": "assetsToPayments"
+    },
+    {
+      "fromEntity": "Campaign",
+      "toEntity": "Asset",
+      "type": "campaignsToAssets"
+    },
+    {
+      "fromEntity": "Campaign",
+      "toEntity": "Customer",
+      "type": "campaignsToCustomers"
+    },
+    {
+      "fromEntity": "Contract",
+      "toEntity": "Asset",
+      "type": "contractsToAssets"
+    },
+    {
+      "fromEntity": "Customer",
+      "toEntity": "Asset",
+      "type": "customersToAssets"
+    },
+    {
+      "fromEntity": "Customer",
+      "toEntity": "Payment",
+      "type": "customersToPayments"
+    },
+    {
+      "fromEntity": "Ticket",
+      "toEntity": "Asset",
+      "type": "ticketsToAssets"
+    },
+    {
+      "fromEntity": "Ticket",
+      "toEntity": "Customer",
+      "type": "ticketsToCustomers"
+    }
+  ]
+}

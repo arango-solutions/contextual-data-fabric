@@ -1,0 +1,60 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "account_id",
+      "crossSystem": true,
+      "from": "Asset",
+      "fromSystem": "ar1",
+      "parentColumn": "id",
+      "relationship": "assetsToAccounts",
+      "to": "Account",
+      "toSystem": "pg1"
+    },
+    {
+      "childColumn": "account_id",
+      "crossSystem": false,
+      "from": "Invoice",
+      "fromSystem": "pg1",
+      "parentColumn": "id",
+      "relationship": "invoicesToAccounts",
+      "to": "Account",
+      "toSystem": "pg1"
+    },
+    {
+      "childColumn": "account_id",
+      "crossSystem": true,
+      "from": "Product",
+      "fromSystem": "ar1",
+      "parentColumn": "id",
+      "relationship": "productsToAccounts",
+      "to": "Account",
+      "toSystem": "pg1"
+    }
+  ],
+  "ownership": {
+    "Account": "pg1",
+    "Asset": "ar1",
+    "Invoice": "pg1",
+    "Product": "ar1"
+  },
+  "shape": "two_leg-426",
+  "systems": {
+    "ar1": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar1"
+    },
+    "pg1": {
+      "dialect": "postgres",
+      "kind": "postgresql",
+      "sourceId": "postgresql:pg1"
+    }
+  },
+  "tables": {
+    "Account": "accounts",
+    "Asset": "assets",
+    "Invoice": "invoices",
+    "Product": "products"
+  }
+}

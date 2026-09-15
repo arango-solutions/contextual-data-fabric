@@ -1,0 +1,111 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Session": {
+        "collectionName": "sessions",
+        "properties": {
+          "billable": {
+            "field": "billable"
+          },
+          "id": {
+            "field": "id"
+          },
+          "regionId": {
+            "field": "region_id"
+          },
+          "version": {
+            "field": "version"
+          }
+        },
+        "style": "COLLECTION"
+      },
+      "Shipment": {
+        "collectionName": "shipments",
+        "properties": {
+          "id": {
+            "field": "id"
+          },
+          "region": {
+            "field": "region"
+          },
+          "regionId": {
+            "field": "region_id"
+          },
+          "verified": {
+            "field": "verified"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Session",
+        "properties": [
+          {
+            "name": "billable",
+            "type": "boolean"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "regionId",
+            "type": "integer"
+          },
+          {
+            "name": "version",
+            "type": "integer"
+          }
+        ]
+      },
+      {
+        "name": "Shipment",
+        "properties": [
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "region",
+            "type": "string"
+          },
+          {
+            "name": "regionId",
+            "type": "integer"
+          },
+          {
+            "name": "verified",
+            "type": "boolean"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Session",
+        "toEntity": "Region",
+        "type": "sessionsToRegions"
+      },
+      {
+        "fromEntity": "Shipment",
+        "toEntity": "Region",
+        "type": "shipmentsToRegions"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "postgresql",
+      "ref": "pg1"
+    }
+  }
+}

@@ -1,0 +1,67 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Shipment": {
+        "collectionName": "shipments",
+        "properties": {
+          "assetId": {
+            "field": "asset_id"
+          },
+          "expired": {
+            "field": "expired"
+          },
+          "id": {
+            "field": "id"
+          },
+          "retries": {
+            "field": "retries"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Shipment",
+        "properties": [
+          {
+            "name": "assetId",
+            "type": "integer"
+          },
+          {
+            "name": "expired",
+            "type": "boolean"
+          },
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "retries",
+            "type": "integer"
+          }
+        ]
+      }
+    ],
+    "relationships": [
+      {
+        "fromEntity": "Shipment",
+        "toEntity": "Asset",
+        "type": "shipmentsToAssets"
+      }
+    ]
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "arango",
+      "ref": "ar1"
+    }
+  }
+}

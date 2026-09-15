@@ -1,0 +1,205 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "vendor_ratio": 32301.803055,
+        "vendor_retries": 70804
+      },
+      {
+        "vendor_ratio": 92033.759295,
+        "vendor_retries": 92817
+      },
+      {
+        "vendor_ratio": 43079.973175,
+        "vendor_retries": 41481
+      },
+      {
+        "vendor_ratio": 60121.462835,
+        "vendor_retries": 90963
+      },
+      {
+        "vendor_ratio": 91720.549233,
+        "vendor_retries": 78188
+      },
+      {
+        "vendor_ratio": 57011.360447,
+        "vendor_retries": 83737
+      },
+      {
+        "vendor_ratio": 10277.0534,
+        "vendor_retries": 15967
+      },
+      {
+        "vendor_ratio": 70672.088911,
+        "vendor_retries": 56327
+      },
+      {
+        "vendor_ratio": 84482.768626,
+        "vendor_retries": 13723
+      },
+      {
+        "vendor_ratio": 8327.67382,
+        "vendor_retries": 51002
+      },
+      {
+        "vendor_ratio": 43274.499025,
+        "vendor_retries": 95263
+      },
+      {
+        "vendor_ratio": 6820.545173,
+        "vendor_retries": 43693
+      }
+    ],
+    "sources_touched": [
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "hub-423--lookup--Vendor",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_ratio ?vendor_retries WHERE { ?vendor a c:Vendor ; c:ratio ?vendor_ratio ; c:retries ?vendor_retries }",
+  "shape": "hub-423",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Vendor": {
+              "collectionName": "vendors",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "ratio": {
+                  "field": "ratio"
+                },
+                "retries": {
+                  "field": "retries"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "weight": {
+                  "field": "weight"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Vendor",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                },
+                {
+                  "name": "retries",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "weight",
+                  "type": "float"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for vendors",
+        "rows": [
+          {
+            "vendor": 1,
+            "vendor_ratio": 32301.803055,
+            "vendor_retries": 70804
+          },
+          {
+            "vendor": 2,
+            "vendor_ratio": 92033.759295,
+            "vendor_retries": 92817
+          },
+          {
+            "vendor": 3,
+            "vendor_ratio": 43079.973175,
+            "vendor_retries": 41481
+          },
+          {
+            "vendor": 4,
+            "vendor_ratio": 60121.462835,
+            "vendor_retries": 90963
+          },
+          {
+            "vendor": 5,
+            "vendor_ratio": 91720.549233,
+            "vendor_retries": 78188
+          },
+          {
+            "vendor": 6,
+            "vendor_ratio": 57011.360447,
+            "vendor_retries": 83737
+          },
+          {
+            "vendor": 7,
+            "vendor_ratio": 10277.0534,
+            "vendor_retries": 15967
+          },
+          {
+            "vendor": 8,
+            "vendor_ratio": 70672.088911,
+            "vendor_retries": 56327
+          },
+          {
+            "vendor": 9,
+            "vendor_ratio": 84482.768626,
+            "vendor_retries": 13723
+          },
+          {
+            "vendor": 10,
+            "vendor_ratio": 8327.67382,
+            "vendor_retries": 51002
+          },
+          {
+            "vendor": 11,
+            "vendor_ratio": 43274.499025,
+            "vendor_retries": 95263
+          },
+          {
+            "vendor": 12,
+            "vendor_ratio": 6820.545173,
+            "vendor_retries": 43693
+          }
+        ],
+        "source_objects": [
+          "vendors"
+        ]
+      },
+      "system": "sf1"
+    }
+  ]
+}

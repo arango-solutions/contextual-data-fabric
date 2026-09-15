@@ -1,0 +1,54 @@
+{
+  "arangoPhysicalMapping": {
+    "entities": {
+      "Payment": {
+        "collectionName": "payments",
+        "properties": {
+          "id": {
+            "field": "id"
+          },
+          "priority": {
+            "field": "priority"
+          },
+          "region": {
+            "field": "region"
+          }
+        },
+        "style": "COLLECTION"
+      }
+    },
+    "relationships": {}
+  },
+  "conceptualModel": {
+    "entities": [
+      {
+        "name": "Payment",
+        "properties": [
+          {
+            "name": "id",
+            "type": "integer"
+          },
+          {
+            "name": "priority",
+            "type": "integer"
+          },
+          {
+            "name": "region",
+            "type": "string"
+          }
+        ]
+      }
+    ],
+    "relationships": []
+  },
+  "csiVersion": "1",
+  "provenance": {
+    "direction": "forward",
+    "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+    "producer": "cdf-forge-fixture",
+    "source": {
+      "kind": "clickhouse",
+      "ref": "ch2"
+    }
+  }
+}

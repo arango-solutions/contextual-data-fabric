@@ -1,0 +1,377 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "asset_archived": true,
+        "shipment_currency": "currency-66979"
+      },
+      {
+        "asset_archived": true,
+        "shipment_currency": "currency-22698"
+      },
+      {
+        "asset_archived": false,
+        "shipment_currency": "currency-85826"
+      },
+      {
+        "asset_archived": true,
+        "shipment_currency": "currency-71856"
+      },
+      {
+        "asset_archived": false,
+        "shipment_currency": "currency-53719"
+      },
+      {
+        "asset_archived": false,
+        "shipment_currency": "currency-23964"
+      },
+      {
+        "asset_archived": true,
+        "shipment_currency": "currency-09571"
+      },
+      {
+        "asset_archived": false,
+        "shipment_currency": "currency-40746"
+      },
+      {
+        "asset_archived": true,
+        "shipment_currency": "currency-69416"
+      },
+      {
+        "asset_archived": false,
+        "shipment_currency": "currency-02181"
+      },
+      {
+        "asset_archived": true,
+        "shipment_currency": "currency-91760"
+      },
+      {
+        "asset_archived": true,
+        "shipment_currency": "currency-49499"
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1",
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "two_leg-421--join--Shipment-Asset",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_currency ?asset_archived WHERE { ?shipment a c:Shipment ; c:currency ?shipment_currency ; c:shipmentsToAssets ?asset . ?asset a c:Asset ; c:archived ?asset_archived }",
+  "shape": "two_leg-421",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "channel": {
+                  "field": "channel"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "seats": {
+                  "field": "seats"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Shipment": {
+              "collectionName": "shipments",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "retries": {
+                  "field": "retries"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "seats",
+                  "type": "integer"
+                }
+              ]
+            },
+            {
+              "name": "Shipment",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "retries",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Payment",
+              "toEntity": "Asset",
+              "type": "paymentsToAssets"
+            },
+            {
+              "fromEntity": "Shipment",
+              "toEntity": "Asset",
+              "type": "shipmentsToAssets"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
+        "rows": [
+          {
+            "asset": 2,
+            "shipment": 1,
+            "shipment_currency": "currency-66979"
+          },
+          {
+            "asset": 8,
+            "shipment": 2,
+            "shipment_currency": "currency-22698"
+          },
+          {
+            "asset": 12,
+            "shipment": 3,
+            "shipment_currency": "currency-85826"
+          },
+          {
+            "asset": 6,
+            "shipment": 4,
+            "shipment_currency": "currency-71856"
+          },
+          {
+            "asset": 11,
+            "shipment": 5,
+            "shipment_currency": "currency-53719"
+          },
+          {
+            "asset": 9,
+            "shipment": 6,
+            "shipment_currency": "currency-23964"
+          },
+          {
+            "asset": 6,
+            "shipment": 7,
+            "shipment_currency": "currency-09571"
+          },
+          {
+            "asset": 11,
+            "shipment": 8,
+            "shipment_currency": "currency-40746"
+          },
+          {
+            "asset": 6,
+            "shipment": 9,
+            "shipment_currency": "currency-69416"
+          },
+          {
+            "asset": 3,
+            "shipment": 10,
+            "shipment_currency": "currency-02181"
+          },
+          {
+            "asset": 2,
+            "shipment": 11,
+            "shipment_currency": "currency-91760"
+          },
+          {
+            "asset": 8,
+            "shipment": 12,
+            "shipment_currency": "currency-49499"
+          }
+        ],
+        "source_objects": [
+          "shipments"
+        ]
+      },
+      "system": "ar1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Asset": {
+              "collectionName": "assets",
+              "properties": {
+                "archived": {
+                  "field": "archived"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "label": {
+                  "field": "label"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Asset",
+              "properties": [
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for assets",
+        "rows": [
+          {
+            "asset": 1,
+            "asset_archived": false
+          },
+          {
+            "asset": 2,
+            "asset_archived": true
+          },
+          {
+            "asset": 3,
+            "asset_archived": false
+          },
+          {
+            "asset": 4,
+            "asset_archived": true
+          },
+          {
+            "asset": 5,
+            "asset_archived": true
+          },
+          {
+            "asset": 6,
+            "asset_archived": true
+          },
+          {
+            "asset": 7,
+            "asset_archived": true
+          },
+          {
+            "asset": 8,
+            "asset_archived": true
+          },
+          {
+            "asset": 9,
+            "asset_archived": false
+          },
+          {
+            "asset": 10,
+            "asset_archived": false
+          },
+          {
+            "asset": 11,
+            "asset_archived": false
+          },
+          {
+            "asset": 12,
+            "asset_archived": false
+          }
+        ],
+        "source_objects": [
+          "assets"
+        ]
+      },
+      "system": "pg1"
+    }
+  ]
+}

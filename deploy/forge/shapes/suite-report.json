@@ -1,0 +1,86 @@
+{
+  "mode": "fixture",
+  "seed": 421,
+  "shapes": [
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "two_leg",
+      "goldens": 7,
+      "name": "two_leg-421",
+      "systems": 2
+    },
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "chain",
+      "goldens": 11,
+      "name": "chain-422",
+      "systems": 4
+    },
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "hub",
+      "goldens": 10,
+      "name": "hub-423",
+      "systems": 4
+    },
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "wide_narrow",
+      "goldens": 11,
+      "name": "wide_narrow-424",
+      "systems": 3
+    },
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "six_leg",
+      "goldens": 19,
+      "name": "six_leg-425",
+      "systems": 6
+    },
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "two_leg",
+      "goldens": 9,
+      "name": "two_leg-426",
+      "systems": 2
+    },
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "chain",
+      "goldens": 7,
+      "name": "chain-427",
+      "systems": 3
+    },
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "hub",
+      "goldens": 11,
+      "name": "hub-428",
+      "systems": 3
+    },
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "wide_narrow",
+      "goldens": 10,
+      "name": "wide_narrow-429",
+      "systems": 2
+    },
+    {
+      "deterministic": true,
+      "failed": [],
+      "family": "six_leg",
+      "goldens": 19,
+      "name": "six_leg-430",
+      "systems": 6
+    }
+  ]
+}

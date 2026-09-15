@@ -1,0 +1,81 @@
+forgeShapeVersion: 1
+name: six_leg-430
+family: six_leg
+seed: 430
+ontology: ontology.json
+scale:
+  rowsPerEntity: 12
+systems:
+  ch1:
+    dialect: clickhouse
+    kind: clickhouse
+  ch2:
+    dialect: clickhouse
+    kind: clickhouse
+  pg1:
+    dialect: postgres
+    kind: postgresql
+  sf1:
+    dialect: snowflake
+    kind: snowflake
+  pg2:
+    dialect: postgres
+    kind: postgresql
+  ch3:
+    dialect: clickhouse
+    kind: clickhouse
+partitionMap:
+  Asset:
+    dialect: postgres
+    system: pg1
+  Campaign:
+    dialect: postgres
+    system: pg2
+  Contract:
+    dialect: clickhouse
+    system: ch3
+  Customer:
+    dialect: snowflake
+    system: sf1
+  Payment:
+    dialect: clickhouse
+    system: ch2
+  Ticket:
+    dialect: clickhouse
+    system: ch1
+denormLog: []
+expected:
+  catalog: expected-catalog.json
+  goldens:
+  - goldens/six_leg-430--lookup--Asset.json
+  - goldens/six_leg-430--lookup--Campaign.json
+  - goldens/six_leg-430--lookup--Contract.json
+  - goldens/six_leg-430--lookup--Customer.json
+  - goldens/six_leg-430--lookup--Payment.json
+  - goldens/six_leg-430--lookup--Ticket.json
+  - goldens/six_leg-430--join--Asset-Payment.json
+  - goldens/six_leg-430--join--Campaign-Asset.json
+  - goldens/six_leg-430--join--Campaign-Customer.json
+  - goldens/six_leg-430--join--Contract-Asset.json
+  - goldens/six_leg-430--join--Customer-Asset.json
+  - goldens/six_leg-430--join--Customer-Payment.json
+  - goldens/six_leg-430--join--Ticket-Asset.json
+  - goldens/six_leg-430--join--Ticket-Customer.json
+  - goldens/six_leg-430--chain--Campaign-Asset-Payment.json
+  - goldens/six_leg-430--aggregate--Campaign.json
+  - goldens/six_leg-430--aggregate--Customer.json
+  - goldens/six_leg-430--aggregate--Ticket.json
+  - goldens/six_leg-430--crossleg-aggregate--Asset-Payment.json
+fixture:
+  producer: cdf-forge-fixture
+  systems:
+    ch1: systems/ch1.csi.json
+    ch2: systems/ch2.csi.json
+    pg1: systems/pg1.csi.json
+    sf1: systems/sf1.csi.json
+    pg2: systems/pg2.csi.json
+    ch3: systems/ch3.csi.json
+  note: Fixture-mode CSI documents are synthesised by CDF from the descriptor and
+    labelled as such; live mode replaces them with r2g/RSA/ASA-produced CSI.
+generator:
+  rows: r2g-arango 0.4.1

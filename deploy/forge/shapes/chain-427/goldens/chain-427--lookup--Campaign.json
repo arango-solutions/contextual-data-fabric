@@ -1,0 +1,191 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "campaign_notes": "notes-21452",
+        "campaign_tier": "tier-80384"
+      },
+      {
+        "campaign_notes": "notes-63956",
+        "campaign_tier": "tier-47351"
+      },
+      {
+        "campaign_notes": "notes-05974",
+        "campaign_tier": "tier-21802"
+      },
+      {
+        "campaign_notes": "notes-38431",
+        "campaign_tier": "tier-11987"
+      },
+      {
+        "campaign_notes": "notes-88330",
+        "campaign_tier": "tier-91730"
+      },
+      {
+        "campaign_notes": "notes-00101",
+        "campaign_tier": "tier-65750"
+      },
+      {
+        "campaign_notes": "notes-92100",
+        "campaign_tier": "tier-93483"
+      },
+      {
+        "campaign_notes": "notes-63314",
+        "campaign_tier": "tier-44093"
+      },
+      {
+        "campaign_notes": "notes-60386",
+        "campaign_tier": "tier-93563"
+      },
+      {
+        "campaign_notes": "notes-41282",
+        "campaign_tier": "tier-55742"
+      },
+      {
+        "campaign_notes": "notes-65655",
+        "campaign_tier": "tier-87672"
+      },
+      {
+        "campaign_notes": "notes-44237",
+        "campaign_tier": "tier-79104"
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "chain-427--lookup--Campaign",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_notes ?campaign_tier WHERE { ?campaign a c:Campaign ; c:notes ?campaign_notes ; c:tier ?campaign_tier }",
+  "shape": "chain-427",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Campaign": {
+              "collectionName": "campaigns",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "notes": {
+                  "field": "notes"
+                },
+                "tier": {
+                  "field": "tier"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Campaign",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "notes",
+                  "type": "string"
+                },
+                {
+                  "name": "tier",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": []
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for campaigns",
+        "rows": [
+          {
+            "campaign": 1,
+            "campaign_notes": "notes-21452",
+            "campaign_tier": "tier-80384"
+          },
+          {
+            "campaign": 2,
+            "campaign_notes": "notes-63956",
+            "campaign_tier": "tier-47351"
+          },
+          {
+            "campaign": 3,
+            "campaign_notes": "notes-05974",
+            "campaign_tier": "tier-21802"
+          },
+          {
+            "campaign": 4,
+            "campaign_notes": "notes-38431",
+            "campaign_tier": "tier-11987"
+          },
+          {
+            "campaign": 5,
+            "campaign_notes": "notes-88330",
+            "campaign_tier": "tier-91730"
+          },
+          {
+            "campaign": 6,
+            "campaign_notes": "notes-00101",
+            "campaign_tier": "tier-65750"
+          },
+          {
+            "campaign": 7,
+            "campaign_notes": "notes-92100",
+            "campaign_tier": "tier-93483"
+          },
+          {
+            "campaign": 8,
+            "campaign_notes": "notes-63314",
+            "campaign_tier": "tier-44093"
+          },
+          {
+            "campaign": 9,
+            "campaign_notes": "notes-60386",
+            "campaign_tier": "tier-93563"
+          },
+          {
+            "campaign": 10,
+            "campaign_notes": "notes-41282",
+            "campaign_tier": "tier-55742"
+          },
+          {
+            "campaign": 11,
+            "campaign_notes": "notes-65655",
+            "campaign_tier": "tier-87672"
+          },
+          {
+            "campaign": 12,
+            "campaign_notes": "notes-44237",
+            "campaign_tier": "tier-79104"
+          }
+        ],
+        "source_objects": [
+          "campaigns"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

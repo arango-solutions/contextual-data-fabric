@@ -1,0 +1,173 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "invoice_status": "status-80151"
+      },
+      {
+        "invoice_status": "status-52538"
+      },
+      {
+        "invoice_status": "status-82131"
+      },
+      {
+        "invoice_status": "status-73741"
+      },
+      {
+        "invoice_status": "status-56443"
+      },
+      {
+        "invoice_status": "status-42183"
+      },
+      {
+        "invoice_status": "status-36549"
+      },
+      {
+        "invoice_status": "status-42541"
+      },
+      {
+        "invoice_status": "status-05146"
+      },
+      {
+        "invoice_status": "status-87949"
+      },
+      {
+        "invoice_status": "status-59859"
+      },
+      {
+        "invoice_status": "status-32133"
+      }
+    ],
+    "sources_touched": [
+      "postgresql:pg1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "hub-423--lookup--Invoice",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_status WHERE { ?invoice a c:Invoice ; c:status ?invoice_status }",
+  "shape": "hub-423",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Invoice": {
+              "collectionName": "invoices",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "status": {
+                  "field": "status"
+                },
+                "vendorId": {
+                  "field": "vendor_id"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Invoice",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
+                },
+                {
+                  "name": "vendorId",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Invoice",
+              "toEntity": "Vendor",
+              "type": "invoicesToVendors"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "postgresql",
+            "ref": "pg1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for invoices",
+        "rows": [
+          {
+            "invoice": 1,
+            "invoice_status": "status-80151"
+          },
+          {
+            "invoice": 2,
+            "invoice_status": "status-52538"
+          },
+          {
+            "invoice": 3,
+            "invoice_status": "status-82131"
+          },
+          {
+            "invoice": 4,
+            "invoice_status": "status-73741"
+          },
+          {
+            "invoice": 5,
+            "invoice_status": "status-56443"
+          },
+          {
+            "invoice": 6,
+            "invoice_status": "status-42183"
+          },
+          {
+            "invoice": 7,
+            "invoice_status": "status-36549"
+          },
+          {
+            "invoice": 8,
+            "invoice_status": "status-42541"
+          },
+          {
+            "invoice": 9,
+            "invoice_status": "status-05146"
+          },
+          {
+            "invoice": 10,
+            "invoice_status": "status-87949"
+          },
+          {
+            "invoice": 11,
+            "invoice_status": "status-59859"
+          },
+          {
+            "invoice": 12,
+            "invoice_status": "status-32133"
+          }
+        ],
+        "source_objects": [
+          "invoices"
+        ]
+      },
+      "system": "pg1"
+    }
+  ]
+}

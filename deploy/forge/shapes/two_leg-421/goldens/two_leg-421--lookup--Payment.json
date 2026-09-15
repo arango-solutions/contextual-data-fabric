@@ -1,0 +1,262 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "payment_channel": "channel-56928",
+        "payment_priority": 66398
+      },
+      {
+        "payment_channel": "channel-01977",
+        "payment_priority": 66335
+      },
+      {
+        "payment_channel": "channel-71358",
+        "payment_priority": 91140
+      },
+      {
+        "payment_channel": "channel-48054",
+        "payment_priority": 53343
+      },
+      {
+        "payment_channel": "channel-44953",
+        "payment_priority": 25689
+      },
+      {
+        "payment_channel": "channel-42332",
+        "payment_priority": 86022
+      },
+      {
+        "payment_channel": "channel-71102",
+        "payment_priority": 8466
+      },
+      {
+        "payment_channel": "channel-39717",
+        "payment_priority": 22361
+      },
+      {
+        "payment_channel": "channel-22872",
+        "payment_priority": 14959
+      },
+      {
+        "payment_channel": "channel-23621",
+        "payment_priority": 77706
+      },
+      {
+        "payment_channel": "channel-60895",
+        "payment_priority": 68314
+      },
+      {
+        "payment_channel": "channel-71327",
+        "payment_priority": 43192
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "two_leg-421--lookup--Payment",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_channel ?payment_priority WHERE { ?payment a c:Payment ; c:channel ?payment_channel ; c:priority ?payment_priority }",
+  "shape": "two_leg-421",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Payment": {
+              "collectionName": "payments",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "channel": {
+                  "field": "channel"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "priority": {
+                  "field": "priority"
+                },
+                "seats": {
+                  "field": "seats"
+                }
+              },
+              "style": "COLLECTION"
+            },
+            "Shipment": {
+              "collectionName": "shipments",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "retries": {
+                  "field": "retries"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Payment",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "channel",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "priority",
+                  "type": "integer"
+                },
+                {
+                  "name": "seats",
+                  "type": "integer"
+                }
+              ]
+            },
+            {
+              "name": "Shipment",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "retries",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Payment",
+              "toEntity": "Asset",
+              "type": "paymentsToAssets"
+            },
+            {
+              "fromEntity": "Shipment",
+              "toEntity": "Asset",
+              "type": "shipmentsToAssets"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
+        "rows": [
+          {
+            "payment": 1,
+            "payment_channel": "channel-56928",
+            "payment_priority": 66398
+          },
+          {
+            "payment": 2,
+            "payment_channel": "channel-01977",
+            "payment_priority": 66335
+          },
+          {
+            "payment": 3,
+            "payment_channel": "channel-71358",
+            "payment_priority": 91140
+          },
+          {
+            "payment": 4,
+            "payment_channel": "channel-48054",
+            "payment_priority": 53343
+          },
+          {
+            "payment": 5,
+            "payment_channel": "channel-44953",
+            "payment_priority": 25689
+          },
+          {
+            "payment": 6,
+            "payment_channel": "channel-42332",
+            "payment_priority": 86022
+          },
+          {
+            "payment": 7,
+            "payment_channel": "channel-71102",
+            "payment_priority": 8466
+          },
+          {
+            "payment": 8,
+            "payment_channel": "channel-39717",
+            "payment_priority": 22361
+          },
+          {
+            "payment": 9,
+            "payment_channel": "channel-22872",
+            "payment_priority": 14959
+          },
+          {
+            "payment": 10,
+            "payment_channel": "channel-23621",
+            "payment_priority": 77706
+          },
+          {
+            "payment": 11,
+            "payment_channel": "channel-60895",
+            "payment_priority": 68314
+          },
+          {
+            "payment": 12,
+            "payment_channel": "channel-71327",
+            "payment_priority": 43192
+          }
+        ],
+        "source_objects": [
+          "payments"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

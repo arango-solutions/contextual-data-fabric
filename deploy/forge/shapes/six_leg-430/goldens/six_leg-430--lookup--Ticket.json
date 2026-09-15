@@ -1,0 +1,223 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "ticket_primary": true,
+        "ticket_ratio": 53583.225754
+      },
+      {
+        "ticket_primary": true,
+        "ticket_ratio": 72574.113375
+      },
+      {
+        "ticket_primary": true,
+        "ticket_ratio": 68591.192795
+      },
+      {
+        "ticket_primary": true,
+        "ticket_ratio": 2329.591995
+      },
+      {
+        "ticket_primary": false,
+        "ticket_ratio": 39171.192181
+      },
+      {
+        "ticket_primary": false,
+        "ticket_ratio": 43821.239674
+      },
+      {
+        "ticket_primary": false,
+        "ticket_ratio": 94071.264903
+      },
+      {
+        "ticket_primary": true,
+        "ticket_ratio": 68961.554629
+      },
+      {
+        "ticket_primary": true,
+        "ticket_ratio": 86853.688499
+      },
+      {
+        "ticket_primary": false,
+        "ticket_ratio": 7770.449889
+      },
+      {
+        "ticket_primary": true,
+        "ticket_ratio": 13388.889383
+      },
+      {
+        "ticket_primary": false,
+        "ticket_ratio": 80126.442227
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "six_leg-430--lookup--Ticket",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?ticket_primary ?ticket_ratio WHERE { ?ticket a c:Ticket ; c:primary ?ticket_primary ; c:ratio ?ticket_ratio }",
+  "shape": "six_leg-430",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Ticket": {
+              "collectionName": "tickets",
+              "properties": {
+                "assetId": {
+                  "field": "asset_id"
+                },
+                "customerId": {
+                  "field": "customer_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "primary": {
+                  "field": "primary"
+                },
+                "ratio": {
+                  "field": "ratio"
+                },
+                "sku": {
+                  "field": "sku"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Ticket",
+              "properties": [
+                {
+                  "name": "assetId",
+                  "type": "integer"
+                },
+                {
+                  "name": "customerId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "primary",
+                  "type": "boolean"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Ticket",
+              "toEntity": "Asset",
+              "type": "ticketsToAssets"
+            },
+            {
+              "fromEntity": "Ticket",
+              "toEntity": "Customer",
+              "type": "ticketsToCustomers"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for tickets",
+        "rows": [
+          {
+            "ticket": 1,
+            "ticket_primary": true,
+            "ticket_ratio": 53583.225754
+          },
+          {
+            "ticket": 2,
+            "ticket_primary": true,
+            "ticket_ratio": 72574.113375
+          },
+          {
+            "ticket": 3,
+            "ticket_primary": true,
+            "ticket_ratio": 68591.192795
+          },
+          {
+            "ticket": 4,
+            "ticket_primary": true,
+            "ticket_ratio": 2329.591995
+          },
+          {
+            "ticket": 5,
+            "ticket_primary": false,
+            "ticket_ratio": 39171.192181
+          },
+          {
+            "ticket": 6,
+            "ticket_primary": false,
+            "ticket_ratio": 43821.239674
+          },
+          {
+            "ticket": 7,
+            "ticket_primary": false,
+            "ticket_ratio": 94071.264903
+          },
+          {
+            "ticket": 8,
+            "ticket_primary": true,
+            "ticket_ratio": 68961.554629
+          },
+          {
+            "ticket": 9,
+            "ticket_primary": true,
+            "ticket_ratio": 86853.688499
+          },
+          {
+            "ticket": 10,
+            "ticket_primary": false,
+            "ticket_ratio": 7770.449889
+          },
+          {
+            "ticket": 11,
+            "ticket_primary": true,
+            "ticket_ratio": 13388.889383
+          },
+          {
+            "ticket": 12,
+            "ticket_primary": false,
+            "ticket_ratio": 80126.442227
+          }
+        ],
+        "source_objects": [
+          "tickets"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}

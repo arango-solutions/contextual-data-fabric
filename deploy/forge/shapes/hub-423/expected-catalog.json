@@ -1,0 +1,70 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "vendor_id",
+      "crossSystem": true,
+      "from": "Account",
+      "fromSystem": "ar1",
+      "parentColumn": "id",
+      "relationship": "accountsToVendors",
+      "to": "Vendor",
+      "toSystem": "sf1"
+    },
+    {
+      "childColumn": "vendor_id",
+      "crossSystem": true,
+      "from": "Customer",
+      "fromSystem": "ch1",
+      "parentColumn": "id",
+      "relationship": "customersToVendors",
+      "to": "Vendor",
+      "toSystem": "sf1"
+    },
+    {
+      "childColumn": "vendor_id",
+      "crossSystem": true,
+      "from": "Invoice",
+      "fromSystem": "pg1",
+      "parentColumn": "id",
+      "relationship": "invoicesToVendors",
+      "to": "Vendor",
+      "toSystem": "sf1"
+    }
+  ],
+  "ownership": {
+    "Account": "ar1",
+    "Customer": "ch1",
+    "Invoice": "pg1",
+    "Vendor": "sf1"
+  },
+  "shape": "hub-423",
+  "systems": {
+    "ar1": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar1"
+    },
+    "ch1": {
+      "dialect": "clickhouse",
+      "kind": "clickhouse",
+      "sourceId": "clickhouse:ch1"
+    },
+    "pg1": {
+      "dialect": "postgres",
+      "kind": "postgresql",
+      "sourceId": "postgresql:pg1"
+    },
+    "sf1": {
+      "dialect": "snowflake",
+      "kind": "snowflake",
+      "sourceId": "snowflake:sf1"
+    }
+  },
+  "tables": {
+    "Account": "accounts",
+    "Customer": "customers",
+    "Invoice": "invoices",
+    "Vendor": "vendors"
+  }
+}

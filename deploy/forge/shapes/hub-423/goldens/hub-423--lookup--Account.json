@@ -1,0 +1,204 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "account_archived": true,
+        "account_discount": 87213.973498
+      },
+      {
+        "account_archived": false,
+        "account_discount": 99115.781926
+      },
+      {
+        "account_archived": true,
+        "account_discount": 11689.602733
+      },
+      {
+        "account_archived": false,
+        "account_discount": 88637.963898
+      },
+      {
+        "account_archived": true,
+        "account_discount": 11707.491456
+      },
+      {
+        "account_archived": true,
+        "account_discount": 7894.432669
+      },
+      {
+        "account_archived": true,
+        "account_discount": 95465.144633
+      },
+      {
+        "account_archived": false,
+        "account_discount": 13615.72862
+      },
+      {
+        "account_archived": true,
+        "account_discount": 48812.741209
+      },
+      {
+        "account_archived": false,
+        "account_discount": 89038.455847
+      },
+      {
+        "account_archived": false,
+        "account_discount": 15590.654567
+      },
+      {
+        "account_archived": false,
+        "account_discount": 16473.028058
+      }
+    ],
+    "sources_touched": [
+      "arango:ar1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "hub-423--lookup--Account",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_archived ?account_discount WHERE { ?account a c:Account ; c:archived ?account_archived ; c:discount ?account_discount }",
+  "shape": "hub-423",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Account": {
+              "collectionName": "accounts",
+              "properties": {
+                "archived": {
+                  "field": "archived"
+                },
+                "discount": {
+                  "field": "discount"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "vendorId": {
+                  "field": "vendor_id"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Account",
+              "properties": [
+                {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "discount",
+                  "type": "float"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "vendorId",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Account",
+              "toEntity": "Vendor",
+              "type": "accountsToVendors"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "arango",
+            "ref": "ar1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
+        "rows": [
+          {
+            "account": 1,
+            "account_archived": true,
+            "account_discount": 87213.973498
+          },
+          {
+            "account": 2,
+            "account_archived": false,
+            "account_discount": 99115.781926
+          },
+          {
+            "account": 3,
+            "account_archived": true,
+            "account_discount": 11689.602733
+          },
+          {
+            "account": 4,
+            "account_archived": false,
+            "account_discount": 88637.963898
+          },
+          {
+            "account": 5,
+            "account_archived": true,
+            "account_discount": 11707.491456
+          },
+          {
+            "account": 6,
+            "account_archived": true,
+            "account_discount": 7894.432669
+          },
+          {
+            "account": 7,
+            "account_archived": true,
+            "account_discount": 95465.144633
+          },
+          {
+            "account": 8,
+            "account_archived": false,
+            "account_discount": 13615.72862
+          },
+          {
+            "account": 9,
+            "account_archived": true,
+            "account_discount": 48812.741209
+          },
+          {
+            "account": 10,
+            "account_archived": false,
+            "account_discount": 89038.455847
+          },
+          {
+            "account": 11,
+            "account_archived": false,
+            "account_discount": 15590.654567
+          },
+          {
+            "account": 12,
+            "account_archived": false,
+            "account_discount": 16473.028058
+          }
+        ],
+        "source_objects": [
+          "accounts"
+        ]
+      },
+      "system": "ar1"
+    }
+  ]
+}

@@ -1,0 +1,204 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "asset_currency": "currency-74110",
+        "asset_latencyMs": 27571.185889
+      },
+      {
+        "asset_currency": "currency-00745",
+        "asset_latencyMs": 13920.459297
+      },
+      {
+        "asset_currency": "currency-89610",
+        "asset_latencyMs": 19730.364681
+      },
+      {
+        "asset_currency": "currency-82792",
+        "asset_latencyMs": 8255.299651
+      },
+      {
+        "asset_currency": "currency-16619",
+        "asset_latencyMs": 79892.02637
+      },
+      {
+        "asset_currency": "currency-12810",
+        "asset_latencyMs": 61866.099127
+      },
+      {
+        "asset_currency": "currency-42623",
+        "asset_latencyMs": 68676.410245
+      },
+      {
+        "asset_currency": "currency-17735",
+        "asset_latencyMs": 2580.102797
+      },
+      {
+        "asset_currency": "currency-26564",
+        "asset_latencyMs": 19351.822735
+      },
+      {
+        "asset_currency": "currency-75043",
+        "asset_latencyMs": 35298.194833
+      },
+      {
+        "asset_currency": "currency-84993",
+        "asset_latencyMs": 86809.35131
+      },
+      {
+        "asset_currency": "currency-24822",
+        "asset_latencyMs": 20408.559492
+      }
+    ],
+    "sources_touched": [
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "lookup",
+  "name": "chain-422--lookup--Asset",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_currency ?asset_latencyMs WHERE { ?asset a c:Asset ; c:currency ?asset_currency ; c:latencyMs ?asset_latencyMs }",
+  "shape": "chain-422",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Asset": {
+              "collectionName": "assets",
+              "properties": {
+                "currency": {
+                  "field": "currency"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "vendorId": {
+                  "field": "vendor_id"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Asset",
+              "properties": [
+                {
+                  "name": "currency",
+                  "type": "string"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "vendorId",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Asset",
+              "toEntity": "Vendor",
+              "type": "assetsToVendors"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for assets",
+        "rows": [
+          {
+            "asset": 1,
+            "asset_currency": "currency-74110",
+            "asset_latencyMs": 27571.185889
+          },
+          {
+            "asset": 2,
+            "asset_currency": "currency-00745",
+            "asset_latencyMs": 13920.459297
+          },
+          {
+            "asset": 3,
+            "asset_currency": "currency-89610",
+            "asset_latencyMs": 19730.364681
+          },
+          {
+            "asset": 4,
+            "asset_currency": "currency-82792",
+            "asset_latencyMs": 8255.299651
+          },
+          {
+            "asset": 5,
+            "asset_currency": "currency-16619",
+            "asset_latencyMs": 79892.02637
+          },
+          {
+            "asset": 6,
+            "asset_currency": "currency-12810",
+            "asset_latencyMs": 61866.099127
+          },
+          {
+            "asset": 7,
+            "asset_currency": "currency-42623",
+            "asset_latencyMs": 68676.410245
+          },
+          {
+            "asset": 8,
+            "asset_currency": "currency-17735",
+            "asset_latencyMs": 2580.102797
+          },
+          {
+            "asset": 9,
+            "asset_currency": "currency-26564",
+            "asset_latencyMs": 19351.822735
+          },
+          {
+            "asset": 10,
+            "asset_currency": "currency-75043",
+            "asset_latencyMs": 35298.194833
+          },
+          {
+            "asset": 11,
+            "asset_currency": "currency-84993",
+            "asset_latencyMs": 86809.35131
+          },
+          {
+            "asset": 12,
+            "asset_currency": "currency-24822",
+            "asset_latencyMs": 20408.559492
+          }
+        ],
+        "source_objects": [
+          "assets"
+        ]
+      },
+      "system": "sf1"
+    }
+  ]
+}

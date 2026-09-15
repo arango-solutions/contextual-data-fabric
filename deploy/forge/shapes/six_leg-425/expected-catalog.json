@@ -1,0 +1,124 @@
+{
+  "collisions": [],
+  "joinKeys": [
+    {
+      "childColumn": "shipment_id",
+      "crossSystem": true,
+      "from": "Invoice",
+      "fromSystem": "ar2",
+      "parentColumn": "id",
+      "relationship": "invoicesToShipments",
+      "to": "Shipment",
+      "toSystem": "ar4"
+    },
+    {
+      "childColumn": "device_id",
+      "crossSystem": true,
+      "from": "Order",
+      "fromSystem": "ar1",
+      "parentColumn": "id",
+      "relationship": "ordersToDevices",
+      "to": "Device",
+      "toSystem": "ar3"
+    },
+    {
+      "childColumn": "shipment_id",
+      "crossSystem": true,
+      "from": "Order",
+      "fromSystem": "ar1",
+      "parentColumn": "id",
+      "relationship": "ordersToShipments",
+      "to": "Shipment",
+      "toSystem": "ar4"
+    },
+    {
+      "childColumn": "order_id",
+      "crossSystem": true,
+      "from": "Product",
+      "fromSystem": "ar5",
+      "parentColumn": "id",
+      "relationship": "productsToOrders",
+      "to": "Order",
+      "toSystem": "ar1"
+    },
+    {
+      "childColumn": "device_id",
+      "crossSystem": true,
+      "from": "Shipment",
+      "fromSystem": "ar4",
+      "parentColumn": "id",
+      "relationship": "shipmentsToDevices",
+      "to": "Device",
+      "toSystem": "ar3"
+    },
+    {
+      "childColumn": "device_id",
+      "crossSystem": true,
+      "from": "Vendor",
+      "fromSystem": "pg1",
+      "parentColumn": "id",
+      "relationship": "vendorsToDevices",
+      "to": "Device",
+      "toSystem": "ar3"
+    },
+    {
+      "childColumn": "order_id",
+      "crossSystem": true,
+      "from": "Vendor",
+      "fromSystem": "pg1",
+      "parentColumn": "id",
+      "relationship": "vendorsToOrders",
+      "to": "Order",
+      "toSystem": "ar1"
+    }
+  ],
+  "ownership": {
+    "Device": "ar3",
+    "Invoice": "ar2",
+    "Order": "ar1",
+    "Product": "ar5",
+    "Shipment": "ar4",
+    "Vendor": "pg1"
+  },
+  "shape": "six_leg-425",
+  "systems": {
+    "ar1": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar1"
+    },
+    "ar2": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar2"
+    },
+    "ar3": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar3"
+    },
+    "ar4": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar4"
+    },
+    "ar5": {
+      "dialect": "arango",
+      "kind": "arango",
+      "sourceId": "arango:ar5"
+    },
+    "pg1": {
+      "dialect": "postgres",
+      "kind": "postgresql",
+      "sourceId": "postgresql:pg1"
+    }
+  },
+  "tables": {
+    "Device": "devices",
+    "Invoice": "invoices",
+    "Order": "orders",
+    "Product": "products",
+    "Shipment": "shipments",
+    "Vendor": "vendors"
+  }
+}

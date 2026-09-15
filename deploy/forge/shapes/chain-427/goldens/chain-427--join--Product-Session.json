@@ -1,0 +1,339 @@
+{
+  "expect": {
+    "bindings": [
+      {
+        "product_segment": "segment-17705",
+        "session_latencyMs": 64842.737438
+      },
+      {
+        "product_segment": "segment-99496",
+        "session_latencyMs": 95231.212378
+      },
+      {
+        "product_segment": "segment-24517",
+        "session_latencyMs": 32010.870094
+      },
+      {
+        "product_segment": "segment-90845",
+        "session_latencyMs": 98565.769873
+      },
+      {
+        "product_segment": "segment-42572",
+        "session_latencyMs": 18617.494674
+      },
+      {
+        "product_segment": "segment-55397",
+        "session_latencyMs": 64842.737438
+      },
+      {
+        "product_segment": "segment-83942",
+        "session_latencyMs": 32010.870094
+      },
+      {
+        "product_segment": "segment-67820",
+        "session_latencyMs": 54413.97496
+      },
+      {
+        "product_segment": "segment-54299",
+        "session_latencyMs": 95231.212378
+      },
+      {
+        "product_segment": "segment-94378",
+        "session_latencyMs": 14571.927191
+      },
+      {
+        "product_segment": "segment-99221",
+        "session_latencyMs": 14571.927191
+      },
+      {
+        "product_segment": "segment-67964",
+        "session_latencyMs": 54413.97496
+      }
+    ],
+    "sources_touched": [
+      "clickhouse:ch1",
+      "snowflake:sf1"
+    ],
+    "status": "grounded"
+  },
+  "family": "join",
+  "name": "chain-427--join--Product-Session",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_segment ?session_latencyMs WHERE { ?product a c:Product ; c:segment ?product_segment ; c:productsToSessions ?session . ?session a c:Session ; c:latencyMs ?session_latencyMs }",
+  "shape": "chain-427",
+  "signedOff": false,
+  "sources": [
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Product": {
+              "collectionName": "products",
+              "properties": {
+                "id": {
+                  "field": "id"
+                },
+                "segment": {
+                  "field": "segment"
+                },
+                "sessionId": {
+                  "field": "session_id"
+                },
+                "version": {
+                  "field": "version"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Product",
+              "properties": [
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "segment",
+                  "type": "string"
+                },
+                {
+                  "name": "sessionId",
+                  "type": "integer"
+                },
+                {
+                  "name": "version",
+                  "type": "integer"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Product",
+              "toEntity": "Session",
+              "type": "productsToSessions"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "snowflake",
+            "ref": "sf1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for products",
+        "rows": [
+          {
+            "product": 1,
+            "product_segment": "segment-17705",
+            "session": 10
+          },
+          {
+            "product": 2,
+            "product_segment": "segment-99496",
+            "session": 3
+          },
+          {
+            "product": 3,
+            "product_segment": "segment-24517",
+            "session": 4
+          },
+          {
+            "product": 4,
+            "product_segment": "segment-90845",
+            "session": 9
+          },
+          {
+            "product": 5,
+            "product_segment": "segment-42572",
+            "session": 6
+          },
+          {
+            "product": 6,
+            "product_segment": "segment-55397",
+            "session": 10
+          },
+          {
+            "product": 7,
+            "product_segment": "segment-83942",
+            "session": 4
+          },
+          {
+            "product": 8,
+            "product_segment": "segment-67820",
+            "session": 2
+          },
+          {
+            "product": 9,
+            "product_segment": "segment-54299",
+            "session": 3
+          },
+          {
+            "product": 10,
+            "product_segment": "segment-94378",
+            "session": 11
+          },
+          {
+            "product": 11,
+            "product_segment": "segment-99221",
+            "session": 11
+          },
+          {
+            "product": 12,
+            "product_segment": "segment-67964",
+            "session": 2
+          }
+        ],
+        "source_objects": [
+          "products"
+        ]
+      },
+      "system": "sf1"
+    },
+    {
+      "csi": {
+        "arangoPhysicalMapping": {
+          "entities": {
+            "Session": {
+              "collectionName": "sessions",
+              "properties": {
+                "campaignId": {
+                  "field": "campaign_id"
+                },
+                "id": {
+                  "field": "id"
+                },
+                "latencyMs": {
+                  "field": "latency_ms"
+                },
+                "sku": {
+                  "field": "sku"
+                },
+                "status": {
+                  "field": "status"
+                }
+              },
+              "style": "COLLECTION"
+            }
+          },
+          "relationships": {}
+        },
+        "conceptualModel": {
+          "entities": [
+            {
+              "name": "Session",
+              "properties": [
+                {
+                  "name": "campaignId",
+                  "type": "integer"
+                },
+                {
+                  "name": "id",
+                  "type": "integer"
+                },
+                {
+                  "name": "latencyMs",
+                  "type": "float"
+                },
+                {
+                  "name": "sku",
+                  "type": "string"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
+                }
+              ]
+            }
+          ],
+          "relationships": [
+            {
+              "fromEntity": "Session",
+              "toEntity": "Campaign",
+              "type": "sessionsToCampaigns"
+            }
+          ]
+        },
+        "csiVersion": "1",
+        "provenance": {
+          "direction": "forward",
+          "note": "Synthesised by cdf.eval.forge from the shape descriptor for fixture-mode planning; not analyzer output. Live mode replaces this document.",
+          "producer": "cdf-forge-fixture",
+          "source": {
+            "kind": "clickhouse",
+            "ref": "ch1"
+          }
+        }
+      },
+      "data": {
+        "as_of": "1970-01-01T00:00:00Z",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for sessions",
+        "rows": [
+          {
+            "session": 1,
+            "session_latencyMs": 527.394798
+          },
+          {
+            "session": 2,
+            "session_latencyMs": 54413.97496
+          },
+          {
+            "session": 3,
+            "session_latencyMs": 95231.212378
+          },
+          {
+            "session": 4,
+            "session_latencyMs": 32010.870094
+          },
+          {
+            "session": 5,
+            "session_latencyMs": 65064.4086
+          },
+          {
+            "session": 6,
+            "session_latencyMs": 18617.494674
+          },
+          {
+            "session": 7,
+            "session_latencyMs": 58988.598715
+          },
+          {
+            "session": 8,
+            "session_latencyMs": 71205.384402
+          },
+          {
+            "session": 9,
+            "session_latencyMs": 98565.769873
+          },
+          {
+            "session": 10,
+            "session_latencyMs": 64842.737438
+          },
+          {
+            "session": 11,
+            "session_latencyMs": 14571.927191
+          },
+          {
+            "session": 12,
+            "session_latencyMs": 3807.426354
+          }
+        ],
+        "source_objects": [
+          "sessions"
+        ]
+      },
+      "system": "ch1"
+    }
+  ]
+}
