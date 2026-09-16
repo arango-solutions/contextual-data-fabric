@@ -76,3 +76,17 @@ def test_forge_generator_installs_regardless_of_local_siblings() -> None:
     forge_index = next(i for i, line in enumerate(lines) if '".[forge]"' in line)
     assert forge_index > fi_index, "the forge install must run outside the sibling switch"
     assert not lines[forge_index].rstrip().endswith("\\"), "unconditional, not a shell continuation"
+
+
+def test_ci_regenerates_the_committed_forge_suite_and_fails_on_drift() -> None:
+    """PR #34 review, item 1: CI used to emit into /tmp and throw the result
+    away, so the 181 committed files were never compared to the code that made
+    them. The step must target the committed path and a drift check must follow."""
+    workflow = (ROOT / ".github" / "workflows" / "ci.yml").read_text(encoding="utf-8")
+    assert "/tmp/forge-shapes" not in workflow
+    assert "--out deploy/forge/shapes --check-determinism --run" in workflow
+    assert "git status --porcelain -- deploy/forge/shapes" in workflow
+    makefile = (ROOT / "Makefile").read_text(encoding="utf-8")
+    assert "--out deploy/forge/shapes --check-determinism --run" in makefile, (
+        "make forge-suite and CI must regenerate with the same flags"
+    )

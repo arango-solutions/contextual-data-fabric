@@ -7,6 +7,7 @@ the CC-9 pin in ``deploy/pins/r2g-arango.txt`` is not installed.
 from __future__ import annotations
 
 import json
+import shutil
 from pathlib import Path
 
 import pytest
@@ -26,6 +27,7 @@ from cdf.eval.forge.oracle import compose_goldens, expected_catalog  # noqa: E40
 from cdf.eval.forge.sampler import FAMILIES, sample_shape  # noqa: E402
 from cdf.eval.forge.suite import (  # noqa: E402
     check_determinism,
+    committed_suite_drift,
     emit_shape,
     run_shape,
     sample_suite,
@@ -167,3 +169,33 @@ def test_sample_suite_cycles_families() -> None:
     shapes = sample_suite(shapes=7, seed=100)
     assert [s.family for s in shapes] == [FAMILIES[i % len(FAMILIES)] for i in range(7)]
     assert len({s.name for s in shapes}) == 7
+
+
+# ── the committed suite ─────────────────────────────────────────────────────
+
+COMMITTED_SHAPES = Path(__file__).resolve().parents[1] / "deploy" / "forge" / "shapes"
+
+
+def test_committed_suite_matches_a_fresh_emit() -> None:
+    """PR #34 review, item 1: the suite under deploy/forge/shapes is a versioned
+    artifact of generator + seed. Re-derive every committed shape from its own
+    descriptor and byte-compare — the git-free twin of CI's drift step, so a
+    pin bump that renames generated classes fails here before it reaches CI."""
+    drift = committed_suite_drift(COMMITTED_SHAPES)
+    assert drift == {}, drift
+
+
+def test_committed_suite_drift_detects_a_changed_and_a_missing_file(tmp_path: Path) -> None:
+    """The negative half of the check above: a single edited golden and a single
+    deleted file in a copy of one committed shape must both be reported."""
+    src = next(p for p in sorted(COMMITTED_SHAPES.iterdir()) if p.is_dir())
+    copy = tmp_path / src.name
+    shutil.copytree(src, copy)
+    golden = sorted((copy / "goldens").glob("*.json"))[0]
+    edited = golden.read_text(encoding="utf-8").replace("grounded", "GROUNDED", 1)
+    golden.write_text(edited, encoding="utf-8")
+    (copy / "ontology.json").unlink()
+    drift = committed_suite_drift(tmp_path)
+    assert set(drift) == {src.name}
+    assert f"goldens/{golden.name}" in drift[src.name]
+    assert "ontology.json" in drift[src.name]

@@ -47,8 +47,23 @@ jobs:
         # and run every generated golden through the real planner/executor/
         # grounding with fixture executors. Goldens are unsigned until the SE
         # lane records sign-off; a failure here is a fabric regression, not a
-        # golden-policy decision.
-        run: python -m cdf.eval.forge suite --shapes 10 --seed 421 --out /tmp/forge-shapes --check-determinism --run
+        # golden-policy decision. Regenerates INTO the committed suite (same
+        # flags as `make forge-suite`) so the next step can compare.
+        run: python -m cdf.eval.forge suite --shapes 10 --seed 421 --out deploy/forge/shapes --check-determinism --run
+      - name: Committed Forge suite matches the code that made it
+        # deploy/forge/shapes is a versioned artifact of generator + seed. A pin
+        # bump that changes generated names (r2g 0.4.2 carries the singularizer
+        # fix) must show up here, not drift silently (PR #34 review, item 1).
+        # `git status --porcelain` also catches shapes that appear or vanish,
+        # which `git diff --exit-code` alone would miss.
+        run: |
+          drift="$(git status --porcelain -- deploy/forge/shapes)"
+          if [ -n "$drift" ]; then
+            echo "::error::deploy/forge/shapes differs from a fresh emit — run 'make forge-suite' and commit the result"
+            echo "$drift"
+            git --no-pager diff --stat -- deploy/forge/shapes
+            exit 1
+          fi
       - name: Coverage in the job summary
         if: always()
         run: |

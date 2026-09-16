@@ -114,6 +114,27 @@ def check_determinism(shape: Shape, reference: Path, *, rows_per_entity: int) ->
         return _tree_differs(reference, again.directory)
 
 
+def committed_suite_drift(shapes_dir: Path) -> dict[str, list[str]]:
+    """Paths that differ between each committed shape and a fresh emit from its
+    own descriptor (family, seed, rowsPerEntity) — ``{}`` when the committed
+    suite is exactly what the current code produces.
+
+    The git-free twin of CI's drift step (PR #34 review, item 1): the suite is
+    a versioned artifact of generator + seed, so a pin bump that changes
+    generated names must fail here, not drift silently.
+    """
+    drift: dict[str, list[str]] = {}
+    for descriptor_path in sorted(shapes_dir.glob(f"*/{DESCRIPTOR_FILE}")):
+        doc = load_descriptor(descriptor_path)
+        shape = sample_shape(doc["seed"], doc["family"], name=doc["name"])
+        diffs = check_determinism(
+            shape, descriptor_path.parent, rows_per_entity=doc["scale"]["rowsPerEntity"]
+        )
+        if diffs:
+            drift[doc["name"]] = diffs
+    return drift
+
+
 def run_shape(emitted: EmittedShape) -> list[GoldenOutcome]:
     return [run_golden(case) for case in emitted.goldens]
 

@@ -23,6 +23,14 @@ deploy/forge/shapes/<family>-<seed>/
 Descriptor + seed reproduce every file byte-identically; `--check-determinism`
 regenerates into a temp dir and diffs. `suite-report.json` is the run record.
 
+The committed suite is a **versioned artifact of generator + seed**: CI
+regenerates into `deploy/forge/shapes` with the same flags as `make forge-suite`
+and fails if anything under it differs (`git status --porcelain`), and
+`tests/test_forge_orchestrator.py::test_committed_suite_matches_a_fresh_emit`
+re-derives every shape from its own descriptor. A pin bump that changes
+generated names — r2g 0.4.2 carries the singularizer fix — therefore requires
+`make forge-suite` and a commit of the result in the same PR.
+
 ## Fixture mode vs. live mode
 
 **Fixture mode** (per PR, in CI's offline job) has no databases. The dataset is
