@@ -48,7 +48,9 @@ def test_r2g_forge_generator_uses_one_full_commit_pin() -> None:
         if line.strip() and not line.lstrip().startswith("#")
     ]
     assert len(requirements) == 1
-    assert "github.com/ArthurKeen/r2g-arango.git@" in requirements[0]
+    # The org repo leads (AGENTS.md) and is public, so CI resolves it without
+    # credentials; the ArthurKeen mirror carries the same SHA (PR #34 review).
+    assert "github.com/arango-solutions/r2g-arango.git@" in requirements[0]
     assert re.search(r"@[0-9a-f]{40}$", requirements[0])
 
 
@@ -59,3 +61,18 @@ def test_ci_and_make_install_share_the_r2g_pin() -> None:
     assert workflow.count(f"-r {R2G_PIN_REFERENCE}") == 3
     assert f"R2G_PIN ?= {R2G_PIN_REFERENCE}" in makefile
     assert 'pip install -e ".[forge]" -r "$(R2G_PIN)"' in makefile
+
+
+def test_forge_generator_installs_regardless_of_local_siblings() -> None:
+    """PR #34 review, item 4: the r2g pin must not live inside the
+    CDF_USE_LOCAL_SIBLINGS branch — that switch is about arango-sparql-py.
+    With it set to 1, ``make forge-suite`` died on ``import r2g`` and every
+    forge test skipped."""
+    makefile = (ROOT / "Makefile").read_text(encoding="utf-8")
+    recipe = makefile.split("\ninstall:\n", 1)[1].split("\n\n", 1)[0]
+    lines = recipe.splitlines()
+    if_index = next(i for i, line in enumerate(lines) if "CDF_USE_LOCAL_SIBLINGS" in line)
+    fi_index = next(i for i in range(if_index, len(lines)) if lines[i].strip() == "fi")
+    forge_index = next(i for i, line in enumerate(lines) if '".[forge]"' in line)
+    assert forge_index > fi_index, "the forge install must run outside the sibling switch"
+    assert not lines[forge_index].rstrip().endswith("\\"), "unconditional, not a shell continuation"

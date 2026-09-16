@@ -1,7 +1,10 @@
 # Authoritative reviewed pin (CC-9) for the Federation Forge generator core
 # (ADR-0006 D-4: r2g owns generation, CDF owns orchestration). r2g 0.4.1 on
-# PyPI predates src/r2g/forge.py, so until 0.4.2 is cut this pins the public
-# mirror at the commit that carries the Forge skeleton (#1) and the
-# case-insensitive singularize fix (#2), both merged 2026-09-15. Switch to a
-# version band ("r2g-arango>=0.4.2,<0.5.0") on the first release that ships it.
-r2g-arango @ git+https://github.com/ArthurKeen/r2g-arango.git@d6e147067091032206f52fc1ad01f32e1fa5ee3d
+# PyPI predates src/r2g/forge.py, so until 0.4.2 is cut this pins the commit
+# that carries the Forge skeleton (#1) and the case-insensitive singularize fix
+# (#2), both merged 2026-09-15. The org repo (arango-solutions) leads per
+# AGENTS.md and is public, so an unauthenticated fresh clone resolves it; the
+# ArthurKeen mirror carries the same SHA. Switch to a version band
+# ("r2g-arango>=0.4.2,<0.5.0") on the first release that ships it — and
+# regenerate deploy/forge/shapes in the same PR: #2 changes generated names.
+r2g-arango @ git+https://github.com/arango-solutions/r2g-arango.git@d6e147067091032206f52fc1ad01f32e1fa5ee3d

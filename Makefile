@@ -81,8 +81,11 @@ install:
 	  $(PY) -m pip install -e "$(CDF_SIBLINGS)/arango-sparql-py[nl,analyzer]"; \
 	else \
 	  $(PY) -m pip install -r "$(ARANGO_SPARQL_PIN)"; \
-	  $(PY) -m pip install -e ".[forge]" -r "$(R2G_PIN)"; \
 	fi
+	# The Forge generator core (r2g, CC-9 pin) is not part of the arango-sparql-py
+	# sibling switch above: it installs either way, or `make forge-suite` dies on
+	# `import r2g` and every forge test skips (PR #34 review, item 4).
+	$(PY) -m pip install -e ".[forge]" -r "$(R2G_PIN)"
 	@echo "OK — now: make demo   (Docker must be running)"
 
 jdbc: deploy/ontop/jdbc/postgresql.jar
