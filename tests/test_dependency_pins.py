@@ -18,10 +18,10 @@ def test_arango_sparql_runtime_uses_one_full_commit_pin() -> None:
     ]
 
     assert len(requirements) == 1
-    # The public mirror, not the private arango-solutions repo: the pin must
-    # resolve for an unauthenticated fresh clone (CI has no org credentials).
-    # The reviewed SHA is identical on both remotes.
-    assert "github.com/ArthurKeen/arango-sparql-py.git@" in requirements[0]
+    # The org repo leads (AGENTS.md) and is public, so the pin resolves for an
+    # unauthenticated fresh clone (CI has no org credentials); the ArthurKeen
+    # mirror carries the same SHA (PR #34 review, item 4).
+    assert "github.com/arango-solutions/arango-sparql-py.git@" in requirements[0]
     assert re.search(r"@[0-9a-f]{40}$", requirements[0])
 
 

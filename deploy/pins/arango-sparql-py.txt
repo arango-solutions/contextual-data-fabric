@@ -11,4 +11,6 @@
 # Mirror synced to the same SHA before this bump.
 # 2026-09-15: arango-sparql-py main moved to e6a9d15 (band >=0.12.1,<0.15.0, admits
 # analyzer 0.14.0). Not bumped yet; bump when CDF wants 0.14.0's type detection.
-arango-sparql-py[nl,analyzer] @ git+https://github.com/ArthurKeen/arango-sparql-py.git@4ef8429541ee358f4eed91cb1eaa0cdfd38ff2f2
+# 2026-09-16 (PR #34 review, item 4): URL moved from the ArthurKeen mirror to the
+# org repo — arango-solutions leads (AGENTS.md), the repo is public, same SHA.
+arango-sparql-py[nl,analyzer] @ git+https://github.com/arango-solutions/arango-sparql-py.git@4ef8429541ee358f4eed91cb1eaa0cdfd38ff2f2
