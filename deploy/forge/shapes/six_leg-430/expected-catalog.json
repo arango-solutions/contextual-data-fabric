@@ -93,31 +93,121 @@
   "shape": "six_leg-430",
   "systems": {
     "ch1": {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "dialect": "clickhouse",
       "kind": "clickhouse",
       "sourceId": "clickhouse:ch1"
     },
     "ch2": {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "dialect": "clickhouse",
       "kind": "clickhouse",
       "sourceId": "clickhouse:ch2"
     },
     "ch3": {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "dialect": "clickhouse",
       "kind": "clickhouse",
       "sourceId": "clickhouse:ch3"
     },
     "pg1": {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "dialect": "postgres",
       "kind": "postgresql",
       "sourceId": "postgresql:pg1"
     },
     "pg2": {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "dialect": "postgres",
       "kind": "postgresql",
       "sourceId": "postgresql:pg2"
     },
     "sf1": {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "dialect": "snowflake",
       "kind": "snowflake",
       "sourceId": "snowflake:sf1"

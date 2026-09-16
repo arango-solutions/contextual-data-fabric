@@ -1,9 +1,19 @@
 {
   "expect": {
-    "unsupported_contains": [
-      "declares no GROUP BY capability",
+    "bindings": [
+      {
+        "contract_archived": false,
+        "n": 6
+      },
+      {
+        "contract_archived": true,
+        "n": 6
+      }
+    ],
+    "sources_touched": [
       "snowflake:sf1"
-    ]
+    ],
+    "status": "grounded"
   },
   "family": "single_leg_aggregation",
   "name": "hub-428--aggregate--Contract",
@@ -11,6 +21,21 @@
   "shape": "hub-428",
   "sources": [
     {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "csi": {
         "arangoPhysicalMapping": {
           "entities": {

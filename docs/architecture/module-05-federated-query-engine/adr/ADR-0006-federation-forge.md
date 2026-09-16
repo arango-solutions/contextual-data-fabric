@@ -65,10 +65,14 @@ One versioned artifact fully determines a generated federation and its
 expected outcomes:
 
 ```yaml
-forgeShapeVersion: 1
+forgeShapeVersion: 2
 seed: 421            # every stochastic choice flows from this
 ontology: shapes/o1/ontology.ttl        # the source of truth (OWL, CC-12 names)
 scale: {rowsPerEntity: 1000}            # S4 turns this knob
+systems:                                 # v2: each system DECLARES its capabilities
+  pg1: {dialect: postgres,   kind: postgresql, capabilities: {aggregation: {groupBy: true,  having: true,  countDistinct: true}}}
+  ch1: {dialect: clickhouse, kind: clickhouse, capabilities: {aggregation: {groupBy: false, having: false, countDistinct: false}}}
+  ar1: {dialect: arango,     kind: arango,     capabilities: {aggregation: {groupBy: true,  having: true,  countDistinct: true}}}
 partitionMap:                            # concept -> engine assignment
   Account:    {dialect: postgres,   system: pg1}
   UsageEvent: {dialect: clickhouse, system: ch1}
@@ -90,6 +94,15 @@ Descriptor + seed reproduce the schemas, the data, and the expectations
 byte-identically. The descriptor is the only interface between the three
 generators and every consumer (gate, scale program, join-intelligence eval,
 NL corpora). Anything a test wants to assert must be derivable from it.
+
+> **v2 (2026-09-16, PR #34 review, item 3).** `systems[<name>]` carries the
+> declared `capabilities` block in the manifest's format (ADR-0005 D4). In
+> fixture mode the declaration is sampled per system, independently of the
+> engine kind, and every golden applies it through the capability registry —
+> so expected and actual share only the declaration, and the aggregation
+> goldens can fail. In live mode the onboarding probe (CC-14) decides whether
+> a declaration stands. A descriptor without declarations is refused; the
+> per-kind default is never consulted in fixture mode.
 
 ### D-2 · Three generators, strict order, one data pass
 

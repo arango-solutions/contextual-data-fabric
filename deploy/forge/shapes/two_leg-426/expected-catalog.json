@@ -41,11 +41,41 @@
   "shape": "two_leg-426",
   "systems": {
     "ar1": {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "dialect": "arango",
       "kind": "arango",
       "sourceId": "arango:ar1"
     },
     "pg1": {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "dialect": "postgres",
       "kind": "postgresql",
       "sourceId": "postgresql:pg1"

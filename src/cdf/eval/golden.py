@@ -15,6 +15,11 @@ Case schema (only the keys you assert on are checked)::
       "allow_partial": false,                       # optional, default false
       "sources": [
         { "csi": { ...CSI v1 document... },
+          "capabilities": { "aggregation": {"groupBy": true, ...}, ... },  # optional —
+                                                    #   declared per source in manifest
+                                                    #   format (ADR-0005 D4), applied
+                                                    #   through the registry; absent →
+                                                    #   the legacy per-kind default
           "data": { "rows": [ {"var": value, ...}, ... ],
                     "native_query": "SELECT ...",   # optional
                     "source_objects": ["public.orders"],  # optional
@@ -65,6 +70,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from cdf.catalog.capabilities import parse_capabilities
 from cdf.query import execute_plan, ground, partition_query
 from cdf.query.catalog import SourceCatalog, source_ref_from_csi
 from cdf.query.executor import SourceResult
@@ -172,6 +178,12 @@ def run_golden(case: dict[str, Any]) -> GoldenOutcome:
     csi_docs = [s["csi"] for s in sources]
 
     catalog = SourceCatalog.from_csi_documents(csi_docs)
+    for i, s in enumerate(sources):
+        if "capabilities" in s:
+            catalog.declare_capabilities(
+                source_ref_from_csi(s["csi"]).source_id,
+                parse_capabilities(s["capabilities"], f"sources[{i}].capabilities"),
+            )
     executors = {
         source_ref_from_csi(s["csi"]).source_id: _FixtureExecutor(s.get("data", {}))
         for s in sources

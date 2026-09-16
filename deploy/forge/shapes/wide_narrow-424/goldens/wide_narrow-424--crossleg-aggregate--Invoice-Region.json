@@ -11,6 +11,21 @@
   "shape": "wide_narrow-424",
   "sources": [
     {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "csi": {
         "arangoPhysicalMapping": {
           "entities": {
@@ -82,6 +97,21 @@
       "system": "ar1"
     },
     {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "csi": {
         "arangoPhysicalMapping": {
           "entities": {

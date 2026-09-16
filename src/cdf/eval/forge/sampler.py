@@ -21,9 +21,12 @@ from typing import Any
 from r2g.csi import owl_entity_name
 from r2g.forge import expected_relationship_type, table_name
 
+from cdf.catalog.capabilities import NO_CAPABILITIES, AggregationCapability, SourceCapabilities
+
 #: Dialects r2g's forge seam accepts (Postgres shipped in S1; the other three
-#: are the S2 dialect plugins). The kind is what CDF's catalog keys capability
-#: defaults on (``cdf.catalog.capabilities.default_capabilities_for_kind``).
+#: are the S2 dialect plugins). The kind is the routing id CDF's catalog derives
+#: from the CSI provenance; what a system can *execute* is not derived from it —
+#: see :func:`_declared_capabilities`.
 DIALECT_KIND: dict[str, str] = {
     "postgres": "postgresql",
     "snowflake": "snowflake",
@@ -100,10 +103,20 @@ FAMILIES: tuple[str, ...] = ("two_leg", "chain", "hub", "wide_narrow", "six_leg"
 
 @dataclass(frozen=True)
 class System:
-    """One generated system: a dialect and a stable id such as ``pg1``."""
+    """One generated system: a dialect, a stable id such as ``pg1``, and the
+    capabilities it *declares* (ADR-0005 D4, manifest format).
+
+    Declared, not derived from the engine kind (PR #34 review, item 3): in
+    fixture mode there is no engine to probe, so the descriptor's declaration is
+    the only truth, and sampling it independently of ``kind`` means the
+    aggregation goldens exercise the registry's override path in both
+    directions instead of the legacy per-kind default. In live mode the
+    onboarding probe (CC-14) is what ties a declaration to reality.
+    """
 
     name: str
     dialect: str
+    capabilities: SourceCapabilities = NO_CAPABILITIES
 
     @property
     def kind(self) -> str:
@@ -205,6 +218,23 @@ def _entity_names(rng: random.Random, count: int) -> list[str]:
     return rng.sample(USABLE_ENTITY_VOCABULARY, count)
 
 
+def _declared_capabilities(rng: random.Random, systems: tuple[System, ...]) -> tuple[System, ...]:
+    """Draw each system's declared capabilities — a coin per system, independent
+    of its kind, so both admission branches appear on every kind over a suite.
+    Drawn last so the entity/property/ownership sampling before it is unchanged
+    by this addition (the committed suite diff stays reviewable)."""
+    out: list[System] = []
+    for system in systems:
+        group_by = rng.random() < 0.5
+        declared = SourceCapabilities(
+            aggregation=AggregationCapability(
+                group_by=group_by, having=group_by, count_distinct=group_by
+            )
+        )
+        out.append(System(name=system.name, dialect=system.dialect, capabilities=declared))
+    return tuple(out)
+
+
 def _relationship(child: str, parent: str) -> dict[str, str]:
     return {
         "type": expected_relationship_type(child, parent),
@@ -288,6 +318,7 @@ def sample_shape(seed: int, family: str, *, name: str | None = None) -> Shape:
 
     entities = [{"name": n, "properties": props[n]} for n in sorted(names)]
     rels_sorted = sorted(rels, key=lambda r: (r["fromEntity"], r["toEntity"]))
+    systems = _declared_capabilities(rng, systems)
     return Shape(
         name=shape_name,
         family=family,

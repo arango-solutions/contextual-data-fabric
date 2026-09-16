@@ -12,7 +12,13 @@ from typing import Any
 
 import yaml
 
-FORGE_SHAPE_VERSION = 1
+from cdf.catalog.capabilities import parse_capabilities
+
+#: v2 (2026-09-16, PR #34 review): ``systems[<name>]`` carries the declared
+#: ``capabilities`` block in manifest format. Fixture mode declares; live mode
+#: probes (CC-14). A v1 descriptor (no declaration) is refused rather than
+#: silently falling back to the per-kind default the registry was built to replace.
+FORGE_SHAPE_VERSION = 2
 
 DESCRIPTOR_FILE = "shape.yaml"
 ONTOLOGY_FILE = "ontology.json"
@@ -29,7 +35,7 @@ def descriptor_document(
     seed: int,
     rows_per_entity: int,
     partition_map: dict[str, dict[str, str]],
-    systems: dict[str, dict[str, str]],
+    systems: dict[str, dict[str, Any]],
     generator: str,
     golden_names: list[str],
 ) -> dict[str, Any]:
@@ -92,6 +98,16 @@ def validate_descriptor(doc: Any) -> None:
     if not isinstance(doc["seed"], int):
         raise ValueError("seed must be an integer")
     systems = doc["systems"]
+    if not isinstance(systems, dict) or not systems:
+        raise ValueError("systems must be a non-empty mapping")
+    for name, system in systems.items():
+        if not isinstance(system, dict):
+            raise ValueError(f"systems[{name!r}] must be a mapping")
+        for key in ("dialect", "kind", "capabilities"):
+            if key not in system:
+                raise ValueError(f"systems[{name!r}] missing {key!r}")
+        # Strict, via the registry's own parser: the same validation a manifest gets.
+        parse_capabilities(system["capabilities"], f"systems[{name!r}].capabilities")
     for concept, target in doc["partitionMap"].items():
         if target.get("system") not in systems:
             raise ValueError(

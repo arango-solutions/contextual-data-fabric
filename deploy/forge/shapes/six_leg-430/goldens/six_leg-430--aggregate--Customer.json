@@ -1,9 +1,19 @@
 {
   "expect": {
-    "unsupported_contains": [
-      "declares no GROUP BY capability",
+    "bindings": [
+      {
+        "customer_expired": false,
+        "n": 9
+      },
+      {
+        "customer_expired": true,
+        "n": 3
+      }
+    ],
+    "sources_touched": [
       "snowflake:sf1"
-    ]
+    ],
+    "status": "grounded"
   },
   "family": "single_leg_aggregation",
   "name": "six_leg-430--aggregate--Customer",
@@ -11,6 +21,21 @@
   "shape": "six_leg-430",
   "sources": [
     {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "csi": {
         "arangoPhysicalMapping": {
           "entities": {

@@ -1,19 +1,9 @@
 {
   "expect": {
-    "bindings": [
-      {
-        "account_enabled": false,
-        "n": 7
-      },
-      {
-        "account_enabled": true,
-        "n": 5
-      }
-    ],
-    "sources_touched": [
+    "unsupported_contains": [
+      "declares no GROUP BY capability",
       "postgresql:pg1"
-    ],
-    "status": "grounded"
+    ]
   },
   "family": "single_leg_aggregation",
   "name": "two_leg-426--aggregate--Account",
@@ -21,6 +11,21 @@
   "shape": "two_leg-426",
   "sources": [
     {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "csi": {
         "arangoPhysicalMapping": {
           "entities": {

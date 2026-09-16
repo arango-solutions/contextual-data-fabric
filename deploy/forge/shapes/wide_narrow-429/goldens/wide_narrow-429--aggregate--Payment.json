@@ -1,19 +1,9 @@
 {
   "expect": {
-    "bindings": [
-      {
-        "n": 7,
-        "payment_active": false
-      },
-      {
-        "n": 5,
-        "payment_active": true
-      }
-    ],
-    "sources_touched": [
+    "unsupported_contains": [
+      "declares no GROUP BY capability",
       "arango:ar1"
-    ],
-    "status": "grounded"
+    ]
   },
   "family": "single_leg_aggregation",
   "name": "wide_narrow-429--aggregate--Payment",
@@ -21,6 +11,21 @@
   "shape": "wide_narrow-429",
   "sources": [
     {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "csi": {
         "arangoPhysicalMapping": {
           "entities": {

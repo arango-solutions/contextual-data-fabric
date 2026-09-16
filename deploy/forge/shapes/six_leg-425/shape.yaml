@@ -1,4 +1,4 @@
-forgeShapeVersion: 1
+forgeShapeVersion: 2
 name: six_leg-425
 family: six_leg
 seed: 425
@@ -9,21 +9,93 @@ systems:
   ar1:
     dialect: arango
     kind: arango
+    capabilities:
+      aggregation:
+        groupBy: false
+        having: false
+        countDistinct: false
+        approxCountDistinct: null
+      textSearch:
+        dialect: none
+        indexedProperties: []
+        analyzer: null
+        scored: false
+      orderLimitPushdown: false
   ar2:
     dialect: arango
     kind: arango
+    capabilities:
+      aggregation:
+        groupBy: false
+        having: false
+        countDistinct: false
+        approxCountDistinct: null
+      textSearch:
+        dialect: none
+        indexedProperties: []
+        analyzer: null
+        scored: false
+      orderLimitPushdown: false
   ar3:
     dialect: arango
     kind: arango
+    capabilities:
+      aggregation:
+        groupBy: true
+        having: true
+        countDistinct: true
+        approxCountDistinct: null
+      textSearch:
+        dialect: none
+        indexedProperties: []
+        analyzer: null
+        scored: false
+      orderLimitPushdown: false
   ar4:
     dialect: arango
     kind: arango
+    capabilities:
+      aggregation:
+        groupBy: true
+        having: true
+        countDistinct: true
+        approxCountDistinct: null
+      textSearch:
+        dialect: none
+        indexedProperties: []
+        analyzer: null
+        scored: false
+      orderLimitPushdown: false
   ar5:
     dialect: arango
     kind: arango
+    capabilities:
+      aggregation:
+        groupBy: false
+        having: false
+        countDistinct: false
+        approxCountDistinct: null
+      textSearch:
+        dialect: none
+        indexedProperties: []
+        analyzer: null
+        scored: false
+      orderLimitPushdown: false
   pg1:
     dialect: postgres
     kind: postgresql
+    capabilities:
+      aggregation:
+        groupBy: false
+        having: false
+        countDistinct: false
+        approxCountDistinct: null
+      textSearch:
+        dialect: none
+        indexedProperties: []
+        analyzer: null
+        scored: false
+      orderLimitPushdown: false
 partitionMap:
   Device:
     dialect: arango

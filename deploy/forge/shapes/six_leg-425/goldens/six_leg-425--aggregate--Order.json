@@ -1,19 +1,9 @@
 {
   "expect": {
-    "bindings": [
-      {
-        "n": 6,
-        "order_billable": false
-      },
-      {
-        "n": 6,
-        "order_billable": true
-      }
-    ],
-    "sources_touched": [
+    "unsupported_contains": [
+      "declares no GROUP BY capability",
       "arango:ar1"
-    ],
-    "status": "grounded"
+    ]
   },
   "family": "single_leg_aggregation",
   "name": "six_leg-425--aggregate--Order",
@@ -21,6 +11,21 @@
   "shape": "six_leg-425",
   "sources": [
     {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "csi": {
         "arangoPhysicalMapping": {
           "entities": {

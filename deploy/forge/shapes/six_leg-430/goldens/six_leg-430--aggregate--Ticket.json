@@ -1,9 +1,19 @@
 {
   "expect": {
-    "unsupported_contains": [
-      "declares no GROUP BY capability",
+    "bindings": [
+      {
+        "n": 5,
+        "ticket_primary": false
+      },
+      {
+        "n": 7,
+        "ticket_primary": true
+      }
+    ],
+    "sources_touched": [
       "clickhouse:ch1"
-    ]
+    ],
+    "status": "grounded"
   },
   "family": "single_leg_aggregation",
   "name": "six_leg-430--aggregate--Ticket",
@@ -11,6 +21,21 @@
   "shape": "six_leg-430",
   "sources": [
     {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "csi": {
         "arangoPhysicalMapping": {
           "entities": {

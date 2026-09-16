@@ -54,8 +54,26 @@ CSI becomes a drift check against the estate-produced one.
 | `lookup` | one entity, ≤2 properties | grounded, bindings from the dataset |
 | `join` | child ⋈ parent across two systems | grounded, bindings joined on the FK spine |
 | `chain` | A → B → C across three systems | grounded |
-| `single_leg_aggregation` | `COUNT` grouped by a boolean | grounded where the kind declares GROUP BY (postgresql, arango); **named refusal** elsewhere (ADR-0005 D4) |
+| `single_leg_aggregation` | `COUNT` grouped by a boolean | grounded where the owning system **declares** GROUP BY in the descriptor; **named refusal** where it declares none (ADR-0005 D4) — see *Capabilities* below |
 | `cross_leg_aggregation` | `COUNT` over a cross-system join | **named refusal** until S2's fold-combine lands; then rewritten as grounded with the counts already computed here |
+
+## Capabilities: declared in fixture mode, probed in live mode
+
+Each `systems[<name>]` block in `shape.yaml` carries a `capabilities`
+declaration in the manifest's format (ADR-0005 D4), and every golden's
+`sources[]` entry repeats it so `run_golden` applies it through the registry
+(`SourceCatalog.declare_capabilities`). The declaration is **sampled per system,
+independently of the engine kind** — a ClickHouse system may declare GROUP BY
+and a Postgres system may declare none — so over a suite both admission
+branches appear on every kind. Expected (the oracle reads the declaration) and
+actual (the planner reads the same declaration through the registry) share only
+that declaration; if the override path breaks, the goldens fail. Before this
+change both sides consulted `default_capabilities_for_kind`, so the eight
+refusal goldens could not fail and encoded "Snowflake and ClickHouse cannot
+GROUP BY" — true of our executors that day, not of those engines (PR #34
+review, item 3). In live mode the onboarding probe (CC-14) is what ties a
+declaration to reality: a declaration the real executor cannot honor is
+stripped, and that shape's aggregation goldens flip to refusals there.
 
 ## Sign-off (roadmap §4)
 

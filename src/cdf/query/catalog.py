@@ -347,6 +347,16 @@ class SourceCatalog:
             if source.capabilities is not None:
                 self._capabilities[source.source_id] = source.capabilities
 
+    def declare_capabilities(
+        self, source: SourceRef | str, capabilities: SourceCapabilities
+    ) -> None:
+        """Record one source's declared capabilities — the same registry write
+        :meth:`apply_manifest` performs, exposed for declaration-carrying
+        fixtures (golden ``sources[].capabilities``). A declaration always
+        overrides the per-kind default (ADR-0005 D4)."""
+        source_id = source.source_id if isinstance(source, SourceRef) else source
+        self._capabilities[source_id] = capabilities
+
     def capabilities_for(self, source: SourceRef | str) -> SourceCapabilities:
         """ADR-0005 D4: what this source's engine declares it can execute.
 

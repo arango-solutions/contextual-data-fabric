@@ -1,4 +1,4 @@
-forgeShapeVersion: 1
+forgeShapeVersion: 2
 name: two_leg-426
 family: two_leg
 seed: 426
@@ -9,9 +9,33 @@ systems:
   pg1:
     dialect: postgres
     kind: postgresql
+    capabilities:
+      aggregation:
+        groupBy: false
+        having: false
+        countDistinct: false
+        approxCountDistinct: null
+      textSearch:
+        dialect: none
+        indexedProperties: []
+        analyzer: null
+        scored: false
+      orderLimitPushdown: false
   ar1:
     dialect: arango
     kind: arango
+    capabilities:
+      aggregation:
+        groupBy: true
+        having: true
+        countDistinct: true
+        approxCountDistinct: null
+      textSearch:
+        dialect: none
+        indexedProperties: []
+        analyzer: null
+        scored: false
+      orderLimitPushdown: false
 partitionMap:
   Account:
     dialect: postgres

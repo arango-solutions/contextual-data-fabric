@@ -130,3 +130,46 @@ def test_unexpected_planner_refusal_fails_the_case() -> None:
     outcome = run_golden(case)
     assert not outcome.passed
     assert any("unexpected planner refusal" in m for m in outcome.mismatches)
+
+
+def test_declared_source_capabilities_are_applied_through_the_registry() -> None:
+    """PR #34 review, item 3: a golden may declare a source's capabilities in
+    manifest format; run_golden applies them through the registry, so the planner
+    sees the declaration rather than the legacy per-kind default. A ClickHouse
+    source (kind default: no GROUP BY) that declares GROUP BY grounds; the same
+    case without the declaration is a planner refusal."""
+    case = {
+        "name": "declared-capabilities",
+        "question": (
+            "PREFIX c: <urn:arango-sparql:concept#> SELECT ?tier (COUNT(?a) AS ?n) "
+            "WHERE { ?a a c:Account ; c:tier ?tier } GROUP BY ?tier"
+        ),
+        "sources": [
+            {
+                "csi": {
+                    "csiVersion": "1",
+                    "conceptualModel": {"entities": [{"name": "Account", "properties": [
+                        {"name": "tier"}]}]},
+                    "arangoPhysicalMapping": {"entities": {}, "relationships": {}},
+                    "provenance": {"producer": "test", "direction": "forward",
+                                   "source": {"kind": "clickhouse", "ref": "analytics"}},
+                },
+                "capabilities": {"aggregation": {"groupBy": True, "having": True,
+                                                 "countDistinct": True}},
+                "data": {"rows": [{"tier": "gold", "n": 2}, {"tier": "free", "n": 5}]},
+            }
+        ],
+        "expect": {
+            "status": "grounded",
+            "bindings": [{"tier": "gold", "n": 2}, {"tier": "free", "n": 5}],
+            "sources_touched": ["clickhouse:analytics"],
+        },
+    }
+    assert run_golden(case).passed, run_golden(case).mismatches
+
+    del case["sources"][0]["capabilities"]
+    outcome = run_golden(case)
+    assert not outcome.passed
+    assert any("declares no GROUP BY capability" in m for m in outcome.mismatches), (
+        outcome.mismatches
+    )

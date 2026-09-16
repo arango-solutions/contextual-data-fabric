@@ -7,9 +7,12 @@ CSI from the descriptor using the same CC-12 naming r2g's forge uses, and
 stamps it ``provenance.producer = cdf-forge-fixture`` so the label is honest.
 
 What the planner needs from a CSI: the conceptual model (entities, properties,
-relationships) and ``provenance.source.kind/ref`` (routing id and capability
-defaults). The physical mapping is carried for completeness and for the
-live-mode diff (fixture vs. estate-produced CSI is a useful drift signal).
+relationships) and ``provenance.source.kind/ref`` (the routing id). What a
+system can execute is *not* read from the CSI: capabilities are declared in
+the descriptor and travel on each golden's ``sources[].capabilities`` (manifest
+format), so the planner consults the registry, never the kind. The physical
+mapping is carried for completeness and for the live-mode diff (fixture vs.
+estate-produced CSI is a useful drift signal).
 """
 
 from __future__ import annotations

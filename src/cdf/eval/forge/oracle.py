@@ -16,8 +16,12 @@ Question families:
   different systems (the cross-source contract shape, cf. g2).
 * **chain** — three legs across three systems when the shape has one.
 * **single-leg aggregation** — ``COUNT`` grouped by a boolean property; expected
-  grounded on a system whose kind declares GROUP BY (postgresql, arango), and
-  a *named refusal* elsewhere (ADR-0005 D4: the refusal names the capability).
+  grounded when the owning system *declares* GROUP BY in the descriptor, and a
+  *named refusal* when it declares none (ADR-0005 D4: the refusal names the
+  capability). The declaration is the system's, sampled independently of its
+  engine kind (PR #34 review, item 3) — so expected and actual share only the
+  declaration, and the goldens exercise the registry's override path rather
+  than the legacy per-kind default the planner also knows.
 * **cross-leg aggregation** — ``COUNT`` over a cross-system join; expected
   refusal until S2's fold-combine lands, at which point this golden flips.
 
@@ -37,7 +41,7 @@ from typing import Any
 from r2g.csi import owl_property_name
 from r2g.forge import column_name, foreign_key_column, table_name
 
-from cdf.catalog.capabilities import default_capabilities_for_kind
+from cdf.catalog.capabilities import capabilities_document
 from cdf.eval.forge.dataset import Dataset
 from cdf.eval.forge.fixture_csi import fixture_csi
 from cdf.eval.forge.sampler import Shape, System
@@ -76,6 +80,9 @@ def _source_entry(
     return {
         "system": system.name,
         "csi": fixture_csi(shape, system),
+        # Declared per source (manifest format); run_golden applies it through
+        # the registry, so the planner sees a declaration, never a kind default.
+        "capabilities": capabilities_document(system.capabilities),
         "data": {
             "rows": rows,
             "native_query": (
@@ -122,7 +129,12 @@ def expected_catalog(shape: Shape) -> dict[str, Any]:
         "shape": shape.name,
         "ownership": dict(shape.owner),
         "systems": {
-            s.name: {"dialect": s.dialect, "kind": s.kind, "sourceId": s.source_id}
+            s.name: {
+                "dialect": s.dialect,
+                "kind": s.kind,
+                "sourceId": s.source_id,
+                "capabilities": capabilities_document(s.capabilities),
+            }
             for s in shape.systems
         },
         "joinKeys": join_keys,
@@ -290,7 +302,7 @@ def _single_leg_aggregation_cases(shape: Shape, dataset: Dataset) -> list[dict[s
         )
         counts = Counter(r[column_name(flag["name"])] for r in dataset.rows(name))
         aggregated = [{fv: k, "n": n} for k, n in sorted(counts.items(), key=lambda kv: str(kv[0]))]
-        capable = default_capabilities_for_kind(system.kind).aggregation.group_by
+        capable = system.capabilities.aggregation.group_by  # declared, not kind-derived
         if capable:
             expect: dict[str, Any] = {
                 "status": "grounded",

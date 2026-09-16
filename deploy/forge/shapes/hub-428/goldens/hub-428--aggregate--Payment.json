@@ -1,9 +1,19 @@
 {
   "expect": {
-    "unsupported_contains": [
-      "declares no GROUP BY capability",
+    "bindings": [
+      {
+        "n": 7,
+        "payment_verified": false
+      },
+      {
+        "n": 5,
+        "payment_verified": true
+      }
+    ],
+    "sources_touched": [
       "snowflake:sf1"
-    ]
+    ],
+    "status": "grounded"
   },
   "family": "single_leg_aggregation",
   "name": "hub-428--aggregate--Payment",
@@ -11,6 +21,21 @@
   "shape": "hub-428",
   "sources": [
     {
+      "capabilities": {
+        "aggregation": {
+          "approxCountDistinct": null,
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
+        },
+        "orderLimitPushdown": false,
+        "textSearch": {
+          "analyzer": null,
+          "dialect": "none",
+          "indexedProperties": [],
+          "scored": false
+        }
+      },
       "csi": {
         "arangoPhysicalMapping": {
           "entities": {

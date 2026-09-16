@@ -122,6 +122,22 @@ def test_csi_only_catalog_falls_back_to_kind_defaults():
     assert catalog.capabilities_for("nonexistent:source") == NO_CAPABILITIES
 
 
+def test_declare_capabilities_is_the_registry_write_without_a_manifest():
+    """The public seam fixtures use (golden sources[].capabilities, PR #34 review
+    item 3): same registry write as apply_manifest, same override semantics."""
+    catalog = SourceCatalog.from_csi_documents([PG_CSI])
+    assert partition_query(AGG_PG, catalog).sub_queries  # kind default admits
+    catalog.declare_capabilities("postgresql:crm", NO_CAPABILITIES)
+    assert catalog.capabilities_for("postgresql:crm") == NO_CAPABILITIES
+    with pytest.raises(UnsupportedQueryError, match="declares no GROUP BY capability"):
+        partition_query(AGG_PG, catalog)
+    catalog.declare_capabilities(
+        "postgresql:crm",
+        SourceCapabilities(aggregation=AggregationCapability(group_by=True)),
+    )
+    assert partition_query(AGG_PG, catalog).sub_queries
+
+
 def test_manifest_declaration_overrides_the_kind_default():
     # A postgres source whose manifest says "no GROUP BY" must be refused even
     # though the kind default would admit it — declarations win (ADR-0005 D4).

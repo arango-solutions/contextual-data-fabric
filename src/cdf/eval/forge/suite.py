@@ -16,6 +16,7 @@ from dataclasses import dataclass
 from pathlib import Path
 from typing import Any
 
+from cdf.catalog.capabilities import capabilities_document
 from cdf.eval.forge.dataset import Dataset, synthesize
 from cdf.eval.forge.descriptor import (
     CATALOG_FILE,
@@ -74,7 +75,14 @@ def emit_shape(
         seed=shape.seed,
         rows_per_entity=rows_per_entity,
         partition_map=shape.partition_map(),
-        systems={s.name: {"dialect": s.dialect, "kind": s.kind} for s in shape.systems},
+        systems={
+            s.name: {
+                "dialect": s.dialect,
+                "kind": s.kind,
+                "capabilities": capabilities_document(s.capabilities),
+            }
+            for s in shape.systems
+        },
         generator=dataset.generator,
         golden_names=[c["name"] for c in goldens],
     )
