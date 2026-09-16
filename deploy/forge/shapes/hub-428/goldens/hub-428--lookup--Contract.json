@@ -59,7 +59,6 @@
   "name": "hub-428--lookup--Contract",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_archived ?contract_primary WHERE { ?contract a c:Contract ; c:archived ?contract_archived ; c:primary ?contract_primary }",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

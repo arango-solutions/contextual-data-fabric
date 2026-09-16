@@ -59,7 +59,6 @@
   "name": "chain-427--lookup--Session",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_latencyMs ?session_sku WHERE { ?session a c:Session ; c:latencyMs ?session_latencyMs ; c:sku ?session_sku }",
   "shape": "chain-427",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

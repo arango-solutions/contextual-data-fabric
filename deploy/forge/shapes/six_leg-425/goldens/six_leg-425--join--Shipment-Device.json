@@ -60,7 +60,6 @@
   "name": "six_leg-425--join--Shipment-Device",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_margin ?device_currency WHERE { ?shipment a c:Shipment ; c:margin ?shipment_margin ; c:shipmentsToDevices ?device . ?device a c:Device ; c:currency ?device_currency }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

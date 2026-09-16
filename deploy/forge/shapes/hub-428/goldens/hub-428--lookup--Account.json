@@ -59,7 +59,6 @@
   "name": "hub-428--lookup--Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_amount ?account_rank WHERE { ?account a c:Account ; c:amount ?account_amount ; c:rank ?account_rank }",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

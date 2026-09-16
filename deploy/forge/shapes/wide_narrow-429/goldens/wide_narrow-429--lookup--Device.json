@@ -59,7 +59,6 @@
   "name": "wide_narrow-429--lookup--Device",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_currency ?device_primary WHERE { ?device a c:Device ; c:currency ?device_currency ; c:primary ?device_primary }",
   "shape": "wide_narrow-429",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

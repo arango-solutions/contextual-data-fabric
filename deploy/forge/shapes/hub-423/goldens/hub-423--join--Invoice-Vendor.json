@@ -60,7 +60,6 @@
   "name": "hub-423--join--Invoice-Vendor",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_status ?vendor_ratio WHERE { ?invoice a c:Invoice ; c:status ?invoice_status ; c:invoicesToVendors ?vendor . ?vendor a c:Vendor ; c:ratio ?vendor_ratio }",
   "shape": "hub-423",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

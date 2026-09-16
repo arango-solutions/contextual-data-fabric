@@ -9,7 +9,6 @@
   "name": "chain-422--aggregate--Vendor",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_verified (COUNT(?vendor) AS ?n) WHERE { ?vendor a c:Vendor ; c:verified ?vendor_verified } GROUP BY ?vendor_verified",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -59,7 +59,6 @@
   "name": "chain-427--lookup--Product",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_segment ?product_version WHERE { ?product a c:Product ; c:segment ?product_segment ; c:version ?product_version }",
   "shape": "chain-427",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

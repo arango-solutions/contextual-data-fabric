@@ -59,7 +59,6 @@
   "name": "two_leg-421--lookup--Shipment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_currency ?shipment_latencyMs WHERE { ?shipment a c:Shipment ; c:currency ?shipment_currency ; c:latencyMs ?shipment_latencyMs }",
   "shape": "two_leg-421",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

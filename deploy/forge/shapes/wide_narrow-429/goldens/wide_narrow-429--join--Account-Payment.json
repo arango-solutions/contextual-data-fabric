@@ -60,7 +60,6 @@
   "name": "wide_narrow-429--join--Account-Payment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_segment ?payment_active WHERE { ?account a c:Account ; c:segment ?account_segment ; c:accountsToPayments ?payment . ?payment a c:Payment ; c:active ?payment_active }",
   "shape": "wide_narrow-429",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

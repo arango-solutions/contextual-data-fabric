@@ -59,7 +59,6 @@
   "name": "two_leg-426--lookup--Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_enabled ?account_region WHERE { ?account a c:Account ; c:enabled ?account_enabled ; c:region ?account_region }",
   "shape": "two_leg-426",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

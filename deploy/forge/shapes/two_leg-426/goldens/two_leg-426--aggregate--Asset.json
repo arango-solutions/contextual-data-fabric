@@ -19,7 +19,6 @@
   "name": "two_leg-426--aggregate--Asset",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_archived (COUNT(?asset) AS ?n) WHERE { ?asset a c:Asset ; c:archived ?asset_archived } GROUP BY ?asset_archived",
   "shape": "two_leg-426",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

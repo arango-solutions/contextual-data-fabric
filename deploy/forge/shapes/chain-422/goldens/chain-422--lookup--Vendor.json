@@ -59,7 +59,6 @@
   "name": "chain-422--lookup--Vendor",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_tier ?vendor_verified WHERE { ?vendor a c:Vendor ; c:tier ?vendor_tier ; c:verified ?vendor_verified }",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

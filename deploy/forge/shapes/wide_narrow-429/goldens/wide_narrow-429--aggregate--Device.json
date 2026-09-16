@@ -9,7 +9,6 @@
   "name": "wide_narrow-429--aggregate--Device",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_primary (COUNT(?device) AS ?n) WHERE { ?device a c:Device ; c:primary ?device_primary } GROUP BY ?device_primary",
   "shape": "wide_narrow-429",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

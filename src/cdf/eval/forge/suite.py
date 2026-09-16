@@ -30,6 +30,7 @@ from cdf.eval.forge.descriptor import (
 from cdf.eval.forge.fixture_csi import fixture_csi
 from cdf.eval.forge.oracle import compose_goldens, expected_catalog
 from cdf.eval.forge.sampler import FAMILIES, Shape, sample_shape
+from cdf.eval.forge.signoff import DEFAULT_SIGNOFF_FILE, load_signoff, signoff_status
 from cdf.eval.golden import GoldenOutcome, run_golden
 
 DEFAULT_ROWS_PER_ENTITY = 12
@@ -142,17 +143,25 @@ def run_shape(emitted: EmittedShape) -> list[GoldenOutcome]:
 def _cmd_suite(args: argparse.Namespace) -> int:
     out = Path(args.out)
     out.mkdir(parents=True, exist_ok=True)
+    # The ledger is read, never written: sign-off lives outside the generated
+    # tree (PR #34 review, item 2). A missing ledger is a configuration error.
+    ledger_path = Path(args.signoff)
+    ledger = load_signoff(ledger_path)
     shapes = sample_suite(shapes=args.shapes, seed=args.seed)
     failures = 0
     total_goldens = 0
+    emitted_names: list[str] = []
     report: dict[str, Any] = {"seed": args.seed, "shapes": [], "mode": "fixture"}
     for shape in shapes:
         emitted = emit_shape(shape, out, rows_per_entity=args.rows_per_entity)
         load_descriptor(emitted.directory / DESCRIPTOR_FILE)  # validates
+        names = [c["name"] for c in emitted.goldens]
+        emitted_names.extend(names)
         entry: dict[str, Any] = {
             "name": shape.name,
             "family": shape.family,
             "systems": len(shape.systems),
+            "signedOff": sorted(n for n in names if n in ledger and ledger[n].signed_off),
         }
         if args.check_determinism:
             diffs = check_determinism(
@@ -175,11 +184,26 @@ def _cmd_suite(args: argparse.Namespace) -> int:
                     f"{mark}  {o.name}" + ("" if o.passed else f"  {'; '.join(o.mismatches)[:300]}")
                 )
         report["shapes"].append(entry)
+    status = signoff_status(ledger, emitted_names)
+    report["signoff"] = {
+        "ledger": str(ledger_path),
+        "signed": len(status.signed),
+        "unsigned": len(status.unsigned),
+        "unknown": list(status.unknown),
+    }
+    if status.unknown:
+        failures += 1
+        print(
+            "SIGNOFF-UNKNOWN: the ledger names goldens this run did not emit — "
+            "a signed-off golden vanished or was renamed by regeneration: "
+            + ", ".join(status.unknown)
+        )
     (out / "suite-report.json").write_text(_json(report), encoding="utf-8")
     verb = "checked" if args.run else "emitted"
     print(
         f"\nforge-suite: {len(shapes)} shapes {verb}, {total_goldens} goldens, "
-        f"{failures} failure(s) — fixture mode, goldens unsigned (SE sign-off pending)"
+        f"{failures} failure(s) — fixture mode; sign-off: {len(status.signed)} signed, "
+        f"{len(status.unsigned)} unsigned (ledger {ledger_path})"
     )
     return 1 if failures else 0
 
@@ -201,6 +225,11 @@ def _parser() -> argparse.ArgumentParser:
     s.add_argument("--rows-per-entity", type=int, default=DEFAULT_ROWS_PER_ENTITY)
     s.add_argument("--check-determinism", action="store_true")
     s.add_argument("--run", action="store_true")
+    s.add_argument(
+        "--signoff",
+        default=str(DEFAULT_SIGNOFF_FILE),
+        help="hand-maintained sign-off ledger (read only; never regenerated)",
+    )
     s.set_defaults(func=_cmd_suite)
     e = sub.add_parser("emit", help="emit one shape")
     e.add_argument("--family", choices=FAMILIES, required=True)

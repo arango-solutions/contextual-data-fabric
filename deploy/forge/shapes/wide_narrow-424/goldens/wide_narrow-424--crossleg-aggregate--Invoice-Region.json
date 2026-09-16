@@ -9,7 +9,6 @@
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_active (COUNT(?invoice) AS ?n) WHERE { ?invoice a c:Invoice ; c:invoicesToRegions ?region . ?region a c:Region ; c:active ?region_active } GROUP BY ?region_active",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

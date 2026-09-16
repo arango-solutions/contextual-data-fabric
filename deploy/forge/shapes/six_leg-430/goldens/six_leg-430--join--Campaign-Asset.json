@@ -60,7 +60,6 @@
   "name": "six_leg-430--join--Campaign-Asset",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable ?asset_label WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable ; c:campaignsToAssets ?asset . ?asset a c:Asset ; c:label ?asset_label }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

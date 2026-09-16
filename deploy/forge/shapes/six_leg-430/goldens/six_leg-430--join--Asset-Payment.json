@@ -60,7 +60,6 @@
   "name": "six_leg-430--join--Asset-Payment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_label ?payment_priority WHERE { ?asset a c:Asset ; c:label ?asset_label ; c:assetsToPayments ?payment . ?payment a c:Payment ; c:priority ?payment_priority }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -73,7 +73,6 @@
   "name": "six_leg-430--chain--Campaign-Asset-Payment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable ?asset_label ?payment_priority WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable ; c:campaignsToAssets ?asset . ?asset a c:Asset ; c:label ?asset_label ; c:assetsToPayments ?payment . ?payment a c:Payment ; c:priority ?payment_priority }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

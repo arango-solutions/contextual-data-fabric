@@ -60,7 +60,6 @@
   "name": "two_leg-426--join--Asset-Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_archived ?account_enabled WHERE { ?asset a c:Asset ; c:archived ?asset_archived ; c:assetsToAccounts ?account . ?account a c:Account ; c:enabled ?account_enabled }",
   "shape": "two_leg-426",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

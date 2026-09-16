@@ -60,7 +60,6 @@
   "name": "wide_narrow-429--join--Device-Payment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_currency ?payment_active WHERE { ?device a c:Device ; c:currency ?device_currency ; c:devicesToPayments ?payment . ?payment a c:Payment ; c:active ?payment_active }",
   "shape": "wide_narrow-429",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

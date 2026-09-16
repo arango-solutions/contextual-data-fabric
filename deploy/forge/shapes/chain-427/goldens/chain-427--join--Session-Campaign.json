@@ -60,7 +60,6 @@
   "name": "chain-427--join--Session-Campaign",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_latencyMs ?campaign_notes WHERE { ?session a c:Session ; c:latencyMs ?session_latencyMs ; c:sessionsToCampaigns ?campaign . ?campaign a c:Campaign ; c:notes ?campaign_notes }",
   "shape": "chain-427",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

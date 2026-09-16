@@ -19,7 +19,6 @@
   "name": "wide_narrow-424--aggregate--Shipment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_verified (COUNT(?shipment) AS ?n) WHERE { ?shipment a c:Shipment ; c:verified ?shipment_verified } GROUP BY ?shipment_verified",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

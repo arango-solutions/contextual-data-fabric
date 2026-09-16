@@ -60,7 +60,6 @@
   "name": "hub-423--join--Customer-Vendor",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_balance ?vendor_ratio WHERE { ?customer a c:Customer ; c:balance ?customer_balance ; c:customersToVendors ?vendor . ?vendor a c:Vendor ; c:ratio ?vendor_ratio }",
   "shape": "hub-423",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -59,7 +59,6 @@
   "name": "hub-423--lookup--Customer",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_balance ?customer_enabled WHERE { ?customer a c:Customer ; c:balance ?customer_balance ; c:enabled ?customer_enabled }",
   "shape": "hub-423",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

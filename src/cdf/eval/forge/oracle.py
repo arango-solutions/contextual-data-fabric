@@ -22,8 +22,11 @@ Question families:
   refusal until S2's fold-combine lands, at which point this golden flips.
 
 Coverage policy — which families are emitted and in what order — is the
-Solutions Engineer's lane (roadmap §4). Everything here is emitted
-``signedOff: false`` and does not gate CI until that sign-off is recorded.
+Solutions Engineer's lane (roadmap §4). Sign-off is recorded in the
+hand-maintained ledger ``deploy/forge/signoff.yaml``
+(:mod:`cdf.eval.forge.signoff`), never inside a generated golden: generated
+files are a pure function of code plus seed, so regeneration cannot wipe a
+sign-off and CI's drift check stays unambiguous (PR #34 review, item 2).
 """
 
 from __future__ import annotations
@@ -141,7 +144,6 @@ def compose_goldens(shape: Shape, dataset: Dataset) -> list[dict[str, Any]]:
     if cross:
         cases.append(_cross_leg_aggregation_case(shape, dataset, cross[0]))
     for c in cases:
-        c["signedOff"] = False
         c["shape"] = shape.name
     return cases
 

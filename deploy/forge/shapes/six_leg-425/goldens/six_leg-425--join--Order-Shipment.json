@@ -60,7 +60,6 @@
   "name": "six_leg-425--join--Order-Shipment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?order_billable ?shipment_margin WHERE { ?order a c:Order ; c:billable ?order_billable ; c:ordersToShipments ?shipment . ?shipment a c:Shipment ; c:margin ?shipment_margin }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

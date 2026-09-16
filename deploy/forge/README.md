@@ -60,9 +60,27 @@ CSI becomes a drift check against the estate-produced one.
 ## Sign-off (roadmap §4)
 
 Which shape families are generated, in what order, and whether a descriptor may
-enter CI as a golden is the Solutions Engineer's lane. Every emitted golden
-carries `signedOff: false`; the CI step runs them as a **fabric regression
-check**, not as policy. Flipping `signedOff` is the SE's commit.
+enter CI as a golden is the Solutions Engineer's lane. Sign-off is recorded in
+**`deploy/forge/signoff.yaml`**, a hand-maintained ledger keyed by golden name
+that the generator never writes — so `make forge-suite` cannot wipe it, and the
+generated files stay a pure function of code + seed (which is what keeps the
+drift check above unambiguous). A golden absent from the ledger is unsigned; an
+entry naming a golden the suite no longer emits fails the run (a signed-off
+golden that vanished is regeneration drift the SE must see). `suite-report.json`
+lists the signed goldens per shape and the totals. The CI step runs all goldens
+as a **fabric regression check**, not as policy. Recording a sign-off is the
+SE's commit:
+
+```yaml
+goldens:
+  chain-422--join--Asset-Vendor:
+    signedOff: true
+    signedBy: pj
+    signedOn: 2026-09-20
+```
+
+(The keys are `signedBy` / `signedOn`, not `by` / `on`: YAML 1.1 reads a bare
+`on` key as the boolean `true`, and the loader refuses such an entry by name.)
 
 ## Pins (CC-9)
 

@@ -19,7 +19,6 @@
   "name": "six_leg-425--aggregate--Vendor",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived (COUNT(?vendor) AS ?n) WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived } GROUP BY ?vendor_archived",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

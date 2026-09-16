@@ -60,7 +60,6 @@
   "name": "chain-422--join--Shipment-Asset",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_expired ?asset_currency WHERE { ?shipment a c:Shipment ; c:expired ?shipment_expired ; c:shipmentsToAssets ?asset . ?asset a c:Asset ; c:currency ?asset_currency }",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

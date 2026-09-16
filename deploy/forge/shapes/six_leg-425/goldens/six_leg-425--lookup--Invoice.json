@@ -59,7 +59,6 @@
   "name": "six_leg-425--lookup--Invoice",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_category ?invoice_latencyMs WHERE { ?invoice a c:Invoice ; c:category ?invoice_category ; c:latencyMs ?invoice_latencyMs }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

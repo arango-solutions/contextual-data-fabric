@@ -59,7 +59,6 @@
   "name": "six_leg-430--lookup--Ticket",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?ticket_primary ?ticket_ratio WHERE { ?ticket a c:Ticket ; c:primary ?ticket_primary ; c:ratio ?ticket_ratio }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

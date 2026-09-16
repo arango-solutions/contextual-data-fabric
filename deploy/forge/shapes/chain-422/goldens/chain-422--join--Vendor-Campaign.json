@@ -60,7 +60,6 @@
   "name": "chain-422--join--Vendor-Campaign",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_tier ?campaign_balance WHERE { ?vendor a c:Vendor ; c:tier ?vendor_tier ; c:vendorsToCampaigns ?campaign . ?campaign a c:Campaign ; c:balance ?campaign_balance }",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

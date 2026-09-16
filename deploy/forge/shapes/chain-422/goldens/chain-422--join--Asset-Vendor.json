@@ -60,7 +60,6 @@
   "name": "chain-422--join--Asset-Vendor",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_currency ?vendor_tier WHERE { ?asset a c:Asset ; c:currency ?asset_currency ; c:assetsToVendors ?vendor . ?vendor a c:Vendor ; c:tier ?vendor_tier }",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

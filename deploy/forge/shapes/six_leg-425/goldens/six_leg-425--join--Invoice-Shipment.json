@@ -60,7 +60,6 @@
   "name": "six_leg-425--join--Invoice-Shipment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_category ?shipment_margin WHERE { ?invoice a c:Invoice ; c:category ?invoice_category ; c:invoicesToShipments ?shipment . ?shipment a c:Shipment ; c:margin ?shipment_margin }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

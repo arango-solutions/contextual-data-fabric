@@ -60,7 +60,6 @@
   "name": "hub-428--join--Payment-Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_region ?account_amount WHERE { ?payment a c:Payment ; c:region ?payment_region ; c:paymentsToAccounts ?account . ?account a c:Account ; c:amount ?account_amount }",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -60,7 +60,6 @@
   "name": "hub-428--join--Session-Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_expired ?account_amount WHERE { ?session a c:Session ; c:expired ?session_expired ; c:sessionsToAccounts ?account . ?account a c:Account ; c:amount ?account_amount }",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

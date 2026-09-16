@@ -19,7 +19,6 @@
   "name": "six_leg-425--aggregate--Product",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_expired (COUNT(?product) AS ?n) WHERE { ?product a c:Product ; c:expired ?product_expired } GROUP BY ?product_expired",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

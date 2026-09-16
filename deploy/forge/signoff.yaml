@@ -1,0 +1,16 @@
+# Federation Forge — golden sign-off ledger (roadmap §4: the SE lane).
+#
+# Hand-maintained. The generator never writes here, so `make forge-suite` cannot
+# wipe a sign-off (PR #34 review, item 2). A golden absent from this file is
+# unsigned; an entry naming a golden the suite no longer emits fails the suite.
+#
+#   goldens:
+#     chain-422--join--Asset-Vendor:
+#       signedOff: true
+#       signedBy: <person>
+#       signedOn: 2026-09-20
+#       note: optional
+#
+# (signedBy/signedOn, not by/on: YAML 1.1 reads a bare `on` key as boolean true.)
+forgeSignoffVersion: 1
+goldens: {}

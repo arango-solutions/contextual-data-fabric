@@ -60,7 +60,6 @@
   "name": "two_leg-426--join--Product-Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_currency ?account_enabled WHERE { ?product a c:Product ; c:currency ?product_currency ; c:productsToAccounts ?account . ?account a c:Account ; c:enabled ?account_enabled }",
   "shape": "two_leg-426",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -60,7 +60,6 @@
   "name": "two_leg-421--join--Payment-Asset",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_channel ?asset_archived WHERE { ?payment a c:Payment ; c:channel ?payment_channel ; c:paymentsToAssets ?asset . ?asset a c:Asset ; c:archived ?asset_archived }",
   "shape": "two_leg-421",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

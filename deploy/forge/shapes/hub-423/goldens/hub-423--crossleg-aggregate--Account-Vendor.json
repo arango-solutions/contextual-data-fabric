@@ -9,7 +9,6 @@
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_ratio (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:accountsToVendors ?vendor . ?vendor a c:Vendor ; c:ratio ?vendor_ratio } GROUP BY ?vendor_ratio",
   "shape": "hub-423",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

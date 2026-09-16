@@ -60,7 +60,6 @@
   "name": "six_leg-425--join--Order-Device",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?order_billable ?device_currency WHERE { ?order a c:Order ; c:billable ?order_billable ; c:ordersToDevices ?device . ?device a c:Device ; c:currency ?device_currency }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -60,7 +60,6 @@
   "name": "six_leg-430--join--Campaign-Customer",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable ?customer_channel WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable ; c:campaignsToCustomers ?customer . ?customer a c:Customer ; c:channel ?customer_channel }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

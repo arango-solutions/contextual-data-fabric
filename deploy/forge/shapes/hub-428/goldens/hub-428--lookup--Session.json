@@ -59,7 +59,6 @@
   "name": "hub-428--lookup--Session",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_expired ?session_flagged WHERE { ?session a c:Session ; c:expired ?session_expired ; c:flagged ?session_flagged }",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -60,7 +60,6 @@
   "name": "chain-427--join--Product-Session",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_segment ?session_latencyMs WHERE { ?product a c:Product ; c:segment ?product_segment ; c:productsToSessions ?session . ?session a c:Session ; c:latencyMs ?session_latencyMs }",
   "shape": "chain-427",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

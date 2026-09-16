@@ -59,7 +59,6 @@
   "name": "hub-428--lookup--Payment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_region ?payment_score WHERE { ?payment a c:Payment ; c:region ?payment_region ; c:score ?payment_score }",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

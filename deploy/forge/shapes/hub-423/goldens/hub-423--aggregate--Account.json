@@ -19,7 +19,6 @@
   "name": "hub-423--aggregate--Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_archived (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:archived ?account_archived } GROUP BY ?account_archived",
   "shape": "hub-423",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

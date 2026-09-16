@@ -60,7 +60,6 @@
   "name": "six_leg-425--join--Product-Order",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_expired ?order_billable WHERE { ?product a c:Product ; c:expired ?product_expired ; c:productsToOrders ?order . ?order a c:Order ; c:billable ?order_billable }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

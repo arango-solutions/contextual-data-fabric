@@ -9,7 +9,6 @@
   "name": "wide_narrow-424--aggregate--Region",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_active (COUNT(?region) AS ?n) WHERE { ?region a c:Region ; c:active ?region_active } GROUP BY ?region_active",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

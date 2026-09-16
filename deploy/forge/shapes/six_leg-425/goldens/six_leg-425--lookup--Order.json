@@ -59,7 +59,6 @@
   "name": "six_leg-425--lookup--Order",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?order_billable ?order_region WHERE { ?order a c:Order ; c:billable ?order_billable ; c:region ?order_region }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

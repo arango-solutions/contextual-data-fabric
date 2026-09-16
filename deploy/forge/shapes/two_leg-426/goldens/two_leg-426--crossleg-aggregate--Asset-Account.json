@@ -9,7 +9,6 @@
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_enabled (COUNT(?asset) AS ?n) WHERE { ?asset a c:Asset ; c:assetsToAccounts ?account . ?account a c:Account ; c:enabled ?account_enabled } GROUP BY ?account_enabled",
   "shape": "two_leg-426",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

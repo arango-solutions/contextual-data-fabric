@@ -60,7 +60,6 @@
   "name": "six_leg-425--join--Vendor-Order",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?order_billable WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:vendorsToOrders ?order . ?order a c:Order ; c:billable ?order_billable }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

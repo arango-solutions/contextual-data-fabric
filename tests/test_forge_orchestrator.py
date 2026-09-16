@@ -25,6 +25,7 @@ from cdf.eval.forge.descriptor import (  # noqa: E402
 from cdf.eval.forge.fixture_csi import fixture_csi  # noqa: E402
 from cdf.eval.forge.oracle import compose_goldens, expected_catalog  # noqa: E402
 from cdf.eval.forge.sampler import FAMILIES, sample_shape  # noqa: E402
+from cdf.eval.forge.signoff import load_signoff, signoff_status  # noqa: E402
 from cdf.eval.forge.suite import (  # noqa: E402
     check_determinism,
     committed_suite_drift,
@@ -126,7 +127,7 @@ def test_join_golden_bindings_follow_the_spine() -> None:
     case = joins[0]
     assert len(case["sources"]) == 2
     assert len(case["expect"]["bindings"]) == 5, "one binding per child row (every FK resolves)"
-    assert case["signedOff"] is False
+    assert "signedOff" not in case, "sign-off lives in deploy/forge/signoff.yaml, never in goldens"
 
 
 @pytest.mark.parametrize("family", FAMILIES)
@@ -199,3 +200,34 @@ def test_committed_suite_drift_detects_a_changed_and_a_missing_file(tmp_path: Pa
     assert set(drift) == {src.name}
     assert f"goldens/{golden.name}" in drift[src.name]
     assert "ontology.json" in drift[src.name]
+
+
+# ── sign-off survives regeneration ──────────────────────────────────────────
+
+
+def test_regeneration_never_touches_the_signoff_ledger(tmp_path: Path) -> None:
+    """PR #34 review, item 2: sign-off lives in a hand-maintained ledger outside
+    the generated tree. Emit twice (the second run rmtree's the shape directory);
+    the ledger bytes are unchanged, the sign-off still applies, and no generated
+    golden carries a signedOff key."""
+    shape = sample_shape(2, "two_leg")
+    first = emit_shape(shape, tmp_path / "shapes", rows_per_entity=3)
+    signed_name = first.goldens[0]["name"]
+    ledger_path = tmp_path / "signoff.yaml"
+    ledger_text = (
+        "forgeSignoffVersion: 1\n"
+        "goldens:\n"
+        f"  {signed_name}:\n"
+        "    signedOff: true\n"
+        "    signedBy: se\n"
+        "    signedOn: 2026-09-16\n"
+    )
+    ledger_path.write_text(ledger_text, encoding="utf-8")
+
+    second = emit_shape(shape, tmp_path / "shapes", rows_per_entity=3)
+
+    assert ledger_path.read_text(encoding="utf-8") == ledger_text
+    status = signoff_status(load_signoff(ledger_path), [c["name"] for c in second.goldens])
+    assert status.signed == (signed_name,) and status.unknown == ()
+    for golden in (second.directory / "goldens").glob("*.json"):
+        assert "signedOff" not in json.loads(golden.read_text(encoding="utf-8"))

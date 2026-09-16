@@ -59,7 +59,6 @@
   "name": "wide_narrow-424--lookup--Session",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_billable ?session_version WHERE { ?session a c:Session ; c:billable ?session_billable ; c:version ?session_version }",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -9,7 +9,6 @@
   "name": "hub-428--aggregate--Contract",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_archived (COUNT(?contract) AS ?n) WHERE { ?contract a c:Contract ; c:archived ?contract_archived } GROUP BY ?contract_archived",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

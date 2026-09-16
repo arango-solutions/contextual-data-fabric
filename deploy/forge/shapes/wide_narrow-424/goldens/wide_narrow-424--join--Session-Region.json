@@ -60,7 +60,6 @@
   "name": "wide_narrow-424--join--Session-Region",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_billable ?region_active WHERE { ?session a c:Session ; c:billable ?session_billable ; c:sessionsToRegions ?region . ?region a c:Region ; c:active ?region_active }",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

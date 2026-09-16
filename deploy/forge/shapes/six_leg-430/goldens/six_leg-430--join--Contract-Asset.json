@@ -60,7 +60,6 @@
   "name": "six_leg-430--join--Contract-Asset",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_currency ?asset_label WHERE { ?contract a c:Contract ; c:currency ?contract_currency ; c:contractsToAssets ?asset . ?asset a c:Asset ; c:label ?asset_label }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -47,7 +47,6 @@
   "name": "wide_narrow-424--lookup--Invoice",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_channel WHERE { ?invoice a c:Invoice ; c:channel ?invoice_channel }",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

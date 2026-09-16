@@ -73,7 +73,6 @@
   "name": "chain-422--chain--Asset-Vendor-Campaign",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_currency ?vendor_tier ?campaign_balance WHERE { ?asset a c:Asset ; c:currency ?asset_currency ; c:assetsToVendors ?vendor . ?vendor a c:Vendor ; c:tier ?vendor_tier ; c:vendorsToCampaigns ?campaign . ?campaign a c:Campaign ; c:balance ?campaign_balance }",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

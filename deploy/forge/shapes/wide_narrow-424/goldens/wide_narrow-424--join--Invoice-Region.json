@@ -60,7 +60,6 @@
   "name": "wide_narrow-424--join--Invoice-Region",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_channel ?region_active WHERE { ?invoice a c:Invoice ; c:channel ?invoice_channel ; c:invoicesToRegions ?region . ?region a c:Region ; c:active ?region_active }",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

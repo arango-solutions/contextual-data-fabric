@@ -19,7 +19,6 @@
   "name": "six_leg-425--aggregate--Device",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_flagged (COUNT(?device) AS ?n) WHERE { ?device a c:Device ; c:flagged ?device_flagged } GROUP BY ?device_flagged",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

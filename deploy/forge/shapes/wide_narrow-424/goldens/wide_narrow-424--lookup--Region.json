@@ -59,7 +59,6 @@
   "name": "wide_narrow-424--lookup--Region",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_active ?region_amount WHERE { ?region a c:Region ; c:active ?region_active ; c:amount ?region_amount }",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

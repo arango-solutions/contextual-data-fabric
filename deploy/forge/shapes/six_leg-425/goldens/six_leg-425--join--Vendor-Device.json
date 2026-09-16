@@ -60,7 +60,6 @@
   "name": "six_leg-425--join--Vendor-Device",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?device_currency WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:vendorsToDevices ?device . ?device a c:Device ; c:currency ?device_currency }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

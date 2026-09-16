@@ -19,7 +19,6 @@
   "name": "two_leg-426--aggregate--Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_enabled (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:enabled ?account_enabled } GROUP BY ?account_enabled",
   "shape": "two_leg-426",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

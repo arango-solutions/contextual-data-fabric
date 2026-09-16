@@ -60,7 +60,6 @@
   "name": "six_leg-430--join--Ticket-Customer",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?ticket_primary ?customer_channel WHERE { ?ticket a c:Ticket ; c:primary ?ticket_primary ; c:ticketsToCustomers ?customer . ?customer a c:Customer ; c:channel ?customer_channel }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

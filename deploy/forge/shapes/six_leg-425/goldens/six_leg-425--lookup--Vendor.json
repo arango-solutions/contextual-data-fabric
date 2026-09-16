@@ -59,7 +59,6 @@
   "name": "six_leg-425--lookup--Vendor",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?vendor_retries WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:retries ?vendor_retries }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -59,7 +59,6 @@
   "name": "six_leg-430--lookup--Customer",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_channel ?customer_code WHERE { ?customer a c:Customer ; c:channel ?customer_channel ; c:code ?customer_code }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

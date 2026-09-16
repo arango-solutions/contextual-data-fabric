@@ -59,7 +59,6 @@
   "name": "chain-427--lookup--Campaign",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_notes ?campaign_tier WHERE { ?campaign a c:Campaign ; c:notes ?campaign_notes ; c:tier ?campaign_tier }",
   "shape": "chain-427",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -59,7 +59,6 @@
   "name": "six_leg-425--lookup--Device",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_currency ?device_flagged WHERE { ?device a c:Device ; c:currency ?device_currency ; c:flagged ?device_flagged }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

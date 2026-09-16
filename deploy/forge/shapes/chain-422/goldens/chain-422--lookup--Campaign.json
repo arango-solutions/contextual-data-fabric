@@ -59,7 +59,6 @@
   "name": "chain-422--lookup--Campaign",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_balance ?campaign_channel WHERE { ?campaign a c:Campaign ; c:balance ?campaign_balance ; c:channel ?campaign_channel }",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -19,7 +19,6 @@
   "name": "chain-422--aggregate--Shipment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_expired (COUNT(?shipment) AS ?n) WHERE { ?shipment a c:Shipment ; c:expired ?shipment_expired } GROUP BY ?shipment_expired",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -19,7 +19,6 @@
   "name": "hub-428--aggregate--Session",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_expired (COUNT(?session) AS ?n) WHERE { ?session a c:Session ; c:expired ?session_expired } GROUP BY ?session_expired",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

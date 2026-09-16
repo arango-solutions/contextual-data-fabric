@@ -19,7 +19,6 @@
   "name": "wide_narrow-424--aggregate--Session",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_billable (COUNT(?session) AS ?n) WHERE { ?session a c:Session ; c:billable ?session_billable } GROUP BY ?session_billable",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

@@ -47,7 +47,6 @@
   "name": "hub-423--lookup--Invoice",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_status WHERE { ?invoice a c:Invoice ; c:status ?invoice_status }",
   "shape": "hub-423",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

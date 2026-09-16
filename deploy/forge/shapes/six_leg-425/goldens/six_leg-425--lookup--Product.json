@@ -59,7 +59,6 @@
   "name": "six_leg-425--lookup--Product",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_expired ?product_quantity WHERE { ?product a c:Product ; c:expired ?product_expired ; c:quantity ?product_quantity }",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

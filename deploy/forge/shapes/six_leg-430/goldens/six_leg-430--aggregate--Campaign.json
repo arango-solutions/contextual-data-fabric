@@ -19,7 +19,6 @@
   "name": "six_leg-430--aggregate--Campaign",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable (COUNT(?campaign) AS ?n) WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable } GROUP BY ?campaign_billable",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

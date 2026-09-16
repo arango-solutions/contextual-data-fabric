@@ -59,7 +59,6 @@
   "name": "six_leg-430--lookup--Contract",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_currency ?contract_latencyMs WHERE { ?contract a c:Contract ; c:currency ?contract_currency ; c:latencyMs ?contract_latencyMs }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

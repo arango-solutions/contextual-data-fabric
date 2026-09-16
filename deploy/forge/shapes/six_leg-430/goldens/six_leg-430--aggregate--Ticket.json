@@ -9,7 +9,6 @@
   "name": "six_leg-430--aggregate--Ticket",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?ticket_primary (COUNT(?ticket) AS ?n) WHERE { ?ticket a c:Ticket ; c:primary ?ticket_primary } GROUP BY ?ticket_primary",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

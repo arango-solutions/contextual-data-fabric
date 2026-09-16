@@ -9,7 +9,6 @@
   "name": "hub-428--aggregate--Payment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_verified (COUNT(?payment) AS ?n) WHERE { ?payment a c:Payment ; c:verified ?payment_verified } GROUP BY ?payment_verified",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

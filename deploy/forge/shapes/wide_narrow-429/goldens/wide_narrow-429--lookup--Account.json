@@ -59,7 +59,6 @@
   "name": "wide_narrow-429--lookup--Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_segment ?account_sku WHERE { ?account a c:Account ; c:segment ?account_segment ; c:sku ?account_sku }",
   "shape": "wide_narrow-429",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

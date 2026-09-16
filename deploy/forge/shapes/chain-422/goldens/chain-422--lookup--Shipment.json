@@ -59,7 +59,6 @@
   "name": "chain-422--lookup--Shipment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_expired ?shipment_retries WHERE { ?shipment a c:Shipment ; c:expired ?shipment_expired ; c:retries ?shipment_retries }",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

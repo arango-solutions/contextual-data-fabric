@@ -9,7 +9,6 @@
   "name": "hub-423--aggregate--Customer",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_enabled (COUNT(?customer) AS ?n) WHERE { ?customer a c:Customer ; c:enabled ?customer_enabled } GROUP BY ?customer_enabled",
   "shape": "hub-423",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

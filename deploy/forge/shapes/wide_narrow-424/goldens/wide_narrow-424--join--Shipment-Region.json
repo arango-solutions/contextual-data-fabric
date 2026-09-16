@@ -60,7 +60,6 @@
   "name": "wide_narrow-424--join--Shipment-Region",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_region ?region_active WHERE { ?shipment a c:Shipment ; c:region ?shipment_region ; c:shipmentsToRegions ?region . ?region a c:Region ; c:active ?region_active }",
   "shape": "wide_narrow-424",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

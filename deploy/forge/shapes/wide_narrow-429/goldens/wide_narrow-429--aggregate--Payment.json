@@ -19,7 +19,6 @@
   "name": "wide_narrow-429--aggregate--Payment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_active (COUNT(?payment) AS ?n) WHERE { ?payment a c:Payment ; c:active ?payment_active } GROUP BY ?payment_active",
   "shape": "wide_narrow-429",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

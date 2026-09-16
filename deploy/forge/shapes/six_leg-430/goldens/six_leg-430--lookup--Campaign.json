@@ -59,7 +59,6 @@
   "name": "six_leg-430--lookup--Campaign",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable ?campaign_notes WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable ; c:notes ?campaign_notes }",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

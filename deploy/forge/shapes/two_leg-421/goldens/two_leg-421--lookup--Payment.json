@@ -59,7 +59,6 @@
   "name": "two_leg-421--lookup--Payment",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_channel ?payment_priority WHERE { ?payment a c:Payment ; c:channel ?payment_channel ; c:priority ?payment_priority }",
   "shape": "two_leg-421",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

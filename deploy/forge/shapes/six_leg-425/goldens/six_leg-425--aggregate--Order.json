@@ -19,7 +19,6 @@
   "name": "six_leg-425--aggregate--Order",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?order_billable (COUNT(?order) AS ?n) WHERE { ?order a c:Order ; c:billable ?order_billable } GROUP BY ?order_billable",
   "shape": "six_leg-425",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

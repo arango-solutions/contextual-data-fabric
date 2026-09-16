@@ -59,7 +59,6 @@
   "name": "two_leg-426--lookup--Invoice",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_quantity ?invoice_score WHERE { ?invoice a c:Invoice ; c:quantity ?invoice_quantity ; c:score ?invoice_score }",
   "shape": "two_leg-426",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

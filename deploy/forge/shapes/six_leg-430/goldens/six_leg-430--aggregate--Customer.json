@@ -9,7 +9,6 @@
   "name": "six_leg-430--aggregate--Customer",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_expired (COUNT(?customer) AS ?n) WHERE { ?customer a c:Customer ; c:expired ?customer_expired } GROUP BY ?customer_expired",
   "shape": "six_leg-430",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

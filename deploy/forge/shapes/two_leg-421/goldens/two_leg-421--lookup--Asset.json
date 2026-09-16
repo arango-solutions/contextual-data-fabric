@@ -59,7 +59,6 @@
   "name": "two_leg-421--lookup--Asset",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_archived ?asset_label WHERE { ?asset a c:Asset ; c:archived ?asset_archived ; c:label ?asset_label }",
   "shape": "two_leg-421",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

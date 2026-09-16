@@ -59,7 +59,6 @@
   "name": "hub-423--lookup--Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_archived ?account_discount WHERE { ?account a c:Account ; c:archived ?account_archived ; c:discount ?account_discount }",
   "shape": "hub-423",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

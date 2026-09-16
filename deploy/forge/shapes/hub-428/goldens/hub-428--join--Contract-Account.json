@@ -60,7 +60,6 @@
   "name": "hub-428--join--Contract-Account",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_archived ?account_amount WHERE { ?contract a c:Contract ; c:archived ?contract_archived ; c:contractsToAccounts ?account . ?account a c:Account ; c:amount ?account_amount }",
   "shape": "hub-428",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

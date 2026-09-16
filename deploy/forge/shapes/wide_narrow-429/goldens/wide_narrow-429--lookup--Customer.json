@@ -59,7 +59,6 @@
   "name": "wide_narrow-429--lookup--Customer",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_priority ?customer_total WHERE { ?customer a c:Customer ; c:priority ?customer_priority ; c:total ?customer_total }",
   "shape": "wide_narrow-429",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

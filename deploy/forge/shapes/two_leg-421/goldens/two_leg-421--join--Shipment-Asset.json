@@ -60,7 +60,6 @@
   "name": "two_leg-421--join--Shipment-Asset",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_currency ?asset_archived WHERE { ?shipment a c:Shipment ; c:currency ?shipment_currency ; c:shipmentsToAssets ?asset . ?asset a c:Asset ; c:archived ?asset_archived }",
   "shape": "two_leg-421",
-  "signedOff": false,
   "sources": [
     {
       "csi": {

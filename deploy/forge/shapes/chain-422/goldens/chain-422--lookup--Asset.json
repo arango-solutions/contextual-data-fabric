@@ -59,7 +59,6 @@
   "name": "chain-422--lookup--Asset",
   "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_currency ?asset_latencyMs WHERE { ?asset a c:Asset ; c:currency ?asset_currency ; c:latencyMs ?asset_latencyMs }",
   "shape": "chain-422",
-  "signedOff": false,
   "sources": [
     {
       "csi": {
