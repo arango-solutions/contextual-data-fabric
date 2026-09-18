@@ -64,9 +64,9 @@
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": true,
-          "groupBy": true,
-          "having": true
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
         },
         "orderLimitPushdown": false,
         "textSearch": {

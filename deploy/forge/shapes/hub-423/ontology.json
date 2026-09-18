@@ -4,12 +4,12 @@
       "name": "Account",
       "properties": [
         {
-          "name": "archived",
-          "type": "boolean"
+          "name": "region",
+          "type": "string"
         },
         {
-          "name": "discount",
-          "type": "float"
+          "name": "verified",
+          "type": "boolean"
         }
       ]
     },
@@ -17,22 +17,26 @@
       "name": "Customer",
       "properties": [
         {
-          "name": "balance",
-          "type": "float"
+          "name": "channel",
+          "type": "string"
         },
         {
-          "name": "enabled",
+          "name": "expired",
           "type": "boolean"
         },
         {
-          "name": "tier",
-          "type": "string"
+          "name": "margin",
+          "type": "float"
         }
       ]
     },
     {
       "name": "Invoice",
       "properties": [
+        {
+          "name": "category",
+          "type": "string"
+        },
         {
           "name": "status",
           "type": "string"

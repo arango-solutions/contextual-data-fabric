@@ -3,51 +3,51 @@
     "bindings": [
       {
         "payment_active": false,
-        "payment_billable": true
-      },
-      {
-        "payment_active": false,
-        "payment_billable": true
-      },
-      {
-        "payment_active": false,
-        "payment_billable": false
+        "payment_archived": true
       },
       {
         "payment_active": true,
-        "payment_billable": false
+        "payment_archived": true
       },
       {
         "payment_active": true,
-        "payment_billable": true
+        "payment_archived": false
       },
       {
         "payment_active": false,
-        "payment_billable": true
+        "payment_archived": true
       },
       {
         "payment_active": true,
-        "payment_billable": false
+        "payment_archived": true
       },
       {
         "payment_active": false,
-        "payment_billable": true
+        "payment_archived": false
       },
       {
         "payment_active": false,
-        "payment_billable": false
+        "payment_archived": true
       },
       {
         "payment_active": false,
-        "payment_billable": true
+        "payment_archived": false
       },
       {
         "payment_active": true,
-        "payment_billable": true
+        "payment_archived": true
       },
       {
         "payment_active": true,
-        "payment_billable": false
+        "payment_archived": true
+      },
+      {
+        "payment_active": false,
+        "payment_archived": false
+      },
+      {
+        "payment_active": true,
+        "payment_archived": true
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "wide_narrow-429--lookup--Payment",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_active ?payment_billable WHERE { ?payment a c:Payment ; c:active ?payment_active ; c:billable ?payment_billable }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_active ?payment_archived WHERE { ?payment a c:Payment ; c:active ?payment_active ; c:archived ?payment_archived }",
   "shape": "wide_narrow-429",
   "sources": [
     {
@@ -85,6 +85,12 @@
                 "active": {
                   "field": "active"
                 },
+                "archived": {
+                  "field": "archived"
+                },
+                "balance": {
+                  "field": "balance"
+                },
                 "billable": {
                   "field": "billable"
                 },
@@ -94,14 +100,8 @@
                 "expired": {
                   "field": "expired"
                 },
-                "flagged": {
-                  "field": "flagged"
-                },
                 "id": {
                   "field": "id"
-                },
-                "label": {
-                  "field": "label"
                 },
                 "latencyMs": {
                   "field": "latency_ms"
@@ -112,14 +112,14 @@
                 "rank": {
                   "field": "rank"
                 },
-                "score": {
-                  "field": "score"
-                },
                 "seats": {
                   "field": "seats"
                 },
                 "tier": {
                   "field": "tier"
+                },
+                "verified": {
+                  "field": "verified"
                 },
                 "weight": {
                   "field": "weight"
@@ -140,6 +140,14 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "balance",
+                  "type": "float"
+                },
+                {
                   "name": "billable",
                   "type": "boolean"
                 },
@@ -152,16 +160,8 @@
                   "type": "boolean"
                 },
                 {
-                  "name": "flagged",
-                  "type": "boolean"
-                },
-                {
                   "name": "id",
                   "type": "integer"
-                },
-                {
-                  "name": "label",
-                  "type": "string"
                 },
                 {
                   "name": "latencyMs",
@@ -176,16 +176,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "score",
-                  "type": "integer"
-                },
-                {
                   "name": "seats",
                   "type": "integer"
                 },
                 {
                   "name": "tier",
                   "type": "string"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
                 },
                 {
                   "name": "weight",
@@ -214,62 +214,62 @@
           {
             "payment": 1,
             "payment_active": false,
-            "payment_billable": true
+            "payment_archived": true
           },
           {
             "payment": 2,
-            "payment_active": false,
-            "payment_billable": true
+            "payment_active": true,
+            "payment_archived": true
           },
           {
             "payment": 3,
-            "payment_active": false,
-            "payment_billable": false
+            "payment_active": true,
+            "payment_archived": false
           },
           {
             "payment": 4,
-            "payment_active": true,
-            "payment_billable": false
+            "payment_active": false,
+            "payment_archived": true
           },
           {
             "payment": 5,
             "payment_active": true,
-            "payment_billable": true
+            "payment_archived": true
           },
           {
             "payment": 6,
             "payment_active": false,
-            "payment_billable": true
+            "payment_archived": false
           },
           {
             "payment": 7,
-            "payment_active": true,
-            "payment_billable": false
+            "payment_active": false,
+            "payment_archived": true
           },
           {
             "payment": 8,
             "payment_active": false,
-            "payment_billable": true
+            "payment_archived": false
           },
           {
             "payment": 9,
-            "payment_active": false,
-            "payment_billable": false
+            "payment_active": true,
+            "payment_archived": true
           },
           {
             "payment": 10,
-            "payment_active": false,
-            "payment_billable": true
+            "payment_active": true,
+            "payment_archived": true
           },
           {
             "payment": 11,
-            "payment_active": true,
-            "payment_billable": true
+            "payment_active": false,
+            "payment_archived": false
           },
           {
             "payment": 12,
             "payment_active": true,
-            "payment_billable": false
+            "payment_archived": true
           }
         ],
         "source_objects": [

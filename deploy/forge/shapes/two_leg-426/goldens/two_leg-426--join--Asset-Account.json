@@ -3,51 +3,51 @@
     "bindings": [
       {
         "account_enabled": false,
-        "asset_archived": true
+        "asset_discount": 13340.732602
       },
       {
         "account_enabled": true,
-        "asset_archived": false
+        "asset_discount": 73359.896662
       },
       {
         "account_enabled": false,
-        "asset_archived": false
+        "asset_discount": 50664.0339
       },
       {
         "account_enabled": true,
-        "asset_archived": true
-      },
-      {
-        "account_enabled": false,
-        "asset_archived": true
+        "asset_discount": 31357.990015
       },
       {
         "account_enabled": true,
-        "asset_archived": false
-      },
-      {
-        "account_enabled": false,
-        "asset_archived": true
+        "asset_discount": 30309.589254
       },
       {
         "account_enabled": true,
-        "asset_archived": true
+        "asset_discount": 9283.719778
       },
       {
         "account_enabled": false,
-        "asset_archived": true
+        "asset_discount": 46243.677084
+      },
+      {
+        "account_enabled": false,
+        "asset_discount": 79097.319364
+      },
+      {
+        "account_enabled": false,
+        "asset_discount": 80072.092114
+      },
+      {
+        "account_enabled": false,
+        "asset_discount": 27897.563461
       },
       {
         "account_enabled": true,
-        "asset_archived": false
+        "asset_discount": 10682.551245
       },
       {
         "account_enabled": false,
-        "asset_archived": true
-      },
-      {
-        "account_enabled": false,
-        "asset_archived": true
+        "asset_discount": 6794.080521
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "two_leg-426--join--Asset-Account",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_archived ?account_enabled WHERE { ?asset a c:Asset ; c:archived ?asset_archived ; c:assetsToAccounts ?account . ?account a c:Account ; c:enabled ?account_enabled }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_discount ?account_enabled WHERE { ?asset a c:Asset ; c:discount ?asset_discount ; c:accountId ?account_key . ?account a c:Account ; c:id ?account_key ; c:enabled ?account_enabled }",
   "shape": "two_leg-426",
   "sources": [
     {
@@ -86,14 +86,14 @@
                 "accountId": {
                   "field": "account_id"
                 },
-                "archived": {
-                  "field": "archived"
+                "discount": {
+                  "field": "discount"
                 },
                 "id": {
                   "field": "id"
                 },
-                "primary": {
-                  "field": "primary"
+                "seats": {
+                  "field": "seats"
                 }
               },
               "style": "COLLECTION"
@@ -107,11 +107,17 @@
                 "currency": {
                   "field": "currency"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
                 },
-                "margin": {
-                  "field": "margin"
+                "retries": {
+                  "field": "retries"
+                },
+                "status": {
+                  "field": "status"
                 }
               },
               "style": "COLLECTION"
@@ -129,16 +135,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "archived",
-                  "type": "boolean"
+                  "name": "discount",
+                  "type": "float"
                 },
                 {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "seats",
+                  "type": "integer"
                 }
               ]
             },
@@ -154,12 +160,20 @@
                   "type": "string"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "margin",
-                  "type": "float"
+                  "name": "retries",
+                  "type": "integer"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
                 }
               ]
             }
@@ -193,64 +207,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for assets",
         "rows": [
           {
-            "account": 4,
+            "account_key": 4,
             "asset": 1,
-            "asset_archived": true
+            "asset_discount": 13340.732602
           },
           {
-            "account": 6,
+            "account_key": 6,
             "asset": 2,
-            "asset_archived": false
+            "asset_discount": 73359.896662
           },
           {
-            "account": 9,
+            "account_key": 9,
             "asset": 3,
-            "asset_archived": false
+            "asset_discount": 50664.0339
           },
           {
-            "account": 11,
+            "account_key": 11,
             "asset": 4,
-            "asset_archived": true
+            "asset_discount": 31357.990015
           },
           {
-            "account": 5,
+            "account_key": 2,
             "asset": 5,
-            "asset_archived": true
+            "asset_discount": 30309.589254
           },
           {
-            "account": 2,
+            "account_key": 1,
             "asset": 6,
-            "asset_archived": false
+            "asset_discount": 9283.719778
           },
           {
-            "account": 12,
+            "account_key": 8,
             "asset": 7,
-            "asset_archived": true
+            "asset_discount": 46243.677084
           },
           {
-            "account": 1,
+            "account_key": 7,
             "asset": 8,
-            "asset_archived": true
+            "asset_discount": 79097.319364
           },
           {
-            "account": 12,
+            "account_key": 5,
             "asset": 9,
-            "asset_archived": true
+            "asset_discount": 80072.092114
           },
           {
-            "account": 2,
+            "account_key": 12,
             "asset": 10,
-            "asset_archived": false
+            "asset_discount": 27897.563461
           },
           {
-            "account": 9,
+            "account_key": 1,
             "asset": 11,
-            "asset_archived": true
+            "asset_discount": 10682.551245
           },
           {
-            "account": 8,
+            "account_key": 3,
             "asset": 12,
-            "asset_archived": true
+            "asset_discount": 6794.080521
           }
         ],
         "source_objects": [
@@ -305,17 +319,17 @@
                 "accountId": {
                   "field": "account_id"
                 },
+                "category": {
+                  "field": "category"
+                },
                 "id": {
                   "field": "id"
                 },
-                "quantity": {
-                  "field": "quantity"
+                "priority": {
+                  "field": "priority"
                 },
                 "score": {
                   "field": "score"
-                },
-                "segment": {
-                  "field": "segment"
                 }
               },
               "style": "COLLECTION"
@@ -358,20 +372,20 @@
                   "type": "integer"
                 },
                 {
+                  "name": "category",
+                  "type": "string"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "quantity",
+                  "name": "priority",
                   "type": "integer"
                 },
                 {
                   "name": "score",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
                 }
               ]
             }
@@ -401,51 +415,63 @@
         "rows": [
           {
             "account": 1,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 1
           },
           {
             "account": 2,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 2
           },
           {
             "account": 3,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 3
           },
           {
             "account": 4,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 4
           },
           {
             "account": 5,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 5
           },
           {
             "account": 6,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 6
           },
           {
             "account": 7,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 7
           },
           {
             "account": 8,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 8
           },
           {
             "account": 9,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 9
           },
           {
             "account": 10,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 10
           },
           {
             "account": 11,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 11
           },
           {
             "account": 12,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 12
           }
         ],
         "source_objects": [

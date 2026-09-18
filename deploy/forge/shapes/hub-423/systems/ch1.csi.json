@@ -4,17 +4,17 @@
       "Customer": {
         "collectionName": "customers",
         "properties": {
-          "balance": {
-            "field": "balance"
+          "channel": {
+            "field": "channel"
           },
-          "enabled": {
-            "field": "enabled"
+          "expired": {
+            "field": "expired"
           },
           "id": {
             "field": "id"
           },
-          "tier": {
-            "field": "tier"
+          "margin": {
+            "field": "margin"
           },
           "vendorId": {
             "field": "vendor_id"
@@ -31,11 +31,11 @@
         "name": "Customer",
         "properties": [
           {
-            "name": "balance",
-            "type": "float"
+            "name": "channel",
+            "type": "string"
           },
           {
-            "name": "enabled",
+            "name": "expired",
             "type": "boolean"
           },
           {
@@ -43,8 +43,8 @@
             "type": "integer"
           },
           {
-            "name": "tier",
-            "type": "string"
+            "name": "margin",
+            "type": "float"
           },
           {
             "name": "vendorId",

@@ -7,7 +7,7 @@
   },
   "family": "single_leg_aggregation",
   "name": "six_leg-425--aggregate--Order",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?order_billable (COUNT(?order) AS ?n) WHERE { ?order a c:Order ; c:billable ?order_billable } GROUP BY ?order_billable",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?order_active (COUNT(?order) AS ?n) WHERE { ?order a c:Order ; c:active ?order_active } GROUP BY ?order_active",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -32,8 +32,8 @@
             "Order": {
               "collectionName": "orders",
               "properties": {
-                "billable": {
-                  "field": "billable"
+                "active": {
+                  "field": "active"
                 },
                 "deviceId": {
                   "field": "device_id"
@@ -65,7 +65,7 @@
               "name": "Order",
               "properties": [
                 {
-                  "name": "billable",
+                  "name": "active",
                   "type": "boolean"
                 },
                 {
@@ -124,12 +124,12 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for orders",
         "rows": [
           {
-            "n": 6,
-            "order_billable": false
+            "n": 7,
+            "order_active": false
           },
           {
-            "n": 6,
-            "order_billable": true
+            "n": 5,
+            "order_active": true
           }
         ],
         "source_objects": [

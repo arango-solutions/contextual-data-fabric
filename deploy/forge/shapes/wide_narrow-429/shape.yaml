@@ -26,9 +26,9 @@ systems:
     kind: clickhouse
     capabilities:
       aggregation:
-        groupBy: false
-        having: false
-        countDistinct: false
+        groupBy: true
+        having: true
+        countDistinct: true
         approxCountDistinct: null
       textSearch:
         dialect: none
@@ -60,7 +60,7 @@ expected:
   - goldens/wide_narrow-429--join--Account-Payment.json
   - goldens/wide_narrow-429--join--Customer-Payment.json
   - goldens/wide_narrow-429--join--Device-Payment.json
-  - goldens/wide_narrow-429--aggregate--Device.json
+  - goldens/wide_narrow-429--aggregate--Account.json
   - goldens/wide_narrow-429--aggregate--Payment.json
   - goldens/wide_narrow-429--crossleg-aggregate--Account-Payment.json
 fixture:

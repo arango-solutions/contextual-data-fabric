@@ -3,51 +3,51 @@
     "bindings": [
       {
         "account_amount": 56358.957885,
-        "session_expired": true
+        "session_billable": true
       },
       {
         "account_amount": 88532.479835,
-        "session_expired": true
+        "session_billable": true
       },
       {
         "account_amount": 26044.173198,
-        "session_expired": true
+        "session_billable": true
       },
       {
         "account_amount": 66776.476722,
-        "session_expired": false
+        "session_billable": false
       },
       {
         "account_amount": 77182.003159,
-        "session_expired": true
+        "session_billable": true
       },
       {
         "account_amount": 92871.030985,
-        "session_expired": true
+        "session_billable": true
       },
       {
         "account_amount": 25490.693635,
-        "session_expired": true
+        "session_billable": true
       },
       {
         "account_amount": 64933.450121,
-        "session_expired": true
+        "session_billable": true
       },
       {
         "account_amount": 92871.030985,
-        "session_expired": true
+        "session_billable": true
       },
       {
         "account_amount": 26044.173198,
-        "session_expired": true
+        "session_billable": true
       },
       {
         "account_amount": 25490.693635,
-        "session_expired": false
+        "session_billable": false
       },
       {
         "account_amount": 92871.030985,
-        "session_expired": false
+        "session_billable": false
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "hub-428--join--Session-Account",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_expired ?account_amount WHERE { ?session a c:Session ; c:expired ?session_expired ; c:sessionsToAccounts ?account . ?account a c:Account ; c:amount ?account_amount }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_billable ?account_amount WHERE { ?session a c:Session ; c:billable ?session_billable ; c:accountId ?account_key . ?account a c:Account ; c:id ?account_key ; c:amount ?account_amount }",
   "shape": "hub-428",
   "sources": [
     {
@@ -86,8 +86,8 @@
                 "accountId": {
                   "field": "account_id"
                 },
-                "expired": {
-                  "field": "expired"
+                "billable": {
+                  "field": "billable"
                 },
                 "flagged": {
                   "field": "flagged"
@@ -114,7 +114,7 @@
                   "type": "integer"
                 },
                 {
-                  "name": "expired",
+                  "name": "billable",
                   "type": "boolean"
                 },
                 {
@@ -156,64 +156,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for sessions",
         "rows": [
           {
-            "account": 6,
+            "account_key": 6,
             "session": 1,
-            "session_expired": true
+            "session_billable": true
           },
           {
-            "account": 12,
+            "account_key": 12,
             "session": 2,
-            "session_expired": true
+            "session_billable": true
           },
           {
-            "account": 3,
+            "account_key": 3,
             "session": 3,
-            "session_expired": true
+            "session_billable": true
           },
           {
-            "account": 10,
+            "account_key": 10,
             "session": 4,
-            "session_expired": false
+            "session_billable": false
           },
           {
-            "account": 4,
+            "account_key": 4,
             "session": 5,
-            "session_expired": true
+            "session_billable": true
           },
           {
-            "account": 9,
+            "account_key": 9,
             "session": 6,
-            "session_expired": true
+            "session_billable": true
           },
           {
-            "account": 1,
+            "account_key": 1,
             "session": 7,
-            "session_expired": true
+            "session_billable": true
           },
           {
-            "account": 11,
+            "account_key": 11,
             "session": 8,
-            "session_expired": true
+            "session_billable": true
           },
           {
-            "account": 9,
+            "account_key": 9,
             "session": 9,
-            "session_expired": true
+            "session_billable": true
           },
           {
-            "account": 3,
+            "account_key": 3,
             "session": 10,
-            "session_expired": true
+            "session_billable": true
           },
           {
-            "account": 1,
+            "account_key": 1,
             "session": 11,
-            "session_expired": false
+            "session_billable": false
           },
           {
-            "account": 9,
+            "account_key": 9,
             "session": 12,
-            "session_expired": false
+            "session_billable": false
           }
         ],
         "source_objects": [
@@ -305,51 +305,63 @@
         "rows": [
           {
             "account": 1,
-            "account_amount": 25490.693635
+            "account_amount": 25490.693635,
+            "account_key": 1
           },
           {
             "account": 2,
-            "account_amount": 9879.887019
+            "account_amount": 9879.887019,
+            "account_key": 2
           },
           {
             "account": 3,
-            "account_amount": 26044.173198
+            "account_amount": 26044.173198,
+            "account_key": 3
           },
           {
             "account": 4,
-            "account_amount": 77182.003159
+            "account_amount": 77182.003159,
+            "account_key": 4
           },
           {
             "account": 5,
-            "account_amount": 60769.627371
+            "account_amount": 60769.627371,
+            "account_key": 5
           },
           {
             "account": 6,
-            "account_amount": 56358.957885
+            "account_amount": 56358.957885,
+            "account_key": 6
           },
           {
             "account": 7,
-            "account_amount": 64702.633431
+            "account_amount": 64702.633431,
+            "account_key": 7
           },
           {
             "account": 8,
-            "account_amount": 96350.500781
+            "account_amount": 96350.500781,
+            "account_key": 8
           },
           {
             "account": 9,
-            "account_amount": 92871.030985
+            "account_amount": 92871.030985,
+            "account_key": 9
           },
           {
             "account": 10,
-            "account_amount": 66776.476722
+            "account_amount": 66776.476722,
+            "account_key": 10
           },
           {
             "account": 11,
-            "account_amount": 64933.450121
+            "account_amount": 64933.450121,
+            "account_key": 11
           },
           {
             "account": 12,
-            "account_amount": 88532.479835
+            "account_amount": 88532.479835,
+            "account_key": 12
           }
         ],
         "source_objects": [

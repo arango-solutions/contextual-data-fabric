@@ -2,52 +2,40 @@
   "expect": {
     "bindings": [
       {
-        "customer_priority": 94736,
-        "customer_total": 65389.745432
+        "customer_units": 2766
       },
       {
-        "customer_priority": 83603,
-        "customer_total": 20743.902829
+        "customer_units": 46757
       },
       {
-        "customer_priority": 82885,
-        "customer_total": 97035.471897
+        "customer_units": 17903
       },
       {
-        "customer_priority": 63351,
-        "customer_total": 94613.748982
+        "customer_units": 29355
       },
       {
-        "customer_priority": 2766,
-        "customer_total": 55703.050909
+        "customer_units": 75286
       },
       {
-        "customer_priority": 17903,
-        "customer_total": 31346.706932
+        "customer_units": 13784
       },
       {
-        "customer_priority": 2207,
-        "customer_total": 57439.076418
+        "customer_units": 54887
       },
       {
-        "customer_priority": 25686,
-        "customer_total": 90955.921575
+        "customer_units": 12618
       },
       {
-        "customer_priority": 12618,
-        "customer_total": 11055.043751
+        "customer_units": 72369
       },
       {
-        "customer_priority": 61004,
-        "customer_total": 34384.337536
+        "customer_units": 61004
       },
       {
-        "customer_priority": 24835,
-        "customer_total": 40860.930801
+        "customer_units": 82373
       },
       {
-        "customer_priority": 97934,
-        "customer_total": 4338.203327
+        "customer_units": 24835
       }
     ],
     "sources_touched": [
@@ -57,16 +45,16 @@
   },
   "family": "lookup",
   "name": "wide_narrow-429--lookup--Customer",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_priority ?customer_total WHERE { ?customer a c:Customer ; c:priority ?customer_priority ; c:total ?customer_total }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_units WHERE { ?customer a c:Customer ; c:units ?customer_units }",
   "shape": "wide_narrow-429",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -82,17 +70,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "enabled": {
+                  "field": "enabled"
+                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
-                },
-                "segment": {
-                  "field": "segment"
-                },
-                "sku": {
-                  "field": "sku"
                 }
               },
               "style": "COLLECTION"
@@ -106,11 +94,8 @@
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "priority": {
-                  "field": "priority"
-                },
-                "total": {
-                  "field": "total"
+                "units": {
+                  "field": "units"
                 }
               },
               "style": "COLLECTION"
@@ -118,17 +103,14 @@
             "Device": {
               "collectionName": "devices",
               "properties": {
-                "currency": {
-                  "field": "currency"
-                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "primary": {
-                  "field": "primary"
+                "version": {
+                  "field": "version"
                 }
               },
               "style": "COLLECTION"
@@ -142,20 +124,20 @@
               "name": "Account",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
                   "name": "paymentId",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
-                  "name": "sku",
-                  "type": "string"
                 }
               ]
             },
@@ -171,22 +153,14 @@
                   "type": "integer"
                 },
                 {
-                  "name": "priority",
+                  "name": "units",
                   "type": "integer"
-                },
-                {
-                  "name": "total",
-                  "type": "float"
                 }
               ]
             },
             {
               "name": "Device",
               "properties": [
-                {
-                  "name": "currency",
-                  "type": "string"
-                },
                 {
                   "name": "id",
                   "type": "integer"
@@ -196,8 +170,8 @@
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "version",
+                  "type": "integer"
                 }
               ]
             }
@@ -237,63 +211,51 @@
         "rows": [
           {
             "customer": 1,
-            "customer_priority": 94736,
-            "customer_total": 65389.745432
+            "customer_units": 2766
           },
           {
             "customer": 2,
-            "customer_priority": 83603,
-            "customer_total": 20743.902829
+            "customer_units": 46757
           },
           {
             "customer": 3,
-            "customer_priority": 82885,
-            "customer_total": 97035.471897
+            "customer_units": 17903
           },
           {
             "customer": 4,
-            "customer_priority": 63351,
-            "customer_total": 94613.748982
+            "customer_units": 29355
           },
           {
             "customer": 5,
-            "customer_priority": 2766,
-            "customer_total": 55703.050909
+            "customer_units": 75286
           },
           {
             "customer": 6,
-            "customer_priority": 17903,
-            "customer_total": 31346.706932
+            "customer_units": 13784
           },
           {
             "customer": 7,
-            "customer_priority": 2207,
-            "customer_total": 57439.076418
+            "customer_units": 54887
           },
           {
             "customer": 8,
-            "customer_priority": 25686,
-            "customer_total": 90955.921575
+            "customer_units": 12618
           },
           {
             "customer": 9,
-            "customer_priority": 12618,
-            "customer_total": 11055.043751
+            "customer_units": 72369
           },
           {
             "customer": 10,
-            "customer_priority": 61004,
-            "customer_total": 34384.337536
+            "customer_units": 61004
           },
           {
             "customer": 11,
-            "customer_priority": 24835,
-            "customer_total": 40860.930801
+            "customer_units": 82373
           },
           {
             "customer": 12,
-            "customer_priority": 97934,
-            "customer_total": 4338.203327
+            "customer_units": 24835
           }
         ],
         "source_objects": [

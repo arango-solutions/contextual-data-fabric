@@ -7,8 +7,8 @@
           "assetId": {
             "field": "asset_id"
           },
-          "expired": {
-            "field": "expired"
+          "billable": {
+            "field": "billable"
           },
           "id": {
             "field": "id"
@@ -32,7 +32,7 @@
             "type": "integer"
           },
           {
-            "name": "expired",
+            "name": "billable",
             "type": "boolean"
           },
           {

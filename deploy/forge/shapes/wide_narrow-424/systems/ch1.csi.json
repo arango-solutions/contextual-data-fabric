@@ -4,9 +4,6 @@
       "Region": {
         "collectionName": "regions",
         "properties": {
-          "active": {
-            "field": "active"
-          },
           "amount": {
             "field": "amount"
           },
@@ -16,8 +13,14 @@
           "expired": {
             "field": "expired"
           },
+          "flagged": {
+            "field": "flagged"
+          },
           "id": {
             "field": "id"
+          },
+          "label": {
+            "field": "label"
           },
           "notes": {
             "field": "notes"
@@ -31,14 +34,11 @@
           "ratio": {
             "field": "ratio"
           },
-          "segment": {
-            "field": "segment"
-          },
           "tier": {
             "field": "tier"
           },
-          "units": {
-            "field": "units"
+          "verified": {
+            "field": "verified"
           }
         },
         "style": "COLLECTION"
@@ -52,10 +52,6 @@
         "name": "Region",
         "properties": [
           {
-            "name": "active",
-            "type": "boolean"
-          },
-          {
             "name": "amount",
             "type": "float"
           },
@@ -68,8 +64,16 @@
             "type": "boolean"
           },
           {
+            "name": "flagged",
+            "type": "boolean"
+          },
+          {
             "name": "id",
             "type": "integer"
+          },
+          {
+            "name": "label",
+            "type": "string"
           },
           {
             "name": "notes",
@@ -88,16 +92,12 @@
             "type": "float"
           },
           {
-            "name": "segment",
-            "type": "string"
-          },
-          {
             "name": "tier",
             "type": "string"
           },
           {
-            "name": "units",
-            "type": "integer"
+            "name": "verified",
+            "type": "boolean"
           }
         ]
       }

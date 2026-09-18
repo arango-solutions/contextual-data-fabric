@@ -7,14 +7,14 @@
           "accountId": {
             "field": "account_id"
           },
-          "archived": {
-            "field": "archived"
+          "discount": {
+            "field": "discount"
           },
           "id": {
             "field": "id"
           },
-          "primary": {
-            "field": "primary"
+          "seats": {
+            "field": "seats"
           }
         },
         "style": "COLLECTION"
@@ -28,11 +28,17 @@
           "currency": {
             "field": "currency"
           },
+          "flagged": {
+            "field": "flagged"
+          },
           "id": {
             "field": "id"
           },
-          "margin": {
-            "field": "margin"
+          "retries": {
+            "field": "retries"
+          },
+          "status": {
+            "field": "status"
           }
         },
         "style": "COLLECTION"
@@ -50,16 +56,16 @@
             "type": "integer"
           },
           {
-            "name": "archived",
-            "type": "boolean"
+            "name": "discount",
+            "type": "float"
           },
           {
             "name": "id",
             "type": "integer"
           },
           {
-            "name": "primary",
-            "type": "boolean"
+            "name": "seats",
+            "type": "integer"
           }
         ]
       },
@@ -75,12 +81,20 @@
             "type": "string"
           },
           {
+            "name": "flagged",
+            "type": "boolean"
+          },
+          {
             "name": "id",
             "type": "integer"
           },
           {
-            "name": "margin",
-            "type": "float"
+            "name": "retries",
+            "type": "integer"
+          },
+          {
+            "name": "status",
+            "type": "string"
           }
         ]
       }

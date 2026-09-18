@@ -3,11 +3,11 @@
     "bindings": [
       {
         "n": 6,
-        "shipment_expired": false
+        "shipment_billable": false
       },
       {
         "n": 6,
-        "shipment_expired": true
+        "shipment_billable": true
       }
     ],
     "sources_touched": [
@@ -17,7 +17,7 @@
   },
   "family": "single_leg_aggregation",
   "name": "chain-422--aggregate--Shipment",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_expired (COUNT(?shipment) AS ?n) WHERE { ?shipment a c:Shipment ; c:expired ?shipment_expired } GROUP BY ?shipment_expired",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_billable (COUNT(?shipment) AS ?n) WHERE { ?shipment a c:Shipment ; c:billable ?shipment_billable } GROUP BY ?shipment_billable",
   "shape": "chain-422",
   "sources": [
     {
@@ -45,8 +45,8 @@
                 "assetId": {
                   "field": "asset_id"
                 },
-                "expired": {
-                  "field": "expired"
+                "billable": {
+                  "field": "billable"
                 },
                 "id": {
                   "field": "id"
@@ -70,7 +70,7 @@
                   "type": "integer"
                 },
                 {
-                  "name": "expired",
+                  "name": "billable",
                   "type": "boolean"
                 },
                 {
@@ -109,11 +109,11 @@
         "rows": [
           {
             "n": 6,
-            "shipment_expired": false
+            "shipment_billable": false
           },
           {
             "n": 6,
-            "shipment_expired": true
+            "shipment_billable": true
           }
         ],
         "source_objects": [

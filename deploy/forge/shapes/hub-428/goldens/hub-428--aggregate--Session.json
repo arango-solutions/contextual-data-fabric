@@ -3,11 +3,11 @@
     "bindings": [
       {
         "n": 3,
-        "session_expired": false
+        "session_billable": false
       },
       {
         "n": 9,
-        "session_expired": true
+        "session_billable": true
       }
     ],
     "sources_touched": [
@@ -17,7 +17,7 @@
   },
   "family": "single_leg_aggregation",
   "name": "hub-428--aggregate--Session",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_expired (COUNT(?session) AS ?n) WHERE { ?session a c:Session ; c:expired ?session_expired } GROUP BY ?session_expired",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_billable (COUNT(?session) AS ?n) WHERE { ?session a c:Session ; c:billable ?session_billable } GROUP BY ?session_billable",
   "shape": "hub-428",
   "sources": [
     {
@@ -45,8 +45,8 @@
                 "accountId": {
                   "field": "account_id"
                 },
-                "expired": {
-                  "field": "expired"
+                "billable": {
+                  "field": "billable"
                 },
                 "flagged": {
                   "field": "flagged"
@@ -73,7 +73,7 @@
                   "type": "integer"
                 },
                 {
-                  "name": "expired",
+                  "name": "billable",
                   "type": "boolean"
                 },
                 {
@@ -116,11 +116,11 @@
         "rows": [
           {
             "n": 3,
-            "session_expired": false
+            "session_billable": false
           },
           {
             "n": 9,
-            "session_expired": true
+            "session_billable": true
           }
         ],
         "source_objects": [

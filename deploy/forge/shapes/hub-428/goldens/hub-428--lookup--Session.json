@@ -2,51 +2,51 @@
   "expect": {
     "bindings": [
       {
-        "session_expired": true,
+        "session_billable": true,
         "session_flagged": true
       },
       {
-        "session_expired": true,
+        "session_billable": true,
         "session_flagged": true
       },
       {
-        "session_expired": true,
+        "session_billable": true,
         "session_flagged": true
       },
       {
-        "session_expired": false,
+        "session_billable": false,
         "session_flagged": true
       },
       {
-        "session_expired": true,
+        "session_billable": true,
         "session_flagged": true
       },
       {
-        "session_expired": true,
+        "session_billable": true,
         "session_flagged": true
       },
       {
-        "session_expired": true,
+        "session_billable": true,
         "session_flagged": true
       },
       {
-        "session_expired": true,
+        "session_billable": true,
         "session_flagged": true
       },
       {
-        "session_expired": true,
+        "session_billable": true,
         "session_flagged": false
       },
       {
-        "session_expired": true,
+        "session_billable": true,
         "session_flagged": false
       },
       {
-        "session_expired": false,
+        "session_billable": false,
         "session_flagged": false
       },
       {
-        "session_expired": false,
+        "session_billable": false,
         "session_flagged": true
       }
     ],
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "hub-428--lookup--Session",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_expired ?session_flagged WHERE { ?session a c:Session ; c:expired ?session_expired ; c:flagged ?session_flagged }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_billable ?session_flagged WHERE { ?session a c:Session ; c:billable ?session_billable ; c:flagged ?session_flagged }",
   "shape": "hub-428",
   "sources": [
     {
@@ -85,8 +85,8 @@
                 "accountId": {
                   "field": "account_id"
                 },
-                "expired": {
-                  "field": "expired"
+                "billable": {
+                  "field": "billable"
                 },
                 "flagged": {
                   "field": "flagged"
@@ -113,7 +113,7 @@
                   "type": "integer"
                 },
                 {
-                  "name": "expired",
+                  "name": "billable",
                   "type": "boolean"
                 },
                 {
@@ -156,62 +156,62 @@
         "rows": [
           {
             "session": 1,
-            "session_expired": true,
+            "session_billable": true,
             "session_flagged": true
           },
           {
             "session": 2,
-            "session_expired": true,
+            "session_billable": true,
             "session_flagged": true
           },
           {
             "session": 3,
-            "session_expired": true,
+            "session_billable": true,
             "session_flagged": true
           },
           {
             "session": 4,
-            "session_expired": false,
+            "session_billable": false,
             "session_flagged": true
           },
           {
             "session": 5,
-            "session_expired": true,
+            "session_billable": true,
             "session_flagged": true
           },
           {
             "session": 6,
-            "session_expired": true,
+            "session_billable": true,
             "session_flagged": true
           },
           {
             "session": 7,
-            "session_expired": true,
+            "session_billable": true,
             "session_flagged": true
           },
           {
             "session": 8,
-            "session_expired": true,
+            "session_billable": true,
             "session_flagged": true
           },
           {
             "session": 9,
-            "session_expired": true,
+            "session_billable": true,
             "session_flagged": false
           },
           {
             "session": 10,
-            "session_expired": true,
+            "session_billable": true,
             "session_flagged": false
           },
           {
             "session": 11,
-            "session_expired": false,
+            "session_billable": false,
             "session_flagged": false
           },
           {
             "session": 12,
-            "session_expired": false,
+            "session_billable": false,
             "session_flagged": true
           }
         ],

@@ -41,9 +41,9 @@ systems:
     kind: postgresql
     capabilities:
       aggregation:
-        groupBy: false
-        having: false
-        countDistinct: false
+        groupBy: true
+        having: true
+        countDistinct: true
         approxCountDistinct: null
       textSearch:
         dialect: none
@@ -56,9 +56,9 @@ systems:
     kind: snowflake
     capabilities:
       aggregation:
-        groupBy: true
-        having: true
-        countDistinct: true
+        groupBy: false
+        having: false
+        countDistinct: false
         approxCountDistinct: null
       textSearch:
         dialect: none
@@ -71,9 +71,9 @@ systems:
     kind: postgresql
     capabilities:
       aggregation:
-        groupBy: false
-        having: false
-        countDistinct: false
+        groupBy: true
+        having: true
+        countDistinct: true
         approxCountDistinct: null
       textSearch:
         dialect: none
@@ -86,9 +86,9 @@ systems:
     kind: clickhouse
     capabilities:
       aggregation:
-        groupBy: true
-        having: true
-        countDistinct: true
+        groupBy: false
+        having: false
+        countDistinct: false
         approxCountDistinct: null
       textSearch:
         dialect: none
@@ -134,9 +134,7 @@ expected:
   - goldens/six_leg-430--join--Ticket-Asset.json
   - goldens/six_leg-430--join--Ticket-Customer.json
   - goldens/six_leg-430--chain--Campaign-Asset-Payment.json
-  - goldens/six_leg-430--aggregate--Campaign.json
   - goldens/six_leg-430--aggregate--Customer.json
-  - goldens/six_leg-430--aggregate--Ticket.json
   - goldens/six_leg-430--crossleg-aggregate--Asset-Payment.json
 fixture:
   producer: cdf-forge-fixture

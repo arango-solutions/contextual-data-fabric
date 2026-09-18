@@ -2,40 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "invoice_status": "status-80151"
+        "invoice_category": "category-32747",
+        "invoice_status": "status-42012"
       },
       {
-        "invoice_status": "status-52538"
+        "invoice_category": "category-83579",
+        "invoice_status": "status-97964"
       },
       {
+        "invoice_category": "category-80151",
+        "invoice_status": "status-59458"
+      },
+      {
+        "invoice_category": "category-06358",
         "invoice_status": "status-82131"
       },
       {
-        "invoice_status": "status-73741"
+        "invoice_category": "category-73741",
+        "invoice_status": "status-80786"
       },
       {
-        "invoice_status": "status-56443"
-      },
-      {
+        "invoice_category": "category-97060",
         "invoice_status": "status-42183"
       },
       {
-        "invoice_status": "status-36549"
+        "invoice_category": "category-36549",
+        "invoice_status": "status-52759"
       },
       {
-        "invoice_status": "status-42541"
-      },
-      {
+        "invoice_category": "category-71094",
         "invoice_status": "status-05146"
       },
       {
-        "invoice_status": "status-87949"
+        "invoice_category": "category-87949",
+        "invoice_status": "status-12071"
       },
       {
-        "invoice_status": "status-59859"
-      },
-      {
+        "invoice_category": "category-18902",
         "invoice_status": "status-32133"
+      },
+      {
+        "invoice_category": "category-99895",
+        "invoice_status": "status-06647"
+      },
+      {
+        "invoice_category": "category-23064",
+        "invoice_status": "status-17738"
       }
     ],
     "sources_touched": [
@@ -45,7 +57,7 @@
   },
   "family": "lookup",
   "name": "hub-423--lookup--Invoice",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_status WHERE { ?invoice a c:Invoice ; c:status ?invoice_status }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_category ?invoice_status WHERE { ?invoice a c:Invoice ; c:category ?invoice_category ; c:status ?invoice_status }",
   "shape": "hub-423",
   "sources": [
     {
@@ -70,6 +82,9 @@
             "Invoice": {
               "collectionName": "invoices",
               "properties": {
+                "category": {
+                  "field": "category"
+                },
                 "id": {
                   "field": "id"
                 },
@@ -90,6 +105,10 @@
             {
               "name": "Invoice",
               "properties": [
+                {
+                  "name": "category",
+                  "type": "string"
+                },
                 {
                   "name": "id",
                   "type": "integer"
@@ -130,51 +149,63 @@
         "rows": [
           {
             "invoice": 1,
-            "invoice_status": "status-80151"
+            "invoice_category": "category-32747",
+            "invoice_status": "status-42012"
           },
           {
             "invoice": 2,
-            "invoice_status": "status-52538"
+            "invoice_category": "category-83579",
+            "invoice_status": "status-97964"
           },
           {
             "invoice": 3,
-            "invoice_status": "status-82131"
+            "invoice_category": "category-80151",
+            "invoice_status": "status-59458"
           },
           {
             "invoice": 4,
-            "invoice_status": "status-73741"
+            "invoice_category": "category-06358",
+            "invoice_status": "status-82131"
           },
           {
             "invoice": 5,
-            "invoice_status": "status-56443"
+            "invoice_category": "category-73741",
+            "invoice_status": "status-80786"
           },
           {
             "invoice": 6,
+            "invoice_category": "category-97060",
             "invoice_status": "status-42183"
           },
           {
             "invoice": 7,
-            "invoice_status": "status-36549"
+            "invoice_category": "category-36549",
+            "invoice_status": "status-52759"
           },
           {
             "invoice": 8,
-            "invoice_status": "status-42541"
-          },
-          {
-            "invoice": 9,
+            "invoice_category": "category-71094",
             "invoice_status": "status-05146"
           },
           {
+            "invoice": 9,
+            "invoice_category": "category-87949",
+            "invoice_status": "status-12071"
+          },
+          {
             "invoice": 10,
-            "invoice_status": "status-87949"
+            "invoice_category": "category-18902",
+            "invoice_status": "status-32133"
           },
           {
             "invoice": 11,
-            "invoice_status": "status-59859"
+            "invoice_category": "category-99895",
+            "invoice_status": "status-06647"
           },
           {
             "invoice": 12,
-            "invoice_status": "status-32133"
+            "invoice_category": "category-23064",
+            "invoice_status": "status-17738"
           }
         ],
         "source_objects": [

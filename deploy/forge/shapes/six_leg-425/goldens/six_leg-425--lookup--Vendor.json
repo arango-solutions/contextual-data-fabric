@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "vendor_archived": true,
-        "vendor_retries": 18985
-      },
-      {
         "vendor_archived": false,
-        "vendor_retries": 96435
-      },
-      {
-        "vendor_archived": false,
-        "vendor_retries": 92841
+        "vendor_seats": 78322
       },
       {
         "vendor_archived": true,
-        "vendor_retries": 25098
-      },
-      {
-        "vendor_archived": false,
-        "vendor_retries": 62204
+        "vendor_seats": 76134
       },
       {
         "vendor_archived": true,
-        "vendor_retries": 11988
-      },
-      {
-        "vendor_archived": false,
-        "vendor_retries": 10232
+        "vendor_seats": 35290
       },
       {
         "vendor_archived": true,
-        "vendor_retries": 5947
-      },
-      {
-        "vendor_archived": false,
-        "vendor_retries": 24922
+        "vendor_seats": 97051
       },
       {
         "vendor_archived": true,
-        "vendor_retries": 56468
+        "vendor_seats": 76850
       },
       {
         "vendor_archived": false,
-        "vendor_retries": 69516
+        "vendor_seats": 44767
+      },
+      {
+        "vendor_archived": false,
+        "vendor_seats": 77043
+      },
+      {
+        "vendor_archived": false,
+        "vendor_seats": 16459
       },
       {
         "vendor_archived": true,
-        "vendor_retries": 2721
+        "vendor_seats": 25098
+      },
+      {
+        "vendor_archived": false,
+        "vendor_seats": 62204
+      },
+      {
+        "vendor_archived": true,
+        "vendor_seats": 11988
+      },
+      {
+        "vendor_archived": false,
+        "vendor_seats": 10232
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "six_leg-425--lookup--Vendor",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?vendor_retries WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:retries ?vendor_retries }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?vendor_seats WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:seats ?vendor_seats }",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -94,8 +94,8 @@
                 "orderId": {
                   "field": "order_id"
                 },
-                "retries": {
-                  "field": "retries"
+                "seats": {
+                  "field": "seats"
                 }
               },
               "style": "COLLECTION"
@@ -125,7 +125,7 @@
                   "type": "integer"
                 },
                 {
-                  "name": "retries",
+                  "name": "seats",
                   "type": "integer"
                 }
               ]
@@ -161,63 +161,63 @@
         "rows": [
           {
             "vendor": 1,
-            "vendor_archived": true,
-            "vendor_retries": 18985
+            "vendor_archived": false,
+            "vendor_seats": 78322
           },
           {
             "vendor": 2,
-            "vendor_archived": false,
-            "vendor_retries": 96435
+            "vendor_archived": true,
+            "vendor_seats": 76134
           },
           {
             "vendor": 3,
-            "vendor_archived": false,
-            "vendor_retries": 92841
+            "vendor_archived": true,
+            "vendor_seats": 35290
           },
           {
             "vendor": 4,
             "vendor_archived": true,
-            "vendor_retries": 25098
+            "vendor_seats": 97051
           },
           {
             "vendor": 5,
-            "vendor_archived": false,
-            "vendor_retries": 62204
+            "vendor_archived": true,
+            "vendor_seats": 76850
           },
           {
             "vendor": 6,
-            "vendor_archived": true,
-            "vendor_retries": 11988
+            "vendor_archived": false,
+            "vendor_seats": 44767
           },
           {
             "vendor": 7,
             "vendor_archived": false,
-            "vendor_retries": 10232
+            "vendor_seats": 77043
           },
           {
             "vendor": 8,
-            "vendor_archived": true,
-            "vendor_retries": 5947
+            "vendor_archived": false,
+            "vendor_seats": 16459
           },
           {
             "vendor": 9,
-            "vendor_archived": false,
-            "vendor_retries": 24922
+            "vendor_archived": true,
+            "vendor_seats": 25098
           },
           {
             "vendor": 10,
-            "vendor_archived": true,
-            "vendor_retries": 56468
+            "vendor_archived": false,
+            "vendor_seats": 62204
           },
           {
             "vendor": 11,
-            "vendor_archived": false,
-            "vendor_retries": 69516
+            "vendor_archived": true,
+            "vendor_seats": 11988
           },
           {
             "vendor": 12,
-            "vendor_archived": true,
-            "vendor_retries": 2721
+            "vendor_archived": false,
+            "vendor_seats": 10232
           }
         ],
         "source_objects": [

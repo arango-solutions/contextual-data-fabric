@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "invoice_category": "category-08104",
-        "invoice_latencyMs": 72131.765577
+        "invoice_amount": 6183.393837,
+        "invoice_category": "category-08370"
       },
       {
-        "invoice_category": "category-41313",
-        "invoice_latencyMs": 99750.538967
+        "invoice_amount": 99750.538967,
+        "invoice_category": "category-78522"
       },
       {
-        "invoice_category": "category-02088",
-        "invoice_latencyMs": 61354.682532
+        "invoice_amount": 61354.682532,
+        "invoice_category": "category-33347"
       },
       {
-        "invoice_category": "category-87130",
-        "invoice_latencyMs": 68237.098905
+        "invoice_amount": 68237.098905,
+        "invoice_category": "category-08833"
       },
       {
-        "invoice_category": "category-54662",
-        "invoice_latencyMs": 37285.971037
+        "invoice_amount": 37285.971037,
+        "invoice_category": "category-74028"
       },
       {
-        "invoice_category": "category-15917",
-        "invoice_latencyMs": 56220.543168
+        "invoice_amount": 56220.543168,
+        "invoice_category": "category-16488"
       },
       {
-        "invoice_category": "category-80737",
-        "invoice_latencyMs": 54082.045461
+        "invoice_amount": 54082.045461,
+        "invoice_category": "category-47422"
       },
       {
-        "invoice_category": "category-51834",
-        "invoice_latencyMs": 97936.540074
+        "invoice_amount": 97936.540074,
+        "invoice_category": "category-17888"
       },
       {
-        "invoice_category": "category-00255",
-        "invoice_latencyMs": 47388.028439
+        "invoice_amount": 47388.028439,
+        "invoice_category": "category-09379"
       },
       {
-        "invoice_category": "category-50834",
-        "invoice_latencyMs": 38378.81799
+        "invoice_amount": 38378.81799,
+        "invoice_category": "category-17065"
       },
       {
-        "invoice_category": "category-75708",
-        "invoice_latencyMs": 22629.542999
+        "invoice_amount": 22629.542999,
+        "invoice_category": "category-03610"
       },
       {
-        "invoice_category": "category-41894",
-        "invoice_latencyMs": 55002.649945
+        "invoice_amount": 55002.649945,
+        "invoice_category": "category-69550"
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "six_leg-425--lookup--Invoice",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_category ?invoice_latencyMs WHERE { ?invoice a c:Invoice ; c:category ?invoice_category ; c:latencyMs ?invoice_latencyMs }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_amount ?invoice_category WHERE { ?invoice a c:Invoice ; c:amount ?invoice_amount ; c:category ?invoice_category }",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -82,20 +82,20 @@
             "Invoice": {
               "collectionName": "invoices",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
                 "category": {
                   "field": "category"
                 },
                 "id": {
                   "field": "id"
                 },
-                "latencyMs": {
-                  "field": "latency_ms"
+                "priority": {
+                  "field": "priority"
                 },
                 "rank": {
                   "field": "rank"
-                },
-                "seats": {
-                  "field": "seats"
                 },
                 "shipmentId": {
                   "field": "shipment_id"
@@ -112,6 +112,10 @@
               "name": "Invoice",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
                   "name": "category",
                   "type": "string"
                 },
@@ -120,15 +124,11 @@
                   "type": "integer"
                 },
                 {
-                  "name": "latencyMs",
-                  "type": "float"
-                },
-                {
-                  "name": "rank",
+                  "name": "priority",
                   "type": "integer"
                 },
                 {
-                  "name": "seats",
+                  "name": "rank",
                   "type": "integer"
                 },
                 {
@@ -163,63 +163,63 @@
         "rows": [
           {
             "invoice": 1,
-            "invoice_category": "category-08104",
-            "invoice_latencyMs": 72131.765577
+            "invoice_amount": 6183.393837,
+            "invoice_category": "category-08370"
           },
           {
             "invoice": 2,
-            "invoice_category": "category-41313",
-            "invoice_latencyMs": 99750.538967
+            "invoice_amount": 99750.538967,
+            "invoice_category": "category-78522"
           },
           {
             "invoice": 3,
-            "invoice_category": "category-02088",
-            "invoice_latencyMs": 61354.682532
+            "invoice_amount": 61354.682532,
+            "invoice_category": "category-33347"
           },
           {
             "invoice": 4,
-            "invoice_category": "category-87130",
-            "invoice_latencyMs": 68237.098905
+            "invoice_amount": 68237.098905,
+            "invoice_category": "category-08833"
           },
           {
             "invoice": 5,
-            "invoice_category": "category-54662",
-            "invoice_latencyMs": 37285.971037
+            "invoice_amount": 37285.971037,
+            "invoice_category": "category-74028"
           },
           {
             "invoice": 6,
-            "invoice_category": "category-15917",
-            "invoice_latencyMs": 56220.543168
+            "invoice_amount": 56220.543168,
+            "invoice_category": "category-16488"
           },
           {
             "invoice": 7,
-            "invoice_category": "category-80737",
-            "invoice_latencyMs": 54082.045461
+            "invoice_amount": 54082.045461,
+            "invoice_category": "category-47422"
           },
           {
             "invoice": 8,
-            "invoice_category": "category-51834",
-            "invoice_latencyMs": 97936.540074
+            "invoice_amount": 97936.540074,
+            "invoice_category": "category-17888"
           },
           {
             "invoice": 9,
-            "invoice_category": "category-00255",
-            "invoice_latencyMs": 47388.028439
+            "invoice_amount": 47388.028439,
+            "invoice_category": "category-09379"
           },
           {
             "invoice": 10,
-            "invoice_category": "category-50834",
-            "invoice_latencyMs": 38378.81799
+            "invoice_amount": 38378.81799,
+            "invoice_category": "category-17065"
           },
           {
             "invoice": 11,
-            "invoice_category": "category-75708",
-            "invoice_latencyMs": 22629.542999
+            "invoice_amount": 22629.542999,
+            "invoice_category": "category-03610"
           },
           {
             "invoice": 12,
-            "invoice_category": "category-41894",
-            "invoice_latencyMs": 55002.649945
+            "invoice_amount": 55002.649945,
+            "invoice_category": "category-69550"
           }
         ],
         "source_objects": [

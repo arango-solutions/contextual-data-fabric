@@ -1,22 +1,32 @@
 {
   "expect": {
-    "unsupported_contains": [
-      "declares no GROUP BY capability",
+    "bindings": [
+      {
+        "n": 8,
+        "region_expired": false
+      },
+      {
+        "n": 4,
+        "region_expired": true
+      }
+    ],
+    "sources_touched": [
       "clickhouse:ch1"
-    ]
+    ],
+    "status": "grounded"
   },
   "family": "single_leg_aggregation",
   "name": "wide_narrow-424--aggregate--Region",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_active (COUNT(?region) AS ?n) WHERE { ?region a c:Region ; c:active ?region_active } GROUP BY ?region_active",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_expired (COUNT(?region) AS ?n) WHERE { ?region a c:Region ; c:expired ?region_expired } GROUP BY ?region_expired",
   "shape": "wide_narrow-424",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -32,9 +42,6 @@
             "Region": {
               "collectionName": "regions",
               "properties": {
-                "active": {
-                  "field": "active"
-                },
                 "amount": {
                   "field": "amount"
                 },
@@ -44,8 +51,14 @@
                 "expired": {
                   "field": "expired"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
+                },
+                "label": {
+                  "field": "label"
                 },
                 "notes": {
                   "field": "notes"
@@ -59,14 +72,11 @@
                 "ratio": {
                   "field": "ratio"
                 },
-                "segment": {
-                  "field": "segment"
-                },
                 "tier": {
                   "field": "tier"
                 },
-                "units": {
-                  "field": "units"
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -80,10 +90,6 @@
               "name": "Region",
               "properties": [
                 {
-                  "name": "active",
-                  "type": "boolean"
-                },
-                {
                   "name": "amount",
                   "type": "float"
                 },
@@ -96,8 +102,16 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
                 },
                 {
                   "name": "notes",
@@ -116,16 +130,12 @@
                   "type": "float"
                 },
                 {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
                   "name": "tier",
                   "type": "string"
                 },
                 {
-                  "name": "units",
-                  "type": "integer"
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }
@@ -148,12 +158,12 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for regions",
         "rows": [
           {
-            "n": 6,
-            "region_active": false
+            "n": 8,
+            "region_expired": false
           },
           {
-            "n": 6,
-            "region_active": true
+            "n": 4,
+            "region_expired": true
           }
         ],
         "source_objects": [

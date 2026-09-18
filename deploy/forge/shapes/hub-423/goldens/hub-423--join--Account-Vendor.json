@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "account_archived": true,
+        "account_region": "region-19218",
         "vendor_ratio": 70672.088911
       },
       {
-        "account_archived": false,
-        "vendor_ratio": 57011.360447
-      },
-      {
-        "account_archived": true,
-        "vendor_ratio": 8327.67382
-      },
-      {
-        "account_archived": false,
+        "account_region": "region-43793",
         "vendor_ratio": 6820.545173
       },
       {
-        "account_archived": true,
-        "vendor_ratio": 32301.803055
-      },
-      {
-        "account_archived": true,
+        "account_region": "region-80708",
         "vendor_ratio": 8327.67382
       },
       {
-        "account_archived": true,
-        "vendor_ratio": 43274.499025
+        "account_region": "region-26200",
+        "vendor_ratio": 92033.759295
       },
       {
-        "account_archived": false,
+        "account_region": "region-37899",
+        "vendor_ratio": 43079.973175
+      },
+      {
+        "account_region": "region-15345",
         "vendor_ratio": 60121.462835
       },
       {
-        "account_archived": true,
-        "vendor_ratio": 57011.360447
+        "account_region": "region-67425",
+        "vendor_ratio": 70672.088911
       },
       {
-        "account_archived": false,
+        "account_region": "region-50776",
+        "vendor_ratio": 43274.499025
+      },
+      {
+        "account_region": "region-27064",
+        "vendor_ratio": 43079.973175
+      },
+      {
+        "account_region": "region-79216",
+        "vendor_ratio": 43079.973175
+      },
+      {
+        "account_region": "region-92546",
+        "vendor_ratio": 92033.759295
+      },
+      {
+        "account_region": "region-72076",
         "vendor_ratio": 91720.549233
-      },
-      {
-        "account_archived": false,
-        "vendor_ratio": 10277.0534
-      },
-      {
-        "account_archived": false,
-        "vendor_ratio": 57011.360447
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "hub-423--join--Account-Vendor",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_archived ?vendor_ratio WHERE { ?account a c:Account ; c:archived ?account_archived ; c:accountsToVendors ?vendor . ?vendor a c:Vendor ; c:ratio ?vendor_ratio }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_region ?vendor_ratio WHERE { ?account a c:Account ; c:region ?account_region ; c:vendorId ?vendor_key . ?vendor a c:Vendor ; c:id ?vendor_key ; c:ratio ?vendor_ratio }",
   "shape": "hub-423",
   "sources": [
     {
@@ -83,17 +83,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
-                "archived": {
-                  "field": "archived"
-                },
-                "discount": {
-                  "field": "discount"
-                },
                 "id": {
                   "field": "id"
                 },
+                "region": {
+                  "field": "region"
+                },
                 "vendorId": {
                   "field": "vendor_id"
+                },
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -107,20 +107,20 @@
               "name": "Account",
               "properties": [
                 {
-                  "name": "archived",
-                  "type": "boolean"
-                },
-                {
-                  "name": "discount",
-                  "type": "float"
-                },
-                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
                   "name": "vendorId",
                   "type": "integer"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }
@@ -150,63 +150,63 @@
         "rows": [
           {
             "account": 1,
-            "account_archived": true,
-            "vendor": 8
+            "account_region": "region-19218",
+            "vendor_key": 8
           },
           {
             "account": 2,
-            "account_archived": false,
-            "vendor": 6
+            "account_region": "region-43793",
+            "vendor_key": 12
           },
           {
             "account": 3,
-            "account_archived": true,
-            "vendor": 10
+            "account_region": "region-80708",
+            "vendor_key": 10
           },
           {
             "account": 4,
-            "account_archived": false,
-            "vendor": 12
+            "account_region": "region-26200",
+            "vendor_key": 2
           },
           {
             "account": 5,
-            "account_archived": true,
-            "vendor": 1
+            "account_region": "region-37899",
+            "vendor_key": 3
           },
           {
             "account": 6,
-            "account_archived": true,
-            "vendor": 10
+            "account_region": "region-15345",
+            "vendor_key": 4
           },
           {
             "account": 7,
-            "account_archived": true,
-            "vendor": 11
+            "account_region": "region-67425",
+            "vendor_key": 8
           },
           {
             "account": 8,
-            "account_archived": false,
-            "vendor": 4
+            "account_region": "region-50776",
+            "vendor_key": 11
           },
           {
             "account": 9,
-            "account_archived": true,
-            "vendor": 6
+            "account_region": "region-27064",
+            "vendor_key": 3
           },
           {
             "account": 10,
-            "account_archived": false,
-            "vendor": 5
+            "account_region": "region-79216",
+            "vendor_key": 3
           },
           {
             "account": 11,
-            "account_archived": false,
-            "vendor": 7
+            "account_region": "region-92546",
+            "vendor_key": 2
           },
           {
             "account": 12,
-            "account_archived": false,
-            "vendor": 6
+            "account_region": "region-72076",
+            "vendor_key": 5
           }
         ],
         "source_objects": [
@@ -305,50 +305,62 @@
         "rows": [
           {
             "vendor": 1,
+            "vendor_key": 1,
             "vendor_ratio": 32301.803055
           },
           {
             "vendor": 2,
+            "vendor_key": 2,
             "vendor_ratio": 92033.759295
           },
           {
             "vendor": 3,
+            "vendor_key": 3,
             "vendor_ratio": 43079.973175
           },
           {
             "vendor": 4,
+            "vendor_key": 4,
             "vendor_ratio": 60121.462835
           },
           {
             "vendor": 5,
+            "vendor_key": 5,
             "vendor_ratio": 91720.549233
           },
           {
             "vendor": 6,
+            "vendor_key": 6,
             "vendor_ratio": 57011.360447
           },
           {
             "vendor": 7,
+            "vendor_key": 7,
             "vendor_ratio": 10277.0534
           },
           {
             "vendor": 8,
+            "vendor_key": 8,
             "vendor_ratio": 70672.088911
           },
           {
             "vendor": 9,
+            "vendor_key": 9,
             "vendor_ratio": 84482.768626
           },
           {
             "vendor": 10,
+            "vendor_key": 10,
             "vendor_ratio": 8327.67382
           },
           {
             "vendor": 11,
+            "vendor_key": 11,
             "vendor_ratio": 43274.499025
           },
           {
             "vendor": 12,
+            "vendor_key": 12,
             "vendor_ratio": 6820.545173
           }
         ],

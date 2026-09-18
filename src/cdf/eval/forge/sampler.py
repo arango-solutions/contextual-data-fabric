@@ -19,7 +19,7 @@ from dataclasses import dataclass, field
 from typing import Any
 
 from r2g.csi import owl_entity_name
-from r2g.forge import expected_relationship_type, table_name
+from r2g.forge import column_name, expected_relationship_type, table_name
 
 from cdf.catalog.capabilities import NO_CAPABILITIES, AggregationCapability, SourceCapabilities
 
@@ -97,6 +97,114 @@ def _roundtrips(entity: str) -> bool:
 
 #: The vocabulary the sampler actually draws from: only names r2g round-trips.
 USABLE_ENTITY_VOCABULARY: tuple[str, ...] = tuple(e for e in ENTITY_VOCABULARY if _roundtrips(e))
+
+#: Words no target accepts as an unquoted column name. r2g's dialects emit
+#: identifiers unquoted (Snowflake folds them to UPPERCASE, so quoting would
+#: change the estate's spelling), so a property whose snake_case column is a
+#: reserved word yields DDL Postgres rejects (``primary boolean`` — found the
+#: first time a Snowflake-owned entity ran on Postgres under
+#: ``--substitute-unavailable``) and Snowflake would reject too. The set is the
+#: intersection of "reserved in Postgres, Snowflake or ClickHouse" with words
+#: that could plausibly enter the vocabulary; r2g's ``plan_schema`` does not
+#: check this (r2g hardening list, filed with PR #8), so the sampler does.
+SQL_RESERVED_COLUMN_WORDS: frozenset[str] = frozenset(
+    {
+        "all",
+        "and",
+        "any",
+        "array",
+        "as",
+        "asc",
+        "between",
+        "both",
+        "by",
+        "case",
+        "cast",
+        "check",
+        "collate",
+        "column",
+        "constraint",
+        "create",
+        "cross",
+        "current",
+        "default",
+        "desc",
+        "distinct",
+        "do",
+        "else",
+        "end",
+        "except",
+        "exists",
+        "false",
+        "fetch",
+        "for",
+        "foreign",
+        "from",
+        "full",
+        "grant",
+        "group",
+        "having",
+        "in",
+        "index",
+        "inner",
+        "intersect",
+        "into",
+        "is",
+        "join",
+        "key",
+        "leading",
+        "left",
+        "like",
+        "limit",
+        "localtime",
+        "minus",
+        "natural",
+        "not",
+        "null",
+        "offset",
+        "on",
+        "only",
+        "or",
+        "order",
+        "outer",
+        "primary",
+        "qualify",
+        "references",
+        "right",
+        "row",
+        "rows",
+        "sample",
+        "schema",
+        "select",
+        "some",
+        "table",
+        "then",
+        "to",
+        "trailing",
+        "true",
+        "union",
+        "unique",
+        "user",
+        "using",
+        "values",
+        "view",
+        "when",
+        "where",
+        "window",
+        "with",
+    }
+)
+
+
+def _column_is_plain(prop: str) -> bool:
+    return column_name(prop).lower() not in SQL_RESERVED_COLUMN_WORDS
+
+
+#: Property labels the sampler actually draws from: only those whose physical
+#: column name every dialect accepts unquoted.
+USABLE_PROPERTY_VOCABULARY: dict[str, tuple[str, ...]] = {
+    t: tuple(p for p in names if _column_is_plain(p)) for t, names in PROPERTY_VOCABULARY.items()
+}
 
 FAMILIES: tuple[str, ...] = ("two_leg", "chain", "hub", "wide_narrow", "six_leg")
 
@@ -201,7 +309,7 @@ class _PropertyPool:
 
     def __init__(self, rng: random.Random) -> None:
         self._rng = rng
-        self._free = [(t, p) for t, names in PROPERTY_VOCABULARY.items() for p in names]
+        self._free = [(t, p) for t, names in USABLE_PROPERTY_VOCABULARY.items() for p in names]
 
     def draw(self, count: int) -> list[dict[str, str]]:
         if count > len(self._free):

@@ -3,51 +3,51 @@
     "bindings": [
       {
         "asset_currency": "currency-00745",
-        "shipment_expired": true
+        "shipment_billable": true
       },
       {
         "asset_currency": "currency-75043",
-        "shipment_expired": false
+        "shipment_billable": false
       },
       {
         "asset_currency": "currency-82792",
-        "shipment_expired": false
+        "shipment_billable": false
       },
       {
         "asset_currency": "currency-16619",
-        "shipment_expired": true
+        "shipment_billable": true
       },
       {
         "asset_currency": "currency-26564",
-        "shipment_expired": false
+        "shipment_billable": false
       },
       {
         "asset_currency": "currency-82792",
-        "shipment_expired": false
+        "shipment_billable": false
       },
       {
         "asset_currency": "currency-26564",
-        "shipment_expired": false
+        "shipment_billable": false
       },
       {
         "asset_currency": "currency-74110",
-        "shipment_expired": true
+        "shipment_billable": true
       },
       {
         "asset_currency": "currency-74110",
-        "shipment_expired": true
+        "shipment_billable": true
       },
       {
         "asset_currency": "currency-89610",
-        "shipment_expired": true
+        "shipment_billable": true
       },
       {
         "asset_currency": "currency-26564",
-        "shipment_expired": false
+        "shipment_billable": false
       },
       {
         "asset_currency": "currency-17735",
-        "shipment_expired": true
+        "shipment_billable": true
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "chain-422--join--Shipment-Asset",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_expired ?asset_currency WHERE { ?shipment a c:Shipment ; c:expired ?shipment_expired ; c:shipmentsToAssets ?asset . ?asset a c:Asset ; c:currency ?asset_currency }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_billable ?asset_currency WHERE { ?shipment a c:Shipment ; c:billable ?shipment_billable ; c:assetId ?asset_key . ?asset a c:Asset ; c:id ?asset_key ; c:currency ?asset_currency }",
   "shape": "chain-422",
   "sources": [
     {
@@ -86,8 +86,8 @@
                 "assetId": {
                   "field": "asset_id"
                 },
-                "expired": {
-                  "field": "expired"
+                "billable": {
+                  "field": "billable"
                 },
                 "id": {
                   "field": "id"
@@ -111,7 +111,7 @@
                   "type": "integer"
                 },
                 {
-                  "name": "expired",
+                  "name": "billable",
                   "type": "boolean"
                 },
                 {
@@ -149,64 +149,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
         "rows": [
           {
-            "asset": 2,
+            "asset_key": 2,
             "shipment": 1,
-            "shipment_expired": true
+            "shipment_billable": true
           },
           {
-            "asset": 10,
+            "asset_key": 10,
             "shipment": 2,
-            "shipment_expired": false
+            "shipment_billable": false
           },
           {
-            "asset": 4,
+            "asset_key": 4,
             "shipment": 3,
-            "shipment_expired": false
+            "shipment_billable": false
           },
           {
-            "asset": 5,
+            "asset_key": 5,
             "shipment": 4,
-            "shipment_expired": true
+            "shipment_billable": true
           },
           {
-            "asset": 9,
+            "asset_key": 9,
             "shipment": 5,
-            "shipment_expired": false
+            "shipment_billable": false
           },
           {
-            "asset": 4,
+            "asset_key": 4,
             "shipment": 6,
-            "shipment_expired": false
+            "shipment_billable": false
           },
           {
-            "asset": 9,
+            "asset_key": 9,
             "shipment": 7,
-            "shipment_expired": false
+            "shipment_billable": false
           },
           {
-            "asset": 1,
+            "asset_key": 1,
             "shipment": 8,
-            "shipment_expired": true
+            "shipment_billable": true
           },
           {
-            "asset": 1,
+            "asset_key": 1,
             "shipment": 9,
-            "shipment_expired": true
+            "shipment_billable": true
           },
           {
-            "asset": 3,
+            "asset_key": 3,
             "shipment": 10,
-            "shipment_expired": true
+            "shipment_billable": true
           },
           {
-            "asset": 9,
+            "asset_key": 9,
             "shipment": 11,
-            "shipment_expired": false
+            "shipment_billable": false
           },
           {
-            "asset": 8,
+            "asset_key": 8,
             "shipment": 12,
-            "shipment_expired": true
+            "shipment_billable": true
           }
         ],
         "source_objects": [
@@ -304,51 +304,63 @@
         "rows": [
           {
             "asset": 1,
-            "asset_currency": "currency-74110"
+            "asset_currency": "currency-74110",
+            "asset_key": 1
           },
           {
             "asset": 2,
-            "asset_currency": "currency-00745"
+            "asset_currency": "currency-00745",
+            "asset_key": 2
           },
           {
             "asset": 3,
-            "asset_currency": "currency-89610"
+            "asset_currency": "currency-89610",
+            "asset_key": 3
           },
           {
             "asset": 4,
-            "asset_currency": "currency-82792"
+            "asset_currency": "currency-82792",
+            "asset_key": 4
           },
           {
             "asset": 5,
-            "asset_currency": "currency-16619"
+            "asset_currency": "currency-16619",
+            "asset_key": 5
           },
           {
             "asset": 6,
-            "asset_currency": "currency-12810"
+            "asset_currency": "currency-12810",
+            "asset_key": 6
           },
           {
             "asset": 7,
-            "asset_currency": "currency-42623"
+            "asset_currency": "currency-42623",
+            "asset_key": 7
           },
           {
             "asset": 8,
-            "asset_currency": "currency-17735"
+            "asset_currency": "currency-17735",
+            "asset_key": 8
           },
           {
             "asset": 9,
-            "asset_currency": "currency-26564"
+            "asset_currency": "currency-26564",
+            "asset_key": 9
           },
           {
             "asset": 10,
-            "asset_currency": "currency-75043"
+            "asset_currency": "currency-75043",
+            "asset_key": 10
           },
           {
             "asset": 11,
-            "asset_currency": "currency-84993"
+            "asset_currency": "currency-84993",
+            "asset_key": 11
           },
           {
             "asset": 12,
-            "asset_currency": "currency-24822"
+            "asset_currency": "currency-24822",
+            "asset_key": 12
           }
         ],
         "source_objects": [

@@ -88,11 +88,11 @@
                 "archived": {
                   "field": "archived"
                 },
+                "expired": {
+                  "field": "expired"
+                },
                 "id": {
                   "field": "id"
-                },
-                "primary": {
-                  "field": "primary"
                 }
               },
               "style": "COLLECTION"
@@ -135,12 +135,12 @@
                   "type": "boolean"
                 },
                 {
-                  "name": "id",
-                  "type": "integer"
+                  "name": "expired",
+                  "type": "boolean"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "id",
+                  "type": "integer"
                 }
               ]
             },

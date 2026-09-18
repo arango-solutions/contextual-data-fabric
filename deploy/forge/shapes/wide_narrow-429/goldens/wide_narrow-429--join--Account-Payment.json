@@ -2,51 +2,51 @@
   "expect": {
     "bindings": [
       {
-        "account_segment": "segment-78079",
+        "account_amount": 64488.385525,
         "payment_active": true
       },
       {
-        "account_segment": "segment-37440",
+        "account_amount": 72288.735888,
         "payment_active": false
       },
       {
-        "account_segment": "segment-45858",
+        "account_amount": 9302.965417,
         "payment_active": true
       },
       {
-        "account_segment": "segment-14159",
+        "account_amount": 470.883991,
         "payment_active": true
       },
       {
-        "account_segment": "segment-94750",
+        "account_amount": 93332.848105,
         "payment_active": false
       },
       {
-        "account_segment": "segment-12193",
+        "account_amount": 41062.092696,
         "payment_active": true
       },
       {
-        "account_segment": "segment-98008",
-        "payment_active": true
-      },
-      {
-        "account_segment": "segment-07307",
+        "account_amount": 94641.18377,
         "payment_active": false
       },
       {
-        "account_segment": "segment-34898",
+        "account_amount": 94695.384673,
         "payment_active": true
       },
       {
-        "account_segment": "segment-87281",
+        "account_amount": 87448.243388,
         "payment_active": false
       },
       {
-        "account_segment": "segment-14504",
-        "payment_active": true
+        "account_amount": 66363.783564,
+        "payment_active": false
       },
       {
-        "account_segment": "segment-30802",
+        "account_amount": 7538.547802,
+        "payment_active": false
+      },
+      {
+        "account_amount": 13280.640903,
         "payment_active": true
       }
     ],
@@ -58,16 +58,16 @@
   },
   "family": "join",
   "name": "wide_narrow-429--join--Account-Payment",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_segment ?payment_active WHERE { ?account a c:Account ; c:segment ?account_segment ; c:accountsToPayments ?payment . ?payment a c:Payment ; c:active ?payment_active }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_amount ?payment_active WHERE { ?account a c:Account ; c:amount ?account_amount ; c:paymentId ?payment_key . ?payment a c:Payment ; c:id ?payment_key ; c:active ?payment_active }",
   "shape": "wide_narrow-429",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -83,17 +83,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "enabled": {
+                  "field": "enabled"
+                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
-                },
-                "segment": {
-                  "field": "segment"
-                },
-                "sku": {
-                  "field": "sku"
                 }
               },
               "style": "COLLECTION"
@@ -107,11 +107,8 @@
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "priority": {
-                  "field": "priority"
-                },
-                "total": {
-                  "field": "total"
+                "units": {
+                  "field": "units"
                 }
               },
               "style": "COLLECTION"
@@ -119,17 +116,14 @@
             "Device": {
               "collectionName": "devices",
               "properties": {
-                "currency": {
-                  "field": "currency"
-                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "primary": {
-                  "field": "primary"
+                "version": {
+                  "field": "version"
                 }
               },
               "style": "COLLECTION"
@@ -143,20 +137,20 @@
               "name": "Account",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
                   "name": "paymentId",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
-                  "name": "sku",
-                  "type": "string"
                 }
               ]
             },
@@ -172,22 +166,14 @@
                   "type": "integer"
                 },
                 {
-                  "name": "priority",
+                  "name": "units",
                   "type": "integer"
-                },
-                {
-                  "name": "total",
-                  "type": "float"
                 }
               ]
             },
             {
               "name": "Device",
               "properties": [
-                {
-                  "name": "currency",
-                  "type": "string"
-                },
                 {
                   "name": "id",
                   "type": "integer"
@@ -197,8 +183,8 @@
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "version",
+                  "type": "integer"
                 }
               ]
             }
@@ -238,63 +224,63 @@
         "rows": [
           {
             "account": 1,
-            "account_segment": "segment-78079",
-            "payment": 4
+            "account_amount": 64488.385525,
+            "payment_key": 12
           },
           {
             "account": 2,
-            "account_segment": "segment-37440",
-            "payment": 9
+            "account_amount": 72288.735888,
+            "payment_key": 1
           },
           {
             "account": 3,
-            "account_segment": "segment-45858",
-            "payment": 11
+            "account_amount": 9302.965417,
+            "payment_key": 12
           },
           {
             "account": 4,
-            "account_segment": "segment-14159",
-            "payment": 11
+            "account_amount": 470.883991,
+            "payment_key": 12
           },
           {
             "account": 5,
-            "account_segment": "segment-94750",
-            "payment": 1
+            "account_amount": 93332.848105,
+            "payment_key": 1
           },
           {
             "account": 6,
-            "account_segment": "segment-12193",
-            "payment": 12
+            "account_amount": 41062.092696,
+            "payment_key": 5
           },
           {
             "account": 7,
-            "account_segment": "segment-98008",
-            "payment": 7
+            "account_amount": 94641.18377,
+            "payment_key": 11
           },
           {
             "account": 8,
-            "account_segment": "segment-07307",
-            "payment": 3
+            "account_amount": 94695.384673,
+            "payment_key": 10
           },
           {
             "account": 9,
-            "account_segment": "segment-34898",
-            "payment": 12
+            "account_amount": 87448.243388,
+            "payment_key": 8
           },
           {
             "account": 10,
-            "account_segment": "segment-87281",
-            "payment": 9
+            "account_amount": 66363.783564,
+            "payment_key": 11
           },
           {
             "account": 11,
-            "account_segment": "segment-14504",
-            "payment": 5
+            "account_amount": 7538.547802,
+            "payment_key": 4
           },
           {
             "account": 12,
-            "account_segment": "segment-30802",
-            "payment": 5
+            "account_amount": 13280.640903,
+            "payment_key": 12
           }
         ],
         "source_objects": [
@@ -328,6 +314,12 @@
                 "active": {
                   "field": "active"
                 },
+                "archived": {
+                  "field": "archived"
+                },
+                "balance": {
+                  "field": "balance"
+                },
                 "billable": {
                   "field": "billable"
                 },
@@ -337,14 +329,8 @@
                 "expired": {
                   "field": "expired"
                 },
-                "flagged": {
-                  "field": "flagged"
-                },
                 "id": {
                   "field": "id"
-                },
-                "label": {
-                  "field": "label"
                 },
                 "latencyMs": {
                   "field": "latency_ms"
@@ -355,14 +341,14 @@
                 "rank": {
                   "field": "rank"
                 },
-                "score": {
-                  "field": "score"
-                },
                 "seats": {
                   "field": "seats"
                 },
                 "tier": {
                   "field": "tier"
+                },
+                "verified": {
+                  "field": "verified"
                 },
                 "weight": {
                   "field": "weight"
@@ -383,6 +369,14 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "balance",
+                  "type": "float"
+                },
+                {
                   "name": "billable",
                   "type": "boolean"
                 },
@@ -395,16 +389,8 @@
                   "type": "boolean"
                 },
                 {
-                  "name": "flagged",
-                  "type": "boolean"
-                },
-                {
                   "name": "id",
                   "type": "integer"
-                },
-                {
-                  "name": "label",
-                  "type": "string"
                 },
                 {
                   "name": "latencyMs",
@@ -419,16 +405,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "score",
-                  "type": "integer"
-                },
-                {
                   "name": "seats",
                   "type": "integer"
                 },
                 {
                   "name": "tier",
                   "type": "string"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
                 },
                 {
                   "name": "weight",
@@ -456,51 +442,63 @@
         "rows": [
           {
             "payment": 1,
-            "payment_active": false
+            "payment_active": false,
+            "payment_key": 1
           },
           {
             "payment": 2,
-            "payment_active": false
+            "payment_active": true,
+            "payment_key": 2
           },
           {
             "payment": 3,
-            "payment_active": false
+            "payment_active": true,
+            "payment_key": 3
           },
           {
             "payment": 4,
-            "payment_active": true
+            "payment_active": false,
+            "payment_key": 4
           },
           {
             "payment": 5,
-            "payment_active": true
+            "payment_active": true,
+            "payment_key": 5
           },
           {
             "payment": 6,
-            "payment_active": false
+            "payment_active": false,
+            "payment_key": 6
           },
           {
             "payment": 7,
-            "payment_active": true
+            "payment_active": false,
+            "payment_key": 7
           },
           {
             "payment": 8,
-            "payment_active": false
+            "payment_active": false,
+            "payment_key": 8
           },
           {
             "payment": 9,
-            "payment_active": false
+            "payment_active": true,
+            "payment_key": 9
           },
           {
             "payment": 10,
-            "payment_active": false
+            "payment_active": true,
+            "payment_key": 10
           },
           {
             "payment": 11,
-            "payment_active": true
+            "payment_active": false,
+            "payment_key": 11
           },
           {
             "payment": 12,
-            "payment_active": true
+            "payment_active": true,
+            "payment_key": 12
           }
         ],
         "source_objects": [

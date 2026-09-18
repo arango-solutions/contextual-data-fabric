@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "shipment_region": "region-68330",
-        "shipment_verified": false
+        "shipment_active": true,
+        "shipment_region": "region-96379"
       },
       {
-        "shipment_region": "region-19728",
-        "shipment_verified": true
+        "shipment_active": false,
+        "shipment_region": "region-27175"
       },
       {
-        "shipment_region": "region-61928",
-        "shipment_verified": true
+        "shipment_active": true,
+        "shipment_region": "region-34154"
       },
       {
-        "shipment_region": "region-07413",
-        "shipment_verified": true
+        "shipment_active": true,
+        "shipment_region": "region-06095"
       },
       {
-        "shipment_region": "region-56407",
-        "shipment_verified": false
+        "shipment_active": true,
+        "shipment_region": "region-98606"
       },
       {
-        "shipment_region": "region-15674",
-        "shipment_verified": true
+        "shipment_active": true,
+        "shipment_region": "region-65646"
       },
       {
-        "shipment_region": "region-10592",
-        "shipment_verified": true
+        "shipment_active": false,
+        "shipment_region": "region-49205"
       },
       {
-        "shipment_region": "region-38222",
-        "shipment_verified": false
+        "shipment_active": false,
+        "shipment_region": "region-22752"
       },
       {
-        "shipment_region": "region-71166",
-        "shipment_verified": false
+        "shipment_active": false,
+        "shipment_region": "region-51253"
       },
       {
-        "shipment_region": "region-45653",
-        "shipment_verified": false
+        "shipment_active": true,
+        "shipment_region": "region-66085"
       },
       {
-        "shipment_region": "region-32202",
-        "shipment_verified": true
+        "shipment_active": false,
+        "shipment_region": "region-98551"
       },
       {
-        "shipment_region": "region-91750",
-        "shipment_verified": false
+        "shipment_active": true,
+        "shipment_region": "region-01582"
       }
     ],
     "sources_touched": [
@@ -57,16 +57,16 @@
   },
   "family": "lookup",
   "name": "wide_narrow-424--lookup--Shipment",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_region ?shipment_verified WHERE { ?shipment a c:Shipment ; c:region ?shipment_region ; c:verified ?shipment_verified }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_active ?shipment_region WHERE { ?shipment a c:Shipment ; c:active ?shipment_active ; c:region ?shipment_region }",
   "shape": "wide_narrow-424",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -82,8 +82,8 @@
             "Session": {
               "collectionName": "sessions",
               "properties": {
-                "billable": {
-                  "field": "billable"
+                "balance": {
+                  "field": "balance"
                 },
                 "id": {
                   "field": "id"
@@ -100,6 +100,9 @@
             "Shipment": {
               "collectionName": "shipments",
               "properties": {
+                "active": {
+                  "field": "active"
+                },
                 "id": {
                   "field": "id"
                 },
@@ -108,9 +111,6 @@
                 },
                 "regionId": {
                   "field": "region_id"
-                },
-                "verified": {
-                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -124,8 +124,8 @@
               "name": "Session",
               "properties": [
                 {
-                  "name": "billable",
-                  "type": "boolean"
+                  "name": "balance",
+                  "type": "float"
                 },
                 {
                   "name": "id",
@@ -145,6 +145,10 @@
               "name": "Shipment",
               "properties": [
                 {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
@@ -155,10 +159,6 @@
                 {
                   "name": "regionId",
                   "type": "integer"
-                },
-                {
-                  "name": "verified",
-                  "type": "boolean"
                 }
               ]
             }
@@ -193,63 +193,63 @@
         "rows": [
           {
             "shipment": 1,
-            "shipment_region": "region-68330",
-            "shipment_verified": false
+            "shipment_active": true,
+            "shipment_region": "region-96379"
           },
           {
             "shipment": 2,
-            "shipment_region": "region-19728",
-            "shipment_verified": true
+            "shipment_active": false,
+            "shipment_region": "region-27175"
           },
           {
             "shipment": 3,
-            "shipment_region": "region-61928",
-            "shipment_verified": true
+            "shipment_active": true,
+            "shipment_region": "region-34154"
           },
           {
             "shipment": 4,
-            "shipment_region": "region-07413",
-            "shipment_verified": true
+            "shipment_active": true,
+            "shipment_region": "region-06095"
           },
           {
             "shipment": 5,
-            "shipment_region": "region-56407",
-            "shipment_verified": false
+            "shipment_active": true,
+            "shipment_region": "region-98606"
           },
           {
             "shipment": 6,
-            "shipment_region": "region-15674",
-            "shipment_verified": true
+            "shipment_active": true,
+            "shipment_region": "region-65646"
           },
           {
             "shipment": 7,
-            "shipment_region": "region-10592",
-            "shipment_verified": true
+            "shipment_active": false,
+            "shipment_region": "region-49205"
           },
           {
             "shipment": 8,
-            "shipment_region": "region-38222",
-            "shipment_verified": false
+            "shipment_active": false,
+            "shipment_region": "region-22752"
           },
           {
             "shipment": 9,
-            "shipment_region": "region-71166",
-            "shipment_verified": false
+            "shipment_active": false,
+            "shipment_region": "region-51253"
           },
           {
             "shipment": 10,
-            "shipment_region": "region-45653",
-            "shipment_verified": false
+            "shipment_active": true,
+            "shipment_region": "region-66085"
           },
           {
             "shipment": 11,
-            "shipment_region": "region-32202",
-            "shipment_verified": true
+            "shipment_active": false,
+            "shipment_region": "region-98551"
           },
           {
             "shipment": 12,
-            "shipment_region": "region-91750",
-            "shipment_verified": false
+            "shipment_active": true,
+            "shipment_region": "region-01582"
           }
         ],
         "source_objects": [

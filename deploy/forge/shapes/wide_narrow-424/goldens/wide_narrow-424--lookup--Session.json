@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "session_billable": true,
-        "session_version": 49693
+        "session_balance": 46427.459035,
+        "session_version": 34738
       },
       {
-        "session_billable": true,
-        "session_version": 89851
+        "session_balance": 15096.784554,
+        "session_version": 81287
       },
       {
-        "session_billable": false,
-        "session_version": 64080
+        "session_balance": 79735.087194,
+        "session_version": 14677
       },
       {
-        "session_billable": true,
-        "session_version": 92404
+        "session_balance": 89349.681199,
+        "session_version": 6353
       },
       {
-        "session_billable": true,
-        "session_version": 10634
+        "session_balance": 95570.239453,
+        "session_version": 35241
       },
       {
-        "session_billable": true,
-        "session_version": 4900
+        "session_balance": 26596.322639,
+        "session_version": 98853
       },
       {
-        "session_billable": false,
-        "session_version": 34860
-      },
-      {
-        "session_billable": true,
+        "session_balance": 39897.263145,
         "session_version": 85260
       },
       {
-        "session_billable": true,
+        "session_balance": 15022.738552,
         "session_version": 75267
       },
       {
-        "session_billable": false,
+        "session_balance": 71626.270001,
         "session_version": 21117
       },
       {
-        "session_billable": false,
+        "session_balance": 86866.853027,
         "session_version": 50338
       },
       {
-        "session_billable": false,
+        "session_balance": 52825.612223,
         "session_version": 33221
+      },
+      {
+        "session_balance": 52131.804709,
+        "session_version": 3207
       }
     ],
     "sources_touched": [
@@ -57,16 +57,16 @@
   },
   "family": "lookup",
   "name": "wide_narrow-424--lookup--Session",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_billable ?session_version WHERE { ?session a c:Session ; c:billable ?session_billable ; c:version ?session_version }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_balance ?session_version WHERE { ?session a c:Session ; c:balance ?session_balance ; c:version ?session_version }",
   "shape": "wide_narrow-424",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -82,8 +82,8 @@
             "Session": {
               "collectionName": "sessions",
               "properties": {
-                "billable": {
-                  "field": "billable"
+                "balance": {
+                  "field": "balance"
                 },
                 "id": {
                   "field": "id"
@@ -100,6 +100,9 @@
             "Shipment": {
               "collectionName": "shipments",
               "properties": {
+                "active": {
+                  "field": "active"
+                },
                 "id": {
                   "field": "id"
                 },
@@ -108,9 +111,6 @@
                 },
                 "regionId": {
                   "field": "region_id"
-                },
-                "verified": {
-                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -124,8 +124,8 @@
               "name": "Session",
               "properties": [
                 {
-                  "name": "billable",
-                  "type": "boolean"
+                  "name": "balance",
+                  "type": "float"
                 },
                 {
                   "name": "id",
@@ -145,6 +145,10 @@
               "name": "Shipment",
               "properties": [
                 {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
@@ -155,10 +159,6 @@
                 {
                   "name": "regionId",
                   "type": "integer"
-                },
-                {
-                  "name": "verified",
-                  "type": "boolean"
                 }
               ]
             }
@@ -193,63 +193,63 @@
         "rows": [
           {
             "session": 1,
-            "session_billable": true,
-            "session_version": 49693
+            "session_balance": 46427.459035,
+            "session_version": 34738
           },
           {
             "session": 2,
-            "session_billable": true,
-            "session_version": 89851
+            "session_balance": 15096.784554,
+            "session_version": 81287
           },
           {
             "session": 3,
-            "session_billable": false,
-            "session_version": 64080
+            "session_balance": 79735.087194,
+            "session_version": 14677
           },
           {
             "session": 4,
-            "session_billable": true,
-            "session_version": 92404
+            "session_balance": 89349.681199,
+            "session_version": 6353
           },
           {
             "session": 5,
-            "session_billable": true,
-            "session_version": 10634
+            "session_balance": 95570.239453,
+            "session_version": 35241
           },
           {
             "session": 6,
-            "session_billable": true,
-            "session_version": 4900
+            "session_balance": 26596.322639,
+            "session_version": 98853
           },
           {
             "session": 7,
-            "session_billable": false,
-            "session_version": 34860
-          },
-          {
-            "session": 8,
-            "session_billable": true,
+            "session_balance": 39897.263145,
             "session_version": 85260
           },
           {
-            "session": 9,
-            "session_billable": true,
+            "session": 8,
+            "session_balance": 15022.738552,
             "session_version": 75267
           },
           {
-            "session": 10,
-            "session_billable": false,
+            "session": 9,
+            "session_balance": 71626.270001,
             "session_version": 21117
           },
           {
-            "session": 11,
-            "session_billable": false,
+            "session": 10,
+            "session_balance": 86866.853027,
             "session_version": 50338
           },
           {
-            "session": 12,
-            "session_billable": false,
+            "session": 11,
+            "session_balance": 52825.612223,
             "session_version": 33221
+          },
+          {
+            "session": 12,
+            "session_balance": 52131.804709,
+            "session_version": 3207
           }
         ],
         "source_objects": [

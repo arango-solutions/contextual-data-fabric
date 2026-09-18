@@ -1,22 +1,32 @@
 {
   "expect": {
-    "unsupported_contains": [
-      "declares no GROUP BY capability",
+    "bindings": [
+      {
+        "n": 5,
+        "shipment_active": false
+      },
+      {
+        "n": 7,
+        "shipment_active": true
+      }
+    ],
+    "sources_touched": [
       "postgresql:pg1"
-    ]
+    ],
+    "status": "grounded"
   },
   "family": "single_leg_aggregation",
   "name": "wide_narrow-424--aggregate--Shipment",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_verified (COUNT(?shipment) AS ?n) WHERE { ?shipment a c:Shipment ; c:verified ?shipment_verified } GROUP BY ?shipment_verified",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_active (COUNT(?shipment) AS ?n) WHERE { ?shipment a c:Shipment ; c:active ?shipment_active } GROUP BY ?shipment_active",
   "shape": "wide_narrow-424",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -32,8 +42,8 @@
             "Session": {
               "collectionName": "sessions",
               "properties": {
-                "billable": {
-                  "field": "billable"
+                "balance": {
+                  "field": "balance"
                 },
                 "id": {
                   "field": "id"
@@ -50,6 +60,9 @@
             "Shipment": {
               "collectionName": "shipments",
               "properties": {
+                "active": {
+                  "field": "active"
+                },
                 "id": {
                   "field": "id"
                 },
@@ -58,9 +71,6 @@
                 },
                 "regionId": {
                   "field": "region_id"
-                },
-                "verified": {
-                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -74,8 +84,8 @@
               "name": "Session",
               "properties": [
                 {
-                  "name": "billable",
-                  "type": "boolean"
+                  "name": "balance",
+                  "type": "float"
                 },
                 {
                   "name": "id",
@@ -95,6 +105,10 @@
               "name": "Shipment",
               "properties": [
                 {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
@@ -105,10 +119,6 @@
                 {
                   "name": "regionId",
                   "type": "integer"
-                },
-                {
-                  "name": "verified",
-                  "type": "boolean"
                 }
               ]
             }
@@ -142,12 +152,12 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
         "rows": [
           {
-            "n": 6,
-            "shipment_verified": false
+            "n": 5,
+            "shipment_active": false
           },
           {
-            "n": 6,
-            "shipment_verified": true
+            "n": 7,
+            "shipment_active": true
           }
         ],
         "source_objects": [

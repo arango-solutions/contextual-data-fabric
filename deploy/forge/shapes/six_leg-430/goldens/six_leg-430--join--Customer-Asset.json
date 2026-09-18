@@ -3,51 +3,51 @@
     "bindings": [
       {
         "asset_label": "label-72385",
-        "customer_channel": "channel-23294"
+        "customer_billable": true
       },
       {
-        "asset_label": "label-72385",
-        "customer_channel": "channel-08805"
+        "asset_label": "label-03085",
+        "customer_billable": true
       },
       {
-        "asset_label": "label-41806",
-        "customer_channel": "channel-21211"
-      },
-      {
-        "asset_label": "label-94667",
-        "customer_channel": "channel-43990"
-      },
-      {
-        "asset_label": "label-72385",
-        "customer_channel": "channel-14567"
-      },
-      {
-        "asset_label": "label-22110",
-        "customer_channel": "channel-47173"
-      },
-      {
-        "asset_label": "label-61000",
-        "customer_channel": "channel-32600"
-      },
-      {
-        "asset_label": "label-66924",
-        "customer_channel": "channel-53364"
-      },
-      {
-        "asset_label": "label-61000",
-        "customer_channel": "channel-91595"
+        "asset_label": "label-54316",
+        "customer_billable": true
       },
       {
         "asset_label": "label-77720",
-        "customer_channel": "channel-08933"
+        "customer_billable": true
       },
       {
-        "asset_label": "label-03913",
-        "customer_channel": "channel-68944"
+        "asset_label": "label-68396",
+        "customer_billable": true
       },
       {
-        "asset_label": "label-61000",
-        "customer_channel": "channel-49997"
+        "asset_label": "label-83711",
+        "customer_billable": false
+      },
+      {
+        "asset_label": "label-72385",
+        "customer_billable": false
+      },
+      {
+        "asset_label": "label-03085",
+        "customer_billable": false
+      },
+      {
+        "asset_label": "label-94667",
+        "customer_billable": false
+      },
+      {
+        "asset_label": "label-54316",
+        "customer_billable": false
+      },
+      {
+        "asset_label": "label-22110",
+        "customer_billable": false
+      },
+      {
+        "asset_label": "label-03085",
+        "customer_billable": false
       }
     ],
     "sources_touched": [
@@ -58,16 +58,16 @@
   },
   "family": "join",
   "name": "six_leg-430--join--Customer-Asset",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_channel ?asset_label WHERE { ?customer a c:Customer ; c:channel ?customer_channel ; c:customersToAssets ?asset . ?asset a c:Asset ; c:label ?asset_label }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_billable ?asset_label WHERE { ?customer a c:Customer ; c:billable ?customer_billable ; c:assetId ?asset_key . ?asset a c:Asset ; c:id ?asset_key ; c:label ?asset_label }",
   "shape": "six_leg-430",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": true,
-          "groupBy": true,
-          "having": true
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -86,14 +86,14 @@
                 "assetId": {
                   "field": "asset_id"
                 },
+                "billable": {
+                  "field": "billable"
+                },
                 "channel": {
                   "field": "channel"
                 },
                 "code": {
                   "field": "code"
-                },
-                "expired": {
-                  "field": "expired"
                 },
                 "id": {
                   "field": "id"
@@ -120,16 +120,16 @@
                   "type": "integer"
                 },
                 {
+                  "name": "billable",
+                  "type": "boolean"
+                },
+                {
                   "name": "channel",
                   "type": "string"
                 },
                 {
                   "name": "code",
                   "type": "string"
-                },
-                {
-                  "name": "expired",
-                  "type": "boolean"
                 },
                 {
                   "name": "id",
@@ -175,64 +175,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
         "rows": [
           {
-            "asset": 3,
+            "asset_key": 3,
             "customer": 1,
-            "customer_channel": "channel-23294"
+            "customer_billable": true
           },
           {
-            "asset": 3,
+            "asset_key": 7,
             "customer": 2,
-            "customer_channel": "channel-08805"
+            "customer_billable": true
           },
           {
-            "asset": 5,
+            "asset_key": 10,
             "customer": 3,
-            "customer_channel": "channel-21211"
+            "customer_billable": true
           },
           {
-            "asset": 12,
+            "asset_key": 6,
             "customer": 4,
-            "customer_channel": "channel-43990"
+            "customer_billable": true
           },
           {
-            "asset": 3,
+            "asset_key": 11,
             "customer": 5,
-            "customer_channel": "channel-14567"
+            "customer_billable": true
           },
           {
-            "asset": 1,
+            "asset_key": 2,
             "customer": 6,
-            "customer_channel": "channel-47173"
+            "customer_billable": false
           },
           {
-            "asset": 8,
+            "asset_key": 3,
             "customer": 7,
-            "customer_channel": "channel-32600"
+            "customer_billable": false
           },
           {
-            "asset": 9,
+            "asset_key": 7,
             "customer": 8,
-            "customer_channel": "channel-53364"
+            "customer_billable": false
           },
           {
-            "asset": 8,
+            "asset_key": 12,
             "customer": 9,
-            "customer_channel": "channel-91595"
+            "customer_billable": false
           },
           {
-            "asset": 6,
+            "asset_key": 10,
             "customer": 10,
-            "customer_channel": "channel-08933"
+            "customer_billable": false
           },
           {
-            "asset": 4,
+            "asset_key": 1,
             "customer": 11,
-            "customer_channel": "channel-68944"
+            "customer_billable": false
           },
           {
-            "asset": 8,
+            "asset_key": 7,
             "customer": 12,
-            "customer_channel": "channel-49997"
+            "customer_billable": false
           }
         ],
         "source_objects": [
@@ -245,9 +245,9 @@
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -337,50 +337,62 @@
         "rows": [
           {
             "asset": 1,
+            "asset_key": 1,
             "asset_label": "label-22110"
           },
           {
             "asset": 2,
+            "asset_key": 2,
             "asset_label": "label-83711"
           },
           {
             "asset": 3,
+            "asset_key": 3,
             "asset_label": "label-72385"
           },
           {
             "asset": 4,
+            "asset_key": 4,
             "asset_label": "label-03913"
           },
           {
             "asset": 5,
+            "asset_key": 5,
             "asset_label": "label-41806"
           },
           {
             "asset": 6,
+            "asset_key": 6,
             "asset_label": "label-77720"
           },
           {
             "asset": 7,
+            "asset_key": 7,
             "asset_label": "label-03085"
           },
           {
             "asset": 8,
+            "asset_key": 8,
             "asset_label": "label-61000"
           },
           {
             "asset": 9,
+            "asset_key": 9,
             "asset_label": "label-66924"
           },
           {
             "asset": 10,
+            "asset_key": 10,
             "asset_label": "label-54316"
           },
           {
             "asset": 11,
+            "asset_key": 11,
             "asset_label": "label-68396"
           },
           {
             "asset": 12,
+            "asset_key": 12,
             "asset_label": "label-94667"
           }
         ],

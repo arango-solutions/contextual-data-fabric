@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "invoice_category": "category-08104",
+        "invoice_amount": 6183.393837,
         "shipment_margin": 23784.819809
       },
       {
-        "invoice_category": "category-41313",
-        "shipment_margin": 79157.929276
-      },
-      {
-        "invoice_category": "category-02088",
-        "shipment_margin": 77964.896701
-      },
-      {
-        "invoice_category": "category-87130",
-        "shipment_margin": 49294.889586
-      },
-      {
-        "invoice_category": "category-54662",
-        "shipment_margin": 65742.180219
-      },
-      {
-        "invoice_category": "category-15917",
-        "shipment_margin": 79157.929276
-      },
-      {
-        "invoice_category": "category-80737",
-        "shipment_margin": 79031.069355
-      },
-      {
-        "invoice_category": "category-51834",
-        "shipment_margin": 77964.896701
-      },
-      {
-        "invoice_category": "category-00255",
+        "invoice_amount": 99750.538967,
         "shipment_margin": 70981.282009
       },
       {
-        "invoice_category": "category-50834",
+        "invoice_amount": 61354.682532,
+        "shipment_margin": 49294.889586
+      },
+      {
+        "invoice_amount": 68237.098905,
+        "shipment_margin": 65742.180219
+      },
+      {
+        "invoice_amount": 37285.971037,
         "shipment_margin": 79031.069355
       },
       {
-        "invoice_category": "category-75708",
-        "shipment_margin": 79157.929276
+        "invoice_amount": 56220.543168,
+        "shipment_margin": 77964.896701
       },
       {
-        "invoice_category": "category-41894",
-        "shipment_margin": 777.883647
+        "invoice_amount": 54082.045461,
+        "shipment_margin": 54387.807378
+      },
+      {
+        "invoice_amount": 97936.540074,
+        "shipment_margin": 79031.069355
+      },
+      {
+        "invoice_amount": 47388.028439,
+        "shipment_margin": 49294.889586
+      },
+      {
+        "invoice_amount": 38378.81799,
+        "shipment_margin": 79031.069355
+      },
+      {
+        "invoice_amount": 22629.542999,
+        "shipment_margin": 54387.807378
+      },
+      {
+        "invoice_amount": 55002.649945,
+        "shipment_margin": 70981.282009
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "six_leg-425--join--Invoice-Shipment",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_category ?shipment_margin WHERE { ?invoice a c:Invoice ; c:category ?invoice_category ; c:invoicesToShipments ?shipment . ?shipment a c:Shipment ; c:margin ?shipment_margin }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_amount ?shipment_margin WHERE { ?invoice a c:Invoice ; c:amount ?invoice_amount ; c:shipmentId ?shipment_key . ?shipment a c:Shipment ; c:id ?shipment_key ; c:margin ?shipment_margin }",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -83,20 +83,20 @@
             "Invoice": {
               "collectionName": "invoices",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
                 "category": {
                   "field": "category"
                 },
                 "id": {
                   "field": "id"
                 },
-                "latencyMs": {
-                  "field": "latency_ms"
+                "priority": {
+                  "field": "priority"
                 },
                 "rank": {
                   "field": "rank"
-                },
-                "seats": {
-                  "field": "seats"
                 },
                 "shipmentId": {
                   "field": "shipment_id"
@@ -113,6 +113,10 @@
               "name": "Invoice",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
                   "name": "category",
                   "type": "string"
                 },
@@ -121,15 +125,11 @@
                   "type": "integer"
                 },
                 {
-                  "name": "latencyMs",
-                  "type": "float"
-                },
-                {
-                  "name": "rank",
+                  "name": "priority",
                   "type": "integer"
                 },
                 {
-                  "name": "seats",
+                  "name": "rank",
                   "type": "integer"
                 },
                 {
@@ -164,63 +164,63 @@
         "rows": [
           {
             "invoice": 1,
-            "invoice_category": "category-08104",
-            "shipment": 4
+            "invoice_amount": 6183.393837,
+            "shipment_key": 4
           },
           {
             "invoice": 2,
-            "invoice_category": "category-41313",
-            "shipment": 5
+            "invoice_amount": 99750.538967,
+            "shipment_key": 6
           },
           {
             "invoice": 3,
-            "invoice_category": "category-02088",
-            "shipment": 2
+            "invoice_amount": 61354.682532,
+            "shipment_key": 1
           },
           {
             "invoice": 4,
-            "invoice_category": "category-87130",
-            "shipment": 1
+            "invoice_amount": 68237.098905,
+            "shipment_key": 11
           },
           {
             "invoice": 5,
-            "invoice_category": "category-54662",
-            "shipment": 11
+            "invoice_amount": 37285.971037,
+            "shipment_key": 7
           },
           {
             "invoice": 6,
-            "invoice_category": "category-15917",
-            "shipment": 5
+            "invoice_amount": 56220.543168,
+            "shipment_key": 2
           },
           {
             "invoice": 7,
-            "invoice_category": "category-80737",
-            "shipment": 7
+            "invoice_amount": 54082.045461,
+            "shipment_key": 10
           },
           {
             "invoice": 8,
-            "invoice_category": "category-51834",
-            "shipment": 2
+            "invoice_amount": 97936.540074,
+            "shipment_key": 7
           },
           {
             "invoice": 9,
-            "invoice_category": "category-00255",
-            "shipment": 6
+            "invoice_amount": 47388.028439,
+            "shipment_key": 1
           },
           {
             "invoice": 10,
-            "invoice_category": "category-50834",
-            "shipment": 7
+            "invoice_amount": 38378.81799,
+            "shipment_key": 7
           },
           {
             "invoice": 11,
-            "invoice_category": "category-75708",
-            "shipment": 5
+            "invoice_amount": 22629.542999,
+            "shipment_key": 10
           },
           {
             "invoice": 12,
-            "invoice_category": "category-41894",
-            "shipment": 9
+            "invoice_amount": 55002.649945,
+            "shipment_key": 6
           }
         ],
         "source_objects": [
@@ -332,50 +332,62 @@
         "rows": [
           {
             "shipment": 1,
+            "shipment_key": 1,
             "shipment_margin": 49294.889586
           },
           {
             "shipment": 2,
+            "shipment_key": 2,
             "shipment_margin": 77964.896701
           },
           {
             "shipment": 3,
+            "shipment_key": 3,
             "shipment_margin": 62342.81235
           },
           {
             "shipment": 4,
+            "shipment_key": 4,
             "shipment_margin": 23784.819809
           },
           {
             "shipment": 5,
+            "shipment_key": 5,
             "shipment_margin": 79157.929276
           },
           {
             "shipment": 6,
+            "shipment_key": 6,
             "shipment_margin": 70981.282009
           },
           {
             "shipment": 7,
+            "shipment_key": 7,
             "shipment_margin": 79031.069355
           },
           {
             "shipment": 8,
+            "shipment_key": 8,
             "shipment_margin": 34051.025162
           },
           {
             "shipment": 9,
+            "shipment_key": 9,
             "shipment_margin": 777.883647
           },
           {
             "shipment": 10,
+            "shipment_key": 10,
             "shipment_margin": 54387.807378
           },
           {
             "shipment": 11,
+            "shipment_key": 11,
             "shipment_margin": 65742.180219
           },
           {
             "shipment": 12,
+            "shipment_key": 12,
             "shipment_margin": 73574.685751
           }
         ],

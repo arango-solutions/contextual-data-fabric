@@ -35,6 +35,12 @@
                 "active": {
                   "field": "active"
                 },
+                "archived": {
+                  "field": "archived"
+                },
+                "balance": {
+                  "field": "balance"
+                },
                 "billable": {
                   "field": "billable"
                 },
@@ -44,14 +50,8 @@
                 "expired": {
                   "field": "expired"
                 },
-                "flagged": {
-                  "field": "flagged"
-                },
                 "id": {
                   "field": "id"
-                },
-                "label": {
-                  "field": "label"
                 },
                 "latencyMs": {
                   "field": "latency_ms"
@@ -62,14 +62,14 @@
                 "rank": {
                   "field": "rank"
                 },
-                "score": {
-                  "field": "score"
-                },
                 "seats": {
                   "field": "seats"
                 },
                 "tier": {
                   "field": "tier"
+                },
+                "verified": {
+                  "field": "verified"
                 },
                 "weight": {
                   "field": "weight"
@@ -90,6 +90,14 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "balance",
+                  "type": "float"
+                },
+                {
                   "name": "billable",
                   "type": "boolean"
                 },
@@ -102,16 +110,8 @@
                   "type": "boolean"
                 },
                 {
-                  "name": "flagged",
-                  "type": "boolean"
-                },
-                {
                   "name": "id",
                   "type": "integer"
-                },
-                {
-                  "name": "label",
-                  "type": "string"
                 },
                 {
                   "name": "latencyMs",
@@ -126,16 +126,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "score",
-                  "type": "integer"
-                },
-                {
                   "name": "seats",
                   "type": "integer"
                 },
                 {
                   "name": "tier",
                   "type": "string"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
                 },
                 {
                   "name": "weight",
@@ -162,11 +162,11 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
         "rows": [
           {
-            "n": 7,
+            "n": 6,
             "payment_active": false
           },
           {
-            "n": 5,
+            "n": 6,
             "payment_active": true
           }
         ],

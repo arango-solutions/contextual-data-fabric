@@ -25,7 +25,7 @@
           "type": "boolean"
         },
         {
-          "name": "primary",
+          "name": "expired",
           "type": "boolean"
         }
       ]
@@ -51,7 +51,7 @@
       "name": "Session",
       "properties": [
         {
-          "name": "expired",
+          "name": "billable",
           "type": "boolean"
         },
         {

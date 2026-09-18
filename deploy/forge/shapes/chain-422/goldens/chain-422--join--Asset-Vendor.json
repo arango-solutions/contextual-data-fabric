@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "chain-422--join--Asset-Vendor",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_currency ?vendor_tier WHERE { ?asset a c:Asset ; c:currency ?asset_currency ; c:assetsToVendors ?vendor . ?vendor a c:Vendor ; c:tier ?vendor_tier }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_currency ?vendor_tier WHERE { ?asset a c:Asset ; c:currency ?asset_currency ; c:vendorId ?vendor_key . ?vendor a c:Vendor ; c:id ?vendor_key ; c:tier ?vendor_tier }",
   "shape": "chain-422",
   "sources": [
     {
@@ -151,62 +151,62 @@
           {
             "asset": 1,
             "asset_currency": "currency-74110",
-            "vendor": 10
+            "vendor_key": 10
           },
           {
             "asset": 2,
             "asset_currency": "currency-00745",
-            "vendor": 7
+            "vendor_key": 7
           },
           {
             "asset": 3,
             "asset_currency": "currency-89610",
-            "vendor": 8
+            "vendor_key": 8
           },
           {
             "asset": 4,
             "asset_currency": "currency-82792",
-            "vendor": 7
+            "vendor_key": 7
           },
           {
             "asset": 5,
             "asset_currency": "currency-16619",
-            "vendor": 6
+            "vendor_key": 6
           },
           {
             "asset": 6,
             "asset_currency": "currency-12810",
-            "vendor": 11
+            "vendor_key": 11
           },
           {
             "asset": 7,
             "asset_currency": "currency-42623",
-            "vendor": 4
+            "vendor_key": 4
           },
           {
             "asset": 8,
             "asset_currency": "currency-17735",
-            "vendor": 2
+            "vendor_key": 2
           },
           {
             "asset": 9,
             "asset_currency": "currency-26564",
-            "vendor": 5
+            "vendor_key": 5
           },
           {
             "asset": 10,
             "asset_currency": "currency-75043",
-            "vendor": 10
+            "vendor_key": 10
           },
           {
             "asset": 11,
             "asset_currency": "currency-84993",
-            "vendor": 8
+            "vendor_key": 8
           },
           {
             "asset": 12,
             "asset_currency": "currency-24822",
-            "vendor": 4
+            "vendor_key": 4
           }
         ],
         "source_objects": [
@@ -304,50 +304,62 @@
         "rows": [
           {
             "vendor": 1,
+            "vendor_key": 1,
             "vendor_tier": "tier-71168"
           },
           {
             "vendor": 2,
+            "vendor_key": 2,
             "vendor_tier": "tier-62500"
           },
           {
             "vendor": 3,
+            "vendor_key": 3,
             "vendor_tier": "tier-64347"
           },
           {
             "vendor": 4,
+            "vendor_key": 4,
             "vendor_tier": "tier-83293"
           },
           {
             "vendor": 5,
+            "vendor_key": 5,
             "vendor_tier": "tier-02136"
           },
           {
             "vendor": 6,
+            "vendor_key": 6,
             "vendor_tier": "tier-41326"
           },
           {
             "vendor": 7,
+            "vendor_key": 7,
             "vendor_tier": "tier-97083"
           },
           {
             "vendor": 8,
+            "vendor_key": 8,
             "vendor_tier": "tier-56593"
           },
           {
             "vendor": 9,
+            "vendor_key": 9,
             "vendor_tier": "tier-60807"
           },
           {
             "vendor": 10,
+            "vendor_key": 10,
             "vendor_tier": "tier-20997"
           },
           {
             "vendor": 11,
+            "vendor_key": 11,
             "vendor_tier": "tier-91833"
           },
           {
             "vendor": 12,
+            "vendor_key": 12,
             "vendor_tier": "tier-05679"
           }
         ],

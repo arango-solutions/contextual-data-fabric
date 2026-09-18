@@ -7,7 +7,7 @@
   "family": "cross_leg_aggregation",
   "name": "wide_narrow-424--crossleg-aggregate--Invoice-Region",
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_active (COUNT(?invoice) AS ?n) WHERE { ?invoice a c:Invoice ; c:invoicesToRegions ?region . ?region a c:Region ; c:active ?region_active } GROUP BY ?region_active",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_amount (COUNT(?invoice) AS ?n) WHERE { ?invoice a c:Invoice ; c:regionId ?region_key . ?region a c:Region ; c:id ?region_key ; c:amount ?region_amount } GROUP BY ?region_amount",
   "shape": "wide_narrow-424",
   "sources": [
     {
@@ -100,9 +100,9 @@
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -118,9 +118,6 @@
             "Region": {
               "collectionName": "regions",
               "properties": {
-                "active": {
-                  "field": "active"
-                },
                 "amount": {
                   "field": "amount"
                 },
@@ -130,8 +127,14 @@
                 "expired": {
                   "field": "expired"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
+                },
+                "label": {
+                  "field": "label"
                 },
                 "notes": {
                   "field": "notes"
@@ -145,14 +148,11 @@
                 "ratio": {
                   "field": "ratio"
                 },
-                "segment": {
-                  "field": "segment"
-                },
                 "tier": {
                   "field": "tier"
                 },
-                "units": {
-                  "field": "units"
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -166,10 +166,6 @@
               "name": "Region",
               "properties": [
                 {
-                  "name": "active",
-                  "type": "boolean"
-                },
-                {
                   "name": "amount",
                   "type": "float"
                 },
@@ -182,8 +178,16 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
                 },
                 {
                   "name": "notes",
@@ -202,16 +206,12 @@
                   "type": "float"
                 },
                 {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
                   "name": "tier",
                   "type": "string"
                 },
                 {
-                  "name": "units",
-                  "type": "integer"
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }

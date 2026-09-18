@@ -21,19 +21,19 @@
       "name": "Invoice",
       "properties": [
         {
+          "name": "amount",
+          "type": "float"
+        },
+        {
           "name": "category",
           "type": "string"
         },
         {
-          "name": "latencyMs",
-          "type": "float"
-        },
-        {
-          "name": "rank",
+          "name": "priority",
           "type": "integer"
         },
         {
-          "name": "seats",
+          "name": "rank",
           "type": "integer"
         }
       ]
@@ -42,7 +42,7 @@
       "name": "Order",
       "properties": [
         {
-          "name": "billable",
+          "name": "active",
           "type": "boolean"
         },
         {
@@ -62,14 +62,6 @@
     {
       "name": "Product",
       "properties": [
-        {
-          "name": "expired",
-          "type": "boolean"
-        },
-        {
-          "name": "quantity",
-          "type": "integer"
-        },
         {
           "name": "tier",
           "type": "string"
@@ -109,7 +101,7 @@
           "type": "boolean"
         },
         {
-          "name": "retries",
+          "name": "seats",
           "type": "integer"
         }
       ]

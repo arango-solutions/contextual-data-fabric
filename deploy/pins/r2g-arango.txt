@@ -7,4 +7,4 @@
 # ArthurKeen mirror carries the same SHA. Switch to a version band
 # ("r2g-arango>=0.4.2,<0.5.0") on the first release that ships it — and
 # regenerate deploy/forge/shapes in the same PR: #2 changes generated names.
-r2g-arango @ git+https://github.com/arango-solutions/r2g-arango.git@d6e147067091032206f52fc1ad01f32e1fa5ee3d
+r2g-arango @ git+https://github.com/arango-solutions/r2g-arango.git@a83bad3f40e51715685e4be4560de4d172740cb6

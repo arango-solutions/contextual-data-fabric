@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "region_active": true,
-        "shipment_region": "region-68330"
+        "region_amount": 81972.032355,
+        "shipment_active": true
       },
       {
-        "region_active": false,
-        "shipment_region": "region-19728"
+        "region_amount": 62085.431128,
+        "shipment_active": false
       },
       {
-        "region_active": true,
-        "shipment_region": "region-61928"
+        "region_amount": 12473.150453,
+        "shipment_active": true
       },
       {
-        "region_active": true,
-        "shipment_region": "region-07413"
+        "region_amount": 29831.837695,
+        "shipment_active": true
       },
       {
-        "region_active": false,
-        "shipment_region": "region-56407"
+        "region_amount": 18450.804612,
+        "shipment_active": true
       },
       {
-        "region_active": false,
-        "shipment_region": "region-15674"
+        "region_amount": 81972.032355,
+        "shipment_active": true
       },
       {
-        "region_active": false,
-        "shipment_region": "region-10592"
+        "region_amount": 50559.548521,
+        "shipment_active": false
       },
       {
-        "region_active": false,
-        "shipment_region": "region-38222"
+        "region_amount": 50489.43487,
+        "shipment_active": false
       },
       {
-        "region_active": true,
-        "shipment_region": "region-71166"
+        "region_amount": 29831.837695,
+        "shipment_active": false
       },
       {
-        "region_active": false,
-        "shipment_region": "region-45653"
+        "region_amount": 69121.869847,
+        "shipment_active": true
       },
       {
-        "region_active": true,
-        "shipment_region": "region-32202"
+        "region_amount": 9194.339102,
+        "shipment_active": false
       },
       {
-        "region_active": false,
-        "shipment_region": "region-91750"
+        "region_amount": 44508.108505,
+        "shipment_active": true
       }
     ],
     "sources_touched": [
@@ -58,16 +58,16 @@
   },
   "family": "join",
   "name": "wide_narrow-424--join--Shipment-Region",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_region ?region_active WHERE { ?shipment a c:Shipment ; c:region ?shipment_region ; c:shipmentsToRegions ?region . ?region a c:Region ; c:active ?region_active }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_active ?region_amount WHERE { ?shipment a c:Shipment ; c:active ?shipment_active ; c:regionId ?region_key . ?region a c:Region ; c:id ?region_key ; c:amount ?region_amount }",
   "shape": "wide_narrow-424",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -83,8 +83,8 @@
             "Session": {
               "collectionName": "sessions",
               "properties": {
-                "billable": {
-                  "field": "billable"
+                "balance": {
+                  "field": "balance"
                 },
                 "id": {
                   "field": "id"
@@ -101,6 +101,9 @@
             "Shipment": {
               "collectionName": "shipments",
               "properties": {
+                "active": {
+                  "field": "active"
+                },
                 "id": {
                   "field": "id"
                 },
@@ -109,9 +112,6 @@
                 },
                 "regionId": {
                   "field": "region_id"
-                },
-                "verified": {
-                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -125,8 +125,8 @@
               "name": "Session",
               "properties": [
                 {
-                  "name": "billable",
-                  "type": "boolean"
+                  "name": "balance",
+                  "type": "float"
                 },
                 {
                   "name": "id",
@@ -146,6 +146,10 @@
               "name": "Shipment",
               "properties": [
                 {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
@@ -156,10 +160,6 @@
                 {
                   "name": "regionId",
                   "type": "integer"
-                },
-                {
-                  "name": "verified",
-                  "type": "boolean"
                 }
               ]
             }
@@ -193,64 +193,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
         "rows": [
           {
-            "region": 10,
+            "region_key": 8,
             "shipment": 1,
-            "shipment_region": "region-68330"
+            "shipment_active": true
           },
           {
-            "region": 8,
+            "region_key": 10,
             "shipment": 2,
-            "shipment_region": "region-19728"
+            "shipment_active": false
           },
           {
-            "region": 10,
+            "region_key": 7,
             "shipment": 3,
-            "shipment_region": "region-61928"
+            "shipment_active": true
           },
           {
-            "region": 7,
+            "region_key": 6,
             "shipment": 4,
-            "shipment_region": "region-07413"
+            "shipment_active": true
           },
           {
-            "region": 6,
+            "region_key": 2,
             "shipment": 5,
-            "shipment_region": "region-56407"
+            "shipment_active": true
           },
           {
-            "region": 1,
+            "region_key": 8,
             "shipment": 6,
-            "shipment_region": "region-15674"
+            "shipment_active": true
           },
           {
-            "region": 8,
+            "region_key": 5,
             "shipment": 7,
-            "shipment_region": "region-10592"
+            "shipment_active": false
           },
           {
-            "region": 9,
+            "region_key": 9,
             "shipment": 8,
-            "shipment_region": "region-38222"
+            "shipment_active": false
           },
           {
-            "region": 7,
+            "region_key": 6,
             "shipment": 9,
-            "shipment_region": "region-71166"
+            "shipment_active": false
           },
           {
-            "region": 3,
+            "region_key": 4,
             "shipment": 10,
-            "shipment_region": "region-45653"
+            "shipment_active": true
           },
           {
-            "region": 7,
+            "region_key": 12,
             "shipment": 11,
-            "shipment_region": "region-32202"
+            "shipment_active": false
           },
           {
-            "region": 9,
+            "region_key": 11,
             "shipment": 12,
-            "shipment_region": "region-91750"
+            "shipment_active": true
           }
         ],
         "source_objects": [
@@ -263,9 +263,9 @@
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -281,9 +281,6 @@
             "Region": {
               "collectionName": "regions",
               "properties": {
-                "active": {
-                  "field": "active"
-                },
                 "amount": {
                   "field": "amount"
                 },
@@ -293,8 +290,14 @@
                 "expired": {
                   "field": "expired"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
+                },
+                "label": {
+                  "field": "label"
                 },
                 "notes": {
                   "field": "notes"
@@ -308,14 +311,11 @@
                 "ratio": {
                   "field": "ratio"
                 },
-                "segment": {
-                  "field": "segment"
-                },
                 "tier": {
                   "field": "tier"
                 },
-                "units": {
-                  "field": "units"
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -329,10 +329,6 @@
               "name": "Region",
               "properties": [
                 {
-                  "name": "active",
-                  "type": "boolean"
-                },
-                {
                   "name": "amount",
                   "type": "float"
                 },
@@ -345,8 +341,16 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
                 },
                 {
                   "name": "notes",
@@ -365,16 +369,12 @@
                   "type": "float"
                 },
                 {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
                   "name": "tier",
                   "type": "string"
                 },
                 {
-                  "name": "units",
-                  "type": "integer"
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }
@@ -398,51 +398,63 @@
         "rows": [
           {
             "region": 1,
-            "region_active": false
+            "region_amount": 56158.436436,
+            "region_key": 1
           },
           {
             "region": 2,
-            "region_active": false
+            "region_amount": 18450.804612,
+            "region_key": 2
           },
           {
             "region": 3,
-            "region_active": false
+            "region_amount": 85232.616549,
+            "region_key": 3
           },
           {
             "region": 4,
-            "region_active": true
+            "region_amount": 69121.869847,
+            "region_key": 4
           },
           {
             "region": 5,
-            "region_active": true
+            "region_amount": 50559.548521,
+            "region_key": 5
           },
           {
             "region": 6,
-            "region_active": false
+            "region_amount": 29831.837695,
+            "region_key": 6
           },
           {
             "region": 7,
-            "region_active": true
+            "region_amount": 12473.150453,
+            "region_key": 7
           },
           {
             "region": 8,
-            "region_active": false
+            "region_amount": 81972.032355,
+            "region_key": 8
           },
           {
             "region": 9,
-            "region_active": false
+            "region_amount": 50489.43487,
+            "region_key": 9
           },
           {
             "region": 10,
-            "region_active": true
+            "region_amount": 62085.431128,
+            "region_key": 10
           },
           {
             "region": 11,
-            "region_active": true
+            "region_amount": 44508.108505,
+            "region_key": 11
           },
           {
             "region": 12,
-            "region_active": true
+            "region_amount": 9194.339102,
+            "region_key": 12
           }
         ],
         "source_objects": [

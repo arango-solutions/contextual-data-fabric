@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "order_billable": false,
-        "vendor_archived": true
-      },
-      {
-        "order_billable": false,
+        "order_active": false,
         "vendor_archived": false
       },
       {
-        "order_billable": true,
-        "vendor_archived": false
-      },
-      {
-        "order_billable": true,
+        "order_active": false,
         "vendor_archived": true
       },
       {
-        "order_billable": true,
-        "vendor_archived": false
-      },
-      {
-        "order_billable": true,
+        "order_active": false,
         "vendor_archived": true
       },
       {
-        "order_billable": false,
-        "vendor_archived": false
-      },
-      {
-        "order_billable": true,
+        "order_active": false,
         "vendor_archived": true
       },
       {
-        "order_billable": false,
-        "vendor_archived": false
-      },
-      {
-        "order_billable": true,
+        "order_active": false,
         "vendor_archived": true
       },
       {
-        "order_billable": true,
+        "order_active": false,
         "vendor_archived": false
       },
       {
-        "order_billable": true,
+        "order_active": false,
+        "vendor_archived": false
+      },
+      {
+        "order_active": false,
+        "vendor_archived": false
+      },
+      {
+        "order_active": false,
         "vendor_archived": true
+      },
+      {
+        "order_active": true,
+        "vendor_archived": false
+      },
+      {
+        "order_active": true,
+        "vendor_archived": true
+      },
+      {
+        "order_active": false,
+        "vendor_archived": false
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "six_leg-425--join--Vendor-Order",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?order_billable WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:vendorsToOrders ?order . ?order a c:Order ; c:billable ?order_billable }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?order_active WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:orderId ?order_key . ?order a c:Order ; c:id ?order_key ; c:active ?order_active }",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -95,8 +95,8 @@
                 "orderId": {
                   "field": "order_id"
                 },
-                "retries": {
-                  "field": "retries"
+                "seats": {
+                  "field": "seats"
                 }
               },
               "style": "COLLECTION"
@@ -126,7 +126,7 @@
                   "type": "integer"
                 },
                 {
-                  "name": "retries",
+                  "name": "seats",
                   "type": "integer"
                 }
               ]
@@ -161,64 +161,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for vendors",
         "rows": [
           {
-            "order": 10,
+            "order_key": 10,
             "vendor": 1,
+            "vendor_archived": false
+          },
+          {
+            "order_key": 7,
+            "vendor": 2,
             "vendor_archived": true
           },
           {
-            "order": 10,
-            "vendor": 2,
-            "vendor_archived": false
-          },
-          {
-            "order": 1,
+            "order_key": 5,
             "vendor": 3,
-            "vendor_archived": false
+            "vendor_archived": true
           },
           {
-            "order": 4,
+            "order_key": 11,
             "vendor": 4,
             "vendor_archived": true
           },
           {
-            "order": 2,
+            "order_key": 12,
             "vendor": 5,
-            "vendor_archived": false
-          },
-          {
-            "order": 4,
-            "vendor": 6,
             "vendor_archived": true
           },
           {
-            "order": 8,
+            "order_key": 1,
+            "vendor": 6,
+            "vendor_archived": false
+          },
+          {
+            "order_key": 1,
             "vendor": 7,
             "vendor_archived": false
           },
           {
-            "order": 4,
+            "order_key": 12,
             "vendor": 8,
-            "vendor_archived": true
+            "vendor_archived": false
           },
           {
-            "order": 12,
+            "order_key": 7,
             "vendor": 9,
-            "vendor_archived": false
+            "vendor_archived": true
           },
           {
-            "order": 9,
+            "order_key": 2,
             "vendor": 10,
-            "vendor_archived": true
-          },
-          {
-            "order": 6,
-            "vendor": 11,
             "vendor_archived": false
           },
           {
-            "order": 3,
-            "vendor": 12,
+            "order_key": 4,
+            "vendor": 11,
             "vendor_archived": true
+          },
+          {
+            "order_key": 8,
+            "vendor": 12,
+            "vendor_archived": false
           }
         ],
         "source_objects": [
@@ -249,8 +249,8 @@
             "Order": {
               "collectionName": "orders",
               "properties": {
-                "billable": {
-                  "field": "billable"
+                "active": {
+                  "field": "active"
                 },
                 "deviceId": {
                   "field": "device_id"
@@ -282,7 +282,7 @@
               "name": "Order",
               "properties": [
                 {
-                  "name": "billable",
+                  "name": "active",
                   "type": "boolean"
                 },
                 {
@@ -342,51 +342,63 @@
         "rows": [
           {
             "order": 1,
-            "order_billable": true
+            "order_active": false,
+            "order_key": 1
           },
           {
             "order": 2,
-            "order_billable": true
+            "order_active": true,
+            "order_key": 2
           },
           {
             "order": 3,
-            "order_billable": true
+            "order_active": true,
+            "order_key": 3
           },
           {
             "order": 4,
-            "order_billable": true
+            "order_active": true,
+            "order_key": 4
           },
           {
             "order": 5,
-            "order_billable": false
+            "order_active": false,
+            "order_key": 5
           },
           {
             "order": 6,
-            "order_billable": true
+            "order_active": true,
+            "order_key": 6
           },
           {
             "order": 7,
-            "order_billable": false
+            "order_active": false,
+            "order_key": 7
           },
           {
             "order": 8,
-            "order_billable": false
+            "order_active": false,
+            "order_key": 8
           },
           {
             "order": 9,
-            "order_billable": true
+            "order_active": true,
+            "order_key": 9
           },
           {
             "order": 10,
-            "order_billable": false
+            "order_active": false,
+            "order_key": 10
           },
           {
             "order": 11,
-            "order_billable": false
+            "order_active": false,
+            "order_key": 11
           },
           {
             "order": 12,
-            "order_billable": false
+            "order_active": false,
+            "order_key": 12
           }
         ],
         "source_objects": [

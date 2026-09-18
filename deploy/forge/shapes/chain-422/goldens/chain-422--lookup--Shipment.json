@@ -2,51 +2,51 @@
   "expect": {
     "bindings": [
       {
-        "shipment_expired": true,
+        "shipment_billable": true,
         "shipment_retries": 17394
       },
       {
-        "shipment_expired": false,
+        "shipment_billable": false,
         "shipment_retries": 32343
       },
       {
-        "shipment_expired": false,
+        "shipment_billable": false,
         "shipment_retries": 99351
       },
       {
-        "shipment_expired": true,
+        "shipment_billable": true,
         "shipment_retries": 80092
       },
       {
-        "shipment_expired": false,
+        "shipment_billable": false,
         "shipment_retries": 41529
       },
       {
-        "shipment_expired": false,
+        "shipment_billable": false,
         "shipment_retries": 23597
       },
       {
-        "shipment_expired": false,
+        "shipment_billable": false,
         "shipment_retries": 36731
       },
       {
-        "shipment_expired": true,
+        "shipment_billable": true,
         "shipment_retries": 61733
       },
       {
-        "shipment_expired": true,
+        "shipment_billable": true,
         "shipment_retries": 64037
       },
       {
-        "shipment_expired": true,
+        "shipment_billable": true,
         "shipment_retries": 86443
       },
       {
-        "shipment_expired": false,
+        "shipment_billable": false,
         "shipment_retries": 589
       },
       {
-        "shipment_expired": true,
+        "shipment_billable": true,
         "shipment_retries": 33987
       }
     ],
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "chain-422--lookup--Shipment",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_expired ?shipment_retries WHERE { ?shipment a c:Shipment ; c:expired ?shipment_expired ; c:retries ?shipment_retries }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_billable ?shipment_retries WHERE { ?shipment a c:Shipment ; c:billable ?shipment_billable ; c:retries ?shipment_retries }",
   "shape": "chain-422",
   "sources": [
     {
@@ -85,8 +85,8 @@
                 "assetId": {
                   "field": "asset_id"
                 },
-                "expired": {
-                  "field": "expired"
+                "billable": {
+                  "field": "billable"
                 },
                 "id": {
                   "field": "id"
@@ -110,7 +110,7 @@
                   "type": "integer"
                 },
                 {
-                  "name": "expired",
+                  "name": "billable",
                   "type": "boolean"
                 },
                 {
@@ -149,62 +149,62 @@
         "rows": [
           {
             "shipment": 1,
-            "shipment_expired": true,
+            "shipment_billable": true,
             "shipment_retries": 17394
           },
           {
             "shipment": 2,
-            "shipment_expired": false,
+            "shipment_billable": false,
             "shipment_retries": 32343
           },
           {
             "shipment": 3,
-            "shipment_expired": false,
+            "shipment_billable": false,
             "shipment_retries": 99351
           },
           {
             "shipment": 4,
-            "shipment_expired": true,
+            "shipment_billable": true,
             "shipment_retries": 80092
           },
           {
             "shipment": 5,
-            "shipment_expired": false,
+            "shipment_billable": false,
             "shipment_retries": 41529
           },
           {
             "shipment": 6,
-            "shipment_expired": false,
+            "shipment_billable": false,
             "shipment_retries": 23597
           },
           {
             "shipment": 7,
-            "shipment_expired": false,
+            "shipment_billable": false,
             "shipment_retries": 36731
           },
           {
             "shipment": 8,
-            "shipment_expired": true,
+            "shipment_billable": true,
             "shipment_retries": 61733
           },
           {
             "shipment": 9,
-            "shipment_expired": true,
+            "shipment_billable": true,
             "shipment_retries": 64037
           },
           {
             "shipment": 10,
-            "shipment_expired": true,
+            "shipment_billable": true,
             "shipment_retries": 86443
           },
           {
             "shipment": 11,
-            "shipment_expired": false,
+            "shipment_billable": false,
             "shipment_retries": 589
           },
           {
             "shipment": 12,
-            "shipment_expired": true,
+            "shipment_billable": true,
             "shipment_retries": 33987
           }
         ],

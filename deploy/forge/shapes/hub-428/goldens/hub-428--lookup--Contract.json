@@ -3,51 +3,51 @@
     "bindings": [
       {
         "contract_archived": false,
-        "contract_primary": false
+        "contract_expired": false
       },
       {
         "contract_archived": false,
-        "contract_primary": false
+        "contract_expired": false
       },
       {
         "contract_archived": true,
-        "contract_primary": false
+        "contract_expired": false
       },
       {
         "contract_archived": true,
-        "contract_primary": true
+        "contract_expired": true
       },
       {
         "contract_archived": true,
-        "contract_primary": false
+        "contract_expired": false
       },
       {
         "contract_archived": false,
-        "contract_primary": true
+        "contract_expired": true
       },
       {
         "contract_archived": true,
-        "contract_primary": true
+        "contract_expired": true
       },
       {
         "contract_archived": false,
-        "contract_primary": false
+        "contract_expired": false
       },
       {
         "contract_archived": true,
-        "contract_primary": false
+        "contract_expired": false
       },
       {
         "contract_archived": false,
-        "contract_primary": false
+        "contract_expired": false
       },
       {
         "contract_archived": false,
-        "contract_primary": true
+        "contract_expired": true
       },
       {
         "contract_archived": true,
-        "contract_primary": false
+        "contract_expired": false
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "hub-428--lookup--Contract",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_archived ?contract_primary WHERE { ?contract a c:Contract ; c:archived ?contract_archived ; c:primary ?contract_primary }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_archived ?contract_expired WHERE { ?contract a c:Contract ; c:archived ?contract_archived ; c:expired ?contract_expired }",
   "shape": "hub-428",
   "sources": [
     {
@@ -88,11 +88,11 @@
                 "archived": {
                   "field": "archived"
                 },
+                "expired": {
+                  "field": "expired"
+                },
                 "id": {
                   "field": "id"
-                },
-                "primary": {
-                  "field": "primary"
                 }
               },
               "style": "COLLECTION"
@@ -135,12 +135,12 @@
                   "type": "boolean"
                 },
                 {
-                  "name": "id",
-                  "type": "integer"
+                  "name": "expired",
+                  "type": "boolean"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "id",
+                  "type": "integer"
                 }
               ]
             },
@@ -201,62 +201,62 @@
           {
             "contract": 1,
             "contract_archived": false,
-            "contract_primary": false
+            "contract_expired": false
           },
           {
             "contract": 2,
             "contract_archived": false,
-            "contract_primary": false
+            "contract_expired": false
           },
           {
             "contract": 3,
             "contract_archived": true,
-            "contract_primary": false
+            "contract_expired": false
           },
           {
             "contract": 4,
             "contract_archived": true,
-            "contract_primary": true
+            "contract_expired": true
           },
           {
             "contract": 5,
             "contract_archived": true,
-            "contract_primary": false
+            "contract_expired": false
           },
           {
             "contract": 6,
             "contract_archived": false,
-            "contract_primary": true
+            "contract_expired": true
           },
           {
             "contract": 7,
             "contract_archived": true,
-            "contract_primary": true
+            "contract_expired": true
           },
           {
             "contract": 8,
             "contract_archived": false,
-            "contract_primary": false
+            "contract_expired": false
           },
           {
             "contract": 9,
             "contract_archived": true,
-            "contract_primary": false
+            "contract_expired": false
           },
           {
             "contract": 10,
             "contract_archived": false,
-            "contract_primary": false
+            "contract_expired": false
           },
           {
             "contract": 11,
             "contract_archived": false,
-            "contract_primary": true
+            "contract_expired": true
           },
           {
             "contract": 12,
             "contract_archived": true,
-            "contract_primary": false
+            "contract_expired": false
           }
         ],
         "source_objects": [

@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "two_leg-421--join--Shipment-Asset",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_currency ?asset_archived WHERE { ?shipment a c:Shipment ; c:currency ?shipment_currency ; c:shipmentsToAssets ?asset . ?asset a c:Asset ; c:archived ?asset_archived }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_currency ?asset_archived WHERE { ?shipment a c:Shipment ; c:currency ?shipment_currency ; c:assetId ?asset_key . ?asset a c:Asset ; c:id ?asset_key ; c:archived ?asset_archived }",
   "shape": "two_leg-421",
   "sources": [
     {
@@ -207,62 +207,62 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
         "rows": [
           {
-            "asset": 2,
+            "asset_key": 2,
             "shipment": 1,
             "shipment_currency": "currency-66979"
           },
           {
-            "asset": 8,
+            "asset_key": 8,
             "shipment": 2,
             "shipment_currency": "currency-22698"
           },
           {
-            "asset": 12,
+            "asset_key": 12,
             "shipment": 3,
             "shipment_currency": "currency-85826"
           },
           {
-            "asset": 6,
+            "asset_key": 6,
             "shipment": 4,
             "shipment_currency": "currency-71856"
           },
           {
-            "asset": 11,
+            "asset_key": 11,
             "shipment": 5,
             "shipment_currency": "currency-53719"
           },
           {
-            "asset": 9,
+            "asset_key": 9,
             "shipment": 6,
             "shipment_currency": "currency-23964"
           },
           {
-            "asset": 6,
+            "asset_key": 6,
             "shipment": 7,
             "shipment_currency": "currency-09571"
           },
           {
-            "asset": 11,
+            "asset_key": 11,
             "shipment": 8,
             "shipment_currency": "currency-40746"
           },
           {
-            "asset": 6,
+            "asset_key": 6,
             "shipment": 9,
             "shipment_currency": "currency-69416"
           },
           {
-            "asset": 3,
+            "asset_key": 3,
             "shipment": 10,
             "shipment_currency": "currency-02181"
           },
           {
-            "asset": 2,
+            "asset_key": 2,
             "shipment": 11,
             "shipment_currency": "currency-91760"
           },
           {
-            "asset": 8,
+            "asset_key": 8,
             "shipment": 12,
             "shipment_currency": "currency-49499"
           }
@@ -349,51 +349,63 @@
         "rows": [
           {
             "asset": 1,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 1
           },
           {
             "asset": 2,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 2
           },
           {
             "asset": 3,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 3
           },
           {
             "asset": 4,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 4
           },
           {
             "asset": 5,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 5
           },
           {
             "asset": 6,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 6
           },
           {
             "asset": 7,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 7
           },
           {
             "asset": 8,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 8
           },
           {
             "asset": 9,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 9
           },
           {
             "asset": 10,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 10
           },
           {
             "asset": 11,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 11
           },
           {
             "asset": 12,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 12
           }
         ],
         "source_objects": [

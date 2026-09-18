@@ -2,52 +2,40 @@
   "expect": {
     "bindings": [
       {
-        "device_currency": "currency-15093",
-        "device_primary": true
+        "device_version": 73268
       },
       {
-        "device_currency": "currency-05843",
-        "device_primary": true
+        "device_version": 5686
       },
       {
-        "device_currency": "currency-25400",
-        "device_primary": true
+        "device_version": 15093
       },
       {
-        "device_currency": "currency-98970",
-        "device_primary": false
+        "device_version": 65099
       },
       {
-        "device_currency": "currency-97144",
-        "device_primary": true
+        "device_version": 5843
       },
       {
-        "device_currency": "currency-42926",
-        "device_primary": true
+        "device_version": 13955
       },
       {
-        "device_currency": "currency-88782",
-        "device_primary": false
+        "device_version": 25400
       },
       {
-        "device_currency": "currency-06586",
-        "device_primary": false
+        "device_version": 203
       },
       {
-        "device_currency": "currency-25035",
-        "device_primary": false
+        "device_version": 98970
       },
       {
-        "device_currency": "currency-86425",
-        "device_primary": false
+        "device_version": 42093
       },
       {
-        "device_currency": "currency-57678",
-        "device_primary": false
+        "device_version": 97144
       },
       {
-        "device_currency": "currency-19989",
-        "device_primary": false
+        "device_version": 15553
       }
     ],
     "sources_touched": [
@@ -57,16 +45,16 @@
   },
   "family": "lookup",
   "name": "wide_narrow-429--lookup--Device",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_currency ?device_primary WHERE { ?device a c:Device ; c:currency ?device_currency ; c:primary ?device_primary }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_version WHERE { ?device a c:Device ; c:version ?device_version }",
   "shape": "wide_narrow-429",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -82,17 +70,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "enabled": {
+                  "field": "enabled"
+                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
-                },
-                "segment": {
-                  "field": "segment"
-                },
-                "sku": {
-                  "field": "sku"
                 }
               },
               "style": "COLLECTION"
@@ -106,11 +94,8 @@
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "priority": {
-                  "field": "priority"
-                },
-                "total": {
-                  "field": "total"
+                "units": {
+                  "field": "units"
                 }
               },
               "style": "COLLECTION"
@@ -118,17 +103,14 @@
             "Device": {
               "collectionName": "devices",
               "properties": {
-                "currency": {
-                  "field": "currency"
-                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "primary": {
-                  "field": "primary"
+                "version": {
+                  "field": "version"
                 }
               },
               "style": "COLLECTION"
@@ -142,20 +124,20 @@
               "name": "Account",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
                   "name": "paymentId",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
-                  "name": "sku",
-                  "type": "string"
                 }
               ]
             },
@@ -171,22 +153,14 @@
                   "type": "integer"
                 },
                 {
-                  "name": "priority",
+                  "name": "units",
                   "type": "integer"
-                },
-                {
-                  "name": "total",
-                  "type": "float"
                 }
               ]
             },
             {
               "name": "Device",
               "properties": [
-                {
-                  "name": "currency",
-                  "type": "string"
-                },
                 {
                   "name": "id",
                   "type": "integer"
@@ -196,8 +170,8 @@
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "version",
+                  "type": "integer"
                 }
               ]
             }
@@ -237,63 +211,51 @@
         "rows": [
           {
             "device": 1,
-            "device_currency": "currency-15093",
-            "device_primary": true
+            "device_version": 73268
           },
           {
             "device": 2,
-            "device_currency": "currency-05843",
-            "device_primary": true
+            "device_version": 5686
           },
           {
             "device": 3,
-            "device_currency": "currency-25400",
-            "device_primary": true
+            "device_version": 15093
           },
           {
             "device": 4,
-            "device_currency": "currency-98970",
-            "device_primary": false
+            "device_version": 65099
           },
           {
             "device": 5,
-            "device_currency": "currency-97144",
-            "device_primary": true
+            "device_version": 5843
           },
           {
             "device": 6,
-            "device_currency": "currency-42926",
-            "device_primary": true
+            "device_version": 13955
           },
           {
             "device": 7,
-            "device_currency": "currency-88782",
-            "device_primary": false
+            "device_version": 25400
           },
           {
             "device": 8,
-            "device_currency": "currency-06586",
-            "device_primary": false
+            "device_version": 203
           },
           {
             "device": 9,
-            "device_currency": "currency-25035",
-            "device_primary": false
+            "device_version": 98970
           },
           {
             "device": 10,
-            "device_currency": "currency-86425",
-            "device_primary": false
+            "device_version": 42093
           },
           {
             "device": 11,
-            "device_currency": "currency-57678",
-            "device_primary": false
+            "device_version": 97144
           },
           {
             "device": 12,
-            "device_currency": "currency-19989",
-            "device_primary": false
+            "device_version": 15553
           }
         ],
         "source_objects": [

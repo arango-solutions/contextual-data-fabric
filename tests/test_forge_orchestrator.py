@@ -353,3 +353,28 @@ def test_expected_catalog_reports_declared_capabilities() -> None:
         assert cat["systems"][system.name]["capabilities"] == capabilities_document(
             system.capabilities
         )
+
+
+def test_sampler_never_draws_a_reserved_word_as_a_column() -> None:
+    """Live finding (hub-428 under --substitute-unavailable): the boolean
+    property ``primary`` became ``primary boolean`` in Postgres DDL, a syntax
+    error — r2g's dialects emit identifiers unquoted. The sampler now filters
+    its vocabulary the way it already filters entity names by round-trip."""
+    from r2g.forge import column_name
+
+    from cdf.eval.forge.sampler import (
+        PROPERTY_VOCABULARY,
+        SQL_RESERVED_COLUMN_WORDS,
+        USABLE_PROPERTY_VOCABULARY,
+    )
+
+    assert "primary" in PROPERTY_VOCABULARY["boolean"]
+    assert "primary" not in USABLE_PROPERTY_VOCABULARY["boolean"]
+    drawn = {p for names in USABLE_PROPERTY_VOCABULARY.values() for p in names}
+    assert all(column_name(p).lower() not in SQL_RESERVED_COLUMN_WORDS for p in drawn)
+    for family in FAMILIES:
+        for seed in (1, 421, 428):
+            shape = sample_shape(seed, family)
+            for entity in shape.ontology["entities"]:
+                for prop in entity["properties"]:
+                    assert column_name(prop["name"]).lower() not in SQL_RESERVED_COLUMN_WORDS

@@ -4,6 +4,9 @@
       "Invoice": {
         "collectionName": "invoices",
         "properties": {
+          "category": {
+            "field": "category"
+          },
           "id": {
             "field": "id"
           },
@@ -24,6 +27,10 @@
       {
         "name": "Invoice",
         "properties": [
+          {
+            "name": "category",
+            "type": "string"
+          },
           {
             "name": "id",
             "type": "integer"

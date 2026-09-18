@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "account_segment": "segment-78079",
-        "account_sku": "sku-85806"
+        "account_amount": 64488.385525,
+        "account_enabled": true
       },
       {
-        "account_segment": "segment-37440",
-        "account_sku": "sku-90286"
+        "account_amount": 72288.735888,
+        "account_enabled": false
       },
       {
-        "account_segment": "segment-45858",
-        "account_sku": "sku-97340"
+        "account_amount": 9302.965417,
+        "account_enabled": true
       },
       {
-        "account_segment": "segment-14159",
-        "account_sku": "sku-93108"
+        "account_amount": 470.883991,
+        "account_enabled": false
       },
       {
-        "account_segment": "segment-94750",
-        "account_sku": "sku-77049"
+        "account_amount": 93332.848105,
+        "account_enabled": false
       },
       {
-        "account_segment": "segment-12193",
-        "account_sku": "sku-04605"
+        "account_amount": 41062.092696,
+        "account_enabled": false
       },
       {
-        "account_segment": "segment-98008",
-        "account_sku": "sku-00617"
+        "account_amount": 94641.18377,
+        "account_enabled": true
       },
       {
-        "account_segment": "segment-07307",
-        "account_sku": "sku-26687"
+        "account_amount": 94695.384673,
+        "account_enabled": true
       },
       {
-        "account_segment": "segment-34898",
-        "account_sku": "sku-53820"
+        "account_amount": 87448.243388,
+        "account_enabled": false
       },
       {
-        "account_segment": "segment-87281",
-        "account_sku": "sku-79725"
+        "account_amount": 66363.783564,
+        "account_enabled": false
       },
       {
-        "account_segment": "segment-14504",
-        "account_sku": "sku-74225"
+        "account_amount": 7538.547802,
+        "account_enabled": false
       },
       {
-        "account_segment": "segment-30802",
-        "account_sku": "sku-60082"
+        "account_amount": 13280.640903,
+        "account_enabled": false
       }
     ],
     "sources_touched": [
@@ -57,16 +57,16 @@
   },
   "family": "lookup",
   "name": "wide_narrow-429--lookup--Account",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_segment ?account_sku WHERE { ?account a c:Account ; c:segment ?account_segment ; c:sku ?account_sku }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_amount ?account_enabled WHERE { ?account a c:Account ; c:amount ?account_amount ; c:enabled ?account_enabled }",
   "shape": "wide_narrow-429",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -82,17 +82,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "enabled": {
+                  "field": "enabled"
+                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
-                },
-                "segment": {
-                  "field": "segment"
-                },
-                "sku": {
-                  "field": "sku"
                 }
               },
               "style": "COLLECTION"
@@ -106,11 +106,8 @@
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "priority": {
-                  "field": "priority"
-                },
-                "total": {
-                  "field": "total"
+                "units": {
+                  "field": "units"
                 }
               },
               "style": "COLLECTION"
@@ -118,17 +115,14 @@
             "Device": {
               "collectionName": "devices",
               "properties": {
-                "currency": {
-                  "field": "currency"
-                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "primary": {
-                  "field": "primary"
+                "version": {
+                  "field": "version"
                 }
               },
               "style": "COLLECTION"
@@ -142,20 +136,20 @@
               "name": "Account",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
                   "name": "paymentId",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
-                  "name": "sku",
-                  "type": "string"
                 }
               ]
             },
@@ -171,22 +165,14 @@
                   "type": "integer"
                 },
                 {
-                  "name": "priority",
+                  "name": "units",
                   "type": "integer"
-                },
-                {
-                  "name": "total",
-                  "type": "float"
                 }
               ]
             },
             {
               "name": "Device",
               "properties": [
-                {
-                  "name": "currency",
-                  "type": "string"
-                },
                 {
                   "name": "id",
                   "type": "integer"
@@ -196,8 +182,8 @@
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "version",
+                  "type": "integer"
                 }
               ]
             }
@@ -237,63 +223,63 @@
         "rows": [
           {
             "account": 1,
-            "account_segment": "segment-78079",
-            "account_sku": "sku-85806"
+            "account_amount": 64488.385525,
+            "account_enabled": true
           },
           {
             "account": 2,
-            "account_segment": "segment-37440",
-            "account_sku": "sku-90286"
+            "account_amount": 72288.735888,
+            "account_enabled": false
           },
           {
             "account": 3,
-            "account_segment": "segment-45858",
-            "account_sku": "sku-97340"
+            "account_amount": 9302.965417,
+            "account_enabled": true
           },
           {
             "account": 4,
-            "account_segment": "segment-14159",
-            "account_sku": "sku-93108"
+            "account_amount": 470.883991,
+            "account_enabled": false
           },
           {
             "account": 5,
-            "account_segment": "segment-94750",
-            "account_sku": "sku-77049"
+            "account_amount": 93332.848105,
+            "account_enabled": false
           },
           {
             "account": 6,
-            "account_segment": "segment-12193",
-            "account_sku": "sku-04605"
+            "account_amount": 41062.092696,
+            "account_enabled": false
           },
           {
             "account": 7,
-            "account_segment": "segment-98008",
-            "account_sku": "sku-00617"
+            "account_amount": 94641.18377,
+            "account_enabled": true
           },
           {
             "account": 8,
-            "account_segment": "segment-07307",
-            "account_sku": "sku-26687"
+            "account_amount": 94695.384673,
+            "account_enabled": true
           },
           {
             "account": 9,
-            "account_segment": "segment-34898",
-            "account_sku": "sku-53820"
+            "account_amount": 87448.243388,
+            "account_enabled": false
           },
           {
             "account": 10,
-            "account_segment": "segment-87281",
-            "account_sku": "sku-79725"
+            "account_amount": 66363.783564,
+            "account_enabled": false
           },
           {
             "account": 11,
-            "account_segment": "segment-14504",
-            "account_sku": "sku-74225"
+            "account_amount": 7538.547802,
+            "account_enabled": false
           },
           {
             "account": 12,
-            "account_segment": "segment-30802",
-            "account_sku": "sku-60082"
+            "account_amount": 13280.640903,
+            "account_enabled": false
           }
         ],
         "source_objects": [

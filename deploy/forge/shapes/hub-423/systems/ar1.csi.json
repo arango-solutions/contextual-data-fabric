@@ -4,17 +4,17 @@
       "Account": {
         "collectionName": "accounts",
         "properties": {
-          "archived": {
-            "field": "archived"
-          },
-          "discount": {
-            "field": "discount"
-          },
           "id": {
             "field": "id"
           },
+          "region": {
+            "field": "region"
+          },
           "vendorId": {
             "field": "vendor_id"
+          },
+          "verified": {
+            "field": "verified"
           }
         },
         "style": "COLLECTION"
@@ -28,20 +28,20 @@
         "name": "Account",
         "properties": [
           {
-            "name": "archived",
-            "type": "boolean"
-          },
-          {
-            "name": "discount",
-            "type": "float"
-          },
-          {
             "name": "id",
             "type": "integer"
           },
           {
+            "name": "region",
+            "type": "string"
+          },
+          {
             "name": "vendorId",
             "type": "integer"
+          },
+          {
+            "name": "verified",
+            "type": "boolean"
           }
         ]
       }

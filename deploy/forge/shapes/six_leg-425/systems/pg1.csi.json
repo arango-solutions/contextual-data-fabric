@@ -16,8 +16,8 @@
           "orderId": {
             "field": "order_id"
           },
-          "retries": {
-            "field": "retries"
+          "seats": {
+            "field": "seats"
           }
         },
         "style": "COLLECTION"
@@ -47,7 +47,7 @@
             "type": "integer"
           },
           {
-            "name": "retries",
+            "name": "seats",
             "type": "integer"
           }
         ]

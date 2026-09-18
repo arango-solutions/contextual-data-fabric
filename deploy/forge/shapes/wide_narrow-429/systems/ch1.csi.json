@@ -4,17 +4,17 @@
       "Account": {
         "collectionName": "accounts",
         "properties": {
+          "amount": {
+            "field": "amount"
+          },
+          "enabled": {
+            "field": "enabled"
+          },
           "id": {
             "field": "id"
           },
           "paymentId": {
             "field": "payment_id"
-          },
-          "segment": {
-            "field": "segment"
-          },
-          "sku": {
-            "field": "sku"
           }
         },
         "style": "COLLECTION"
@@ -28,11 +28,8 @@
           "paymentId": {
             "field": "payment_id"
           },
-          "priority": {
-            "field": "priority"
-          },
-          "total": {
-            "field": "total"
+          "units": {
+            "field": "units"
           }
         },
         "style": "COLLECTION"
@@ -40,17 +37,14 @@
       "Device": {
         "collectionName": "devices",
         "properties": {
-          "currency": {
-            "field": "currency"
-          },
           "id": {
             "field": "id"
           },
           "paymentId": {
             "field": "payment_id"
           },
-          "primary": {
-            "field": "primary"
+          "version": {
+            "field": "version"
           }
         },
         "style": "COLLECTION"
@@ -64,20 +58,20 @@
         "name": "Account",
         "properties": [
           {
+            "name": "amount",
+            "type": "float"
+          },
+          {
+            "name": "enabled",
+            "type": "boolean"
+          },
+          {
             "name": "id",
             "type": "integer"
           },
           {
             "name": "paymentId",
             "type": "integer"
-          },
-          {
-            "name": "segment",
-            "type": "string"
-          },
-          {
-            "name": "sku",
-            "type": "string"
           }
         ]
       },
@@ -93,22 +87,14 @@
             "type": "integer"
           },
           {
-            "name": "priority",
+            "name": "units",
             "type": "integer"
-          },
-          {
-            "name": "total",
-            "type": "float"
           }
         ]
       },
       {
         "name": "Device",
         "properties": [
-          {
-            "name": "currency",
-            "type": "string"
-          },
           {
             "name": "id",
             "type": "integer"
@@ -118,8 +104,8 @@
             "type": "integer"
           },
           {
-            "name": "primary",
-            "type": "boolean"
+            "name": "version",
+            "type": "integer"
           }
         ]
       }

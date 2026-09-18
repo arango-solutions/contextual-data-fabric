@@ -2,24 +2,20 @@
   "expect": {
     "bindings": [
       {
-        "device_currency": "currency-53297",
-        "vendor_archived": true
-      },
-      {
         "device_currency": "currency-70444",
         "vendor_archived": false
       },
       {
-        "device_currency": "currency-53297",
-        "vendor_archived": false
+        "device_currency": "currency-07605",
+        "vendor_archived": true
       },
       {
         "device_currency": "currency-96212",
         "vendor_archived": true
       },
       {
-        "device_currency": "currency-78844",
-        "vendor_archived": false
+        "device_currency": "currency-88897",
+        "vendor_archived": true
       },
       {
         "device_currency": "currency-78844",
@@ -27,6 +23,14 @@
       },
       {
         "device_currency": "currency-53297",
+        "vendor_archived": false
+      },
+      {
+        "device_currency": "currency-53297",
+        "vendor_archived": false
+      },
+      {
+        "device_currency": "currency-54921",
         "vendor_archived": false
       },
       {
@@ -34,20 +38,16 @@
         "vendor_archived": true
       },
       {
-        "device_currency": "currency-62234",
+        "device_currency": "currency-78844",
         "vendor_archived": false
       },
       {
-        "device_currency": "currency-38382",
+        "device_currency": "currency-78844",
         "vendor_archived": true
       },
       {
-        "device_currency": "currency-83300",
+        "device_currency": "currency-53297",
         "vendor_archived": false
-      },
-      {
-        "device_currency": "currency-96212",
-        "vendor_archived": true
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "six_leg-425--join--Vendor-Device",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?device_currency WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:vendorsToDevices ?device . ?device a c:Device ; c:currency ?device_currency }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_archived ?device_currency WHERE { ?vendor a c:Vendor ; c:archived ?vendor_archived ; c:deviceId ?device_key . ?device a c:Device ; c:id ?device_key ; c:currency ?device_currency }",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -95,8 +95,8 @@
                 "orderId": {
                   "field": "order_id"
                 },
-                "retries": {
-                  "field": "retries"
+                "seats": {
+                  "field": "seats"
                 }
               },
               "style": "COLLECTION"
@@ -126,7 +126,7 @@
                   "type": "integer"
                 },
                 {
-                  "name": "retries",
+                  "name": "seats",
                   "type": "integer"
                 }
               ]
@@ -161,64 +161,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for vendors",
         "rows": [
           {
-            "device": 10,
+            "device_key": 6,
             "vendor": 1,
+            "vendor_archived": false
+          },
+          {
+            "device_key": 2,
+            "vendor": 2,
             "vendor_archived": true
           },
           {
-            "device": 6,
-            "vendor": 2,
-            "vendor_archived": false
-          },
-          {
-            "device": 10,
+            "device_key": 3,
             "vendor": 3,
-            "vendor_archived": false
+            "vendor_archived": true
           },
           {
-            "device": 3,
+            "device_key": 12,
             "vendor": 4,
             "vendor_archived": true
           },
           {
-            "device": 5,
+            "device_key": 5,
             "vendor": 5,
-            "vendor_archived": false
-          },
-          {
-            "device": 5,
-            "vendor": 6,
             "vendor_archived": true
           },
           {
-            "device": 10,
+            "device_key": 10,
+            "vendor": 6,
+            "vendor_archived": false
+          },
+          {
+            "device_key": 10,
             "vendor": 7,
             "vendor_archived": false
           },
           {
-            "device": 4,
+            "device_key": 1,
             "vendor": 8,
-            "vendor_archived": true
+            "vendor_archived": false
           },
           {
-            "device": 8,
+            "device_key": 4,
             "vendor": 9,
-            "vendor_archived": false
+            "vendor_archived": true
           },
           {
-            "device": 11,
+            "device_key": 5,
             "vendor": 10,
-            "vendor_archived": true
-          },
-          {
-            "device": 9,
-            "vendor": 11,
             "vendor_archived": false
           },
           {
-            "device": 3,
-            "vendor": 12,
+            "device_key": 5,
+            "vendor": 11,
             "vendor_archived": true
+          },
+          {
+            "device_key": 10,
+            "vendor": 12,
+            "vendor_archived": false
           }
         ],
         "source_objects": [
@@ -310,51 +310,63 @@
         "rows": [
           {
             "device": 1,
-            "device_currency": "currency-54921"
+            "device_currency": "currency-54921",
+            "device_key": 1
           },
           {
             "device": 2,
-            "device_currency": "currency-07605"
+            "device_currency": "currency-07605",
+            "device_key": 2
           },
           {
             "device": 3,
-            "device_currency": "currency-96212"
+            "device_currency": "currency-96212",
+            "device_key": 3
           },
           {
             "device": 4,
-            "device_currency": "currency-79109"
+            "device_currency": "currency-79109",
+            "device_key": 4
           },
           {
             "device": 5,
-            "device_currency": "currency-78844"
+            "device_currency": "currency-78844",
+            "device_key": 5
           },
           {
             "device": 6,
-            "device_currency": "currency-70444"
+            "device_currency": "currency-70444",
+            "device_key": 6
           },
           {
             "device": 7,
-            "device_currency": "currency-48852"
+            "device_currency": "currency-48852",
+            "device_key": 7
           },
           {
             "device": 8,
-            "device_currency": "currency-62234"
+            "device_currency": "currency-62234",
+            "device_key": 8
           },
           {
             "device": 9,
-            "device_currency": "currency-83300"
+            "device_currency": "currency-83300",
+            "device_key": 9
           },
           {
             "device": 10,
-            "device_currency": "currency-53297"
+            "device_currency": "currency-53297",
+            "device_key": 10
           },
           {
             "device": 11,
-            "device_currency": "currency-38382"
+            "device_currency": "currency-38382",
+            "device_key": 11
           },
           {
             "device": 12,
-            "device_currency": "currency-88897"
+            "device_currency": "currency-88897",
+            "device_key": 12
           }
         ],
         "source_objects": [

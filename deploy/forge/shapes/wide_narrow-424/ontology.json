@@ -13,10 +13,6 @@
       "name": "Region",
       "properties": [
         {
-          "name": "active",
-          "type": "boolean"
-        },
-        {
           "name": "amount",
           "type": "float"
         },
@@ -27,6 +23,14 @@
         {
           "name": "expired",
           "type": "boolean"
+        },
+        {
+          "name": "flagged",
+          "type": "boolean"
+        },
+        {
+          "name": "label",
+          "type": "string"
         },
         {
           "name": "notes",
@@ -45,16 +49,12 @@
           "type": "float"
         },
         {
-          "name": "segment",
-          "type": "string"
-        },
-        {
           "name": "tier",
           "type": "string"
         },
         {
-          "name": "units",
-          "type": "integer"
+          "name": "verified",
+          "type": "boolean"
         }
       ]
     },
@@ -62,8 +62,8 @@
       "name": "Session",
       "properties": [
         {
-          "name": "billable",
-          "type": "boolean"
+          "name": "balance",
+          "type": "float"
         },
         {
           "name": "version",
@@ -75,12 +75,12 @@
       "name": "Shipment",
       "properties": [
         {
-          "name": "region",
-          "type": "string"
+          "name": "active",
+          "type": "boolean"
         },
         {
-          "name": "verified",
-          "type": "boolean"
+          "name": "region",
+          "type": "string"
         }
       ]
     }

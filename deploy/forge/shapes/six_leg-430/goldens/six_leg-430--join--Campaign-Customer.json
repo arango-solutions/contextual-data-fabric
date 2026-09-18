@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "campaign_billable": true,
-        "customer_channel": "channel-23294"
+        "campaign_notes": "notes-35844",
+        "customer_billable": false
       },
       {
-        "campaign_billable": false,
-        "customer_channel": "channel-32600"
+        "campaign_notes": "notes-45097",
+        "customer_billable": false
       },
       {
-        "campaign_billable": false,
-        "customer_channel": "channel-91595"
+        "campaign_notes": "notes-22193",
+        "customer_billable": false
       },
       {
-        "campaign_billable": false,
-        "customer_channel": "channel-43990"
+        "campaign_notes": "notes-84755",
+        "customer_billable": true
       },
       {
-        "campaign_billable": false,
-        "customer_channel": "channel-68944"
+        "campaign_notes": "notes-34763",
+        "customer_billable": false
       },
       {
-        "campaign_billable": false,
-        "customer_channel": "channel-43990"
+        "campaign_notes": "notes-13106",
+        "customer_billable": false
       },
       {
-        "campaign_billable": true,
-        "customer_channel": "channel-47173"
+        "campaign_notes": "notes-67926",
+        "customer_billable": true
       },
       {
-        "campaign_billable": false,
-        "customer_channel": "channel-53364"
+        "campaign_notes": "notes-44162",
+        "customer_billable": true
       },
       {
-        "campaign_billable": false,
-        "customer_channel": "channel-43990"
+        "campaign_notes": "notes-34866",
+        "customer_billable": true
       },
       {
-        "campaign_billable": true,
-        "customer_channel": "channel-53364"
+        "campaign_notes": "notes-86367",
+        "customer_billable": true
       },
       {
-        "campaign_billable": true,
-        "customer_channel": "channel-47173"
+        "campaign_notes": "notes-85750",
+        "customer_billable": true
       },
       {
-        "campaign_billable": false,
-        "customer_channel": "channel-32600"
+        "campaign_notes": "notes-55848",
+        "customer_billable": true
       }
     ],
     "sources_touched": [
@@ -58,16 +58,16 @@
   },
   "family": "join",
   "name": "six_leg-430--join--Campaign-Customer",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable ?customer_channel WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable ; c:campaignsToCustomers ?customer . ?customer a c:Customer ; c:channel ?customer_channel }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_notes ?customer_billable WHERE { ?campaign a c:Campaign ; c:notes ?campaign_notes ; c:customerId ?customer_key . ?customer a c:Customer ; c:id ?customer_key ; c:billable ?customer_billable }",
   "shape": "six_leg-430",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -86,9 +86,6 @@
                 "assetId": {
                   "field": "asset_id"
                 },
-                "billable": {
-                  "field": "billable"
-                },
                 "customerId": {
                   "field": "customer_id"
                 },
@@ -100,6 +97,9 @@
                 },
                 "rank": {
                   "field": "rank"
+                },
+                "ratio": {
+                  "field": "ratio"
                 }
               },
               "style": "COLLECTION"
@@ -117,10 +117,6 @@
                   "type": "integer"
                 },
                 {
-                  "name": "billable",
-                  "type": "boolean"
-                },
-                {
                   "name": "customerId",
                   "type": "integer"
                 },
@@ -135,6 +131,10 @@
                 {
                   "name": "rank",
                   "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
                 }
               ]
             }
@@ -169,63 +169,63 @@
         "rows": [
           {
             "campaign": 1,
-            "campaign_billable": true,
-            "customer": 1
+            "campaign_notes": "notes-35844",
+            "customer_key": 11
           },
           {
             "campaign": 2,
-            "campaign_billable": false,
-            "customer": 7
+            "campaign_notes": "notes-45097",
+            "customer_key": 9
           },
           {
             "campaign": 3,
-            "campaign_billable": false,
-            "customer": 9
+            "campaign_notes": "notes-22193",
+            "customer_key": 9
           },
           {
             "campaign": 4,
-            "campaign_billable": false,
-            "customer": 4
+            "campaign_notes": "notes-84755",
+            "customer_key": 1
           },
           {
             "campaign": 5,
-            "campaign_billable": false,
-            "customer": 11
+            "campaign_notes": "notes-34763",
+            "customer_key": 8
           },
           {
             "campaign": 6,
-            "campaign_billable": false,
-            "customer": 4
+            "campaign_notes": "notes-13106",
+            "customer_key": 11
           },
           {
             "campaign": 7,
-            "campaign_billable": true,
-            "customer": 6
+            "campaign_notes": "notes-67926",
+            "customer_key": 5
           },
           {
             "campaign": 8,
-            "campaign_billable": false,
-            "customer": 8
+            "campaign_notes": "notes-44162",
+            "customer_key": 3
           },
           {
             "campaign": 9,
-            "campaign_billable": false,
-            "customer": 4
+            "campaign_notes": "notes-34866",
+            "customer_key": 5
           },
           {
             "campaign": 10,
-            "campaign_billable": true,
-            "customer": 8
+            "campaign_notes": "notes-86367",
+            "customer_key": 5
           },
           {
             "campaign": 11,
-            "campaign_billable": true,
-            "customer": 6
+            "campaign_notes": "notes-85750",
+            "customer_key": 3
           },
           {
             "campaign": 12,
-            "campaign_billable": false,
-            "customer": 7
+            "campaign_notes": "notes-55848",
+            "customer_key": 3
           }
         ],
         "source_objects": [
@@ -238,9 +238,9 @@
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": true,
-          "groupBy": true,
-          "having": true
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -259,14 +259,14 @@
                 "assetId": {
                   "field": "asset_id"
                 },
+                "billable": {
+                  "field": "billable"
+                },
                 "channel": {
                   "field": "channel"
                 },
                 "code": {
                   "field": "code"
-                },
-                "expired": {
-                  "field": "expired"
                 },
                 "id": {
                   "field": "id"
@@ -293,16 +293,16 @@
                   "type": "integer"
                 },
                 {
+                  "name": "billable",
+                  "type": "boolean"
+                },
+                {
                   "name": "channel",
                   "type": "string"
                 },
                 {
                   "name": "code",
                   "type": "string"
-                },
-                {
-                  "name": "expired",
-                  "type": "boolean"
                 },
                 {
                   "name": "id",
@@ -349,51 +349,63 @@
         "rows": [
           {
             "customer": 1,
-            "customer_channel": "channel-23294"
+            "customer_billable": true,
+            "customer_key": 1
           },
           {
             "customer": 2,
-            "customer_channel": "channel-08805"
+            "customer_billable": true,
+            "customer_key": 2
           },
           {
             "customer": 3,
-            "customer_channel": "channel-21211"
+            "customer_billable": true,
+            "customer_key": 3
           },
           {
             "customer": 4,
-            "customer_channel": "channel-43990"
+            "customer_billable": true,
+            "customer_key": 4
           },
           {
             "customer": 5,
-            "customer_channel": "channel-14567"
+            "customer_billable": true,
+            "customer_key": 5
           },
           {
             "customer": 6,
-            "customer_channel": "channel-47173"
+            "customer_billable": false,
+            "customer_key": 6
           },
           {
             "customer": 7,
-            "customer_channel": "channel-32600"
+            "customer_billable": false,
+            "customer_key": 7
           },
           {
             "customer": 8,
-            "customer_channel": "channel-53364"
+            "customer_billable": false,
+            "customer_key": 8
           },
           {
             "customer": 9,
-            "customer_channel": "channel-91595"
+            "customer_billable": false,
+            "customer_key": 9
           },
           {
             "customer": 10,
-            "customer_channel": "channel-08933"
+            "customer_billable": false,
+            "customer_key": 10
           },
           {
             "customer": 11,
-            "customer_channel": "channel-68944"
+            "customer_billable": false,
+            "customer_key": 11
           },
           {
             "customer": 12,
-            "customer_channel": "channel-49997"
+            "customer_billable": false,
+            "customer_key": 12
           }
         ],
         "source_objects": [

@@ -24,3 +24,9 @@ claims:
   - pattern: "acceptance target is the S1 roadmap review"
     retired: 2026-09-08
     why: "ADR-0006 was accepted 2026-09-08; its body carried the proposed status until PR #37."
+  - pattern: "live mode nightly"
+    retired: 2026-09-18
+    why: "Forge live mode runs on every PR in live-local (~90 s on the runner); only the four-engine run is scheduled (PR #41)."
+  - pattern: "Snowflake system(s)? are skipped by name \\(local engines only\\)"
+    retired: 2026-09-18
+    why: "The Snowflake live target deploys into the real account (setup_forge.sql); skipping is now the no-credentials fallback, and substitution the CI default (PR #41)."

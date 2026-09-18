@@ -7,7 +7,7 @@
   "family": "cross_leg_aggregation",
   "name": "chain-422--crossleg-aggregate--Asset-Vendor",
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_tier (COUNT(?asset) AS ?n) WHERE { ?asset a c:Asset ; c:assetsToVendors ?vendor . ?vendor a c:Vendor ; c:tier ?vendor_tier } GROUP BY ?vendor_tier",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_tier (COUNT(?asset) AS ?n) WHERE { ?asset a c:Asset ; c:vendorId ?vendor_key . ?vendor a c:Vendor ; c:id ?vendor_key ; c:tier ?vendor_tier } GROUP BY ?vendor_tier",
   "shape": "chain-422",
   "sources": [
     {

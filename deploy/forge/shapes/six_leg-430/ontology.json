@@ -21,16 +21,16 @@
       "name": "Campaign",
       "properties": [
         {
-          "name": "billable",
-          "type": "boolean"
-        },
-        {
           "name": "notes",
           "type": "string"
         },
         {
           "name": "rank",
           "type": "integer"
+        },
+        {
+          "name": "ratio",
+          "type": "float"
         }
       ]
     },
@@ -59,16 +59,16 @@
       "name": "Customer",
       "properties": [
         {
+          "name": "billable",
+          "type": "boolean"
+        },
+        {
           "name": "channel",
           "type": "string"
         },
         {
           "name": "code",
           "type": "string"
-        },
-        {
-          "name": "expired",
-          "type": "boolean"
         },
         {
           "name": "total",
@@ -93,16 +93,20 @@
       "name": "Ticket",
       "properties": [
         {
-          "name": "primary",
-          "type": "boolean"
-        },
-        {
-          "name": "ratio",
-          "type": "float"
+          "name": "category",
+          "type": "string"
         },
         {
           "name": "sku",
           "type": "string"
+        },
+        {
+          "name": "status",
+          "type": "string"
+        },
+        {
+          "name": "weight",
+          "type": "float"
         }
       ]
     }

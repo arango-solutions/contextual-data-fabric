@@ -7,7 +7,7 @@
   },
   "family": "single_leg_aggregation",
   "name": "hub-423--aggregate--Customer",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_enabled (COUNT(?customer) AS ?n) WHERE { ?customer a c:Customer ; c:enabled ?customer_enabled } GROUP BY ?customer_enabled",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_expired (COUNT(?customer) AS ?n) WHERE { ?customer a c:Customer ; c:expired ?customer_expired } GROUP BY ?customer_expired",
   "shape": "hub-423",
   "sources": [
     {
@@ -32,17 +32,17 @@
             "Customer": {
               "collectionName": "customers",
               "properties": {
-                "balance": {
-                  "field": "balance"
+                "channel": {
+                  "field": "channel"
                 },
-                "enabled": {
-                  "field": "enabled"
+                "expired": {
+                  "field": "expired"
                 },
                 "id": {
                   "field": "id"
                 },
-                "tier": {
-                  "field": "tier"
+                "margin": {
+                  "field": "margin"
                 },
                 "vendorId": {
                   "field": "vendor_id"
@@ -59,11 +59,11 @@
               "name": "Customer",
               "properties": [
                 {
-                  "name": "balance",
-                  "type": "float"
+                  "name": "channel",
+                  "type": "string"
                 },
                 {
-                  "name": "enabled",
+                  "name": "expired",
                   "type": "boolean"
                 },
                 {
@@ -71,8 +71,8 @@
                   "type": "integer"
                 },
                 {
-                  "name": "tier",
-                  "type": "string"
+                  "name": "margin",
+                  "type": "float"
                 },
                 {
                   "name": "vendorId",
@@ -105,12 +105,12 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
         "rows": [
           {
-            "customer_enabled": false,
-            "n": 9
+            "customer_expired": false,
+            "n": 6
           },
           {
-            "customer_enabled": true,
-            "n": 3
+            "customer_expired": true,
+            "n": 6
           }
         ],
         "source_objects": [

@@ -60,7 +60,7 @@ expected:
   - goldens/two_leg-426--join--Asset-Account.json
   - goldens/two_leg-426--join--Product-Account.json
   - goldens/two_leg-426--aggregate--Account.json
-  - goldens/two_leg-426--aggregate--Asset.json
+  - goldens/two_leg-426--aggregate--Product.json
   - goldens/two_leg-426--crossleg-aggregate--Asset-Account.json
 fixture:
   producer: cdf-forge-fixture

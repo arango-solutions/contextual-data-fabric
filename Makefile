@@ -15,6 +15,9 @@
 export CDF_ARANGO_PORT   ?= 8530
 FORGE_SHAPES ?= 10
 FORGE_SEED   ?= 421
+# Extra flags for `make forge-live` (e.g. --keep-ontop to leave the per-shape Ontop
+# containers up for inspection, --only <shape>).
+FORGE_LIVE_FLAGS ?=
 export CDF_POSTGRES_PORT ?= 5433
 # 8090 is not free on this machine: dalio-bff binds 127.0.0.1:8090, and an
 # explicit loopback bind wins over Docker's wildcard, so the stack comes up
@@ -60,7 +63,7 @@ LOAD_ENV = if [ -f ./.env ]; then set -a; . ./.env; set +a; fi;
 PY = .venv/bin/python
 CK25_EVIDENCE ?= docs/evidence/ck25-gpt-4o-mini-3x.json
 
-.PHONY: install up seed gate demo test forge-suite optimizer-oracle performance-baseline scale-baseline ck25-live sota-baseline sota-baseline-live catalog-probe catalog-integrity authorization-golden down jdbc free-ui sync-secondary
+.PHONY: install up seed gate demo test forge-suite forge-live optimizer-oracle performance-baseline scale-baseline ck25-live sota-baseline sota-baseline-live catalog-probe catalog-integrity authorization-golden down jdbc free-ui sync-secondary
 
 install:
 	python3 -m venv .venv
@@ -160,6 +163,16 @@ performance-baseline:
 # fixture executors. No engines needed. Live mode is the nightly job (S3).
 forge-suite:
 	$(PY) -m cdf.eval.forge suite --shapes $(FORGE_SHAPES) --seed $(FORGE_SEED) --out deploy/forge/shapes --check-determinism --run
+
+# Live mode (S2/S3): the same shapes through the REAL estate — deploy into the
+# compose stacks, RSA/ASA/r2g introspection + export, declared references,
+# manifest, one Ontop per Postgres leg, the CC-14 probe, and the goldens via
+# run_golden_live. Needs `make up` and docker. A Snowflake system deploys into
+# the real account when .env carries SNOWFLAKE_* (deploy/snowflake/setup_forge.sql
+# once, as ACCOUNTADMIN); without it the system runs on a substituted local
+# dialect, named in the report. Artifacts under deploy/forge/live/ (gitignored).
+forge-live:
+	$(LOAD_ENV) $(PY) -m cdf.eval.forge live --shapes $(FORGE_SHAPES) --seed $(FORGE_SEED) --execute --substitute-unavailable --live-out deploy/forge/live $(FORGE_LIVE_FLAGS)
 
 scale-baseline:
 	$(LOAD_ENV) $(DEMO_ENV) $(PY) -m cdf.eval.scale_baseline

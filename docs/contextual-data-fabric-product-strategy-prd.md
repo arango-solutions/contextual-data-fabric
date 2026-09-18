@@ -386,7 +386,10 @@ right project, ontology, and sources. CDF's job is to be excellently consumable:
 the demo page (M9) stays self-contained and standalone, and every console need
 ships as an ArGOS tab against CDF's contracts. Two cross-PRD seams are tracked in
 ArGOS §9: **Q-10** (one source registry — its FR-3 vs our ADR-0003 manifest/M11;
-decide derivation direction before its M1) and **Q-11** (one ontology-relative
+derivation direction decided in [ADR-0007](architecture/module-05-federated-query-engine/adr/ADR-0007-one-source-registry.md),
+*proposed 2026-09-17*: the catalog manifest is the query-plane truth and ArGOS
+registers it by reference; recorded here as decided once PJ accepts the ADR)
+and **Q-11** (one ontology-relative
 policy vocabulary — its FR-5 vs our ADR-0004/M8; PDP-shared, PEP-distinct, with
 the fabric's data-plane decisions never blocking on a portfolio-plane call).
 

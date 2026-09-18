@@ -33,7 +33,7 @@
       "deterministic": true,
       "failed": [],
       "family": "wide_narrow",
-      "goldens": 11,
+      "goldens": 10,
       "name": "wide_narrow-424",
       "signedOff": [],
       "systems": 3
@@ -42,7 +42,7 @@
       "deterministic": true,
       "failed": [],
       "family": "six_leg",
-      "goldens": 19,
+      "goldens": 18,
       "name": "six_leg-425",
       "signedOff": [],
       "systems": 6
@@ -87,7 +87,7 @@
       "deterministic": true,
       "failed": [],
       "family": "six_leg",
-      "goldens": 19,
+      "goldens": 17,
       "name": "six_leg-430",
       "signedOff": [],
       "systems": 6
@@ -97,6 +97,6 @@
     "ledger": "deploy/forge/signoff.yaml",
     "signed": 0,
     "unknown": [],
-    "unsigned": 114
+    "unsigned": 110
   }
 }

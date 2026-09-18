@@ -4,12 +4,12 @@
       "name": "Account",
       "properties": [
         {
-          "name": "segment",
-          "type": "string"
+          "name": "amount",
+          "type": "float"
         },
         {
-          "name": "sku",
-          "type": "string"
+          "name": "enabled",
+          "type": "boolean"
         }
       ]
     },
@@ -17,12 +17,8 @@
       "name": "Customer",
       "properties": [
         {
-          "name": "priority",
+          "name": "units",
           "type": "integer"
-        },
-        {
-          "name": "total",
-          "type": "float"
         }
       ]
     },
@@ -30,12 +26,8 @@
       "name": "Device",
       "properties": [
         {
-          "name": "currency",
-          "type": "string"
-        },
-        {
-          "name": "primary",
-          "type": "boolean"
+          "name": "version",
+          "type": "integer"
         }
       ]
     },
@@ -45,6 +37,14 @@
         {
           "name": "active",
           "type": "boolean"
+        },
+        {
+          "name": "archived",
+          "type": "boolean"
+        },
+        {
+          "name": "balance",
+          "type": "float"
         },
         {
           "name": "billable",
@@ -59,14 +59,6 @@
           "type": "boolean"
         },
         {
-          "name": "flagged",
-          "type": "boolean"
-        },
-        {
-          "name": "label",
-          "type": "string"
-        },
-        {
           "name": "latencyMs",
           "type": "float"
         },
@@ -79,16 +71,16 @@
           "type": "integer"
         },
         {
-          "name": "score",
-          "type": "integer"
-        },
-        {
           "name": "seats",
           "type": "integer"
         },
         {
           "name": "tier",
           "type": "string"
+        },
+        {
+          "name": "verified",
+          "type": "boolean"
         },
         {
           "name": "weight",

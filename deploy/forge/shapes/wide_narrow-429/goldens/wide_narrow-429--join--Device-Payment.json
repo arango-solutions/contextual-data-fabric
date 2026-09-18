@@ -2,51 +2,51 @@
   "expect": {
     "bindings": [
       {
-        "device_currency": "currency-15093",
+        "device_version": 73268,
+        "payment_active": false
+      },
+      {
+        "device_version": 5686,
         "payment_active": true
       },
       {
-        "device_currency": "currency-05843",
+        "device_version": 15093,
         "payment_active": false
       },
       {
-        "device_currency": "currency-25400",
+        "device_version": 65099,
         "payment_active": false
       },
       {
-        "device_currency": "currency-98970",
-        "payment_active": false
-      },
-      {
-        "device_currency": "currency-97144",
-        "payment_active": false
-      },
-      {
-        "device_currency": "currency-42926",
-        "payment_active": false
-      },
-      {
-        "device_currency": "currency-88782",
+        "device_version": 5843,
         "payment_active": true
       },
       {
-        "device_currency": "currency-06586",
+        "device_version": 13955,
         "payment_active": true
       },
       {
-        "device_currency": "currency-25035",
-        "payment_active": false
-      },
-      {
-        "device_currency": "currency-86425",
+        "device_version": 25400,
         "payment_active": true
       },
       {
-        "device_currency": "currency-57678",
-        "payment_active": false
+        "device_version": 203,
+        "payment_active": true
       },
       {
-        "device_currency": "currency-19989",
+        "device_version": 98970,
+        "payment_active": true
+      },
+      {
+        "device_version": 42093,
+        "payment_active": true
+      },
+      {
+        "device_version": 97144,
+        "payment_active": true
+      },
+      {
+        "device_version": 15553,
         "payment_active": false
       }
     ],
@@ -58,16 +58,16 @@
   },
   "family": "join",
   "name": "wide_narrow-429--join--Device-Payment",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_currency ?payment_active WHERE { ?device a c:Device ; c:currency ?device_currency ; c:devicesToPayments ?payment . ?payment a c:Payment ; c:active ?payment_active }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_version ?payment_active WHERE { ?device a c:Device ; c:version ?device_version ; c:paymentId ?payment_key . ?payment a c:Payment ; c:id ?payment_key ; c:active ?payment_active }",
   "shape": "wide_narrow-429",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -83,17 +83,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "enabled": {
+                  "field": "enabled"
+                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
-                },
-                "segment": {
-                  "field": "segment"
-                },
-                "sku": {
-                  "field": "sku"
                 }
               },
               "style": "COLLECTION"
@@ -107,11 +107,8 @@
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "priority": {
-                  "field": "priority"
-                },
-                "total": {
-                  "field": "total"
+                "units": {
+                  "field": "units"
                 }
               },
               "style": "COLLECTION"
@@ -119,17 +116,14 @@
             "Device": {
               "collectionName": "devices",
               "properties": {
-                "currency": {
-                  "field": "currency"
-                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "primary": {
-                  "field": "primary"
+                "version": {
+                  "field": "version"
                 }
               },
               "style": "COLLECTION"
@@ -143,20 +137,20 @@
               "name": "Account",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
                   "name": "paymentId",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
-                  "name": "sku",
-                  "type": "string"
                 }
               ]
             },
@@ -172,22 +166,14 @@
                   "type": "integer"
                 },
                 {
-                  "name": "priority",
+                  "name": "units",
                   "type": "integer"
-                },
-                {
-                  "name": "total",
-                  "type": "float"
                 }
               ]
             },
             {
               "name": "Device",
               "properties": [
-                {
-                  "name": "currency",
-                  "type": "string"
-                },
                 {
                   "name": "id",
                   "type": "integer"
@@ -197,8 +183,8 @@
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "version",
+                  "type": "integer"
                 }
               ]
             }
@@ -238,63 +224,63 @@
         "rows": [
           {
             "device": 1,
-            "device_currency": "currency-15093",
-            "payment": 4
+            "device_version": 73268,
+            "payment_key": 7
           },
           {
             "device": 2,
-            "device_currency": "currency-05843",
-            "payment": 10
+            "device_version": 5686,
+            "payment_key": 12
           },
           {
             "device": 3,
-            "device_currency": "currency-25400",
-            "payment": 9
+            "device_version": 15093,
+            "payment_key": 4
           },
           {
             "device": 4,
-            "device_currency": "currency-98970",
-            "payment": 9
+            "device_version": 65099,
+            "payment_key": 8
           },
           {
             "device": 5,
-            "device_currency": "currency-97144",
-            "payment": 2
+            "device_version": 5843,
+            "payment_key": 10
           },
           {
             "device": 6,
-            "device_currency": "currency-42926",
-            "payment": 2
+            "device_version": 13955,
+            "payment_key": 5
           },
           {
             "device": 7,
-            "device_currency": "currency-88782",
-            "payment": 7
+            "device_version": 25400,
+            "payment_key": 9
           },
           {
             "device": 8,
-            "device_currency": "currency-06586",
-            "payment": 4
+            "device_version": 203,
+            "payment_key": 5
           },
           {
             "device": 9,
-            "device_currency": "currency-25035",
-            "payment": 10
+            "device_version": 98970,
+            "payment_key": 9
           },
           {
             "device": 10,
-            "device_currency": "currency-86425",
-            "payment": 5
+            "device_version": 42093,
+            "payment_key": 10
           },
           {
             "device": 11,
-            "device_currency": "currency-57678",
-            "payment": 10
+            "device_version": 97144,
+            "payment_key": 2
           },
           {
             "device": 12,
-            "device_currency": "currency-19989",
-            "payment": 9
+            "device_version": 15553,
+            "payment_key": 7
           }
         ],
         "source_objects": [
@@ -328,6 +314,12 @@
                 "active": {
                   "field": "active"
                 },
+                "archived": {
+                  "field": "archived"
+                },
+                "balance": {
+                  "field": "balance"
+                },
                 "billable": {
                   "field": "billable"
                 },
@@ -337,14 +329,8 @@
                 "expired": {
                   "field": "expired"
                 },
-                "flagged": {
-                  "field": "flagged"
-                },
                 "id": {
                   "field": "id"
-                },
-                "label": {
-                  "field": "label"
                 },
                 "latencyMs": {
                   "field": "latency_ms"
@@ -355,14 +341,14 @@
                 "rank": {
                   "field": "rank"
                 },
-                "score": {
-                  "field": "score"
-                },
                 "seats": {
                   "field": "seats"
                 },
                 "tier": {
                   "field": "tier"
+                },
+                "verified": {
+                  "field": "verified"
                 },
                 "weight": {
                   "field": "weight"
@@ -383,6 +369,14 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "balance",
+                  "type": "float"
+                },
+                {
                   "name": "billable",
                   "type": "boolean"
                 },
@@ -395,16 +389,8 @@
                   "type": "boolean"
                 },
                 {
-                  "name": "flagged",
-                  "type": "boolean"
-                },
-                {
                   "name": "id",
                   "type": "integer"
-                },
-                {
-                  "name": "label",
-                  "type": "string"
                 },
                 {
                   "name": "latencyMs",
@@ -419,16 +405,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "score",
-                  "type": "integer"
-                },
-                {
                   "name": "seats",
                   "type": "integer"
                 },
                 {
                   "name": "tier",
                   "type": "string"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
                 },
                 {
                   "name": "weight",
@@ -456,51 +442,63 @@
         "rows": [
           {
             "payment": 1,
-            "payment_active": false
+            "payment_active": false,
+            "payment_key": 1
           },
           {
             "payment": 2,
-            "payment_active": false
+            "payment_active": true,
+            "payment_key": 2
           },
           {
             "payment": 3,
-            "payment_active": false
+            "payment_active": true,
+            "payment_key": 3
           },
           {
             "payment": 4,
-            "payment_active": true
+            "payment_active": false,
+            "payment_key": 4
           },
           {
             "payment": 5,
-            "payment_active": true
+            "payment_active": true,
+            "payment_key": 5
           },
           {
             "payment": 6,
-            "payment_active": false
+            "payment_active": false,
+            "payment_key": 6
           },
           {
             "payment": 7,
-            "payment_active": true
+            "payment_active": false,
+            "payment_key": 7
           },
           {
             "payment": 8,
-            "payment_active": false
+            "payment_active": false,
+            "payment_key": 8
           },
           {
             "payment": 9,
-            "payment_active": false
+            "payment_active": true,
+            "payment_key": 9
           },
           {
             "payment": 10,
-            "payment_active": false
+            "payment_active": true,
+            "payment_key": 10
           },
           {
             "payment": 11,
-            "payment_active": true
+            "payment_active": false,
+            "payment_key": 11
           },
           {
             "payment": 12,
-            "payment_active": true
+            "payment_active": true,
+            "payment_key": 12
           }
         ],
         "source_objects": [

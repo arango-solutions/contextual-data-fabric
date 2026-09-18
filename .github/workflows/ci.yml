@@ -95,7 +95,7 @@ jobs:
           cache: pip
       - name: Install engine + live-leg libraries
         run: |
-          pip install -e ".[test,service,mcp,auth]" python-arango clickhouse-connect \
+          pip install -e ".[test,service,mcp,auth,forge,forge-live]" python-arango clickhouse-connect \
             snowflake-connector-python ruff mypy -r deploy/pins/arango-sparql-py.txt -r deploy/pins/r2g-arango.txt
       - name: Bring up all local source stacks
         run: make up PY=python
@@ -133,6 +133,54 @@ jobs:
           CDF_R2RML_DIR: deploy/r2rml
           CDF_PREPARED_QUESTIONS: deploy/questions.json
         run: python deploy/demo/gate.py --exclude-source snowflake:telemetry
+      - name: Federation Forge — live mode (deploy → introspect → onboard → Ontop per leg → probe → goldens)
+        # The committed shapes through the REAL estate (ADR-0006 D-3; roadmap
+        # S2/S3): fresh databases in the stacks above, RSA/ASA/r2g introspection
+        # and export, declared references, manifest, one Ontop container per
+        # Postgres leg on the compose network, the CC-14 probe, and every golden
+        # via run_golden_live. A Snowflake system runs on a substituted local
+        # dialect, named in the report (`RUN ~`), so the chain/hub topologies
+        # execute too. Runs after the gate so a Forge failure never masks it.
+        # Bounded: Ontop takes ~4 s to ready here, so a leg that is not up in
+        # 60 s is dead (its logs land in the report); the whole step gets 12
+        # minutes so a stall never eats the job's failure-log steps.
+        timeout-minutes: 12
+        env:
+          ARANGO_URL: http://127.0.0.1:${{ env.CDF_ARANGO_PORT }}
+          ARANGO_USER: root
+          ARANGO_PASSWORD: cdf
+          CDF_FORGE_ONTOP_TIMEOUT: "60"
+          PYTHONUNBUFFERED: "1"
+        run: |
+          # GitHub's default shell is `bash -e` WITHOUT pipefail: a `| tee` pipeline
+          # reports tee's exit status, so a failing Forge run showed green (mirror
+          # run 35406720864, 2026-09-18: five FAIL lines, step "success").
+          set -o pipefail
+          python -m cdf.eval.forge live --shapes 10 --seed 421 --execute --substitute-unavailable \
+            --live-out "$RUNNER_TEMP/forge-live" | tee "$RUNNER_TEMP/forge-live.log"
+      - name: Forge live tests (one shape per family + execute, asserted)
+        env:
+          CDF_FORGE_LIVE: "1"
+          ARANGO_URL: http://127.0.0.1:${{ env.CDF_ARANGO_PORT }}
+          ARANGO_USER: root
+          ARANGO_PASSWORD: cdf
+        run: pytest tests/test_forge_live_local.py -q
+      - name: Forge live summary in the job summary
+        if: always()
+        run: |
+          echo "### Federation Forge — live mode" >> "$GITHUB_STEP_SUMMARY"
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+          grep -E "^(RUN|SKIP|FAIL|LIVE)|forge-live:" "$RUNNER_TEMP/forge-live.log" >> "$GITHUB_STEP_SUMMARY" || true
+          echo '```' >> "$GITHUB_STEP_SUMMARY"
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: forge-live-reports
+          path: |
+            ${{ runner.temp }}/forge-live/live-summary.json
+            ${{ runner.temp }}/forge-live/*/live-report.json
+          retention-days: 14
+          if-no-files-found: ignore
       - name: Collect source logs on failure
         if: failure()
         run: |
@@ -167,6 +215,9 @@ jobs:
       SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
       SNOWFLAKE_ROLE: ${{ secrets.SNOWFLAKE_ROLE }}
       SNOWFLAKE_PRIVATE_KEY_PASSPHRASE: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE }}
+      # The name the fabric actually reads (build_snowflake_connect_args); empty
+      # when the key is unencrypted, which the reader treats as "no passphrase".
+      SNOWFLAKE_PRIVATE_KEY_FILE_PWD: ${{ secrets.SNOWFLAKE_PRIVATE_KEY_PASSPHRASE }}
       # Same pin as live-local, and the same rule: these ports are what
       # `make up` publishes, and the URLs below must match them. A job-level
       # `env:` block cannot reference its own keys (the env context is only
@@ -196,7 +247,7 @@ jobs:
           cache: pip
       - name: Install engine + all live-leg libraries
         run: |
-          pip install -e ".[test,service,mcp,auth]" python-arango clickhouse-connect \
+          pip install -e ".[test,service,mcp,auth,forge,forge-live]" python-arango clickhouse-connect \
             snowflake-connector-python ruff mypy -r deploy/pins/arango-sparql-py.txt -r deploy/pins/r2g-arango.txt
       - name: Require and materialize Snowflake key-pair credentials
         env:
@@ -216,6 +267,26 @@ jobs:
           python deploy/snowflake/load_corpus.py
       - name: Snowflake live adapter test
         run: pytest tests/test_snowflake_live.py -q
+      - name: Federation Forge — live mode, four engines (Snowflake systems deploy into CDF_FORGE)
+        # No --substitute-unavailable here: every dialect has a real target.
+        # Needs deploy/snowflake/setup_forge.sql run once on the account.
+        timeout-minutes: 15
+        env:
+          CDF_FORGE_ONTOP_TIMEOUT: "60"
+          PYTHONUNBUFFERED: "1"
+        run: |
+          set -o pipefail  # see the live-local step: `| tee` must not mask the Forge's exit status
+          python -m cdf.eval.forge live --shapes 10 --seed 421 --execute \
+            --live-out "$RUNNER_TEMP/forge-live" | tee "$RUNNER_TEMP/forge-live.log"
+      - name: Forge live tests (one shape per family + a Snowflake system through the real account)
+        env:
+          CDF_FORGE_LIVE: "1"
+        run: pytest tests/test_forge_live_local.py -q
+      - name: Forge live summary in the job summary
+        if: always()
+        run: |
+          echo "### Federation Forge — live mode, four engines" >> "$GITHUB_STEP_SUMMARY"
+          grep -E "^(RUN|SKIP|FAIL|LIVE)|forge-live:" "$RUNNER_TEMP/forge-live.log" >> "$GITHUB_STEP_SUMMARY" || true
       - name: Emit complete live SOTA evidence
         run: |
           python -m cdf.eval.sota_scorecard --live \

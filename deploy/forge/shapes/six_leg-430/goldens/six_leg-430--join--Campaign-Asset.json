@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "asset_label": "label-77720",
-        "campaign_billable": true
-      },
-      {
-        "asset_label": "label-77720",
-        "campaign_billable": false
-      },
-      {
-        "asset_label": "label-41806",
-        "campaign_billable": false
-      },
-      {
-        "asset_label": "label-77720",
-        "campaign_billable": false
+        "asset_label": "label-83711",
+        "campaign_notes": "notes-35844"
       },
       {
         "asset_label": "label-72385",
-        "campaign_billable": false
-      },
-      {
-        "asset_label": "label-41806",
-        "campaign_billable": false
+        "campaign_notes": "notes-45097"
       },
       {
         "asset_label": "label-03913",
-        "campaign_billable": true
+        "campaign_notes": "notes-22193"
       },
       {
-        "asset_label": "label-03913",
-        "campaign_billable": false
+        "asset_label": "label-72385",
+        "campaign_notes": "notes-84755"
       },
       {
-        "asset_label": "label-66924",
-        "campaign_billable": false
-      },
-      {
-        "asset_label": "label-77720",
-        "campaign_billable": true
+        "asset_label": "label-72385",
+        "campaign_notes": "notes-34763"
       },
       {
         "asset_label": "label-41806",
-        "campaign_billable": true
+        "campaign_notes": "notes-13106"
+      },
+      {
+        "asset_label": "label-22110",
+        "campaign_notes": "notes-67926"
       },
       {
         "asset_label": "label-68396",
-        "campaign_billable": false
+        "campaign_notes": "notes-44162"
+      },
+      {
+        "asset_label": "label-03913",
+        "campaign_notes": "notes-34866"
+      },
+      {
+        "asset_label": "label-83711",
+        "campaign_notes": "notes-86367"
+      },
+      {
+        "asset_label": "label-03913",
+        "campaign_notes": "notes-85750"
+      },
+      {
+        "asset_label": "label-03085",
+        "campaign_notes": "notes-55848"
       }
     ],
     "sources_touched": [
@@ -58,16 +58,16 @@
   },
   "family": "join",
   "name": "six_leg-430--join--Campaign-Asset",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable ?asset_label WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable ; c:campaignsToAssets ?asset . ?asset a c:Asset ; c:label ?asset_label }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_notes ?asset_label WHERE { ?campaign a c:Campaign ; c:notes ?campaign_notes ; c:assetId ?asset_key . ?asset a c:Asset ; c:id ?asset_key ; c:label ?asset_label }",
   "shape": "six_leg-430",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -86,9 +86,6 @@
                 "assetId": {
                   "field": "asset_id"
                 },
-                "billable": {
-                  "field": "billable"
-                },
                 "customerId": {
                   "field": "customer_id"
                 },
@@ -100,6 +97,9 @@
                 },
                 "rank": {
                   "field": "rank"
+                },
+                "ratio": {
+                  "field": "ratio"
                 }
               },
               "style": "COLLECTION"
@@ -117,10 +117,6 @@
                   "type": "integer"
                 },
                 {
-                  "name": "billable",
-                  "type": "boolean"
-                },
-                {
                   "name": "customerId",
                   "type": "integer"
                 },
@@ -135,6 +131,10 @@
                 {
                   "name": "rank",
                   "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
                 }
               ]
             }
@@ -168,64 +168,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for campaigns",
         "rows": [
           {
-            "asset": 6,
+            "asset_key": 2,
             "campaign": 1,
-            "campaign_billable": true
+            "campaign_notes": "notes-35844"
           },
           {
-            "asset": 6,
+            "asset_key": 3,
             "campaign": 2,
-            "campaign_billable": false
+            "campaign_notes": "notes-45097"
           },
           {
-            "asset": 5,
+            "asset_key": 4,
             "campaign": 3,
-            "campaign_billable": false
+            "campaign_notes": "notes-22193"
           },
           {
-            "asset": 6,
+            "asset_key": 3,
             "campaign": 4,
-            "campaign_billable": false
+            "campaign_notes": "notes-84755"
           },
           {
-            "asset": 3,
+            "asset_key": 3,
             "campaign": 5,
-            "campaign_billable": false
+            "campaign_notes": "notes-34763"
           },
           {
-            "asset": 5,
+            "asset_key": 5,
             "campaign": 6,
-            "campaign_billable": false
+            "campaign_notes": "notes-13106"
           },
           {
-            "asset": 4,
+            "asset_key": 1,
             "campaign": 7,
-            "campaign_billable": true
+            "campaign_notes": "notes-67926"
           },
           {
-            "asset": 4,
+            "asset_key": 11,
             "campaign": 8,
-            "campaign_billable": false
+            "campaign_notes": "notes-44162"
           },
           {
-            "asset": 9,
+            "asset_key": 4,
             "campaign": 9,
-            "campaign_billable": false
+            "campaign_notes": "notes-34866"
           },
           {
-            "asset": 6,
+            "asset_key": 2,
             "campaign": 10,
-            "campaign_billable": true
+            "campaign_notes": "notes-86367"
           },
           {
-            "asset": 5,
+            "asset_key": 4,
             "campaign": 11,
-            "campaign_billable": true
+            "campaign_notes": "notes-85750"
           },
           {
-            "asset": 11,
+            "asset_key": 7,
             "campaign": 12,
-            "campaign_billable": false
+            "campaign_notes": "notes-55848"
           }
         ],
         "source_objects": [
@@ -238,9 +238,9 @@
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -330,50 +330,62 @@
         "rows": [
           {
             "asset": 1,
+            "asset_key": 1,
             "asset_label": "label-22110"
           },
           {
             "asset": 2,
+            "asset_key": 2,
             "asset_label": "label-83711"
           },
           {
             "asset": 3,
+            "asset_key": 3,
             "asset_label": "label-72385"
           },
           {
             "asset": 4,
+            "asset_key": 4,
             "asset_label": "label-03913"
           },
           {
             "asset": 5,
+            "asset_key": 5,
             "asset_label": "label-41806"
           },
           {
             "asset": 6,
+            "asset_key": 6,
             "asset_label": "label-77720"
           },
           {
             "asset": 7,
+            "asset_key": 7,
             "asset_label": "label-03085"
           },
           {
             "asset": 8,
+            "asset_key": 8,
             "asset_label": "label-61000"
           },
           {
             "asset": 9,
+            "asset_key": 9,
             "asset_label": "label-66924"
           },
           {
             "asset": 10,
+            "asset_key": 10,
             "asset_label": "label-54316"
           },
           {
             "asset": 11,
+            "asset_key": 11,
             "asset_label": "label-68396"
           },
           {
             "asset": 12,
+            "asset_key": 12,
             "asset_label": "label-94667"
           }
         ],

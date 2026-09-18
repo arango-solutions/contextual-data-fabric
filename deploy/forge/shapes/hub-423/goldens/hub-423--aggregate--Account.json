@@ -7,7 +7,7 @@
   },
   "family": "single_leg_aggregation",
   "name": "hub-423--aggregate--Account",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_archived (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:archived ?account_archived } GROUP BY ?account_archived",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_verified (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:verified ?account_verified } GROUP BY ?account_verified",
   "shape": "hub-423",
   "sources": [
     {
@@ -32,17 +32,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
-                "archived": {
-                  "field": "archived"
-                },
-                "discount": {
-                  "field": "discount"
-                },
                 "id": {
                   "field": "id"
                 },
+                "region": {
+                  "field": "region"
+                },
                 "vendorId": {
                   "field": "vendor_id"
+                },
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -56,20 +56,20 @@
               "name": "Account",
               "properties": [
                 {
-                  "name": "archived",
-                  "type": "boolean"
-                },
-                {
-                  "name": "discount",
-                  "type": "float"
-                },
-                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
                   "name": "vendorId",
                   "type": "integer"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }
@@ -98,12 +98,12 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
         "rows": [
           {
-            "account_archived": false,
-            "n": 6
+            "account_verified": false,
+            "n": 7
           },
           {
-            "account_archived": true,
-            "n": 6
+            "account_verified": true,
+            "n": 5
           }
         ],
         "source_objects": [

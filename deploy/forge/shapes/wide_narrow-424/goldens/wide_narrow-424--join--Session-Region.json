@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "region_active": false,
-        "session_billable": true
+        "region_amount": 85232.616549,
+        "session_balance": 46427.459035
       },
       {
-        "region_active": false,
-        "session_billable": true
+        "region_amount": 81972.032355,
+        "session_balance": 15096.784554
       },
       {
-        "region_active": true,
-        "session_billable": false
+        "region_amount": 9194.339102,
+        "session_balance": 79735.087194
       },
       {
-        "region_active": false,
-        "session_billable": true
+        "region_amount": 18450.804612,
+        "session_balance": 89349.681199
       },
       {
-        "region_active": false,
-        "session_billable": true
+        "region_amount": 56158.436436,
+        "session_balance": 95570.239453
       },
       {
-        "region_active": false,
-        "session_billable": true
+        "region_amount": 69121.869847,
+        "session_balance": 26596.322639
       },
       {
-        "region_active": true,
-        "session_billable": false
+        "region_amount": 62085.431128,
+        "session_balance": 39897.263145
       },
       {
-        "region_active": true,
-        "session_billable": true
+        "region_amount": 12473.150453,
+        "session_balance": 15022.738552
       },
       {
-        "region_active": true,
-        "session_billable": true
+        "region_amount": 44508.108505,
+        "session_balance": 71626.270001
       },
       {
-        "region_active": true,
-        "session_billable": false
+        "region_amount": 85232.616549,
+        "session_balance": 86866.853027
       },
       {
-        "region_active": false,
-        "session_billable": false
+        "region_amount": 50559.548521,
+        "session_balance": 52825.612223
       },
       {
-        "region_active": true,
-        "session_billable": false
+        "region_amount": 62085.431128,
+        "session_balance": 52131.804709
       }
     ],
     "sources_touched": [
@@ -58,16 +58,16 @@
   },
   "family": "join",
   "name": "wide_narrow-424--join--Session-Region",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_billable ?region_active WHERE { ?session a c:Session ; c:billable ?session_billable ; c:sessionsToRegions ?region . ?region a c:Region ; c:active ?region_active }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_balance ?region_amount WHERE { ?session a c:Session ; c:balance ?session_balance ; c:regionId ?region_key . ?region a c:Region ; c:id ?region_key ; c:amount ?region_amount }",
   "shape": "wide_narrow-424",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -83,8 +83,8 @@
             "Session": {
               "collectionName": "sessions",
               "properties": {
-                "billable": {
-                  "field": "billable"
+                "balance": {
+                  "field": "balance"
                 },
                 "id": {
                   "field": "id"
@@ -101,6 +101,9 @@
             "Shipment": {
               "collectionName": "shipments",
               "properties": {
+                "active": {
+                  "field": "active"
+                },
                 "id": {
                   "field": "id"
                 },
@@ -109,9 +112,6 @@
                 },
                 "regionId": {
                   "field": "region_id"
-                },
-                "verified": {
-                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -125,8 +125,8 @@
               "name": "Session",
               "properties": [
                 {
-                  "name": "billable",
-                  "type": "boolean"
+                  "name": "balance",
+                  "type": "float"
                 },
                 {
                   "name": "id",
@@ -146,6 +146,10 @@
               "name": "Shipment",
               "properties": [
                 {
+                  "name": "active",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
@@ -156,10 +160,6 @@
                 {
                   "name": "regionId",
                   "type": "integer"
-                },
-                {
-                  "name": "verified",
-                  "type": "boolean"
                 }
               ]
             }
@@ -193,64 +193,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for sessions",
         "rows": [
           {
-            "region": 3,
+            "region_key": 3,
             "session": 1,
-            "session_billable": true
+            "session_balance": 46427.459035
           },
           {
-            "region": 3,
+            "region_key": 8,
             "session": 2,
-            "session_billable": true
+            "session_balance": 15096.784554
           },
           {
-            "region": 5,
+            "region_key": 12,
             "session": 3,
-            "session_billable": false
+            "session_balance": 79735.087194
           },
           {
-            "region": 3,
+            "region_key": 2,
             "session": 4,
-            "session_billable": true
+            "session_balance": 89349.681199
           },
           {
-            "region": 8,
+            "region_key": 1,
             "session": 5,
-            "session_billable": true
+            "session_balance": 95570.239453
           },
           {
-            "region": 1,
+            "region_key": 4,
             "session": 6,
-            "session_billable": true
+            "session_balance": 26596.322639
           },
           {
-            "region": 5,
+            "region_key": 10,
             "session": 7,
-            "session_billable": false
+            "session_balance": 39897.263145
           },
           {
-            "region": 10,
+            "region_key": 7,
             "session": 8,
-            "session_billable": true
+            "session_balance": 15022.738552
           },
           {
-            "region": 7,
+            "region_key": 11,
             "session": 9,
-            "session_billable": true
+            "session_balance": 71626.270001
           },
           {
-            "region": 11,
+            "region_key": 3,
             "session": 10,
-            "session_billable": false
+            "session_balance": 86866.853027
           },
           {
-            "region": 3,
+            "region_key": 5,
             "session": 11,
-            "session_billable": false
+            "session_balance": 52825.612223
           },
           {
-            "region": 5,
+            "region_key": 10,
             "session": 12,
-            "session_billable": false
+            "session_balance": 52131.804709
           }
         ],
         "source_objects": [
@@ -263,9 +263,9 @@
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -281,9 +281,6 @@
             "Region": {
               "collectionName": "regions",
               "properties": {
-                "active": {
-                  "field": "active"
-                },
                 "amount": {
                   "field": "amount"
                 },
@@ -293,8 +290,14 @@
                 "expired": {
                   "field": "expired"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
+                },
+                "label": {
+                  "field": "label"
                 },
                 "notes": {
                   "field": "notes"
@@ -308,14 +311,11 @@
                 "ratio": {
                   "field": "ratio"
                 },
-                "segment": {
-                  "field": "segment"
-                },
                 "tier": {
                   "field": "tier"
                 },
-                "units": {
-                  "field": "units"
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -329,10 +329,6 @@
               "name": "Region",
               "properties": [
                 {
-                  "name": "active",
-                  "type": "boolean"
-                },
-                {
                   "name": "amount",
                   "type": "float"
                 },
@@ -345,8 +341,16 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
                 },
                 {
                   "name": "notes",
@@ -365,16 +369,12 @@
                   "type": "float"
                 },
                 {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
                   "name": "tier",
                   "type": "string"
                 },
                 {
-                  "name": "units",
-                  "type": "integer"
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }
@@ -398,51 +398,63 @@
         "rows": [
           {
             "region": 1,
-            "region_active": false
+            "region_amount": 56158.436436,
+            "region_key": 1
           },
           {
             "region": 2,
-            "region_active": false
+            "region_amount": 18450.804612,
+            "region_key": 2
           },
           {
             "region": 3,
-            "region_active": false
+            "region_amount": 85232.616549,
+            "region_key": 3
           },
           {
             "region": 4,
-            "region_active": true
+            "region_amount": 69121.869847,
+            "region_key": 4
           },
           {
             "region": 5,
-            "region_active": true
+            "region_amount": 50559.548521,
+            "region_key": 5
           },
           {
             "region": 6,
-            "region_active": false
+            "region_amount": 29831.837695,
+            "region_key": 6
           },
           {
             "region": 7,
-            "region_active": true
+            "region_amount": 12473.150453,
+            "region_key": 7
           },
           {
             "region": 8,
-            "region_active": false
+            "region_amount": 81972.032355,
+            "region_key": 8
           },
           {
             "region": 9,
-            "region_active": false
+            "region_amount": 50489.43487,
+            "region_key": 9
           },
           {
             "region": 10,
-            "region_active": true
+            "region_amount": 62085.431128,
+            "region_key": 10
           },
           {
             "region": 11,
-            "region_active": true
+            "region_amount": 44508.108505,
+            "region_key": 11
           },
           {
             "region": 12,
-            "region_active": true
+            "region_amount": 9194.339102,
+            "region_key": 12
           }
         ],
         "source_objects": [

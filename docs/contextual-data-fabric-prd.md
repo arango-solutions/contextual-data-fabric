@@ -279,6 +279,7 @@ The fabric accesses multiple live systems; credentials are handled by one archit
 - **Ownership & resolution:** credentials belong to **M1 (Connectors) only**. Every artifact that travels — CSI v1, R2RML, `mapping.yaml`, Ontop datasource config, citations/retrieval paths — references sources by **logical name** (`postgres-crm`, `snowflake-gold`); M1 resolves logical name → credential at `open()` time through a **SecretResolver seam**. *R2RML and JDBC-style configs can syntactically carry connection strings — they must never.* Mappings get versioned, cited, and shared; a credential embedded there leaks into git, envelopes, and the hub.
 - **The hub stores mappings, not secrets** — nothing credential-shaped in ArangoDB collections, envelopes, or logs; token **redaction** on every read-back surface incl. MCP tools (reuse **r2g Phase 8's pattern**: encrypted provider-config registry, `$ENV_VAR` references resolved at use time, redaction on read, DSN-scrubbed errors).
 - **P1 floor:** git-ignored `.env` loaded only by the M5 engine (the UI never sees a connection string — CC-8); read-only Postgres role; non-root Arango user; no raw-credential logging.
+- **Test infrastructure (added 2026-09-18, PR #41):** the compose stacks and the Forge's live directory (`deploy/forge/live/`, gitignored) hold the dev-stack accounts and nothing else. Dev-stack credentials may live in gitignored or committed dev configuration (`deploy/ontop/input/ontop.properties`, `.env`); files only our own process reads are written owner-only (`0600`); a file a container reads through a bind mount is exempt — the Ontop image runs as uid 999 and an owner-only file is invisible to it on Linux — and the exemption is recorded beside the write. Nothing from a live directory is uploaded (CI publishes reports, which carry no credential), and nothing under a committed suite carries one. The real Snowflake account follows the production rule: the Forge deploys as its own role into its own database (`deploy/snowflake/setup_forge.sql`) and the fabric keeps querying as the read-only role.
 - **P2 hardening:** a real secret store (Vault or the host cloud's manager) behind the same SecretResolver seam — config change, not code change. Per-source auth done right from day one of each connector: **Snowflake key-pair auth or workload identity federation on a `TYPE=SERVICE` user** (Snowflake blocks password authentication for all service users by **October 2026**), **Databricks service principal + OAuth M2M** (personal access tokens are now labelled legacy); rotation happens in the store, not in code. The exact read-only grant statements, per-identity timeouts and network allowlist shape per source are published from [data-source-identity-mechanisms.md](research/data-source-identity-mechanisms.md) §9 (M16 FR-1). If Ontop is adopted (§9.10), its datasource config is **templated from the secret store at container start**, never baked into an image or repo.
 
 r2g's Phase 9 lane discipline ("carry governance metadata, never launder sensitive data") applies from day one; its classification/entitlement machinery and suggested-RBAC/OPA emission become concrete inputs to M8 in P3.
@@ -422,6 +423,13 @@ ends:
   the inference path is what's tested)**; (b) a **reference-database corpus**
   of real, well-known schemas (Northwind first; then Chinook, Sakila,
   AdventureWorks-class) run through the full extract→map→federate→answer loop.
+  *Status 2026-09-18 (PR #41):* (a) is partly met — the seed-421 suite runs
+  through the real estate on every PR (deploy, introspect, declared references,
+  drift, CC-14 probe, goldens), and ClickHouse is a constraint-stripped variant
+  in practice: it has no foreign-key syntax, r2g records the intent as column
+  comments, and the probe strips its aggregation declaration live. Renames,
+  injected denormalizations and the deliberate strip-constraints operation are
+  the S5 denormalizer's; (b) has not started.
 - **RD-5 · Deployment-requirements discovery.** A written statement, gathered
   from real prospects, of how customers expect to deploy and operate this —
   starting hypothesis (from the design-partner engagement): data owners will insist on

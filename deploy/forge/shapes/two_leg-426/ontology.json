@@ -25,12 +25,12 @@
       "name": "Asset",
       "properties": [
         {
-          "name": "archived",
-          "type": "boolean"
+          "name": "discount",
+          "type": "float"
         },
         {
-          "name": "primary",
-          "type": "boolean"
+          "name": "seats",
+          "type": "integer"
         }
       ]
     },
@@ -38,16 +38,16 @@
       "name": "Invoice",
       "properties": [
         {
-          "name": "quantity",
+          "name": "category",
+          "type": "string"
+        },
+        {
+          "name": "priority",
           "type": "integer"
         },
         {
           "name": "score",
           "type": "integer"
-        },
-        {
-          "name": "segment",
-          "type": "string"
         }
       ]
     },
@@ -59,8 +59,16 @@
           "type": "string"
         },
         {
-          "name": "margin",
-          "type": "float"
+          "name": "flagged",
+          "type": "boolean"
+        },
+        {
+          "name": "retries",
+          "type": "integer"
+        },
+        {
+          "name": "status",
+          "type": "string"
         }
       ]
     }

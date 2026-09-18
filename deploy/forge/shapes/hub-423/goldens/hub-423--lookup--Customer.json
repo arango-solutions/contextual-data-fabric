@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "customer_balance": 11075.908845,
-        "customer_enabled": false
+        "customer_channel": "channel-20434",
+        "customer_expired": true
       },
       {
-        "customer_balance": 34669.136692,
-        "customer_enabled": true
+        "customer_channel": "channel-74934",
+        "customer_expired": true
       },
       {
-        "customer_balance": 52306.295095,
-        "customer_enabled": true
+        "customer_channel": "channel-36095",
+        "customer_expired": false
       },
       {
-        "customer_balance": 28589.087396,
-        "customer_enabled": false
+        "customer_channel": "channel-16507",
+        "customer_expired": true
       },
       {
-        "customer_balance": 6420.453771,
-        "customer_enabled": false
+        "customer_channel": "channel-78334",
+        "customer_expired": true
       },
       {
-        "customer_balance": 35.015176,
-        "customer_enabled": true
+        "customer_channel": "channel-51226",
+        "customer_expired": true
       },
       {
-        "customer_balance": 89040.721838,
-        "customer_enabled": false
+        "customer_channel": "channel-86625",
+        "customer_expired": false
       },
       {
-        "customer_balance": 98782.941935,
-        "customer_enabled": false
+        "customer_channel": "channel-07697",
+        "customer_expired": true
       },
       {
-        "customer_balance": 83293.05105,
-        "customer_enabled": false
+        "customer_channel": "channel-23894",
+        "customer_expired": false
       },
       {
-        "customer_balance": 99512.288775,
-        "customer_enabled": false
+        "customer_channel": "channel-34443",
+        "customer_expired": false
       },
       {
-        "customer_balance": 34522.257918,
-        "customer_enabled": false
+        "customer_channel": "channel-95783",
+        "customer_expired": false
       },
       {
-        "customer_balance": 66623.502903,
-        "customer_enabled": false
+        "customer_channel": "channel-29600",
+        "customer_expired": false
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "hub-423--lookup--Customer",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_balance ?customer_enabled WHERE { ?customer a c:Customer ; c:balance ?customer_balance ; c:enabled ?customer_enabled }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_channel ?customer_expired WHERE { ?customer a c:Customer ; c:channel ?customer_channel ; c:expired ?customer_expired }",
   "shape": "hub-423",
   "sources": [
     {
@@ -82,17 +82,17 @@
             "Customer": {
               "collectionName": "customers",
               "properties": {
-                "balance": {
-                  "field": "balance"
+                "channel": {
+                  "field": "channel"
                 },
-                "enabled": {
-                  "field": "enabled"
+                "expired": {
+                  "field": "expired"
                 },
                 "id": {
                   "field": "id"
                 },
-                "tier": {
-                  "field": "tier"
+                "margin": {
+                  "field": "margin"
                 },
                 "vendorId": {
                   "field": "vendor_id"
@@ -109,11 +109,11 @@
               "name": "Customer",
               "properties": [
                 {
-                  "name": "balance",
-                  "type": "float"
+                  "name": "channel",
+                  "type": "string"
                 },
                 {
-                  "name": "enabled",
+                  "name": "expired",
                   "type": "boolean"
                 },
                 {
@@ -121,8 +121,8 @@
                   "type": "integer"
                 },
                 {
-                  "name": "tier",
-                  "type": "string"
+                  "name": "margin",
+                  "type": "float"
                 },
                 {
                   "name": "vendorId",
@@ -156,63 +156,63 @@
         "rows": [
           {
             "customer": 1,
-            "customer_balance": 11075.908845,
-            "customer_enabled": false
+            "customer_channel": "channel-20434",
+            "customer_expired": true
           },
           {
             "customer": 2,
-            "customer_balance": 34669.136692,
-            "customer_enabled": true
+            "customer_channel": "channel-74934",
+            "customer_expired": true
           },
           {
             "customer": 3,
-            "customer_balance": 52306.295095,
-            "customer_enabled": true
+            "customer_channel": "channel-36095",
+            "customer_expired": false
           },
           {
             "customer": 4,
-            "customer_balance": 28589.087396,
-            "customer_enabled": false
+            "customer_channel": "channel-16507",
+            "customer_expired": true
           },
           {
             "customer": 5,
-            "customer_balance": 6420.453771,
-            "customer_enabled": false
+            "customer_channel": "channel-78334",
+            "customer_expired": true
           },
           {
             "customer": 6,
-            "customer_balance": 35.015176,
-            "customer_enabled": true
+            "customer_channel": "channel-51226",
+            "customer_expired": true
           },
           {
             "customer": 7,
-            "customer_balance": 89040.721838,
-            "customer_enabled": false
+            "customer_channel": "channel-86625",
+            "customer_expired": false
           },
           {
             "customer": 8,
-            "customer_balance": 98782.941935,
-            "customer_enabled": false
+            "customer_channel": "channel-07697",
+            "customer_expired": true
           },
           {
             "customer": 9,
-            "customer_balance": 83293.05105,
-            "customer_enabled": false
+            "customer_channel": "channel-23894",
+            "customer_expired": false
           },
           {
             "customer": 10,
-            "customer_balance": 99512.288775,
-            "customer_enabled": false
+            "customer_channel": "channel-34443",
+            "customer_expired": false
           },
           {
             "customer": 11,
-            "customer_balance": 34522.257918,
-            "customer_enabled": false
+            "customer_channel": "channel-95783",
+            "customer_expired": false
           },
           {
             "customer": 12,
-            "customer_balance": 66623.502903,
-            "customer_enabled": false
+            "customer_channel": "channel-29600",
+            "customer_expired": false
           }
         ],
         "source_objects": [

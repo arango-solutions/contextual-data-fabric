@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "invoice_quantity": 92631,
-        "invoice_score": 1828
+        "invoice_category": "category-09294",
+        "invoice_priority": 58235
       },
       {
-        "invoice_quantity": 23055,
-        "invoice_score": 49528
+        "invoice_category": "category-45375",
+        "invoice_priority": 76604
       },
       {
-        "invoice_quantity": 8227,
-        "invoice_score": 20034
+        "invoice_category": "category-01828",
+        "invoice_priority": 13328
       },
       {
-        "invoice_quantity": 97551,
-        "invoice_score": 90317
+        "invoice_category": "category-49528",
+        "invoice_priority": 65846
       },
       {
-        "invoice_quantity": 32637,
-        "invoice_score": 37601
+        "invoice_category": "category-20034",
+        "invoice_priority": 29278
       },
       {
-        "invoice_quantity": 87884,
-        "invoice_score": 31276
+        "invoice_category": "category-97551",
+        "invoice_priority": 90317
       },
       {
-        "invoice_quantity": 28731,
-        "invoice_score": 40261
+        "invoice_category": "category-32637",
+        "invoice_priority": 37601
       },
       {
-        "invoice_quantity": 64660,
-        "invoice_score": 95916
+        "invoice_category": "category-87884",
+        "invoice_priority": 31276
       },
       {
-        "invoice_quantity": 50766,
-        "invoice_score": 32694
+        "invoice_category": "category-28731",
+        "invoice_priority": 40261
       },
       {
-        "invoice_quantity": 54806,
-        "invoice_score": 18221
+        "invoice_category": "category-64660",
+        "invoice_priority": 95916
       },
       {
-        "invoice_quantity": 55924,
-        "invoice_score": 79620
+        "invoice_category": "category-50766",
+        "invoice_priority": 32694
       },
       {
-        "invoice_quantity": 58,
-        "invoice_score": 33752
+        "invoice_category": "category-54806",
+        "invoice_priority": 18221
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "two_leg-426--lookup--Invoice",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_quantity ?invoice_score WHERE { ?invoice a c:Invoice ; c:quantity ?invoice_quantity ; c:score ?invoice_score }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_category ?invoice_priority WHERE { ?invoice a c:Invoice ; c:category ?invoice_category ; c:priority ?invoice_priority }",
   "shape": "two_leg-426",
   "sources": [
     {
@@ -106,17 +106,17 @@
                 "accountId": {
                   "field": "account_id"
                 },
+                "category": {
+                  "field": "category"
+                },
                 "id": {
                   "field": "id"
                 },
-                "quantity": {
-                  "field": "quantity"
+                "priority": {
+                  "field": "priority"
                 },
                 "score": {
                   "field": "score"
-                },
-                "segment": {
-                  "field": "segment"
                 }
               },
               "style": "COLLECTION"
@@ -159,20 +159,20 @@
                   "type": "integer"
                 },
                 {
+                  "name": "category",
+                  "type": "string"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "quantity",
+                  "name": "priority",
                   "type": "integer"
                 },
                 {
                   "name": "score",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
                 }
               ]
             }
@@ -202,63 +202,63 @@
         "rows": [
           {
             "invoice": 1,
-            "invoice_quantity": 92631,
-            "invoice_score": 1828
+            "invoice_category": "category-09294",
+            "invoice_priority": 58235
           },
           {
             "invoice": 2,
-            "invoice_quantity": 23055,
-            "invoice_score": 49528
+            "invoice_category": "category-45375",
+            "invoice_priority": 76604
           },
           {
             "invoice": 3,
-            "invoice_quantity": 8227,
-            "invoice_score": 20034
+            "invoice_category": "category-01828",
+            "invoice_priority": 13328
           },
           {
             "invoice": 4,
-            "invoice_quantity": 97551,
-            "invoice_score": 90317
+            "invoice_category": "category-49528",
+            "invoice_priority": 65846
           },
           {
             "invoice": 5,
-            "invoice_quantity": 32637,
-            "invoice_score": 37601
+            "invoice_category": "category-20034",
+            "invoice_priority": 29278
           },
           {
             "invoice": 6,
-            "invoice_quantity": 87884,
-            "invoice_score": 31276
+            "invoice_category": "category-97551",
+            "invoice_priority": 90317
           },
           {
             "invoice": 7,
-            "invoice_quantity": 28731,
-            "invoice_score": 40261
+            "invoice_category": "category-32637",
+            "invoice_priority": 37601
           },
           {
             "invoice": 8,
-            "invoice_quantity": 64660,
-            "invoice_score": 95916
+            "invoice_category": "category-87884",
+            "invoice_priority": 31276
           },
           {
             "invoice": 9,
-            "invoice_quantity": 50766,
-            "invoice_score": 32694
+            "invoice_category": "category-28731",
+            "invoice_priority": 40261
           },
           {
             "invoice": 10,
-            "invoice_quantity": 54806,
-            "invoice_score": 18221
+            "invoice_category": "category-64660",
+            "invoice_priority": 95916
           },
           {
             "invoice": 11,
-            "invoice_quantity": 55924,
-            "invoice_score": 79620
+            "invoice_category": "category-50766",
+            "invoice_priority": 32694
           },
           {
             "invoice": 12,
-            "invoice_quantity": 58,
-            "invoice_score": 33752
+            "invoice_category": "category-54806",
+            "invoice_priority": 18221
           }
         ],
         "source_objects": [

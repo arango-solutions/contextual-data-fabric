@@ -192,14 +192,31 @@ awaits the 2-week re-cut noted at the top.
   join keys, per ADR-0005 D1/D2); refusal goldens rewritten in the same PR;
   `partial_aggregate` citations in the envelope.
 - Forge: Snowflake + ClickHouse DDL dialects, Arango collection generation;
-  roundtrip green on all four.
+  roundtrip green on all four. **Dialects landed 2026-09-17**
+  (arango-solutions/r2g-arango#8, live roundtrips per dialect; needs its
+  non-author review, then r2g 0.4.2 and a version band in CDF).
+- Forge **live mode** — pulled forward from S3 and done 2026-09-18 (PR #41):
+  every committed shape deploys into the real estate, is introspected back by
+  RSA/ASA/r2g, onboards through the catalog builder, gets an Ontop per Postgres
+  leg and the CC-14 probe, and runs its goldens through the real fabric — 10/10
+  shapes, 110/110 goldens, on every PR. It found two defects fixture mode could
+  not: goldens navigating a relationship predicate across systems, and a
+  reserved word in the sampler vocabulary. Snowflake systems deploy into the
+  real account as their own role and database (`setup_forge.sql`); on a host
+  without the account they run on a substituted dialect, named in the report.
+  Remaining S2 Forge items: the account setup on the org's CI secrets, and the
+  r2g version band. PJ's Forge assignment is **system testing** of live mode,
+  not build.
 - **Gate:** a cross-leg COUNT answers grounded with per-leg partials cited; a
   forge-generated 2-leg federation onboards via the `add-source-*` skills untouched.
 
 ### S3 · Oct 13–31 — “Generated federations end-to-end”
-- Partitioner v1: shape descriptors → live multi-system deployments (compose +
-  loaders) → auto-generated catalogs → **auto-generated goldens with computed
-  expected answers**; first 10-shape suite in CI (fixture mode) + nightly (live).
+- Partitioner v1 — *landed in S2 as Forge live mode (above): descriptors → live
+  multi-system deployments → auto-generated catalogs → auto-generated goldens
+  with computed expected answers; the 10-shape suite runs in CI in both modes
+  on every PR.* S3 keeps what live mode has not yet earned: Snowflake-declared
+  capabilities probed through the real account in the scheduled job, and the
+  S3 gate below.
 - Text search v1: `cdf:matchesText` on the Arango leg (ADR-0005 D4 fields, analyzer
   pinning, refuse-with-remedy elsewhere).
 - **Gate:** `make forge-suite` runs N generated shapes through partition→execute→

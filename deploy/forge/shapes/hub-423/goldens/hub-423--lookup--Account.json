@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "account_archived": true,
-        "account_discount": 87213.973498
+        "account_region": "region-19218",
+        "account_verified": false
       },
       {
-        "account_archived": false,
-        "account_discount": 99115.781926
+        "account_region": "region-43793",
+        "account_verified": false
       },
       {
-        "account_archived": true,
-        "account_discount": 11689.602733
+        "account_region": "region-80708",
+        "account_verified": true
       },
       {
-        "account_archived": false,
-        "account_discount": 88637.963898
+        "account_region": "region-26200",
+        "account_verified": false
       },
       {
-        "account_archived": true,
-        "account_discount": 11707.491456
+        "account_region": "region-37899",
+        "account_verified": true
       },
       {
-        "account_archived": true,
-        "account_discount": 7894.432669
+        "account_region": "region-15345",
+        "account_verified": true
       },
       {
-        "account_archived": true,
-        "account_discount": 95465.144633
+        "account_region": "region-67425",
+        "account_verified": true
       },
       {
-        "account_archived": false,
-        "account_discount": 13615.72862
+        "account_region": "region-50776",
+        "account_verified": false
       },
       {
-        "account_archived": true,
-        "account_discount": 48812.741209
+        "account_region": "region-27064",
+        "account_verified": false
       },
       {
-        "account_archived": false,
-        "account_discount": 89038.455847
+        "account_region": "region-79216",
+        "account_verified": false
       },
       {
-        "account_archived": false,
-        "account_discount": 15590.654567
+        "account_region": "region-92546",
+        "account_verified": true
       },
       {
-        "account_archived": false,
-        "account_discount": 16473.028058
+        "account_region": "region-72076",
+        "account_verified": false
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "hub-423--lookup--Account",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_archived ?account_discount WHERE { ?account a c:Account ; c:archived ?account_archived ; c:discount ?account_discount }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_region ?account_verified WHERE { ?account a c:Account ; c:region ?account_region ; c:verified ?account_verified }",
   "shape": "hub-423",
   "sources": [
     {
@@ -82,17 +82,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
-                "archived": {
-                  "field": "archived"
-                },
-                "discount": {
-                  "field": "discount"
-                },
                 "id": {
                   "field": "id"
                 },
+                "region": {
+                  "field": "region"
+                },
                 "vendorId": {
                   "field": "vendor_id"
+                },
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -106,20 +106,20 @@
               "name": "Account",
               "properties": [
                 {
-                  "name": "archived",
-                  "type": "boolean"
-                },
-                {
-                  "name": "discount",
-                  "type": "float"
-                },
-                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
                   "name": "vendorId",
                   "type": "integer"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }
@@ -149,63 +149,63 @@
         "rows": [
           {
             "account": 1,
-            "account_archived": true,
-            "account_discount": 87213.973498
+            "account_region": "region-19218",
+            "account_verified": false
           },
           {
             "account": 2,
-            "account_archived": false,
-            "account_discount": 99115.781926
+            "account_region": "region-43793",
+            "account_verified": false
           },
           {
             "account": 3,
-            "account_archived": true,
-            "account_discount": 11689.602733
+            "account_region": "region-80708",
+            "account_verified": true
           },
           {
             "account": 4,
-            "account_archived": false,
-            "account_discount": 88637.963898
+            "account_region": "region-26200",
+            "account_verified": false
           },
           {
             "account": 5,
-            "account_archived": true,
-            "account_discount": 11707.491456
+            "account_region": "region-37899",
+            "account_verified": true
           },
           {
             "account": 6,
-            "account_archived": true,
-            "account_discount": 7894.432669
+            "account_region": "region-15345",
+            "account_verified": true
           },
           {
             "account": 7,
-            "account_archived": true,
-            "account_discount": 95465.144633
+            "account_region": "region-67425",
+            "account_verified": true
           },
           {
             "account": 8,
-            "account_archived": false,
-            "account_discount": 13615.72862
+            "account_region": "region-50776",
+            "account_verified": false
           },
           {
             "account": 9,
-            "account_archived": true,
-            "account_discount": 48812.741209
+            "account_region": "region-27064",
+            "account_verified": false
           },
           {
             "account": 10,
-            "account_archived": false,
-            "account_discount": 89038.455847
+            "account_region": "region-79216",
+            "account_verified": false
           },
           {
             "account": 11,
-            "account_archived": false,
-            "account_discount": 15590.654567
+            "account_region": "region-92546",
+            "account_verified": true
           },
           {
             "account": 12,
-            "account_archived": false,
-            "account_discount": 16473.028058
+            "account_region": "region-72076",
+            "account_verified": false
           }
         ],
         "source_objects": [

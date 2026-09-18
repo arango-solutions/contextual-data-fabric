@@ -3,19 +3,19 @@
     "bindings": [
       {
         "account_enabled": false,
-        "product_currency": "currency-08563"
+        "product_currency": "currency-55924"
       },
       {
         "account_enabled": false,
-        "product_currency": "currency-74190"
+        "product_currency": "currency-99455"
+      },
+      {
+        "account_enabled": false,
+        "product_currency": "currency-96869"
       },
       {
         "account_enabled": true,
-        "product_currency": "currency-07642"
-      },
-      {
-        "account_enabled": true,
-        "product_currency": "currency-40054"
+        "product_currency": "currency-33001"
       },
       {
         "account_enabled": true,
@@ -23,19 +23,11 @@
       },
       {
         "account_enabled": false,
-        "product_currency": "currency-70386"
-      },
-      {
-        "account_enabled": false,
-        "product_currency": "currency-82521"
-      },
-      {
-        "account_enabled": false,
-        "product_currency": "currency-32954"
+        "product_currency": "currency-65838"
       },
       {
         "account_enabled": true,
-        "product_currency": "currency-94338"
+        "product_currency": "currency-40379"
       },
       {
         "account_enabled": false,
@@ -43,11 +35,19 @@
       },
       {
         "account_enabled": false,
-        "product_currency": "currency-79302"
+        "product_currency": "currency-55771"
       },
       {
         "account_enabled": false,
-        "product_currency": "currency-29211"
+        "product_currency": "currency-34154"
+      },
+      {
+        "account_enabled": true,
+        "product_currency": "currency-36223"
+      },
+      {
+        "account_enabled": true,
+        "product_currency": "currency-98398"
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "two_leg-426--join--Product-Account",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_currency ?account_enabled WHERE { ?product a c:Product ; c:currency ?product_currency ; c:productsToAccounts ?account . ?account a c:Account ; c:enabled ?account_enabled }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_currency ?account_enabled WHERE { ?product a c:Product ; c:currency ?product_currency ; c:accountId ?account_key . ?account a c:Account ; c:id ?account_key ; c:enabled ?account_enabled }",
   "shape": "two_leg-426",
   "sources": [
     {
@@ -86,14 +86,14 @@
                 "accountId": {
                   "field": "account_id"
                 },
-                "archived": {
-                  "field": "archived"
+                "discount": {
+                  "field": "discount"
                 },
                 "id": {
                   "field": "id"
                 },
-                "primary": {
-                  "field": "primary"
+                "seats": {
+                  "field": "seats"
                 }
               },
               "style": "COLLECTION"
@@ -107,11 +107,17 @@
                 "currency": {
                   "field": "currency"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
                 },
-                "margin": {
-                  "field": "margin"
+                "retries": {
+                  "field": "retries"
+                },
+                "status": {
+                  "field": "status"
                 }
               },
               "style": "COLLECTION"
@@ -129,16 +135,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "archived",
-                  "type": "boolean"
+                  "name": "discount",
+                  "type": "float"
                 },
                 {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "seats",
+                  "type": "integer"
                 }
               ]
             },
@@ -154,12 +160,20 @@
                   "type": "string"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "margin",
-                  "type": "float"
+                  "name": "retries",
+                  "type": "integer"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
                 }
               ]
             }
@@ -193,64 +207,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for products",
         "rows": [
           {
-            "account": 12,
+            "account_key": 7,
             "product": 1,
-            "product_currency": "currency-08563"
+            "product_currency": "currency-55924"
           },
           {
-            "account": 12,
+            "account_key": 5,
             "product": 2,
-            "product_currency": "currency-74190"
+            "product_currency": "currency-99455"
           },
           {
-            "account": 10,
+            "account_key": 4,
             "product": 3,
-            "product_currency": "currency-07642"
+            "product_currency": "currency-96869"
           },
           {
-            "account": 11,
+            "account_key": 1,
             "product": 4,
-            "product_currency": "currency-40054"
+            "product_currency": "currency-33001"
           },
           {
-            "account": 2,
+            "account_key": 2,
             "product": 5,
             "product_currency": "currency-59737"
           },
           {
-            "account": 4,
+            "account_key": 3,
             "product": 6,
-            "product_currency": "currency-70386"
+            "product_currency": "currency-65838"
           },
           {
-            "account": 9,
+            "account_key": 6,
             "product": 7,
-            "product_currency": "currency-82521"
+            "product_currency": "currency-40379"
           },
           {
-            "account": 3,
+            "account_key": 8,
             "product": 8,
-            "product_currency": "currency-32954"
-          },
-          {
-            "account": 10,
-            "product": 9,
-            "product_currency": "currency-94338"
-          },
-          {
-            "account": 8,
-            "product": 10,
             "product_currency": "currency-64222"
           },
           {
-            "account": 8,
-            "product": 11,
-            "product_currency": "currency-79302"
+            "account_key": 8,
+            "product": 9,
+            "product_currency": "currency-55771"
           },
           {
-            "account": 7,
+            "account_key": 4,
+            "product": 10,
+            "product_currency": "currency-34154"
+          },
+          {
+            "account_key": 1,
+            "product": 11,
+            "product_currency": "currency-36223"
+          },
+          {
+            "account_key": 6,
             "product": 12,
-            "product_currency": "currency-29211"
+            "product_currency": "currency-98398"
           }
         ],
         "source_objects": [
@@ -305,17 +319,17 @@
                 "accountId": {
                   "field": "account_id"
                 },
+                "category": {
+                  "field": "category"
+                },
                 "id": {
                   "field": "id"
                 },
-                "quantity": {
-                  "field": "quantity"
+                "priority": {
+                  "field": "priority"
                 },
                 "score": {
                   "field": "score"
-                },
-                "segment": {
-                  "field": "segment"
                 }
               },
               "style": "COLLECTION"
@@ -358,20 +372,20 @@
                   "type": "integer"
                 },
                 {
+                  "name": "category",
+                  "type": "string"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "quantity",
+                  "name": "priority",
                   "type": "integer"
                 },
                 {
                   "name": "score",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
                 }
               ]
             }
@@ -401,51 +415,63 @@
         "rows": [
           {
             "account": 1,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 1
           },
           {
             "account": 2,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 2
           },
           {
             "account": 3,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 3
           },
           {
             "account": 4,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 4
           },
           {
             "account": 5,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 5
           },
           {
             "account": 6,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 6
           },
           {
             "account": 7,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 7
           },
           {
             "account": 8,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 8
           },
           {
             "account": 9,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 9
           },
           {
             "account": 10,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 10
           },
           {
             "account": 11,
-            "account_enabled": true
+            "account_enabled": true,
+            "account_key": 11
           },
           {
             "account": 12,
-            "account_enabled": false
+            "account_enabled": false,
+            "account_key": 12
           }
         ],
         "source_objects": [

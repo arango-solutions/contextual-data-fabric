@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "invoice_status": "status-80151",
+        "invoice_category": "category-32747",
         "vendor_ratio": 60121.462835
       },
       {
-        "invoice_status": "status-52538",
-        "vendor_ratio": 70672.088911
+        "invoice_category": "category-83579",
+        "vendor_ratio": 43274.499025
       },
       {
-        "invoice_status": "status-82131",
-        "vendor_ratio": 32301.803055
+        "invoice_category": "category-80151",
+        "vendor_ratio": 60121.462835
       },
       {
-        "invoice_status": "status-73741",
-        "vendor_ratio": 32301.803055
-      },
-      {
-        "invoice_status": "status-56443",
-        "vendor_ratio": 8327.67382
-      },
-      {
-        "invoice_status": "status-42183",
-        "vendor_ratio": 6820.545173
-      },
-      {
-        "invoice_status": "status-36549",
-        "vendor_ratio": 70672.088911
-      },
-      {
-        "invoice_status": "status-42541",
+        "invoice_category": "category-06358",
         "vendor_ratio": 10277.0534
       },
       {
-        "invoice_status": "status-05146",
-        "vendor_ratio": 84482.768626
+        "invoice_category": "category-73741",
+        "vendor_ratio": 32301.803055
       },
       {
-        "invoice_status": "status-87949",
+        "invoice_category": "category-97060",
+        "vendor_ratio": 10277.0534
+      },
+      {
+        "invoice_category": "category-36549",
+        "vendor_ratio": 70672.088911
+      },
+      {
+        "invoice_category": "category-71094",
+        "vendor_ratio": 57011.360447
+      },
+      {
+        "invoice_category": "category-87949",
         "vendor_ratio": 8327.67382
       },
       {
-        "invoice_status": "status-59859",
-        "vendor_ratio": 92033.759295
+        "invoice_category": "category-18902",
+        "vendor_ratio": 70672.088911
       },
       {
-        "invoice_status": "status-32133",
-        "vendor_ratio": 43079.973175
+        "invoice_category": "category-99895",
+        "vendor_ratio": 60121.462835
+      },
+      {
+        "invoice_category": "category-23064",
+        "vendor_ratio": 70672.088911
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "hub-423--join--Invoice-Vendor",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_status ?vendor_ratio WHERE { ?invoice a c:Invoice ; c:status ?invoice_status ; c:invoicesToVendors ?vendor . ?vendor a c:Vendor ; c:ratio ?vendor_ratio }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_category ?vendor_ratio WHERE { ?invoice a c:Invoice ; c:category ?invoice_category ; c:vendorId ?vendor_key . ?vendor a c:Vendor ; c:id ?vendor_key ; c:ratio ?vendor_ratio }",
   "shape": "hub-423",
   "sources": [
     {
@@ -83,6 +83,9 @@
             "Invoice": {
               "collectionName": "invoices",
               "properties": {
+                "category": {
+                  "field": "category"
+                },
                 "id": {
                   "field": "id"
                 },
@@ -103,6 +106,10 @@
             {
               "name": "Invoice",
               "properties": [
+                {
+                  "name": "category",
+                  "type": "string"
+                },
                 {
                   "name": "id",
                   "type": "integer"
@@ -143,63 +150,63 @@
         "rows": [
           {
             "invoice": 1,
-            "invoice_status": "status-80151",
-            "vendor": 4
+            "invoice_category": "category-32747",
+            "vendor_key": 4
           },
           {
             "invoice": 2,
-            "invoice_status": "status-52538",
-            "vendor": 8
+            "invoice_category": "category-83579",
+            "vendor_key": 11
           },
           {
             "invoice": 3,
-            "invoice_status": "status-82131",
-            "vendor": 1
+            "invoice_category": "category-80151",
+            "vendor_key": 4
           },
           {
             "invoice": 4,
-            "invoice_status": "status-73741",
-            "vendor": 1
+            "invoice_category": "category-06358",
+            "vendor_key": 7
           },
           {
             "invoice": 5,
-            "invoice_status": "status-56443",
-            "vendor": 10
+            "invoice_category": "category-73741",
+            "vendor_key": 1
           },
           {
             "invoice": 6,
-            "invoice_status": "status-42183",
-            "vendor": 12
+            "invoice_category": "category-97060",
+            "vendor_key": 7
           },
           {
             "invoice": 7,
-            "invoice_status": "status-36549",
-            "vendor": 8
+            "invoice_category": "category-36549",
+            "vendor_key": 8
           },
           {
             "invoice": 8,
-            "invoice_status": "status-42541",
-            "vendor": 7
+            "invoice_category": "category-71094",
+            "vendor_key": 6
           },
           {
             "invoice": 9,
-            "invoice_status": "status-05146",
-            "vendor": 9
+            "invoice_category": "category-87949",
+            "vendor_key": 10
           },
           {
             "invoice": 10,
-            "invoice_status": "status-87949",
-            "vendor": 10
+            "invoice_category": "category-18902",
+            "vendor_key": 8
           },
           {
             "invoice": 11,
-            "invoice_status": "status-59859",
-            "vendor": 2
+            "invoice_category": "category-99895",
+            "vendor_key": 4
           },
           {
             "invoice": 12,
-            "invoice_status": "status-32133",
-            "vendor": 3
+            "invoice_category": "category-23064",
+            "vendor_key": 8
           }
         ],
         "source_objects": [
@@ -298,50 +305,62 @@
         "rows": [
           {
             "vendor": 1,
+            "vendor_key": 1,
             "vendor_ratio": 32301.803055
           },
           {
             "vendor": 2,
+            "vendor_key": 2,
             "vendor_ratio": 92033.759295
           },
           {
             "vendor": 3,
+            "vendor_key": 3,
             "vendor_ratio": 43079.973175
           },
           {
             "vendor": 4,
+            "vendor_key": 4,
             "vendor_ratio": 60121.462835
           },
           {
             "vendor": 5,
+            "vendor_key": 5,
             "vendor_ratio": 91720.549233
           },
           {
             "vendor": 6,
+            "vendor_key": 6,
             "vendor_ratio": 57011.360447
           },
           {
             "vendor": 7,
+            "vendor_key": 7,
             "vendor_ratio": 10277.0534
           },
           {
             "vendor": 8,
+            "vendor_key": 8,
             "vendor_ratio": 70672.088911
           },
           {
             "vendor": 9,
+            "vendor_key": 9,
             "vendor_ratio": 84482.768626
           },
           {
             "vendor": 10,
+            "vendor_key": 10,
             "vendor_ratio": 8327.67382
           },
           {
             "vendor": 11,
+            "vendor_key": 11,
             "vendor_ratio": 43274.499025
           },
           {
             "vendor": 12,
+            "vendor_key": 12,
             "vendor_ratio": 6820.545173
           }
         ],

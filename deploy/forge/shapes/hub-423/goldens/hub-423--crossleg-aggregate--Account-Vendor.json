@@ -7,7 +7,7 @@
   "family": "cross_leg_aggregation",
   "name": "hub-423--crossleg-aggregate--Account-Vendor",
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_ratio (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:accountsToVendors ?vendor . ?vendor a c:Vendor ; c:ratio ?vendor_ratio } GROUP BY ?vendor_ratio",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?vendor_ratio (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:vendorId ?vendor_key . ?vendor a c:Vendor ; c:id ?vendor_key ; c:ratio ?vendor_ratio } GROUP BY ?vendor_ratio",
   "shape": "hub-423",
   "sources": [
     {
@@ -32,17 +32,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
-                "archived": {
-                  "field": "archived"
-                },
-                "discount": {
-                  "field": "discount"
-                },
                 "id": {
                   "field": "id"
                 },
+                "region": {
+                  "field": "region"
+                },
                 "vendorId": {
                   "field": "vendor_id"
+                },
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -56,20 +56,20 @@
               "name": "Account",
               "properties": [
                 {
-                  "name": "archived",
-                  "type": "boolean"
-                },
-                {
-                  "name": "discount",
-                  "type": "float"
-                },
-                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
+                  "name": "region",
+                  "type": "string"
+                },
+                {
                   "name": "vendorId",
                   "type": "integer"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }

@@ -1,32 +1,22 @@
 {
   "expect": {
-    "bindings": [
-      {
-        "customer_expired": false,
-        "n": 9
-      },
-      {
-        "customer_expired": true,
-        "n": 3
-      }
-    ],
-    "sources_touched": [
+    "unsupported_contains": [
+      "declares no GROUP BY capability",
       "snowflake:sf1"
-    ],
-    "status": "grounded"
+    ]
   },
   "family": "single_leg_aggregation",
   "name": "six_leg-430--aggregate--Customer",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_expired (COUNT(?customer) AS ?n) WHERE { ?customer a c:Customer ; c:expired ?customer_expired } GROUP BY ?customer_expired",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?customer_billable (COUNT(?customer) AS ?n) WHERE { ?customer a c:Customer ; c:billable ?customer_billable } GROUP BY ?customer_billable",
   "shape": "six_leg-430",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": true,
-          "groupBy": true,
-          "having": true
+          "countDistinct": false,
+          "groupBy": false,
+          "having": false
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -45,14 +35,14 @@
                 "assetId": {
                   "field": "asset_id"
                 },
+                "billable": {
+                  "field": "billable"
+                },
                 "channel": {
                   "field": "channel"
                 },
                 "code": {
                   "field": "code"
-                },
-                "expired": {
-                  "field": "expired"
                 },
                 "id": {
                   "field": "id"
@@ -79,16 +69,16 @@
                   "type": "integer"
                 },
                 {
+                  "name": "billable",
+                  "type": "boolean"
+                },
+                {
                   "name": "channel",
                   "type": "string"
                 },
                 {
                   "name": "code",
                   "type": "string"
-                },
-                {
-                  "name": "expired",
-                  "type": "boolean"
                 },
                 {
                   "name": "id",
@@ -134,12 +124,12 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for customers",
         "rows": [
           {
-            "customer_expired": false,
-            "n": 9
+            "customer_billable": false,
+            "n": 7
           },
           {
-            "customer_expired": true,
-            "n": 3
+            "customer_billable": true,
+            "n": 5
           }
         ],
         "source_objects": [

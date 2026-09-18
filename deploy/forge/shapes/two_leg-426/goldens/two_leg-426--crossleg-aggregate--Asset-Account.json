@@ -7,7 +7,7 @@
   "family": "cross_leg_aggregation",
   "name": "two_leg-426--crossleg-aggregate--Asset-Account",
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_enabled (COUNT(?asset) AS ?n) WHERE { ?asset a c:Asset ; c:assetsToAccounts ?account . ?account a c:Account ; c:enabled ?account_enabled } GROUP BY ?account_enabled",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_enabled (COUNT(?asset) AS ?n) WHERE { ?asset a c:Asset ; c:accountId ?account_key . ?account a c:Account ; c:id ?account_key ; c:enabled ?account_enabled } GROUP BY ?account_enabled",
   "shape": "two_leg-426",
   "sources": [
     {
@@ -35,14 +35,14 @@
                 "accountId": {
                   "field": "account_id"
                 },
-                "archived": {
-                  "field": "archived"
+                "discount": {
+                  "field": "discount"
                 },
                 "id": {
                   "field": "id"
                 },
-                "primary": {
-                  "field": "primary"
+                "seats": {
+                  "field": "seats"
                 }
               },
               "style": "COLLECTION"
@@ -56,11 +56,17 @@
                 "currency": {
                   "field": "currency"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
                 },
-                "margin": {
-                  "field": "margin"
+                "retries": {
+                  "field": "retries"
+                },
+                "status": {
+                  "field": "status"
                 }
               },
               "style": "COLLECTION"
@@ -78,16 +84,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "archived",
-                  "type": "boolean"
+                  "name": "discount",
+                  "type": "float"
                 },
                 {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "seats",
+                  "type": "integer"
                 }
               ]
             },
@@ -103,12 +109,20 @@
                   "type": "string"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "margin",
-                  "type": "float"
+                  "name": "retries",
+                  "type": "integer"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
                 }
               ]
             }
@@ -193,17 +207,17 @@
                 "accountId": {
                   "field": "account_id"
                 },
+                "category": {
+                  "field": "category"
+                },
                 "id": {
                   "field": "id"
                 },
-                "quantity": {
-                  "field": "quantity"
+                "priority": {
+                  "field": "priority"
                 },
                 "score": {
                   "field": "score"
-                },
-                "segment": {
-                  "field": "segment"
                 }
               },
               "style": "COLLECTION"
@@ -246,20 +260,20 @@
                   "type": "integer"
                 },
                 {
+                  "name": "category",
+                  "type": "string"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "quantity",
+                  "name": "priority",
                   "type": "integer"
                 },
                 {
                   "name": "score",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
                 }
               ]
             }

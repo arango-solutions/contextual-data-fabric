@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "chain-427--join--Product-Session",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_segment ?session_latencyMs WHERE { ?product a c:Product ; c:segment ?product_segment ; c:productsToSessions ?session . ?session a c:Session ; c:latencyMs ?session_latencyMs }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_segment ?session_latencyMs WHERE { ?product a c:Product ; c:segment ?product_segment ; c:sessionId ?session_key . ?session a c:Session ; c:id ?session_key ; c:latencyMs ?session_latencyMs }",
   "shape": "chain-427",
   "sources": [
     {
@@ -151,62 +151,62 @@
           {
             "product": 1,
             "product_segment": "segment-17705",
-            "session": 10
+            "session_key": 10
           },
           {
             "product": 2,
             "product_segment": "segment-99496",
-            "session": 3
+            "session_key": 3
           },
           {
             "product": 3,
             "product_segment": "segment-24517",
-            "session": 4
+            "session_key": 4
           },
           {
             "product": 4,
             "product_segment": "segment-90845",
-            "session": 9
+            "session_key": 9
           },
           {
             "product": 5,
             "product_segment": "segment-42572",
-            "session": 6
+            "session_key": 6
           },
           {
             "product": 6,
             "product_segment": "segment-55397",
-            "session": 10
+            "session_key": 10
           },
           {
             "product": 7,
             "product_segment": "segment-83942",
-            "session": 4
+            "session_key": 4
           },
           {
             "product": 8,
             "product_segment": "segment-67820",
-            "session": 2
+            "session_key": 2
           },
           {
             "product": 9,
             "product_segment": "segment-54299",
-            "session": 3
+            "session_key": 3
           },
           {
             "product": 10,
             "product_segment": "segment-94378",
-            "session": 11
+            "session_key": 11
           },
           {
             "product": 11,
             "product_segment": "segment-99221",
-            "session": 11
+            "session_key": 11
           },
           {
             "product": 12,
             "product_segment": "segment-67964",
-            "session": 2
+            "session_key": 2
           }
         ],
         "source_objects": [
@@ -311,50 +311,62 @@
         "rows": [
           {
             "session": 1,
+            "session_key": 1,
             "session_latencyMs": 527.394798
           },
           {
             "session": 2,
+            "session_key": 2,
             "session_latencyMs": 54413.97496
           },
           {
             "session": 3,
+            "session_key": 3,
             "session_latencyMs": 95231.212378
           },
           {
             "session": 4,
+            "session_key": 4,
             "session_latencyMs": 32010.870094
           },
           {
             "session": 5,
+            "session_key": 5,
             "session_latencyMs": 65064.4086
           },
           {
             "session": 6,
+            "session_key": 6,
             "session_latencyMs": 18617.494674
           },
           {
             "session": 7,
+            "session_key": 7,
             "session_latencyMs": 58988.598715
           },
           {
             "session": 8,
+            "session_key": 8,
             "session_latencyMs": 71205.384402
           },
           {
             "session": 9,
+            "session_key": 9,
             "session_latencyMs": 98565.769873
           },
           {
             "session": 10,
+            "session_key": 10,
             "session_latencyMs": 64842.737438
           },
           {
             "session": 11,
+            "session_key": 11,
             "session_latencyMs": 14571.927191
           },
           {
             "session": 12,
+            "session_key": 12,
             "session_latencyMs": 3807.426354
           }
         ],

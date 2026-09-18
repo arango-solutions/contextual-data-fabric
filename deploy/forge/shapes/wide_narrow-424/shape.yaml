@@ -11,9 +11,9 @@ systems:
     kind: clickhouse
     capabilities:
       aggregation:
-        groupBy: false
-        having: false
-        countDistinct: false
+        groupBy: true
+        having: true
+        countDistinct: true
         approxCountDistinct: null
       textSearch:
         dialect: none
@@ -41,9 +41,9 @@ systems:
     kind: postgresql
     capabilities:
       aggregation:
-        groupBy: false
-        having: false
-        countDistinct: false
+        groupBy: true
+        having: true
+        countDistinct: true
         approxCountDistinct: null
       textSearch:
         dialect: none
@@ -76,7 +76,6 @@ expected:
   - goldens/wide_narrow-424--join--Session-Region.json
   - goldens/wide_narrow-424--join--Shipment-Region.json
   - goldens/wide_narrow-424--aggregate--Region.json
-  - goldens/wide_narrow-424--aggregate--Session.json
   - goldens/wide_narrow-424--aggregate--Shipment.json
   - goldens/wide_narrow-424--crossleg-aggregate--Invoice-Region.json
 fixture:

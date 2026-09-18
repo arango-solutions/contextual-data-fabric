@@ -104,6 +104,16 @@ NL corpora). Anything a test wants to assert must be derivable from it.
 > a declaration stands. A descriptor without declarations is refused; the
 > per-kind default is never consulted in fixture mode.
 
+> **v3 (2026-09-18, live mode, PR #41).** A golden may join across systems
+> **only on a shared literal key** — the fabric's cross-source join contract:
+> `<parent>Id` bound on the child, `id` on the parent, one variable on both
+> sides. It may never navigate a relationship predicate across systems: no
+> edge or constraint exists there, and the legs bind incompatible terms (an
+> IRI from Ontop, a scalar from AQL), so such a golden passes fixture mode and
+> fails every real fabric. The first live run found exactly this in the join,
+> chain and cross-leg templates; the oracle now emits the shared-key form, and
+> a template that does otherwise is a defect in the oracle, not in the fabric.
+
 ### D-2 · Three generators, strict order, one data pass
 
 1. **Schema generator (reverse mapping):** ontology + dialect → DDL /
@@ -140,6 +150,16 @@ the failure. The roundtrip runs through the real RSA/ASA/r2g releases (CC-9
 pins), never through forge-internal shortcuts — the Forge exists to test the
 estate, so the estate must be in the loop.
 
+Two layers check `≡`, with different scope (2026-09-18, PR #41). r2g's own
+roundtrip tests compare the full introspected schema per dialect — tables,
+columns, types, declared keys — and pin the known type gaps by name (Snowflake
+reports `NUMBER(38,0)` as `NUMBER`, mapped to `float`). CDF's live mode
+compares the **conceptual model by name**: entities, their property names, and
+relationship types, fixture CSI against estate CSI, after CC-12 normalization
+(`conceptual_drift`). Property types and cardinalities are r2g's layer, not
+repeated here; a type gap therefore does not surface as CDF drift, and the
+goldens — which compare values — are what catch a type that changes an answer.
+
 ### D-4 · Home split: generation in r2g, orchestration in CDF
 
 - **r2g owns the generator core** (it owns the mapping machinery in both
@@ -149,7 +169,12 @@ estate, so the estate must be in the loop.
   Snowflake-SQL, ClickHouse-SQL, and Arango collections are the launch set.
 - **CDF owns M15 orchestration** under `deploy/forge/` + `cdf.eval`: shape
   sampling, descriptor emission, expected-catalog/goldens computation,
-  `make forge-suite`, and CI wiring (fixture mode per-PR, live mode nightly).
+  `make forge-suite`, and CI wiring: fixture mode and live mode both run per
+  PR (`check` and `live-local`, the latter with Snowflake substituted by a local
+  dialect and named as such); the scheduled `live-full` job runs live mode
+  against all four engines including the real Snowflake account. *(Amended
+  2026-09-18, PR #41: live mode was planned nightly-only; on the runner it takes
+  about 90 seconds, so it gates every PR.)*
 - Question/golden composition reuses **exactly the part of the NL-GEN-01
   machinery that is actually a library**: the query-shape catalog in
   `arango-query-core` (nine templates + `build_sparql(binding)`). The other

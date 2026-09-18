@@ -7,9 +7,6 @@
           "assetId": {
             "field": "asset_id"
           },
-          "billable": {
-            "field": "billable"
-          },
           "customerId": {
             "field": "customer_id"
           },
@@ -21,6 +18,9 @@
           },
           "rank": {
             "field": "rank"
+          },
+          "ratio": {
+            "field": "ratio"
           }
         },
         "style": "COLLECTION"
@@ -38,10 +38,6 @@
             "type": "integer"
           },
           {
-            "name": "billable",
-            "type": "boolean"
-          },
-          {
             "name": "customerId",
             "type": "integer"
           },
@@ -56,6 +52,10 @@
           {
             "name": "rank",
             "type": "integer"
+          },
+          {
+            "name": "ratio",
+            "type": "float"
           }
         ]
       }

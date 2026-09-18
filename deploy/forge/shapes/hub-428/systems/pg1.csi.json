@@ -7,8 +7,8 @@
           "accountId": {
             "field": "account_id"
           },
-          "expired": {
-            "field": "expired"
+          "billable": {
+            "field": "billable"
           },
           "flagged": {
             "field": "flagged"
@@ -35,7 +35,7 @@
             "type": "integer"
           },
           {
-            "name": "expired",
+            "name": "billable",
             "type": "boolean"
           },
           {

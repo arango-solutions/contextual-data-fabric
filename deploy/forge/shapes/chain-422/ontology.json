@@ -34,7 +34,7 @@
       "name": "Shipment",
       "properties": [
         {
-          "name": "expired",
+          "name": "billable",
           "type": "boolean"
         },
         {

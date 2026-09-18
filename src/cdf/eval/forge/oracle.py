@@ -13,8 +13,15 @@ Question families:
 
 * **lookup** — one entity, up to two properties, single leg.
 * **join** — child ⋈ parent over a relationship whose endpoints live on
-  different systems (the cross-source contract shape, cf. g2).
-* **chain** — three legs across three systems when the shape has one.
+  different systems (the cross-source contract shape, cf. g2), expressed the
+  way the fabric's contract requires: **a shared key variable bound by a
+  literal property on each side** — the child's ``<parent>Id`` and the
+  parent's ``id``. A relationship predicate cannot be navigated across
+  systems: no edge or constraint exists there, and the legs would bind the
+  entity variable differently (Ontop an IRI, the AQL leg a scalar or nothing).
+  Fixture executors hid this; live mode found it on 2026-09-18.
+* **chain** — three legs across three systems when the shape has one, joined
+  on shared keys the same way.
 * **single-leg aggregation** — ``COUNT`` grouped by a boolean property; expected
   grounded when the owning system *declares* GROUP BY in the descriptor, and a
   *named refusal* when it declares none (ADR-0005 D4: the refusal names the
@@ -43,7 +50,7 @@ from r2g.forge import column_name, foreign_key_column, table_name
 
 from cdf.catalog.capabilities import capabilities_document
 from cdf.eval.forge.dataset import Dataset
-from cdf.eval.forge.fixture_csi import fixture_csi
+from cdf.eval.forge.fixture_csi import fixture_csi, fk_property
 from cdf.eval.forge.sampler import Shape, System
 
 PREFIX = "PREFIX c: <urn:arango-sparql:concept#>"
@@ -56,6 +63,11 @@ def _var(entity: str) -> str:
 
 def _pvar(entity: str, prop: str) -> str:
     return f"{_var(entity)}_{prop}"
+
+
+def _kvar(parent: str) -> str:
+    """The shared key variable a cross-source join binds on both sides."""
+    return f"{_var(parent)}_key"
 
 
 def _declared(shape: Shape, entity: str, limit: int) -> list[dict[str, str]]:
@@ -195,20 +207,22 @@ def _join_case(shape: Shape, dataset: Dataset, rel: dict[str, str]) -> dict[str,
     child, parent = rel["fromEntity"], rel["toEntity"]
     cp = _first_prop(shape, child) or {"name": "id", "type": "integer"}
     pp = _first_prop(shape, parent) or {"name": "id", "type": "integer"}
-    cv, pv = _var(child), _var(parent)
+    cv, pv, kv = _var(child), _var(parent), _kvar(parent)
     cpv, ppv = _pvar(child, cp["name"]), _pvar(parent, pp["name"])
     sparql = (
         f"{PREFIX} SELECT ?{cpv} ?{ppv} WHERE {{ "
-        f"?{cv} a c:{child} ; c:{cp['name']} ?{cpv} ; c:{rel['type']} ?{pv} . "
-        f"?{pv} a c:{parent} ; c:{pp['name']} ?{ppv} }}"
+        f"?{cv} a c:{child} ; c:{cp['name']} ?{cpv} ; c:{fk_property(parent)} ?{kv} . "
+        f"?{pv} a c:{parent} ; c:id ?{kv} ; c:{pp['name']} ?{ppv} }}"
     )
     fk = foreign_key_column(parent)
     child_rows = [
-        {cv: r["id"], cpv: r[column_name(cp["name"])], pv: r[fk]} for r in dataset.rows(child)
+        {cv: r["id"], cpv: r[column_name(cp["name"])], kv: r[fk]} for r in dataset.rows(child)
     ]
-    parent_rows = [{pv: r["id"], ppv: r[column_name(pp["name"])]} for r in dataset.rows(parent)]
-    parent_val = {r[pv]: r[ppv] for r in parent_rows}
-    bindings = [{cpv: r[cpv], ppv: parent_val[r[pv]]} for r in child_rows if r[pv] in parent_val]
+    parent_rows = [
+        {pv: r["id"], kv: r["id"], ppv: r[column_name(pp["name"])]} for r in dataset.rows(parent)
+    ]
+    parent_val = {r[kv]: r[ppv] for r in parent_rows}
+    bindings = [{cpv: r[cpv], ppv: parent_val[r[kv]]} for r in child_rows if r[kv] in parent_val]
     csys, psys = shape.owner_system(child), shape.owner_system(parent)
     return {
         "name": f"{shape.name}--join--{child}-{parent}",
@@ -242,29 +256,33 @@ def _chain_case(shape: Shape, dataset: Dataset) -> dict[str, Any] | None:
         pb = _first_prop(shape, b) or {"name": "id"}
         pc = _first_prop(shape, c) or {"name": "id"}
         va, vb, vc = _var(a), _var(b), _var(c)
+        kb, kc = _kvar(b), _kvar(c)
         pav, pbv, pcv = _pvar(a, pa["name"]), _pvar(b, pb["name"]), _pvar(c, pc["name"])
         sparql = (
             f"{PREFIX} SELECT ?{pav} ?{pbv} ?{pcv} WHERE {{ "
-            f"?{va} a c:{a} ; c:{pa['name']} ?{pav} ; c:{r1['type']} ?{vb} . "
-            f"?{vb} a c:{b} ; c:{pb['name']} ?{pbv} ; c:{r2['type']} ?{vc} . "
-            f"?{vc} a c:{c} ; c:{pc['name']} ?{pcv} }}"
+            f"?{va} a c:{a} ; c:{pa['name']} ?{pav} ; c:{fk_property(b)} ?{kb} . "
+            f"?{vb} a c:{b} ; c:id ?{kb} ; c:{pb['name']} ?{pbv} ; c:{fk_property(c)} ?{kc} . "
+            f"?{vc} a c:{c} ; c:id ?{kc} ; c:{pc['name']} ?{pcv} }}"
         )
         fk_ab, fk_bc = foreign_key_column(b), foreign_key_column(c)
         rows_a = [
-            {va: r["id"], pav: r[column_name(pa["name"])], vb: r[fk_ab]} for r in dataset.rows(a)
+            {va: r["id"], pav: r[column_name(pa["name"])], kb: r[fk_ab]} for r in dataset.rows(a)
         ]
         rows_b = [
-            {vb: r["id"], pbv: r[column_name(pb["name"])], vc: r[fk_bc]} for r in dataset.rows(b)
+            {vb: r["id"], kb: r["id"], pbv: r[column_name(pb["name"])], kc: r[fk_bc]}
+            for r in dataset.rows(b)
         ]
-        rows_c = [{vc: r["id"], pcv: r[column_name(pc["name"])]} for r in dataset.rows(c)]
-        b_by_id = {r[vb]: r for r in rows_b}
-        c_by_id = {r[vc]: r for r in rows_c}
+        rows_c = [
+            {vc: r["id"], kc: r["id"], pcv: r[column_name(pc["name"])]} for r in dataset.rows(c)
+        ]
+        b_by_id = {r[kb]: r for r in rows_b}
+        c_by_id = {r[kc]: r for r in rows_c}
         bindings = []
         for ra in rows_a:
-            rb = b_by_id.get(ra[vb])
+            rb = b_by_id.get(ra[kb])
             if rb is None:
                 continue
-            rc = c_by_id.get(rb[vc])
+            rc = c_by_id.get(rb[kc])
             if rc is None:
                 continue
             bindings.append({pav: ra[pav], pbv: rb[pbv], pcv: rc[pcv]})
@@ -328,11 +346,11 @@ def _cross_leg_aggregation_case(
 ) -> dict[str, Any]:
     child, parent = rel["fromEntity"], rel["toEntity"]
     pp = _first_prop(shape, parent) or {"name": "id", "type": "integer"}
-    cv, pv, ppv = _var(child), _var(parent), _pvar(parent, pp["name"])
+    cv, pv, kv, ppv = _var(child), _var(parent), _kvar(parent), _pvar(parent, pp["name"])
     sparql = (
         f"{PREFIX} SELECT ?{ppv} (COUNT(?{cv}) AS ?n) WHERE {{ "
-        f"?{cv} a c:{child} ; c:{rel['type']} ?{pv} . "
-        f"?{pv} a c:{parent} ; c:{pp['name']} ?{ppv} }} GROUP BY ?{ppv}"
+        f"?{cv} a c:{child} ; c:{fk_property(parent)} ?{kv} . "
+        f"?{pv} a c:{parent} ; c:id ?{kv} ; c:{pp['name']} ?{ppv} }} GROUP BY ?{ppv}"
     )
     csys, psys = shape.owner_system(child), shape.owner_system(parent)
     return {

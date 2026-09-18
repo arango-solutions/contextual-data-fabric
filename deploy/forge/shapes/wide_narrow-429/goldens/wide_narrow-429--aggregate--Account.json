@@ -1,22 +1,32 @@
 {
   "expect": {
-    "unsupported_contains": [
-      "declares no GROUP BY capability",
+    "bindings": [
+      {
+        "account_enabled": false,
+        "n": 8
+      },
+      {
+        "account_enabled": true,
+        "n": 4
+      }
+    ],
+    "sources_touched": [
       "clickhouse:ch1"
-    ]
+    ],
+    "status": "grounded"
   },
   "family": "single_leg_aggregation",
-  "name": "wide_narrow-429--aggregate--Device",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?device_primary (COUNT(?device) AS ?n) WHERE { ?device a c:Device ; c:primary ?device_primary } GROUP BY ?device_primary",
+  "name": "wide_narrow-429--aggregate--Account",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?account_enabled (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:enabled ?account_enabled } GROUP BY ?account_enabled",
   "shape": "wide_narrow-429",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -32,17 +42,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "enabled": {
+                  "field": "enabled"
+                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
-                },
-                "segment": {
-                  "field": "segment"
-                },
-                "sku": {
-                  "field": "sku"
                 }
               },
               "style": "COLLECTION"
@@ -56,11 +66,8 @@
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "priority": {
-                  "field": "priority"
-                },
-                "total": {
-                  "field": "total"
+                "units": {
+                  "field": "units"
                 }
               },
               "style": "COLLECTION"
@@ -68,17 +75,14 @@
             "Device": {
               "collectionName": "devices",
               "properties": {
-                "currency": {
-                  "field": "currency"
-                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "primary": {
-                  "field": "primary"
+                "version": {
+                  "field": "version"
                 }
               },
               "style": "COLLECTION"
@@ -92,20 +96,20 @@
               "name": "Account",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
                   "name": "paymentId",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
-                  "name": "sku",
-                  "type": "string"
                 }
               ]
             },
@@ -121,22 +125,14 @@
                   "type": "integer"
                 },
                 {
-                  "name": "priority",
+                  "name": "units",
                   "type": "integer"
-                },
-                {
-                  "name": "total",
-                  "type": "float"
                 }
               ]
             },
             {
               "name": "Device",
               "properties": [
-                {
-                  "name": "currency",
-                  "type": "string"
-                },
                 {
                   "name": "id",
                   "type": "integer"
@@ -146,8 +142,8 @@
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "version",
+                  "type": "integer"
                 }
               ]
             }
@@ -183,19 +179,19 @@
       },
       "data": {
         "as_of": "1970-01-01T00:00:00Z",
-        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for devices",
+        "native_query": "-- forge fixture: rows projected from the pre-partition dataset for accounts",
         "rows": [
           {
-            "device_primary": false,
-            "n": 7
+            "account_enabled": false,
+            "n": 8
           },
           {
-            "device_primary": true,
-            "n": 5
+            "account_enabled": true,
+            "n": 4
           }
         ],
         "source_objects": [
-          "devices"
+          "accounts"
         ]
       },
       "system": "ch1"

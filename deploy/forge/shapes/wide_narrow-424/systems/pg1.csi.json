@@ -4,8 +4,8 @@
       "Session": {
         "collectionName": "sessions",
         "properties": {
-          "billable": {
-            "field": "billable"
+          "balance": {
+            "field": "balance"
           },
           "id": {
             "field": "id"
@@ -22,6 +22,9 @@
       "Shipment": {
         "collectionName": "shipments",
         "properties": {
+          "active": {
+            "field": "active"
+          },
           "id": {
             "field": "id"
           },
@@ -30,9 +33,6 @@
           },
           "regionId": {
             "field": "region_id"
-          },
-          "verified": {
-            "field": "verified"
           }
         },
         "style": "COLLECTION"
@@ -46,8 +46,8 @@
         "name": "Session",
         "properties": [
           {
-            "name": "billable",
-            "type": "boolean"
+            "name": "balance",
+            "type": "float"
           },
           {
             "name": "id",
@@ -67,6 +67,10 @@
         "name": "Shipment",
         "properties": [
           {
+            "name": "active",
+            "type": "boolean"
+          },
+          {
             "name": "id",
             "type": "integer"
           },
@@ -77,10 +81,6 @@
           {
             "name": "regionId",
             "type": "integer"
-          },
-          {
-            "name": "verified",
-            "type": "boolean"
           }
         ]
       }

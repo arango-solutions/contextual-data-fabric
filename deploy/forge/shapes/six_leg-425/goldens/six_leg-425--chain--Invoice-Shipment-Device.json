@@ -3,63 +3,63 @@
     "bindings": [
       {
         "device_currency": "currency-70444",
-        "invoice_category": "category-08104",
+        "invoice_amount": 6183.393837,
         "shipment_margin": 23784.819809
       },
       {
-        "device_currency": "currency-96212",
-        "invoice_category": "category-41313",
-        "shipment_margin": 79157.929276
-      },
-      {
-        "device_currency": "currency-88897",
-        "invoice_category": "category-02088",
-        "shipment_margin": 77964.896701
+        "device_currency": "currency-79109",
+        "invoice_amount": 99750.538967,
+        "shipment_margin": 70981.282009
       },
       {
         "device_currency": "currency-07605",
-        "invoice_category": "category-87130",
+        "invoice_amount": 61354.682532,
         "shipment_margin": 49294.889586
       },
       {
         "device_currency": "currency-78844",
-        "invoice_category": "category-54662",
+        "invoice_amount": 68237.098905,
         "shipment_margin": 65742.180219
       },
       {
-        "device_currency": "currency-96212",
-        "invoice_category": "category-15917",
-        "shipment_margin": 79157.929276
-      },
-      {
         "device_currency": "currency-83300",
-        "invoice_category": "category-80737",
+        "invoice_amount": 37285.971037,
         "shipment_margin": 79031.069355
       },
       {
         "device_currency": "currency-88897",
-        "invoice_category": "category-51834",
+        "invoice_amount": 56220.543168,
         "shipment_margin": 77964.896701
       },
       {
-        "device_currency": "currency-79109",
-        "invoice_category": "category-00255",
-        "shipment_margin": 70981.282009
+        "device_currency": "currency-07605",
+        "invoice_amount": 54082.045461,
+        "shipment_margin": 54387.807378
       },
       {
         "device_currency": "currency-83300",
-        "invoice_category": "category-50834",
+        "invoice_amount": 97936.540074,
         "shipment_margin": 79031.069355
       },
       {
-        "device_currency": "currency-96212",
-        "invoice_category": "category-75708",
-        "shipment_margin": 79157.929276
+        "device_currency": "currency-07605",
+        "invoice_amount": 47388.028439,
+        "shipment_margin": 49294.889586
+      },
+      {
+        "device_currency": "currency-83300",
+        "invoice_amount": 38378.81799,
+        "shipment_margin": 79031.069355
+      },
+      {
+        "device_currency": "currency-07605",
+        "invoice_amount": 22629.542999,
+        "shipment_margin": 54387.807378
       },
       {
         "device_currency": "currency-79109",
-        "invoice_category": "category-41894",
-        "shipment_margin": 777.883647
+        "invoice_amount": 55002.649945,
+        "shipment_margin": 70981.282009
       }
     ],
     "sources_touched": [
@@ -71,7 +71,7 @@
   },
   "family": "chain",
   "name": "six_leg-425--chain--Invoice-Shipment-Device",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_category ?shipment_margin ?device_currency WHERE { ?invoice a c:Invoice ; c:category ?invoice_category ; c:invoicesToShipments ?shipment . ?shipment a c:Shipment ; c:margin ?shipment_margin ; c:shipmentsToDevices ?device . ?device a c:Device ; c:currency ?device_currency }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_amount ?shipment_margin ?device_currency WHERE { ?invoice a c:Invoice ; c:amount ?invoice_amount ; c:shipmentId ?shipment_key . ?shipment a c:Shipment ; c:id ?shipment_key ; c:margin ?shipment_margin ; c:deviceId ?device_key . ?device a c:Device ; c:id ?device_key ; c:currency ?device_currency }",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -96,20 +96,20 @@
             "Invoice": {
               "collectionName": "invoices",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
                 "category": {
                   "field": "category"
                 },
                 "id": {
                   "field": "id"
                 },
-                "latencyMs": {
-                  "field": "latency_ms"
+                "priority": {
+                  "field": "priority"
                 },
                 "rank": {
                   "field": "rank"
-                },
-                "seats": {
-                  "field": "seats"
                 },
                 "shipmentId": {
                   "field": "shipment_id"
@@ -126,6 +126,10 @@
               "name": "Invoice",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
                   "name": "category",
                   "type": "string"
                 },
@@ -134,15 +138,11 @@
                   "type": "integer"
                 },
                 {
-                  "name": "latencyMs",
-                  "type": "float"
-                },
-                {
-                  "name": "rank",
+                  "name": "priority",
                   "type": "integer"
                 },
                 {
-                  "name": "seats",
+                  "name": "rank",
                   "type": "integer"
                 },
                 {
@@ -177,63 +177,63 @@
         "rows": [
           {
             "invoice": 1,
-            "invoice_category": "category-08104",
-            "shipment": 4
+            "invoice_amount": 6183.393837,
+            "shipment_key": 4
           },
           {
             "invoice": 2,
-            "invoice_category": "category-41313",
-            "shipment": 5
+            "invoice_amount": 99750.538967,
+            "shipment_key": 6
           },
           {
             "invoice": 3,
-            "invoice_category": "category-02088",
-            "shipment": 2
+            "invoice_amount": 61354.682532,
+            "shipment_key": 1
           },
           {
             "invoice": 4,
-            "invoice_category": "category-87130",
-            "shipment": 1
+            "invoice_amount": 68237.098905,
+            "shipment_key": 11
           },
           {
             "invoice": 5,
-            "invoice_category": "category-54662",
-            "shipment": 11
+            "invoice_amount": 37285.971037,
+            "shipment_key": 7
           },
           {
             "invoice": 6,
-            "invoice_category": "category-15917",
-            "shipment": 5
+            "invoice_amount": 56220.543168,
+            "shipment_key": 2
           },
           {
             "invoice": 7,
-            "invoice_category": "category-80737",
-            "shipment": 7
+            "invoice_amount": 54082.045461,
+            "shipment_key": 10
           },
           {
             "invoice": 8,
-            "invoice_category": "category-51834",
-            "shipment": 2
+            "invoice_amount": 97936.540074,
+            "shipment_key": 7
           },
           {
             "invoice": 9,
-            "invoice_category": "category-00255",
-            "shipment": 6
+            "invoice_amount": 47388.028439,
+            "shipment_key": 1
           },
           {
             "invoice": 10,
-            "invoice_category": "category-50834",
-            "shipment": 7
+            "invoice_amount": 38378.81799,
+            "shipment_key": 7
           },
           {
             "invoice": 11,
-            "invoice_category": "category-75708",
-            "shipment": 5
+            "invoice_amount": 22629.542999,
+            "shipment_key": 10
           },
           {
             "invoice": 12,
-            "invoice_category": "category-41894",
-            "shipment": 9
+            "invoice_amount": 55002.649945,
+            "shipment_key": 6
           }
         ],
         "source_objects": [
@@ -344,63 +344,75 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for shipments",
         "rows": [
           {
-            "device": 2,
+            "device_key": 2,
             "shipment": 1,
+            "shipment_key": 1,
             "shipment_margin": 49294.889586
           },
           {
-            "device": 12,
+            "device_key": 12,
             "shipment": 2,
+            "shipment_key": 2,
             "shipment_margin": 77964.896701
           },
           {
-            "device": 11,
+            "device_key": 11,
             "shipment": 3,
+            "shipment_key": 3,
             "shipment_margin": 62342.81235
           },
           {
-            "device": 6,
+            "device_key": 6,
             "shipment": 4,
+            "shipment_key": 4,
             "shipment_margin": 23784.819809
           },
           {
-            "device": 3,
+            "device_key": 3,
             "shipment": 5,
+            "shipment_key": 5,
             "shipment_margin": 79157.929276
           },
           {
-            "device": 4,
+            "device_key": 4,
             "shipment": 6,
+            "shipment_key": 6,
             "shipment_margin": 70981.282009
           },
           {
-            "device": 9,
+            "device_key": 9,
             "shipment": 7,
+            "shipment_key": 7,
             "shipment_margin": 79031.069355
           },
           {
-            "device": 7,
+            "device_key": 7,
             "shipment": 8,
+            "shipment_key": 8,
             "shipment_margin": 34051.025162
           },
           {
-            "device": 4,
+            "device_key": 4,
             "shipment": 9,
+            "shipment_key": 9,
             "shipment_margin": 777.883647
           },
           {
-            "device": 2,
+            "device_key": 2,
             "shipment": 10,
+            "shipment_key": 10,
             "shipment_margin": 54387.807378
           },
           {
-            "device": 5,
+            "device_key": 5,
             "shipment": 11,
+            "shipment_key": 11,
             "shipment_margin": 65742.180219
           },
           {
-            "device": 7,
+            "device_key": 7,
             "shipment": 12,
+            "shipment_key": 12,
             "shipment_margin": 73574.685751
           }
         ],
@@ -493,51 +505,63 @@
         "rows": [
           {
             "device": 1,
-            "device_currency": "currency-54921"
+            "device_currency": "currency-54921",
+            "device_key": 1
           },
           {
             "device": 2,
-            "device_currency": "currency-07605"
+            "device_currency": "currency-07605",
+            "device_key": 2
           },
           {
             "device": 3,
-            "device_currency": "currency-96212"
+            "device_currency": "currency-96212",
+            "device_key": 3
           },
           {
             "device": 4,
-            "device_currency": "currency-79109"
+            "device_currency": "currency-79109",
+            "device_key": 4
           },
           {
             "device": 5,
-            "device_currency": "currency-78844"
+            "device_currency": "currency-78844",
+            "device_key": 5
           },
           {
             "device": 6,
-            "device_currency": "currency-70444"
+            "device_currency": "currency-70444",
+            "device_key": 6
           },
           {
             "device": 7,
-            "device_currency": "currency-48852"
+            "device_currency": "currency-48852",
+            "device_key": 7
           },
           {
             "device": 8,
-            "device_currency": "currency-62234"
+            "device_currency": "currency-62234",
+            "device_key": 8
           },
           {
             "device": 9,
-            "device_currency": "currency-83300"
+            "device_currency": "currency-83300",
+            "device_key": 9
           },
           {
             "device": 10,
-            "device_currency": "currency-53297"
+            "device_currency": "currency-53297",
+            "device_key": 10
           },
           {
             "device": 11,
-            "device_currency": "currency-38382"
+            "device_currency": "currency-38382",
+            "device_key": 11
           },
           {
             "device": 12,
-            "device_currency": "currency-88897"
+            "device_currency": "currency-88897",
+            "device_key": 12
           }
         ],
         "source_objects": [

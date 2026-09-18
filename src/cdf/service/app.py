@@ -837,6 +837,9 @@ class FederationService:
 
         - ``CDF_CATALOG_MANIFEST`` — authoritative file-backed catalog v1. When
           set, its validated CSI/R2RML paths replace the legacy directory paths.
+          ``CDF_CATALOG_ROOT`` names the artifact root its relative paths
+          resolve against (default: walk up to ``pyproject.toml``); the Forge's
+          live manifests, written outside the repo, set it.
         - ``CDF_CSI_DIR`` — legacy directory of ``*.json`` CSI v1 documents
           (default ``deploy/csi``). Every document becomes a catalog entry.
         - Arango leg (kind ``arango``): ``ARANGO_URL`` (+ ``ARANGO_DB``,
@@ -887,7 +890,14 @@ class FederationService:
         manifest_path = env.get("CDF_CATALOG_MANIFEST")
         manifest_r2rml_paths: Mapping[str, Path] = {}
         if manifest_path:
-            loaded_catalog = FileCatalogLoader(Path(manifest_path)).load()
+            # CDF_CATALOG_ROOT: the artifact root the manifest's relative paths
+            # resolve against. Unset → the loader's default (walk up to
+            # pyproject.toml), which is right for deploy/catalog/manifest.json
+            # and wrong for a Forge live manifest outside the repo.
+            catalog_root = env.get("CDF_CATALOG_ROOT")
+            loaded_catalog = FileCatalogLoader(
+                Path(manifest_path), root=Path(catalog_root) if catalog_root else None
+            ).load()
             docs = [dict(document) for document in loaded_catalog.csi_documents]
             catalog = loaded_catalog.source_catalog()
             manifest_r2rml_paths = loaded_catalog.r2rml_paths

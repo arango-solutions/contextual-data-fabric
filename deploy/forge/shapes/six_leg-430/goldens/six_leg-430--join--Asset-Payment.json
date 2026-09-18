@@ -58,16 +58,16 @@
   },
   "family": "join",
   "name": "six_leg-430--join--Asset-Payment",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_label ?payment_priority WHERE { ?asset a c:Asset ; c:label ?asset_label ; c:assetsToPayments ?payment . ?payment a c:Payment ; c:priority ?payment_priority }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_label ?payment_priority WHERE { ?asset a c:Asset ; c:label ?asset_label ; c:paymentId ?payment_key . ?payment a c:Payment ; c:id ?payment_key ; c:priority ?payment_priority }",
   "shape": "six_leg-430",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -158,62 +158,62 @@
           {
             "asset": 1,
             "asset_label": "label-22110",
-            "payment": 3
+            "payment_key": 3
           },
           {
             "asset": 2,
             "asset_label": "label-83711",
-            "payment": 4
+            "payment_key": 4
           },
           {
             "asset": 3,
             "asset_label": "label-72385",
-            "payment": 11
+            "payment_key": 11
           },
           {
             "asset": 4,
             "asset_label": "label-03913",
-            "payment": 8
+            "payment_key": 8
           },
           {
             "asset": 5,
             "asset_label": "label-41806",
-            "payment": 11
+            "payment_key": 11
           },
           {
             "asset": 6,
             "asset_label": "label-77720",
-            "payment": 3
+            "payment_key": 3
           },
           {
             "asset": 7,
             "asset_label": "label-03085",
-            "payment": 10
+            "payment_key": 10
           },
           {
             "asset": 8,
             "asset_label": "label-61000",
-            "payment": 11
+            "payment_key": 11
           },
           {
             "asset": 9,
             "asset_label": "label-66924",
-            "payment": 5
+            "payment_key": 5
           },
           {
             "asset": 10,
             "asset_label": "label-54316",
-            "payment": 10
+            "payment_key": 10
           },
           {
             "asset": 11,
             "asset_label": "label-68396",
-            "payment": 9
+            "payment_key": 9
           },
           {
             "asset": 12,
             "asset_label": "label-94667",
-            "payment": 1
+            "payment_key": 1
           }
         ],
         "source_objects": [
@@ -298,50 +298,62 @@
         "rows": [
           {
             "payment": 1,
+            "payment_key": 1,
             "payment_priority": 35644
           },
           {
             "payment": 2,
+            "payment_key": 2,
             "payment_priority": 18036
           },
           {
             "payment": 3,
+            "payment_key": 3,
             "payment_priority": 20290
           },
           {
             "payment": 4,
+            "payment_key": 4,
             "payment_priority": 59730
           },
           {
             "payment": 5,
+            "payment_key": 5,
             "payment_priority": 40232
           },
           {
             "payment": 6,
+            "payment_key": 6,
             "payment_priority": 9380
           },
           {
             "payment": 7,
+            "payment_key": 7,
             "payment_priority": 74736
           },
           {
             "payment": 8,
+            "payment_key": 8,
             "payment_priority": 53497
           },
           {
             "payment": 9,
+            "payment_key": 9,
             "payment_priority": 27655
           },
           {
             "payment": 10,
+            "payment_key": 10,
             "payment_priority": 96076
           },
           {
             "payment": 11,
+            "payment_key": 11,
             "payment_priority": 32415
           },
           {
             "payment": 12,
+            "payment_key": 12,
             "payment_priority": 37418
           }
         ],

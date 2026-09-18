@@ -7,7 +7,7 @@
   "family": "cross_leg_aggregation",
   "name": "two_leg-421--crossleg-aggregate--Payment-Asset",
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_archived (COUNT(?payment) AS ?n) WHERE { ?payment a c:Payment ; c:paymentsToAssets ?asset . ?asset a c:Asset ; c:archived ?asset_archived } GROUP BY ?asset_archived",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_archived (COUNT(?payment) AS ?n) WHERE { ?payment a c:Payment ; c:assetId ?asset_key . ?asset a c:Asset ; c:id ?asset_key ; c:archived ?asset_archived } GROUP BY ?asset_archived",
   "shape": "two_leg-421",
   "sources": [
     {

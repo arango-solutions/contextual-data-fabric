@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "asset_label": "label-66924",
-        "ticket_primary": true
-      },
-      {
-        "asset_label": "label-68396",
-        "ticket_primary": true
+        "asset_label": "label-72385",
+        "ticket_category": "category-25623"
       },
       {
         "asset_label": "label-41806",
-        "ticket_primary": true
-      },
-      {
-        "asset_label": "label-68396",
-        "ticket_primary": true
-      },
-      {
-        "asset_label": "label-41806",
-        "ticket_primary": false
-      },
-      {
-        "asset_label": "label-66924",
-        "ticket_primary": false
-      },
-      {
-        "asset_label": "label-66924",
-        "ticket_primary": false
-      },
-      {
-        "asset_label": "label-83711",
-        "ticket_primary": true
+        "ticket_category": "category-11482"
       },
       {
         "asset_label": "label-72385",
-        "ticket_primary": true
+        "ticket_category": "category-89903"
       },
       {
-        "asset_label": "label-54316",
-        "ticket_primary": false
+        "asset_label": "label-22110",
+        "ticket_category": "category-58709"
       },
       {
         "asset_label": "label-03085",
-        "ticket_primary": true
+        "ticket_category": "category-70794"
       },
       {
-        "asset_label": "label-83711",
-        "ticket_primary": false
+        "asset_label": "label-61000",
+        "ticket_category": "category-66160"
+      },
+      {
+        "asset_label": "label-61000",
+        "ticket_category": "category-10211"
+      },
+      {
+        "asset_label": "label-03913",
+        "ticket_category": "category-90532"
+      },
+      {
+        "asset_label": "label-61000",
+        "ticket_category": "category-80419"
+      },
+      {
+        "asset_label": "label-66924",
+        "ticket_category": "category-90785"
+      },
+      {
+        "asset_label": "label-61000",
+        "ticket_category": "category-73158"
+      },
+      {
+        "asset_label": "label-77720",
+        "ticket_category": "category-36939"
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "six_leg-430--join--Ticket-Asset",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?ticket_primary ?asset_label WHERE { ?ticket a c:Ticket ; c:primary ?ticket_primary ; c:ticketsToAssets ?asset . ?asset a c:Asset ; c:label ?asset_label }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?ticket_category ?asset_label WHERE { ?ticket a c:Ticket ; c:category ?ticket_category ; c:assetId ?asset_key . ?asset a c:Asset ; c:id ?asset_key ; c:label ?asset_label }",
   "shape": "six_leg-430",
   "sources": [
     {
@@ -86,20 +86,23 @@
                 "assetId": {
                   "field": "asset_id"
                 },
+                "category": {
+                  "field": "category"
+                },
                 "customerId": {
                   "field": "customer_id"
                 },
                 "id": {
                   "field": "id"
                 },
-                "primary": {
-                  "field": "primary"
-                },
-                "ratio": {
-                  "field": "ratio"
-                },
                 "sku": {
                   "field": "sku"
+                },
+                "status": {
+                  "field": "status"
+                },
+                "weight": {
+                  "field": "weight"
                 }
               },
               "style": "COLLECTION"
@@ -117,6 +120,10 @@
                   "type": "integer"
                 },
                 {
+                  "name": "category",
+                  "type": "string"
+                },
+                {
                   "name": "customerId",
                   "type": "integer"
                 },
@@ -125,16 +132,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
-                },
-                {
-                  "name": "ratio",
-                  "type": "float"
-                },
-                {
                   "name": "sku",
                   "type": "string"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
+                },
+                {
+                  "name": "weight",
+                  "type": "float"
                 }
               ]
             }
@@ -168,64 +175,64 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for tickets",
         "rows": [
           {
-            "asset": 9,
+            "asset_key": 3,
             "ticket": 1,
-            "ticket_primary": true
+            "ticket_category": "category-25623"
           },
           {
-            "asset": 11,
+            "asset_key": 5,
             "ticket": 2,
-            "ticket_primary": true
+            "ticket_category": "category-11482"
           },
           {
-            "asset": 5,
+            "asset_key": 3,
             "ticket": 3,
-            "ticket_primary": true
+            "ticket_category": "category-89903"
           },
           {
-            "asset": 11,
+            "asset_key": 1,
             "ticket": 4,
-            "ticket_primary": true
+            "ticket_category": "category-58709"
           },
           {
-            "asset": 5,
+            "asset_key": 7,
             "ticket": 5,
-            "ticket_primary": false
+            "ticket_category": "category-70794"
           },
           {
-            "asset": 9,
+            "asset_key": 8,
             "ticket": 6,
-            "ticket_primary": false
+            "ticket_category": "category-66160"
           },
           {
-            "asset": 9,
+            "asset_key": 8,
             "ticket": 7,
-            "ticket_primary": false
+            "ticket_category": "category-10211"
           },
           {
-            "asset": 2,
+            "asset_key": 4,
             "ticket": 8,
-            "ticket_primary": true
+            "ticket_category": "category-90532"
           },
           {
-            "asset": 3,
+            "asset_key": 8,
             "ticket": 9,
-            "ticket_primary": true
+            "ticket_category": "category-80419"
           },
           {
-            "asset": 10,
+            "asset_key": 9,
             "ticket": 10,
-            "ticket_primary": false
+            "ticket_category": "category-90785"
           },
           {
-            "asset": 7,
+            "asset_key": 8,
             "ticket": 11,
-            "ticket_primary": true
+            "ticket_category": "category-73158"
           },
           {
-            "asset": 2,
+            "asset_key": 6,
             "ticket": 12,
-            "ticket_primary": false
+            "ticket_category": "category-36939"
           }
         ],
         "source_objects": [
@@ -238,9 +245,9 @@
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -330,50 +337,62 @@
         "rows": [
           {
             "asset": 1,
+            "asset_key": 1,
             "asset_label": "label-22110"
           },
           {
             "asset": 2,
+            "asset_key": 2,
             "asset_label": "label-83711"
           },
           {
             "asset": 3,
+            "asset_key": 3,
             "asset_label": "label-72385"
           },
           {
             "asset": 4,
+            "asset_key": 4,
             "asset_label": "label-03913"
           },
           {
             "asset": 5,
+            "asset_key": 5,
             "asset_label": "label-41806"
           },
           {
             "asset": 6,
+            "asset_key": 6,
             "asset_label": "label-77720"
           },
           {
             "asset": 7,
+            "asset_key": 7,
             "asset_label": "label-03085"
           },
           {
             "asset": 8,
+            "asset_key": 8,
             "asset_label": "label-61000"
           },
           {
             "asset": 9,
+            "asset_key": 9,
             "asset_label": "label-66924"
           },
           {
             "asset": 10,
+            "asset_key": 10,
             "asset_label": "label-54316"
           },
           {
             "asset": 11,
+            "asset_key": 11,
             "asset_label": "label-68396"
           },
           {
             "asset": 12,
+            "asset_key": 12,
             "asset_label": "label-94667"
           }
         ],

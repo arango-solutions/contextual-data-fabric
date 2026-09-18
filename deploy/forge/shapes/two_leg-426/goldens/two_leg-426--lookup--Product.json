@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "product_currency": "currency-08563",
-        "product_margin": 80089.704834
+        "product_currency": "currency-55924",
+        "product_flagged": false
       },
       {
-        "product_currency": "currency-74190",
-        "product_margin": 15390.815646
+        "product_currency": "currency-99455",
+        "product_flagged": false
       },
       {
-        "product_currency": "currency-07642",
-        "product_margin": 25178.337075
+        "product_currency": "currency-96869",
+        "product_flagged": false
       },
       {
-        "product_currency": "currency-40054",
-        "product_margin": 42518.432301
+        "product_currency": "currency-33001",
+        "product_flagged": false
       },
       {
         "product_currency": "currency-59737",
-        "product_margin": 33035.267
+        "product_flagged": true
       },
       {
-        "product_currency": "currency-70386",
-        "product_margin": 77778.581632
+        "product_currency": "currency-65838",
+        "product_flagged": false
       },
       {
-        "product_currency": "currency-82521",
-        "product_margin": 3912.016673
-      },
-      {
-        "product_currency": "currency-32954",
-        "product_margin": 31843.480697
-      },
-      {
-        "product_currency": "currency-94338",
-        "product_margin": 32494.304353
+        "product_currency": "currency-40379",
+        "product_flagged": false
       },
       {
         "product_currency": "currency-64222",
-        "product_margin": 56038.770653
+        "product_flagged": false
       },
       {
-        "product_currency": "currency-79302",
-        "product_margin": 47308.191974
+        "product_currency": "currency-55771",
+        "product_flagged": true
       },
       {
-        "product_currency": "currency-29211",
-        "product_margin": 57334.140528
+        "product_currency": "currency-34154",
+        "product_flagged": false
+      },
+      {
+        "product_currency": "currency-36223",
+        "product_flagged": false
+      },
+      {
+        "product_currency": "currency-98398",
+        "product_flagged": true
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "two_leg-426--lookup--Product",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_currency ?product_margin WHERE { ?product a c:Product ; c:currency ?product_currency ; c:margin ?product_margin }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_currency ?product_flagged WHERE { ?product a c:Product ; c:currency ?product_currency ; c:flagged ?product_flagged }",
   "shape": "two_leg-426",
   "sources": [
     {
@@ -85,14 +85,14 @@
                 "accountId": {
                   "field": "account_id"
                 },
-                "archived": {
-                  "field": "archived"
+                "discount": {
+                  "field": "discount"
                 },
                 "id": {
                   "field": "id"
                 },
-                "primary": {
-                  "field": "primary"
+                "seats": {
+                  "field": "seats"
                 }
               },
               "style": "COLLECTION"
@@ -106,11 +106,17 @@
                 "currency": {
                   "field": "currency"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
                 },
-                "margin": {
-                  "field": "margin"
+                "retries": {
+                  "field": "retries"
+                },
+                "status": {
+                  "field": "status"
                 }
               },
               "style": "COLLECTION"
@@ -128,16 +134,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "archived",
-                  "type": "boolean"
+                  "name": "discount",
+                  "type": "float"
                 },
                 {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "seats",
+                  "type": "integer"
                 }
               ]
             },
@@ -153,12 +159,20 @@
                   "type": "string"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "margin",
-                  "type": "float"
+                  "name": "retries",
+                  "type": "integer"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
                 }
               ]
             }
@@ -193,63 +207,63 @@
         "rows": [
           {
             "product": 1,
-            "product_currency": "currency-08563",
-            "product_margin": 80089.704834
+            "product_currency": "currency-55924",
+            "product_flagged": false
           },
           {
             "product": 2,
-            "product_currency": "currency-74190",
-            "product_margin": 15390.815646
+            "product_currency": "currency-99455",
+            "product_flagged": false
           },
           {
             "product": 3,
-            "product_currency": "currency-07642",
-            "product_margin": 25178.337075
+            "product_currency": "currency-96869",
+            "product_flagged": false
           },
           {
             "product": 4,
-            "product_currency": "currency-40054",
-            "product_margin": 42518.432301
+            "product_currency": "currency-33001",
+            "product_flagged": false
           },
           {
             "product": 5,
             "product_currency": "currency-59737",
-            "product_margin": 33035.267
+            "product_flagged": true
           },
           {
             "product": 6,
-            "product_currency": "currency-70386",
-            "product_margin": 77778.581632
+            "product_currency": "currency-65838",
+            "product_flagged": false
           },
           {
             "product": 7,
-            "product_currency": "currency-82521",
-            "product_margin": 3912.016673
+            "product_currency": "currency-40379",
+            "product_flagged": false
           },
           {
             "product": 8,
-            "product_currency": "currency-32954",
-            "product_margin": 31843.480697
+            "product_currency": "currency-64222",
+            "product_flagged": false
           },
           {
             "product": 9,
-            "product_currency": "currency-94338",
-            "product_margin": 32494.304353
+            "product_currency": "currency-55771",
+            "product_flagged": true
           },
           {
             "product": 10,
-            "product_currency": "currency-64222",
-            "product_margin": 56038.770653
+            "product_currency": "currency-34154",
+            "product_flagged": false
           },
           {
             "product": 11,
-            "product_currency": "currency-79302",
-            "product_margin": 47308.191974
+            "product_currency": "currency-36223",
+            "product_flagged": false
           },
           {
             "product": 12,
-            "product_currency": "currency-29211",
-            "product_margin": 57334.140528
+            "product_currency": "currency-98398",
+            "product_flagged": true
           }
         ],
         "source_objects": [

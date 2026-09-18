@@ -71,7 +71,7 @@
   },
   "family": "chain",
   "name": "chain-422--chain--Asset-Vendor-Campaign",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_currency ?vendor_tier ?campaign_balance WHERE { ?asset a c:Asset ; c:currency ?asset_currency ; c:assetsToVendors ?vendor . ?vendor a c:Vendor ; c:tier ?vendor_tier ; c:vendorsToCampaigns ?campaign . ?campaign a c:Campaign ; c:balance ?campaign_balance }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_currency ?vendor_tier ?campaign_balance WHERE { ?asset a c:Asset ; c:currency ?asset_currency ; c:vendorId ?vendor_key . ?vendor a c:Vendor ; c:id ?vendor_key ; c:tier ?vendor_tier ; c:campaignId ?campaign_key . ?campaign a c:Campaign ; c:id ?campaign_key ; c:balance ?campaign_balance }",
   "shape": "chain-422",
   "sources": [
     {
@@ -164,62 +164,62 @@
           {
             "asset": 1,
             "asset_currency": "currency-74110",
-            "vendor": 10
+            "vendor_key": 10
           },
           {
             "asset": 2,
             "asset_currency": "currency-00745",
-            "vendor": 7
+            "vendor_key": 7
           },
           {
             "asset": 3,
             "asset_currency": "currency-89610",
-            "vendor": 8
+            "vendor_key": 8
           },
           {
             "asset": 4,
             "asset_currency": "currency-82792",
-            "vendor": 7
+            "vendor_key": 7
           },
           {
             "asset": 5,
             "asset_currency": "currency-16619",
-            "vendor": 6
+            "vendor_key": 6
           },
           {
             "asset": 6,
             "asset_currency": "currency-12810",
-            "vendor": 11
+            "vendor_key": 11
           },
           {
             "asset": 7,
             "asset_currency": "currency-42623",
-            "vendor": 4
+            "vendor_key": 4
           },
           {
             "asset": 8,
             "asset_currency": "currency-17735",
-            "vendor": 2
+            "vendor_key": 2
           },
           {
             "asset": 9,
             "asset_currency": "currency-26564",
-            "vendor": 5
+            "vendor_key": 5
           },
           {
             "asset": 10,
             "asset_currency": "currency-75043",
-            "vendor": 10
+            "vendor_key": 10
           },
           {
             "asset": 11,
             "asset_currency": "currency-84993",
-            "vendor": 8
+            "vendor_key": 8
           },
           {
             "asset": 12,
             "asset_currency": "currency-24822",
-            "vendor": 4
+            "vendor_key": 4
           }
         ],
         "source_objects": [
@@ -316,63 +316,75 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for vendors",
         "rows": [
           {
-            "campaign": 9,
+            "campaign_key": 9,
             "vendor": 1,
+            "vendor_key": 1,
             "vendor_tier": "tier-71168"
           },
           {
-            "campaign": 11,
+            "campaign_key": 11,
             "vendor": 2,
+            "vendor_key": 2,
             "vendor_tier": "tier-62500"
           },
           {
-            "campaign": 12,
+            "campaign_key": 12,
             "vendor": 3,
+            "vendor_key": 3,
             "vendor_tier": "tier-64347"
           },
           {
-            "campaign": 2,
+            "campaign_key": 2,
             "vendor": 4,
+            "vendor_key": 4,
             "vendor_tier": "tier-83293"
           },
           {
-            "campaign": 12,
+            "campaign_key": 12,
             "vendor": 5,
+            "vendor_key": 5,
             "vendor_tier": "tier-02136"
           },
           {
-            "campaign": 9,
+            "campaign_key": 9,
             "vendor": 6,
+            "vendor_key": 6,
             "vendor_tier": "tier-41326"
           },
           {
-            "campaign": 7,
+            "campaign_key": 7,
             "vendor": 7,
+            "vendor_key": 7,
             "vendor_tier": "tier-97083"
           },
           {
-            "campaign": 2,
+            "campaign_key": 2,
             "vendor": 8,
+            "vendor_key": 8,
             "vendor_tier": "tier-56593"
           },
           {
-            "campaign": 10,
+            "campaign_key": 10,
             "vendor": 9,
+            "vendor_key": 9,
             "vendor_tier": "tier-60807"
           },
           {
-            "campaign": 4,
+            "campaign_key": 4,
             "vendor": 10,
+            "vendor_key": 10,
             "vendor_tier": "tier-20997"
           },
           {
-            "campaign": 7,
+            "campaign_key": 7,
             "vendor": 11,
+            "vendor_key": 11,
             "vendor_tier": "tier-91833"
           },
           {
-            "campaign": 7,
+            "campaign_key": 7,
             "vendor": 12,
+            "vendor_key": 12,
             "vendor_tier": "tier-05679"
           }
         ],
@@ -465,51 +477,63 @@
         "rows": [
           {
             "campaign": 1,
-            "campaign_balance": 38595.553705
+            "campaign_balance": 38595.553705,
+            "campaign_key": 1
           },
           {
             "campaign": 2,
-            "campaign_balance": 97170.227396
+            "campaign_balance": 97170.227396,
+            "campaign_key": 2
           },
           {
             "campaign": 3,
-            "campaign_balance": 62025.932369
+            "campaign_balance": 62025.932369,
+            "campaign_key": 3
           },
           {
             "campaign": 4,
-            "campaign_balance": 46317.342607
+            "campaign_balance": 46317.342607,
+            "campaign_key": 4
           },
           {
             "campaign": 5,
-            "campaign_balance": 4413.791356
+            "campaign_balance": 4413.791356,
+            "campaign_key": 5
           },
           {
             "campaign": 6,
-            "campaign_balance": 80834.607498
+            "campaign_balance": 80834.607498,
+            "campaign_key": 6
           },
           {
             "campaign": 7,
-            "campaign_balance": 96566.818474
+            "campaign_balance": 96566.818474,
+            "campaign_key": 7
           },
           {
             "campaign": 8,
-            "campaign_balance": 19011.861831
+            "campaign_balance": 19011.861831,
+            "campaign_key": 8
           },
           {
             "campaign": 9,
-            "campaign_balance": 37528.48377
+            "campaign_balance": 37528.48377,
+            "campaign_key": 9
           },
           {
             "campaign": 10,
-            "campaign_balance": 11675.072995
+            "campaign_balance": 11675.072995,
+            "campaign_key": 10
           },
           {
             "campaign": 11,
-            "campaign_balance": 65234.456522
+            "campaign_balance": 65234.456522,
+            "campaign_key": 11
           },
           {
             "campaign": 12,
-            "campaign_balance": 38820.784888
+            "campaign_balance": 38820.784888,
+            "campaign_key": 12
           }
         ],
         "source_objects": [

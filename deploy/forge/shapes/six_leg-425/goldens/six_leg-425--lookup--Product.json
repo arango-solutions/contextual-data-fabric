@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "product_expired": false,
-        "product_quantity": 83337
+        "product_tier": "tier-49505",
+        "product_total": 90737.390247
       },
       {
-        "product_expired": true,
-        "product_quantity": 62039
+        "product_tier": "tier-71541",
+        "product_total": 54754.05108
       },
       {
-        "product_expired": false,
-        "product_quantity": 36504
+        "product_tier": "tier-62039",
+        "product_total": 63065.219468
       },
       {
-        "product_expired": true,
-        "product_quantity": 13576
+        "product_tier": "tier-49271",
+        "product_total": 27850.991858
       },
       {
-        "product_expired": false,
-        "product_quantity": 72679
+        "product_tier": "tier-56794",
+        "product_total": 1995.179113
       },
       {
-        "product_expired": false,
-        "product_quantity": 63408
+        "product_tier": "tier-36482",
+        "product_total": 23572.413532
       },
       {
-        "product_expired": true,
-        "product_quantity": 91144
+        "product_tier": "tier-72229",
+        "product_total": 21964.864846
       },
       {
-        "product_expired": false,
-        "product_quantity": 17964
+        "product_tier": "tier-95941",
+        "product_total": 37306.369985
       },
       {
-        "product_expired": false,
-        "product_quantity": 78322
+        "product_tier": "tier-52319",
+        "product_total": 58170.696993
       },
       {
-        "product_expired": false,
-        "product_quantity": 33956
+        "product_tier": "tier-24017",
+        "product_total": 70805.176926
       },
       {
-        "product_expired": false,
-        "product_quantity": 88393
+        "product_tier": "tier-71137",
+        "product_total": 41636.528071
       },
       {
-        "product_expired": false,
-        "product_quantity": 39891
+        "product_tier": "tier-17964",
+        "product_total": 30306.643948
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "six_leg-425--lookup--Product",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_expired ?product_quantity WHERE { ?product a c:Product ; c:expired ?product_expired ; c:quantity ?product_quantity }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?product_tier ?product_total WHERE { ?product a c:Product ; c:tier ?product_tier ; c:total ?product_total }",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -82,17 +82,11 @@
             "Product": {
               "collectionName": "products",
               "properties": {
-                "expired": {
-                  "field": "expired"
-                },
                 "id": {
                   "field": "id"
                 },
                 "orderId": {
                   "field": "order_id"
-                },
-                "quantity": {
-                  "field": "quantity"
                 },
                 "tier": {
                   "field": "tier"
@@ -112,19 +106,11 @@
               "name": "Product",
               "properties": [
                 {
-                  "name": "expired",
-                  "type": "boolean"
-                },
-                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
                   "name": "orderId",
-                  "type": "integer"
-                },
-                {
-                  "name": "quantity",
                   "type": "integer"
                 },
                 {
@@ -163,63 +149,63 @@
         "rows": [
           {
             "product": 1,
-            "product_expired": false,
-            "product_quantity": 83337
+            "product_tier": "tier-49505",
+            "product_total": 90737.390247
           },
           {
             "product": 2,
-            "product_expired": true,
-            "product_quantity": 62039
+            "product_tier": "tier-71541",
+            "product_total": 54754.05108
           },
           {
             "product": 3,
-            "product_expired": false,
-            "product_quantity": 36504
+            "product_tier": "tier-62039",
+            "product_total": 63065.219468
           },
           {
             "product": 4,
-            "product_expired": true,
-            "product_quantity": 13576
+            "product_tier": "tier-49271",
+            "product_total": 27850.991858
           },
           {
             "product": 5,
-            "product_expired": false,
-            "product_quantity": 72679
+            "product_tier": "tier-56794",
+            "product_total": 1995.179113
           },
           {
             "product": 6,
-            "product_expired": false,
-            "product_quantity": 63408
+            "product_tier": "tier-36482",
+            "product_total": 23572.413532
           },
           {
             "product": 7,
-            "product_expired": true,
-            "product_quantity": 91144
+            "product_tier": "tier-72229",
+            "product_total": 21964.864846
           },
           {
             "product": 8,
-            "product_expired": false,
-            "product_quantity": 17964
+            "product_tier": "tier-95941",
+            "product_total": 37306.369985
           },
           {
             "product": 9,
-            "product_expired": false,
-            "product_quantity": 78322
+            "product_tier": "tier-52319",
+            "product_total": 58170.696993
           },
           {
             "product": 10,
-            "product_expired": false,
-            "product_quantity": 33956
+            "product_tier": "tier-24017",
+            "product_total": 70805.176926
           },
           {
             "product": 11,
-            "product_expired": false,
-            "product_quantity": 88393
+            "product_tier": "tier-71137",
+            "product_total": 41636.528071
           },
           {
             "product": 12,
-            "product_expired": false,
-            "product_quantity": 39891
+            "product_tier": "tier-17964",
+            "product_total": 30306.643948
           }
         ],
         "source_objects": [

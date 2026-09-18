@@ -2,51 +2,51 @@
   "expect": {
     "bindings": [
       {
-        "order_billable": true,
-        "order_region": "region-34526"
+        "order_active": false,
+        "order_region": "region-87741"
       },
       {
-        "order_billable": true,
+        "order_active": true,
         "order_region": "region-52524"
       },
       {
-        "order_billable": true,
+        "order_active": true,
         "order_region": "region-96820"
       },
       {
-        "order_billable": true,
+        "order_active": true,
         "order_region": "region-73062"
       },
       {
-        "order_billable": false,
+        "order_active": false,
         "order_region": "region-77392"
       },
       {
-        "order_billable": true,
+        "order_active": true,
         "order_region": "region-35550"
       },
       {
-        "order_billable": false,
+        "order_active": false,
         "order_region": "region-02551"
       },
       {
-        "order_billable": false,
+        "order_active": false,
         "order_region": "region-34809"
       },
       {
-        "order_billable": true,
+        "order_active": true,
         "order_region": "region-31805"
       },
       {
-        "order_billable": false,
+        "order_active": false,
         "order_region": "region-01153"
       },
       {
-        "order_billable": false,
+        "order_active": false,
         "order_region": "region-08858"
       },
       {
-        "order_billable": false,
+        "order_active": false,
         "order_region": "region-70847"
       }
     ],
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "six_leg-425--lookup--Order",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?order_billable ?order_region WHERE { ?order a c:Order ; c:billable ?order_billable ; c:region ?order_region }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?order_active ?order_region WHERE { ?order a c:Order ; c:active ?order_active ; c:region ?order_region }",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -82,8 +82,8 @@
             "Order": {
               "collectionName": "orders",
               "properties": {
-                "billable": {
-                  "field": "billable"
+                "active": {
+                  "field": "active"
                 },
                 "deviceId": {
                   "field": "device_id"
@@ -115,7 +115,7 @@
               "name": "Order",
               "properties": [
                 {
-                  "name": "billable",
+                  "name": "active",
                   "type": "boolean"
                 },
                 {
@@ -175,62 +175,62 @@
         "rows": [
           {
             "order": 1,
-            "order_billable": true,
-            "order_region": "region-34526"
+            "order_active": false,
+            "order_region": "region-87741"
           },
           {
             "order": 2,
-            "order_billable": true,
+            "order_active": true,
             "order_region": "region-52524"
           },
           {
             "order": 3,
-            "order_billable": true,
+            "order_active": true,
             "order_region": "region-96820"
           },
           {
             "order": 4,
-            "order_billable": true,
+            "order_active": true,
             "order_region": "region-73062"
           },
           {
             "order": 5,
-            "order_billable": false,
+            "order_active": false,
             "order_region": "region-77392"
           },
           {
             "order": 6,
-            "order_billable": true,
+            "order_active": true,
             "order_region": "region-35550"
           },
           {
             "order": 7,
-            "order_billable": false,
+            "order_active": false,
             "order_region": "region-02551"
           },
           {
             "order": 8,
-            "order_billable": false,
+            "order_active": false,
             "order_region": "region-34809"
           },
           {
             "order": 9,
-            "order_billable": true,
+            "order_active": true,
             "order_region": "region-31805"
           },
           {
             "order": 10,
-            "order_billable": false,
+            "order_active": false,
             "order_region": "region-01153"
           },
           {
             "order": 11,
-            "order_billable": false,
+            "order_active": false,
             "order_region": "region-08858"
           },
           {
             "order": 12,
-            "order_billable": false,
+            "order_active": false,
             "order_region": "region-70847"
           }
         ],

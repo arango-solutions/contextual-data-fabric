@@ -7,14 +7,14 @@
           "assetId": {
             "field": "asset_id"
           },
+          "billable": {
+            "field": "billable"
+          },
           "channel": {
             "field": "channel"
           },
           "code": {
             "field": "code"
-          },
-          "expired": {
-            "field": "expired"
           },
           "id": {
             "field": "id"
@@ -41,16 +41,16 @@
             "type": "integer"
           },
           {
+            "name": "billable",
+            "type": "boolean"
+          },
+          {
             "name": "channel",
             "type": "string"
           },
           {
             "name": "code",
             "type": "string"
-          },
-          {
-            "name": "expired",
-            "type": "boolean"
           },
           {
             "name": "id",

@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "invoice_channel": "channel-41540",
-        "region_active": true
+        "invoice_channel": "channel-82583",
+        "region_amount": 56158.436436
       },
       {
-        "invoice_channel": "channel-05919",
-        "region_active": false
+        "invoice_channel": "channel-92375",
+        "region_amount": 50489.43487
       },
       {
-        "invoice_channel": "channel-65937",
-        "region_active": true
+        "invoice_channel": "channel-06551",
+        "region_amount": 62085.431128
       },
       {
-        "invoice_channel": "channel-77837",
-        "region_active": true
+        "invoice_channel": "channel-20957",
+        "region_amount": 69121.869847
       },
       {
-        "invoice_channel": "channel-29973",
-        "region_active": false
+        "invoice_channel": "channel-20721",
+        "region_amount": 81972.032355
       },
       {
-        "invoice_channel": "channel-57421",
-        "region_active": false
+        "invoice_channel": "channel-80797",
+        "region_amount": 69121.869847
       },
       {
-        "invoice_channel": "channel-24627",
-        "region_active": false
+        "invoice_channel": "channel-11399",
+        "region_amount": 9194.339102
       },
       {
-        "invoice_channel": "channel-93544",
-        "region_active": true
+        "invoice_channel": "channel-62362",
+        "region_amount": 29831.837695
       },
       {
-        "invoice_channel": "channel-46176",
-        "region_active": false
+        "invoice_channel": "channel-79094",
+        "region_amount": 9194.339102
       },
       {
-        "invoice_channel": "channel-95322",
-        "region_active": false
+        "invoice_channel": "channel-14834",
+        "region_amount": 44508.108505
       },
       {
-        "invoice_channel": "channel-84424",
-        "region_active": true
+        "invoice_channel": "channel-68585",
+        "region_amount": 18450.804612
       },
       {
-        "invoice_channel": "channel-09097",
-        "region_active": false
+        "invoice_channel": "channel-69171",
+        "region_amount": 85232.616549
       }
     ],
     "sources_touched": [
@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "wide_narrow-424--join--Invoice-Region",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_channel ?region_active WHERE { ?invoice a c:Invoice ; c:channel ?invoice_channel ; c:invoicesToRegions ?region . ?region a c:Region ; c:active ?region_active }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?invoice_channel ?region_amount WHERE { ?invoice a c:Invoice ; c:channel ?invoice_channel ; c:regionId ?region_key . ?region a c:Region ; c:id ?region_key ; c:amount ?region_amount }",
   "shape": "wide_narrow-424",
   "sources": [
     {
@@ -143,63 +143,63 @@
         "rows": [
           {
             "invoice": 1,
-            "invoice_channel": "channel-41540",
-            "region": 11
+            "invoice_channel": "channel-82583",
+            "region_key": 1
           },
           {
             "invoice": 2,
-            "invoice_channel": "channel-05919",
-            "region": 1
+            "invoice_channel": "channel-92375",
+            "region_key": 9
           },
           {
             "invoice": 3,
-            "invoice_channel": "channel-65937",
-            "region": 11
+            "invoice_channel": "channel-06551",
+            "region_key": 10
           },
           {
             "invoice": 4,
-            "invoice_channel": "channel-77837",
-            "region": 12
+            "invoice_channel": "channel-20957",
+            "region_key": 4
           },
           {
             "invoice": 5,
-            "invoice_channel": "channel-29973",
-            "region": 1
+            "invoice_channel": "channel-20721",
+            "region_key": 8
           },
           {
             "invoice": 6,
-            "invoice_channel": "channel-57421",
-            "region": 3
+            "invoice_channel": "channel-80797",
+            "region_key": 4
           },
           {
             "invoice": 7,
-            "invoice_channel": "channel-24627",
-            "region": 3
+            "invoice_channel": "channel-11399",
+            "region_key": 12
           },
           {
             "invoice": 8,
-            "invoice_channel": "channel-93544",
-            "region": 10
+            "invoice_channel": "channel-62362",
+            "region_key": 6
           },
           {
             "invoice": 9,
-            "invoice_channel": "channel-46176",
-            "region": 2
+            "invoice_channel": "channel-79094",
+            "region_key": 12
           },
           {
             "invoice": 10,
-            "invoice_channel": "channel-95322",
-            "region": 8
+            "invoice_channel": "channel-14834",
+            "region_key": 11
           },
           {
             "invoice": 11,
-            "invoice_channel": "channel-84424",
-            "region": 10
+            "invoice_channel": "channel-68585",
+            "region_key": 2
           },
           {
             "invoice": 12,
-            "invoice_channel": "channel-09097",
-            "region": 2
+            "invoice_channel": "channel-69171",
+            "region_key": 3
           }
         ],
         "source_objects": [
@@ -212,9 +212,9 @@
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -230,9 +230,6 @@
             "Region": {
               "collectionName": "regions",
               "properties": {
-                "active": {
-                  "field": "active"
-                },
                 "amount": {
                   "field": "amount"
                 },
@@ -242,8 +239,14 @@
                 "expired": {
                   "field": "expired"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
+                },
+                "label": {
+                  "field": "label"
                 },
                 "notes": {
                   "field": "notes"
@@ -257,14 +260,11 @@
                 "ratio": {
                   "field": "ratio"
                 },
-                "segment": {
-                  "field": "segment"
-                },
                 "tier": {
                   "field": "tier"
                 },
-                "units": {
-                  "field": "units"
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -278,10 +278,6 @@
               "name": "Region",
               "properties": [
                 {
-                  "name": "active",
-                  "type": "boolean"
-                },
-                {
                   "name": "amount",
                   "type": "float"
                 },
@@ -294,8 +290,16 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
                 },
                 {
                   "name": "notes",
@@ -314,16 +318,12 @@
                   "type": "float"
                 },
                 {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
                   "name": "tier",
                   "type": "string"
                 },
                 {
-                  "name": "units",
-                  "type": "integer"
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }
@@ -347,51 +347,63 @@
         "rows": [
           {
             "region": 1,
-            "region_active": false
+            "region_amount": 56158.436436,
+            "region_key": 1
           },
           {
             "region": 2,
-            "region_active": false
+            "region_amount": 18450.804612,
+            "region_key": 2
           },
           {
             "region": 3,
-            "region_active": false
+            "region_amount": 85232.616549,
+            "region_key": 3
           },
           {
             "region": 4,
-            "region_active": true
+            "region_amount": 69121.869847,
+            "region_key": 4
           },
           {
             "region": 5,
-            "region_active": true
+            "region_amount": 50559.548521,
+            "region_key": 5
           },
           {
             "region": 6,
-            "region_active": false
+            "region_amount": 29831.837695,
+            "region_key": 6
           },
           {
             "region": 7,
-            "region_active": true
+            "region_amount": 12473.150453,
+            "region_key": 7
           },
           {
             "region": 8,
-            "region_active": false
+            "region_amount": 81972.032355,
+            "region_key": 8
           },
           {
             "region": 9,
-            "region_active": false
+            "region_amount": 50489.43487,
+            "region_key": 9
           },
           {
             "region": 10,
-            "region_active": true
+            "region_amount": 62085.431128,
+            "region_key": 10
           },
           {
             "region": 11,
-            "region_active": true
+            "region_amount": 44508.108505,
+            "region_key": 11
           },
           {
             "region": 12,
-            "region_active": true
+            "region_amount": 9194.339102,
+            "region_key": 12
           }
         ],
         "source_objects": [

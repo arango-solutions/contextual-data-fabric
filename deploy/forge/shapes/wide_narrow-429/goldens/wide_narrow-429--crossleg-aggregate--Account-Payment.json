@@ -7,16 +7,16 @@
   "family": "cross_leg_aggregation",
   "name": "wide_narrow-429--crossleg-aggregate--Account-Payment",
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_active (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:accountsToPayments ?payment . ?payment a c:Payment ; c:active ?payment_active } GROUP BY ?payment_active",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_active (COUNT(?account) AS ?n) WHERE { ?account a c:Account ; c:paymentId ?payment_key . ?payment a c:Payment ; c:id ?payment_key ; c:active ?payment_active } GROUP BY ?payment_active",
   "shape": "wide_narrow-429",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -32,17 +32,17 @@
             "Account": {
               "collectionName": "accounts",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
+                "enabled": {
+                  "field": "enabled"
+                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
-                },
-                "segment": {
-                  "field": "segment"
-                },
-                "sku": {
-                  "field": "sku"
                 }
               },
               "style": "COLLECTION"
@@ -56,11 +56,8 @@
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "priority": {
-                  "field": "priority"
-                },
-                "total": {
-                  "field": "total"
+                "units": {
+                  "field": "units"
                 }
               },
               "style": "COLLECTION"
@@ -68,17 +65,14 @@
             "Device": {
               "collectionName": "devices",
               "properties": {
-                "currency": {
-                  "field": "currency"
-                },
                 "id": {
                   "field": "id"
                 },
                 "paymentId": {
                   "field": "payment_id"
                 },
-                "primary": {
-                  "field": "primary"
+                "version": {
+                  "field": "version"
                 }
               },
               "style": "COLLECTION"
@@ -92,20 +86,20 @@
               "name": "Account",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
+                  "name": "enabled",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
                   "name": "paymentId",
                   "type": "integer"
-                },
-                {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
-                  "name": "sku",
-                  "type": "string"
                 }
               ]
             },
@@ -121,22 +115,14 @@
                   "type": "integer"
                 },
                 {
-                  "name": "priority",
+                  "name": "units",
                   "type": "integer"
-                },
-                {
-                  "name": "total",
-                  "type": "float"
                 }
               ]
             },
             {
               "name": "Device",
               "properties": [
-                {
-                  "name": "currency",
-                  "type": "string"
-                },
                 {
                   "name": "id",
                   "type": "integer"
@@ -146,8 +132,8 @@
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "version",
+                  "type": "integer"
                 }
               ]
             }
@@ -216,6 +202,12 @@
                 "active": {
                   "field": "active"
                 },
+                "archived": {
+                  "field": "archived"
+                },
+                "balance": {
+                  "field": "balance"
+                },
                 "billable": {
                   "field": "billable"
                 },
@@ -225,14 +217,8 @@
                 "expired": {
                   "field": "expired"
                 },
-                "flagged": {
-                  "field": "flagged"
-                },
                 "id": {
                   "field": "id"
-                },
-                "label": {
-                  "field": "label"
                 },
                 "latencyMs": {
                   "field": "latency_ms"
@@ -243,14 +229,14 @@
                 "rank": {
                   "field": "rank"
                 },
-                "score": {
-                  "field": "score"
-                },
                 "seats": {
                   "field": "seats"
                 },
                 "tier": {
                   "field": "tier"
+                },
+                "verified": {
+                  "field": "verified"
                 },
                 "weight": {
                   "field": "weight"
@@ -271,6 +257,14 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "archived",
+                  "type": "boolean"
+                },
+                {
+                  "name": "balance",
+                  "type": "float"
+                },
+                {
                   "name": "billable",
                   "type": "boolean"
                 },
@@ -283,16 +277,8 @@
                   "type": "boolean"
                 },
                 {
-                  "name": "flagged",
-                  "type": "boolean"
-                },
-                {
                   "name": "id",
                   "type": "integer"
-                },
-                {
-                  "name": "label",
-                  "type": "string"
                 },
                 {
                   "name": "latencyMs",
@@ -307,16 +293,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "score",
-                  "type": "integer"
-                },
-                {
                   "name": "seats",
                   "type": "integer"
                 },
                 {
                   "name": "tier",
                   "type": "string"
+                },
+                {
+                  "name": "verified",
+                  "type": "boolean"
                 },
                 {
                   "name": "weight",

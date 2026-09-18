@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "two_leg-421--join--Payment-Asset",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_channel ?asset_archived WHERE { ?payment a c:Payment ; c:channel ?payment_channel ; c:paymentsToAssets ?asset . ?asset a c:Asset ; c:archived ?asset_archived }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?payment_channel ?asset_archived WHERE { ?payment a c:Payment ; c:channel ?payment_channel ; c:assetId ?asset_key . ?asset a c:Asset ; c:id ?asset_key ; c:archived ?asset_archived }",
   "shape": "two_leg-421",
   "sources": [
     {
@@ -207,62 +207,62 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for payments",
         "rows": [
           {
-            "asset": 5,
+            "asset_key": 5,
             "payment": 1,
             "payment_channel": "channel-56928"
           },
           {
-            "asset": 4,
+            "asset_key": 4,
             "payment": 2,
             "payment_channel": "channel-01977"
           },
           {
-            "asset": 2,
+            "asset_key": 2,
             "payment": 3,
             "payment_channel": "channel-71358"
           },
           {
-            "asset": 5,
+            "asset_key": 5,
             "payment": 4,
             "payment_channel": "channel-48054"
           },
           {
-            "asset": 8,
+            "asset_key": 8,
             "payment": 5,
             "payment_channel": "channel-44953"
           },
           {
-            "asset": 12,
+            "asset_key": 12,
             "payment": 6,
             "payment_channel": "channel-42332"
           },
           {
-            "asset": 10,
+            "asset_key": 10,
             "payment": 7,
             "payment_channel": "channel-71102"
           },
           {
-            "asset": 5,
+            "asset_key": 5,
             "payment": 8,
             "payment_channel": "channel-39717"
           },
           {
-            "asset": 3,
+            "asset_key": 3,
             "payment": 9,
             "payment_channel": "channel-22872"
           },
           {
-            "asset": 11,
+            "asset_key": 11,
             "payment": 10,
             "payment_channel": "channel-23621"
           },
           {
-            "asset": 2,
+            "asset_key": 2,
             "payment": 11,
             "payment_channel": "channel-60895"
           },
           {
-            "asset": 2,
+            "asset_key": 2,
             "payment": 12,
             "payment_channel": "channel-71327"
           }
@@ -349,51 +349,63 @@
         "rows": [
           {
             "asset": 1,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 1
           },
           {
             "asset": 2,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 2
           },
           {
             "asset": 3,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 3
           },
           {
             "asset": 4,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 4
           },
           {
             "asset": 5,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 5
           },
           {
             "asset": 6,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 6
           },
           {
             "asset": 7,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 7
           },
           {
             "asset": 8,
-            "asset_archived": true
+            "asset_archived": true,
+            "asset_key": 8
           },
           {
             "asset": 9,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 9
           },
           {
             "asset": 10,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 10
           },
           {
             "asset": 11,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 11
           },
           {
             "asset": 12,
-            "asset_archived": false
+            "asset_archived": false,
+            "asset_key": 12
           }
         ],
         "source_objects": [

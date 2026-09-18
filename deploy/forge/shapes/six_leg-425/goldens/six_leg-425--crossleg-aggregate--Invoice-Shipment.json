@@ -7,7 +7,7 @@
   "family": "cross_leg_aggregation",
   "name": "six_leg-425--crossleg-aggregate--Invoice-Shipment",
   "note": "Refusal expected until S2's fold-combine (ADR-0005 D1/D2) lands; then this golden is rewritten as grounded with the counts computed here.",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_margin (COUNT(?invoice) AS ?n) WHERE { ?invoice a c:Invoice ; c:invoicesToShipments ?shipment . ?shipment a c:Shipment ; c:margin ?shipment_margin } GROUP BY ?shipment_margin",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?shipment_margin (COUNT(?invoice) AS ?n) WHERE { ?invoice a c:Invoice ; c:shipmentId ?shipment_key . ?shipment a c:Shipment ; c:id ?shipment_key ; c:margin ?shipment_margin } GROUP BY ?shipment_margin",
   "shape": "six_leg-425",
   "sources": [
     {
@@ -32,20 +32,20 @@
             "Invoice": {
               "collectionName": "invoices",
               "properties": {
+                "amount": {
+                  "field": "amount"
+                },
                 "category": {
                   "field": "category"
                 },
                 "id": {
                   "field": "id"
                 },
-                "latencyMs": {
-                  "field": "latency_ms"
+                "priority": {
+                  "field": "priority"
                 },
                 "rank": {
                   "field": "rank"
-                },
-                "seats": {
-                  "field": "seats"
                 },
                 "shipmentId": {
                   "field": "shipment_id"
@@ -62,6 +62,10 @@
               "name": "Invoice",
               "properties": [
                 {
+                  "name": "amount",
+                  "type": "float"
+                },
+                {
                   "name": "category",
                   "type": "string"
                 },
@@ -70,15 +74,11 @@
                   "type": "integer"
                 },
                 {
-                  "name": "latencyMs",
-                  "type": "float"
-                },
-                {
-                  "name": "rank",
+                  "name": "priority",
                   "type": "integer"
                 },
                 {
-                  "name": "seats",
+                  "name": "rank",
                   "type": "integer"
                 },
                 {

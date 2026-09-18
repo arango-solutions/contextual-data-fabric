@@ -27,6 +27,14 @@ benchmark = ["PyYAML>=6.0", "pyoxigraph>=0.3.22"]
 # Federation Forge orchestration (ADR-0006 / M15): descriptors are YAML; the
 # generator core (r2g) is installed from deploy/pins/r2g-arango.txt (CC-9).
 forge = ["PyYAML>=6.0"]
+# Forge LIVE mode (deploy into the compose stacks): the engine drivers the
+# deploy step needs — lazy-imported, so fixture mode never pays for them.
+forge-live = [
+    "psycopg[binary]>=3.1",
+    "clickhouse-connect>=0.7",
+    "python-arango>=8.0,<9.0",
+    "snowflake-connector-python>=3.12",
+]
 
 [project.scripts]
 cdf-mcp = "cdf.mcp_server:main"
@@ -70,5 +78,5 @@ select = ["E", "F", "I", "W", "UP", "B"]
 # The live-source adapters lazy-import the owned engine libraries, which ship no
 # type stubs; they are optional (not core deps) and only loaded on the live path.
 [[tool.mypy.overrides]]
-module = ["arango_sparql.*", "arango.*", "clickhouse_connect.*", "snowflake.*", "r2g", "r2g.*", "yaml"]
+module = ["arango_sparql.*", "arango.*", "clickhouse_connect.*", "snowflake.*", "psycopg", "psycopg.*", "schema_analyzer.*", "r2g", "r2g.*", "yaml"]
 ignore_missing_imports = true

@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "region_active": false,
-        "region_amount": 80193.264547
+        "region_amount": 56158.436436,
+        "region_currency": "currency-89664"
       },
       {
-        "region_active": false,
-        "region_amount": 66106.795171
+        "region_amount": 18450.804612,
+        "region_currency": "currency-50943"
       },
       {
-        "region_active": false,
-        "region_amount": 92913.560853
+        "region_amount": 85232.616549,
+        "region_currency": "currency-49847"
       },
       {
-        "region_active": true,
-        "region_amount": 26008.50867
+        "region_amount": 69121.869847,
+        "region_currency": "currency-55571"
       },
       {
-        "region_active": true,
-        "region_amount": 63513.317336
+        "region_amount": 50559.548521,
+        "region_currency": "currency-22641"
       },
       {
-        "region_active": false,
-        "region_amount": 29831.837695
+        "region_amount": 29831.837695,
+        "region_currency": "currency-78545"
       },
       {
-        "region_active": true,
-        "region_amount": 12473.150453
+        "region_amount": 12473.150453,
+        "region_currency": "currency-02888"
       },
       {
-        "region_active": false,
-        "region_amount": 81972.032355
+        "region_amount": 81972.032355,
+        "region_currency": "currency-90007"
       },
       {
-        "region_active": false,
-        "region_amount": 50489.43487
+        "region_amount": 50489.43487,
+        "region_currency": "currency-60704"
       },
       {
-        "region_active": true,
-        "region_amount": 83406.840727
+        "region_amount": 62085.431128,
+        "region_currency": "currency-60982"
       },
       {
-        "region_active": true,
-        "region_amount": 3595.306311
+        "region_amount": 44508.108505,
+        "region_currency": "currency-04099"
       },
       {
-        "region_active": true,
-        "region_amount": 41155.902122
+        "region_amount": 9194.339102,
+        "region_currency": "currency-49140"
       }
     ],
     "sources_touched": [
@@ -57,16 +57,16 @@
   },
   "family": "lookup",
   "name": "wide_narrow-424--lookup--Region",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_active ?region_amount WHERE { ?region a c:Region ; c:active ?region_active ; c:amount ?region_amount }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?region_amount ?region_currency WHERE { ?region a c:Region ; c:amount ?region_amount ; c:currency ?region_currency }",
   "shape": "wide_narrow-424",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -82,9 +82,6 @@
             "Region": {
               "collectionName": "regions",
               "properties": {
-                "active": {
-                  "field": "active"
-                },
                 "amount": {
                   "field": "amount"
                 },
@@ -94,8 +91,14 @@
                 "expired": {
                   "field": "expired"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
+                },
+                "label": {
+                  "field": "label"
                 },
                 "notes": {
                   "field": "notes"
@@ -109,14 +112,11 @@
                 "ratio": {
                   "field": "ratio"
                 },
-                "segment": {
-                  "field": "segment"
-                },
                 "tier": {
                   "field": "tier"
                 },
-                "units": {
-                  "field": "units"
+                "verified": {
+                  "field": "verified"
                 }
               },
               "style": "COLLECTION"
@@ -130,10 +130,6 @@
               "name": "Region",
               "properties": [
                 {
-                  "name": "active",
-                  "type": "boolean"
-                },
-                {
                   "name": "amount",
                   "type": "float"
                 },
@@ -146,8 +142,16 @@
                   "type": "boolean"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
+                },
+                {
+                  "name": "label",
+                  "type": "string"
                 },
                 {
                   "name": "notes",
@@ -166,16 +170,12 @@
                   "type": "float"
                 },
                 {
-                  "name": "segment",
-                  "type": "string"
-                },
-                {
                   "name": "tier",
                   "type": "string"
                 },
                 {
-                  "name": "units",
-                  "type": "integer"
+                  "name": "verified",
+                  "type": "boolean"
                 }
               ]
             }
@@ -199,63 +199,63 @@
         "rows": [
           {
             "region": 1,
-            "region_active": false,
-            "region_amount": 80193.264547
+            "region_amount": 56158.436436,
+            "region_currency": "currency-89664"
           },
           {
             "region": 2,
-            "region_active": false,
-            "region_amount": 66106.795171
+            "region_amount": 18450.804612,
+            "region_currency": "currency-50943"
           },
           {
             "region": 3,
-            "region_active": false,
-            "region_amount": 92913.560853
+            "region_amount": 85232.616549,
+            "region_currency": "currency-49847"
           },
           {
             "region": 4,
-            "region_active": true,
-            "region_amount": 26008.50867
+            "region_amount": 69121.869847,
+            "region_currency": "currency-55571"
           },
           {
             "region": 5,
-            "region_active": true,
-            "region_amount": 63513.317336
+            "region_amount": 50559.548521,
+            "region_currency": "currency-22641"
           },
           {
             "region": 6,
-            "region_active": false,
-            "region_amount": 29831.837695
+            "region_amount": 29831.837695,
+            "region_currency": "currency-78545"
           },
           {
             "region": 7,
-            "region_active": true,
-            "region_amount": 12473.150453
+            "region_amount": 12473.150453,
+            "region_currency": "currency-02888"
           },
           {
             "region": 8,
-            "region_active": false,
-            "region_amount": 81972.032355
+            "region_amount": 81972.032355,
+            "region_currency": "currency-90007"
           },
           {
             "region": 9,
-            "region_active": false,
-            "region_amount": 50489.43487
+            "region_amount": 50489.43487,
+            "region_currency": "currency-60704"
           },
           {
             "region": 10,
-            "region_active": true,
-            "region_amount": 83406.840727
+            "region_amount": 62085.431128,
+            "region_currency": "currency-60982"
           },
           {
             "region": 11,
-            "region_active": true,
-            "region_amount": 3595.306311
+            "region_amount": 44508.108505,
+            "region_currency": "currency-04099"
           },
           {
             "region": 12,
-            "region_active": true,
-            "region_amount": 41155.902122
+            "region_amount": 9194.339102,
+            "region_currency": "currency-49140"
           }
         ],
         "source_objects": [

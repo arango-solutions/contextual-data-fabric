@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "asset_archived": true,
-        "asset_primary": true
+        "asset_discount": 13340.732602,
+        "asset_seats": 50105
       },
       {
-        "asset_archived": false,
-        "asset_primary": true
+        "asset_discount": 73359.896662,
+        "asset_seats": 23215
       },
       {
-        "asset_archived": false,
-        "asset_primary": false
+        "asset_discount": 50664.0339,
+        "asset_seats": 50223
       },
       {
-        "asset_archived": true,
-        "asset_primary": true
+        "asset_discount": 31357.990015,
+        "asset_seats": 35500
       },
       {
-        "asset_archived": true,
-        "asset_primary": false
+        "asset_discount": 30309.589254,
+        "asset_seats": 87275
       },
       {
-        "asset_archived": false,
-        "asset_primary": true
+        "asset_discount": 9283.719778,
+        "asset_seats": 37680
       },
       {
-        "asset_archived": true,
-        "asset_primary": false
+        "asset_discount": 46243.677084,
+        "asset_seats": 9564
       },
       {
-        "asset_archived": true,
-        "asset_primary": false
+        "asset_discount": 79097.319364,
+        "asset_seats": 1906
       },
       {
-        "asset_archived": true,
-        "asset_primary": true
+        "asset_discount": 80072.092114,
+        "asset_seats": 31620
       },
       {
-        "asset_archived": false,
-        "asset_primary": true
+        "asset_discount": 27897.563461,
+        "asset_seats": 26663
       },
       {
-        "asset_archived": true,
-        "asset_primary": false
+        "asset_discount": 10682.551245,
+        "asset_seats": 98471
       },
       {
-        "asset_archived": true,
-        "asset_primary": true
+        "asset_discount": 6794.080521,
+        "asset_seats": 33469
       }
     ],
     "sources_touched": [
@@ -57,7 +57,7 @@
   },
   "family": "lookup",
   "name": "two_leg-426--lookup--Asset",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_archived ?asset_primary WHERE { ?asset a c:Asset ; c:archived ?asset_archived ; c:primary ?asset_primary }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?asset_discount ?asset_seats WHERE { ?asset a c:Asset ; c:discount ?asset_discount ; c:seats ?asset_seats }",
   "shape": "two_leg-426",
   "sources": [
     {
@@ -85,14 +85,14 @@
                 "accountId": {
                   "field": "account_id"
                 },
-                "archived": {
-                  "field": "archived"
+                "discount": {
+                  "field": "discount"
                 },
                 "id": {
                   "field": "id"
                 },
-                "primary": {
-                  "field": "primary"
+                "seats": {
+                  "field": "seats"
                 }
               },
               "style": "COLLECTION"
@@ -106,11 +106,17 @@
                 "currency": {
                   "field": "currency"
                 },
+                "flagged": {
+                  "field": "flagged"
+                },
                 "id": {
                   "field": "id"
                 },
-                "margin": {
-                  "field": "margin"
+                "retries": {
+                  "field": "retries"
+                },
+                "status": {
+                  "field": "status"
                 }
               },
               "style": "COLLECTION"
@@ -128,16 +134,16 @@
                   "type": "integer"
                 },
                 {
-                  "name": "archived",
-                  "type": "boolean"
+                  "name": "discount",
+                  "type": "float"
                 },
                 {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "seats",
+                  "type": "integer"
                 }
               ]
             },
@@ -153,12 +159,20 @@
                   "type": "string"
                 },
                 {
+                  "name": "flagged",
+                  "type": "boolean"
+                },
+                {
                   "name": "id",
                   "type": "integer"
                 },
                 {
-                  "name": "margin",
-                  "type": "float"
+                  "name": "retries",
+                  "type": "integer"
+                },
+                {
+                  "name": "status",
+                  "type": "string"
                 }
               ]
             }
@@ -193,63 +207,63 @@
         "rows": [
           {
             "asset": 1,
-            "asset_archived": true,
-            "asset_primary": true
+            "asset_discount": 13340.732602,
+            "asset_seats": 50105
           },
           {
             "asset": 2,
-            "asset_archived": false,
-            "asset_primary": true
+            "asset_discount": 73359.896662,
+            "asset_seats": 23215
           },
           {
             "asset": 3,
-            "asset_archived": false,
-            "asset_primary": false
+            "asset_discount": 50664.0339,
+            "asset_seats": 50223
           },
           {
             "asset": 4,
-            "asset_archived": true,
-            "asset_primary": true
+            "asset_discount": 31357.990015,
+            "asset_seats": 35500
           },
           {
             "asset": 5,
-            "asset_archived": true,
-            "asset_primary": false
+            "asset_discount": 30309.589254,
+            "asset_seats": 87275
           },
           {
             "asset": 6,
-            "asset_archived": false,
-            "asset_primary": true
+            "asset_discount": 9283.719778,
+            "asset_seats": 37680
           },
           {
             "asset": 7,
-            "asset_archived": true,
-            "asset_primary": false
+            "asset_discount": 46243.677084,
+            "asset_seats": 9564
           },
           {
             "asset": 8,
-            "asset_archived": true,
-            "asset_primary": false
+            "asset_discount": 79097.319364,
+            "asset_seats": 1906
           },
           {
             "asset": 9,
-            "asset_archived": true,
-            "asset_primary": true
+            "asset_discount": 80072.092114,
+            "asset_seats": 31620
           },
           {
             "asset": 10,
-            "asset_archived": false,
-            "asset_primary": true
+            "asset_discount": 27897.563461,
+            "asset_seats": 26663
           },
           {
             "asset": 11,
-            "asset_archived": true,
-            "asset_primary": false
+            "asset_discount": 10682.551245,
+            "asset_seats": 98471
           },
           {
             "asset": 12,
-            "asset_archived": true,
-            "asset_primary": true
+            "asset_discount": 6794.080521,
+            "asset_seats": 33469
           }
         ],
         "source_objects": [

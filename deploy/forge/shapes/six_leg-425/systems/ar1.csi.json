@@ -4,8 +4,8 @@
       "Order": {
         "collectionName": "orders",
         "properties": {
-          "billable": {
-            "field": "billable"
+          "active": {
+            "field": "active"
           },
           "deviceId": {
             "field": "device_id"
@@ -37,7 +37,7 @@
         "name": "Order",
         "properties": [
           {
-            "name": "billable",
+            "name": "active",
             "type": "boolean"
           },
           {

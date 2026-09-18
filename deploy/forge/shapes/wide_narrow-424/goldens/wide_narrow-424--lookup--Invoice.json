@@ -2,40 +2,40 @@
   "expect": {
     "bindings": [
       {
-        "invoice_channel": "channel-41540"
+        "invoice_channel": "channel-82583"
       },
       {
-        "invoice_channel": "channel-05919"
+        "invoice_channel": "channel-92375"
       },
       {
-        "invoice_channel": "channel-65937"
+        "invoice_channel": "channel-06551"
       },
       {
-        "invoice_channel": "channel-77837"
+        "invoice_channel": "channel-20957"
       },
       {
-        "invoice_channel": "channel-29973"
+        "invoice_channel": "channel-20721"
       },
       {
-        "invoice_channel": "channel-57421"
+        "invoice_channel": "channel-80797"
       },
       {
-        "invoice_channel": "channel-24627"
+        "invoice_channel": "channel-11399"
       },
       {
-        "invoice_channel": "channel-93544"
+        "invoice_channel": "channel-62362"
       },
       {
-        "invoice_channel": "channel-46176"
+        "invoice_channel": "channel-79094"
       },
       {
-        "invoice_channel": "channel-95322"
+        "invoice_channel": "channel-14834"
       },
       {
-        "invoice_channel": "channel-84424"
+        "invoice_channel": "channel-68585"
       },
       {
-        "invoice_channel": "channel-09097"
+        "invoice_channel": "channel-69171"
       }
     ],
     "sources_touched": [
@@ -130,51 +130,51 @@
         "rows": [
           {
             "invoice": 1,
-            "invoice_channel": "channel-41540"
+            "invoice_channel": "channel-82583"
           },
           {
             "invoice": 2,
-            "invoice_channel": "channel-05919"
+            "invoice_channel": "channel-92375"
           },
           {
             "invoice": 3,
-            "invoice_channel": "channel-65937"
+            "invoice_channel": "channel-06551"
           },
           {
             "invoice": 4,
-            "invoice_channel": "channel-77837"
+            "invoice_channel": "channel-20957"
           },
           {
             "invoice": 5,
-            "invoice_channel": "channel-29973"
+            "invoice_channel": "channel-20721"
           },
           {
             "invoice": 6,
-            "invoice_channel": "channel-57421"
+            "invoice_channel": "channel-80797"
           },
           {
             "invoice": 7,
-            "invoice_channel": "channel-24627"
+            "invoice_channel": "channel-11399"
           },
           {
             "invoice": 8,
-            "invoice_channel": "channel-93544"
+            "invoice_channel": "channel-62362"
           },
           {
             "invoice": 9,
-            "invoice_channel": "channel-46176"
+            "invoice_channel": "channel-79094"
           },
           {
             "invoice": 10,
-            "invoice_channel": "channel-95322"
+            "invoice_channel": "channel-14834"
           },
           {
             "invoice": 11,
-            "invoice_channel": "channel-84424"
+            "invoice_channel": "channel-68585"
           },
           {
             "invoice": 12,
-            "invoice_channel": "channel-09097"
+            "invoice_channel": "channel-69171"
           }
         ],
         "source_objects": [

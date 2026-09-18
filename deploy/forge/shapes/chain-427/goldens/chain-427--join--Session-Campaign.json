@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "chain-427--join--Session-Campaign",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_latencyMs ?campaign_notes WHERE { ?session a c:Session ; c:latencyMs ?session_latencyMs ; c:sessionsToCampaigns ?campaign . ?campaign a c:Campaign ; c:notes ?campaign_notes }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?session_latencyMs ?campaign_notes WHERE { ?session a c:Session ; c:latencyMs ?session_latencyMs ; c:campaignId ?campaign_key . ?campaign a c:Campaign ; c:id ?campaign_key ; c:notes ?campaign_notes }",
   "shape": "chain-427",
   "sources": [
     {
@@ -156,62 +156,62 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for sessions",
         "rows": [
           {
-            "campaign": 12,
+            "campaign_key": 12,
             "session": 1,
             "session_latencyMs": 527.394798
           },
           {
-            "campaign": 7,
+            "campaign_key": 7,
             "session": 2,
             "session_latencyMs": 54413.97496
           },
           {
-            "campaign": 8,
+            "campaign_key": 8,
             "session": 3,
             "session_latencyMs": 95231.212378
           },
           {
-            "campaign": 5,
+            "campaign_key": 5,
             "session": 4,
             "session_latencyMs": 32010.870094
           },
           {
-            "campaign": 2,
+            "campaign_key": 2,
             "session": 5,
             "session_latencyMs": 65064.4086
           },
           {
-            "campaign": 11,
+            "campaign_key": 11,
             "session": 6,
             "session_latencyMs": 18617.494674
           },
           {
-            "campaign": 12,
+            "campaign_key": 12,
             "session": 7,
             "session_latencyMs": 58988.598715
           },
           {
-            "campaign": 4,
+            "campaign_key": 4,
             "session": 8,
             "session_latencyMs": 71205.384402
           },
           {
-            "campaign": 2,
+            "campaign_key": 2,
             "session": 9,
             "session_latencyMs": 98565.769873
           },
           {
-            "campaign": 5,
+            "campaign_key": 5,
             "session": 10,
             "session_latencyMs": 64842.737438
           },
           {
-            "campaign": 2,
+            "campaign_key": 2,
             "session": 11,
             "session_latencyMs": 14571.927191
           },
           {
-            "campaign": 1,
+            "campaign_key": 1,
             "session": 12,
             "session_latencyMs": 3807.426354
           }
@@ -298,50 +298,62 @@
         "rows": [
           {
             "campaign": 1,
+            "campaign_key": 1,
             "campaign_notes": "notes-21452"
           },
           {
             "campaign": 2,
+            "campaign_key": 2,
             "campaign_notes": "notes-63956"
           },
           {
             "campaign": 3,
+            "campaign_key": 3,
             "campaign_notes": "notes-05974"
           },
           {
             "campaign": 4,
+            "campaign_key": 4,
             "campaign_notes": "notes-38431"
           },
           {
             "campaign": 5,
+            "campaign_key": 5,
             "campaign_notes": "notes-88330"
           },
           {
             "campaign": 6,
+            "campaign_key": 6,
             "campaign_notes": "notes-00101"
           },
           {
             "campaign": 7,
+            "campaign_key": 7,
             "campaign_notes": "notes-92100"
           },
           {
             "campaign": 8,
+            "campaign_key": 8,
             "campaign_notes": "notes-63314"
           },
           {
             "campaign": 9,
+            "campaign_key": 9,
             "campaign_notes": "notes-60386"
           },
           {
             "campaign": 10,
+            "campaign_key": 10,
             "campaign_notes": "notes-41282"
           },
           {
             "campaign": 11,
+            "campaign_key": 11,
             "campaign_notes": "notes-65655"
           },
           {
             "campaign": 12,
+            "campaign_key": 12,
             "campaign_notes": "notes-44237"
           }
         ],

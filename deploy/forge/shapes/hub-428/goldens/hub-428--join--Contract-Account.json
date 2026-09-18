@@ -58,7 +58,7 @@
   },
   "family": "join",
   "name": "hub-428--join--Contract-Account",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_archived ?account_amount WHERE { ?contract a c:Contract ; c:archived ?contract_archived ; c:contractsToAccounts ?account . ?account a c:Account ; c:amount ?account_amount }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?contract_archived ?account_amount WHERE { ?contract a c:Contract ; c:archived ?contract_archived ; c:accountId ?account_key . ?account a c:Account ; c:id ?account_key ; c:amount ?account_amount }",
   "shape": "hub-428",
   "sources": [
     {
@@ -89,11 +89,11 @@
                 "archived": {
                   "field": "archived"
                 },
+                "expired": {
+                  "field": "expired"
+                },
                 "id": {
                   "field": "id"
-                },
-                "primary": {
-                  "field": "primary"
                 }
               },
               "style": "COLLECTION"
@@ -136,12 +136,12 @@
                   "type": "boolean"
                 },
                 {
-                  "name": "id",
-                  "type": "integer"
+                  "name": "expired",
+                  "type": "boolean"
                 },
                 {
-                  "name": "primary",
-                  "type": "boolean"
+                  "name": "id",
+                  "type": "integer"
                 }
               ]
             },
@@ -200,62 +200,62 @@
         "native_query": "-- forge fixture: rows projected from the pre-partition dataset for contracts",
         "rows": [
           {
-            "account": 2,
+            "account_key": 2,
             "contract": 1,
             "contract_archived": false
           },
           {
-            "account": 9,
+            "account_key": 9,
             "contract": 2,
             "contract_archived": false
           },
           {
-            "account": 2,
+            "account_key": 2,
             "contract": 3,
             "contract_archived": true
           },
           {
-            "account": 3,
+            "account_key": 3,
             "contract": 4,
             "contract_archived": true
           },
           {
-            "account": 11,
+            "account_key": 11,
             "contract": 5,
             "contract_archived": true
           },
           {
-            "account": 12,
+            "account_key": 12,
             "contract": 6,
             "contract_archived": false
           },
           {
-            "account": 10,
+            "account_key": 10,
             "contract": 7,
             "contract_archived": true
           },
           {
-            "account": 3,
+            "account_key": 3,
             "contract": 8,
             "contract_archived": false
           },
           {
-            "account": 1,
+            "account_key": 1,
             "contract": 9,
             "contract_archived": true
           },
           {
-            "account": 12,
+            "account_key": 12,
             "contract": 10,
             "contract_archived": false
           },
           {
-            "account": 6,
+            "account_key": 6,
             "contract": 11,
             "contract_archived": false
           },
           {
-            "account": 7,
+            "account_key": 7,
             "contract": 12,
             "contract_archived": true
           }
@@ -349,51 +349,63 @@
         "rows": [
           {
             "account": 1,
-            "account_amount": 25490.693635
+            "account_amount": 25490.693635,
+            "account_key": 1
           },
           {
             "account": 2,
-            "account_amount": 9879.887019
+            "account_amount": 9879.887019,
+            "account_key": 2
           },
           {
             "account": 3,
-            "account_amount": 26044.173198
+            "account_amount": 26044.173198,
+            "account_key": 3
           },
           {
             "account": 4,
-            "account_amount": 77182.003159
+            "account_amount": 77182.003159,
+            "account_key": 4
           },
           {
             "account": 5,
-            "account_amount": 60769.627371
+            "account_amount": 60769.627371,
+            "account_key": 5
           },
           {
             "account": 6,
-            "account_amount": 56358.957885
+            "account_amount": 56358.957885,
+            "account_key": 6
           },
           {
             "account": 7,
-            "account_amount": 64702.633431
+            "account_amount": 64702.633431,
+            "account_key": 7
           },
           {
             "account": 8,
-            "account_amount": 96350.500781
+            "account_amount": 96350.500781,
+            "account_key": 8
           },
           {
             "account": 9,
-            "account_amount": 92871.030985
+            "account_amount": 92871.030985,
+            "account_key": 9
           },
           {
             "account": 10,
-            "account_amount": 66776.476722
+            "account_amount": 66776.476722,
+            "account_key": 10
           },
           {
             "account": 11,
-            "account_amount": 64933.450121
+            "account_amount": 64933.450121,
+            "account_key": 11
           },
           {
             "account": 12,
-            "account_amount": 88532.479835
+            "account_amount": 88532.479835,
+            "account_key": 12
           }
         ],
         "source_objects": [

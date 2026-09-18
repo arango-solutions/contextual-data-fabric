@@ -111,3 +111,16 @@ USE ROLE ACCOUNTADMIN; USE DATABASE TELEMETRY;
 SELECT ROUND(SUM(CREDITS_USED),4) AS credits
 FROM TABLE(INFORMATION_SCHEMA.WAREHOUSE_METERING_HISTORY(DATE_RANGE_START=>DATEADD('day',-7,CURRENT_DATE())));
 ```
+
+## Federation Forge live mode (`setup_forge.sql`)
+
+The Forge (`deploy/forge/README.md`, "Live mode") deploys generated Snowflake
+systems into this account: one schema `FORGE_<SHAPE>_<SYSTEM>` per system in a
+disposable database `CDF_FORGE`, created by a deployer role `CDF_FORGE` that may
+create schemas there and nowhere else. The fabric keeps querying as `CDF_RO`,
+which future grants let read every schema the Forge creates. Run
+`setup_forge.sql` once as ACCOUNTADMIN, after `setup.sql`, replacing
+`<YOUR_USER>` with the login the Forge runs under (the `.env` user; in CI the
+`SNOWFLAKE_USER` secret). Teardown is two statements: `DROP DATABASE CDF_FORGE;
+DROP ROLE CDF_FORGE;`. A Forge run costs fractions of a credit (XS warehouse,
+tens of rows per table).

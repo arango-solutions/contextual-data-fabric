@@ -135,7 +135,6 @@ expected:
   - goldens/six_leg-425--chain--Invoice-Shipment-Device.json
   - goldens/six_leg-425--aggregate--Device.json
   - goldens/six_leg-425--aggregate--Order.json
-  - goldens/six_leg-425--aggregate--Product.json
   - goldens/six_leg-425--aggregate--Vendor.json
   - goldens/six_leg-425--crossleg-aggregate--Invoice-Shipment.json
 fixture:

@@ -2,52 +2,52 @@
   "expect": {
     "bindings": [
       {
-        "campaign_billable": true,
-        "campaign_notes": "notes-66644"
+        "campaign_notes": "notes-35844",
+        "campaign_rank": 69541
       },
       {
-        "campaign_billable": false,
-        "campaign_notes": "notes-09010"
+        "campaign_notes": "notes-45097",
+        "campaign_rank": 27792
       },
       {
-        "campaign_billable": false,
-        "campaign_notes": "notes-21325"
+        "campaign_notes": "notes-22193",
+        "campaign_rank": 99644
       },
       {
-        "campaign_billable": false,
-        "campaign_notes": "notes-27190"
+        "campaign_notes": "notes-84755",
+        "campaign_rank": 34423
       },
       {
-        "campaign_billable": false,
-        "campaign_notes": "notes-03458"
+        "campaign_notes": "notes-34763",
+        "campaign_rank": 26515
       },
       {
-        "campaign_billable": false,
-        "campaign_notes": "notes-62714"
+        "campaign_notes": "notes-13106",
+        "campaign_rank": 29997
       },
       {
-        "campaign_billable": true,
-        "campaign_notes": "notes-83986"
+        "campaign_notes": "notes-67926",
+        "campaign_rank": 28712
       },
       {
-        "campaign_billable": false,
-        "campaign_notes": "notes-05883"
+        "campaign_notes": "notes-44162",
+        "campaign_rank": 63009
       },
       {
-        "campaign_billable": false,
-        "campaign_notes": "notes-82832"
+        "campaign_notes": "notes-34866",
+        "campaign_rank": 44168
       },
       {
-        "campaign_billable": true,
-        "campaign_notes": "notes-30238"
+        "campaign_notes": "notes-86367",
+        "campaign_rank": 50700
       },
       {
-        "campaign_billable": true,
-        "campaign_notes": "notes-14295"
+        "campaign_notes": "notes-85750",
+        "campaign_rank": 45469
       },
       {
-        "campaign_billable": false,
-        "campaign_notes": "notes-29361"
+        "campaign_notes": "notes-55848",
+        "campaign_rank": 11038
       }
     ],
     "sources_touched": [
@@ -57,16 +57,16 @@
   },
   "family": "lookup",
   "name": "six_leg-430--lookup--Campaign",
-  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_billable ?campaign_notes WHERE { ?campaign a c:Campaign ; c:billable ?campaign_billable ; c:notes ?campaign_notes }",
+  "question": "PREFIX c: <urn:arango-sparql:concept#> SELECT ?campaign_notes ?campaign_rank WHERE { ?campaign a c:Campaign ; c:notes ?campaign_notes ; c:rank ?campaign_rank }",
   "shape": "six_leg-430",
   "sources": [
     {
       "capabilities": {
         "aggregation": {
           "approxCountDistinct": null,
-          "countDistinct": false,
-          "groupBy": false,
-          "having": false
+          "countDistinct": true,
+          "groupBy": true,
+          "having": true
         },
         "orderLimitPushdown": false,
         "textSearch": {
@@ -85,9 +85,6 @@
                 "assetId": {
                   "field": "asset_id"
                 },
-                "billable": {
-                  "field": "billable"
-                },
                 "customerId": {
                   "field": "customer_id"
                 },
@@ -99,6 +96,9 @@
                 },
                 "rank": {
                   "field": "rank"
+                },
+                "ratio": {
+                  "field": "ratio"
                 }
               },
               "style": "COLLECTION"
@@ -116,10 +116,6 @@
                   "type": "integer"
                 },
                 {
-                  "name": "billable",
-                  "type": "boolean"
-                },
-                {
                   "name": "customerId",
                   "type": "integer"
                 },
@@ -134,6 +130,10 @@
                 {
                   "name": "rank",
                   "type": "integer"
+                },
+                {
+                  "name": "ratio",
+                  "type": "float"
                 }
               ]
             }
@@ -168,63 +168,63 @@
         "rows": [
           {
             "campaign": 1,
-            "campaign_billable": true,
-            "campaign_notes": "notes-66644"
+            "campaign_notes": "notes-35844",
+            "campaign_rank": 69541
           },
           {
             "campaign": 2,
-            "campaign_billable": false,
-            "campaign_notes": "notes-09010"
+            "campaign_notes": "notes-45097",
+            "campaign_rank": 27792
           },
           {
             "campaign": 3,
-            "campaign_billable": false,
-            "campaign_notes": "notes-21325"
+            "campaign_notes": "notes-22193",
+            "campaign_rank": 99644
           },
           {
             "campaign": 4,
-            "campaign_billable": false,
-            "campaign_notes": "notes-27190"
+            "campaign_notes": "notes-84755",
+            "campaign_rank": 34423
           },
           {
             "campaign": 5,
-            "campaign_billable": false,
-            "campaign_notes": "notes-03458"
+            "campaign_notes": "notes-34763",
+            "campaign_rank": 26515
           },
           {
             "campaign": 6,
-            "campaign_billable": false,
-            "campaign_notes": "notes-62714"
+            "campaign_notes": "notes-13106",
+            "campaign_rank": 29997
           },
           {
             "campaign": 7,
-            "campaign_billable": true,
-            "campaign_notes": "notes-83986"
+            "campaign_notes": "notes-67926",
+            "campaign_rank": 28712
           },
           {
             "campaign": 8,
-            "campaign_billable": false,
-            "campaign_notes": "notes-05883"
+            "campaign_notes": "notes-44162",
+            "campaign_rank": 63009
           },
           {
             "campaign": 9,
-            "campaign_billable": false,
-            "campaign_notes": "notes-82832"
+            "campaign_notes": "notes-34866",
+            "campaign_rank": 44168
           },
           {
             "campaign": 10,
-            "campaign_billable": true,
-            "campaign_notes": "notes-30238"
+            "campaign_notes": "notes-86367",
+            "campaign_rank": 50700
           },
           {
             "campaign": 11,
-            "campaign_billable": true,
-            "campaign_notes": "notes-14295"
+            "campaign_notes": "notes-85750",
+            "campaign_rank": 45469
           },
           {
             "campaign": 12,
-            "campaign_billable": false,
-            "campaign_notes": "notes-29361"
+            "campaign_notes": "notes-55848",
+            "campaign_rank": 11038
           }
         ],
         "source_objects": [

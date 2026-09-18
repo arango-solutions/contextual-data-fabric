@@ -7,20 +7,23 @@
           "assetId": {
             "field": "asset_id"
           },
+          "category": {
+            "field": "category"
+          },
           "customerId": {
             "field": "customer_id"
           },
           "id": {
             "field": "id"
           },
-          "primary": {
-            "field": "primary"
-          },
-          "ratio": {
-            "field": "ratio"
-          },
           "sku": {
             "field": "sku"
+          },
+          "status": {
+            "field": "status"
+          },
+          "weight": {
+            "field": "weight"
           }
         },
         "style": "COLLECTION"
@@ -38,6 +41,10 @@
             "type": "integer"
           },
           {
+            "name": "category",
+            "type": "string"
+          },
+          {
             "name": "customerId",
             "type": "integer"
           },
@@ -46,16 +53,16 @@
             "type": "integer"
           },
           {
-            "name": "primary",
-            "type": "boolean"
-          },
-          {
-            "name": "ratio",
-            "type": "float"
-          },
-          {
             "name": "sku",
             "type": "string"
+          },
+          {
+            "name": "status",
+            "type": "string"
+          },
+          {
+            "name": "weight",
+            "type": "float"
           }
         ]
       }

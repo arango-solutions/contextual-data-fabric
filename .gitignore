@@ -21,3 +21,6 @@ docs/**/*.pdf
 
 # Personal Claude Code settings (permissions history, machine paths) — never shared
 .claude/settings.local.json
+
+# Forge live mode — environment-dependent artifacts (estate CSI, R2RML, manifests, reports)
+deploy/forge/live/
