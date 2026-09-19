@@ -54,15 +54,60 @@ When a `GROUP BY` spans legs, the fabric MAY decompose it as
 - each leg's partial groups by (query grouping keys ∪ its cross-source join
   keys) — the Yan-Larson key-widening rule;
 - duplicate sensitivity is neutralized: the join key is **declared unique on
-  the one-side** in the catalog (P6.7 `joinKeys` + the manifest's
-  `uniqueConstraints` lineage). SUM/COUNT partials crossing a join whose
-  multiplicity is unknown are **refused** — no count-scaling compensation
+  the one-side** in the catalog — the manifest's per-source `uniqueConstraints`
+  field, specified in the v2 note below (P6.7 `joinKeys` names the key; this
+  field states its uniqueness per concept). SUM/COUNT partials crossing a join
+  whose multiplicity is unknown are **refused** — no count-scaling compensation
   (explicitly on the addendum's don't-build list);
 - HAVING, ORDER BY, LIMIT over aggregate values evaluate **final-stage only**.
 
 Anything outside these conditions keeps today's named refusal. The g16 golden
 is rewritten (not deleted) when rung 3 lands: it must then pin the *remaining*
 refusals (holistic cross-leg, unknown-multiplicity joins).
+
+> **v2 (2026-09-19, rung 3 slice 1 — the four decisions D1 left open, asked
+> by Pooja before starting).** D1 above referred to "the manifest's
+> `uniqueConstraints` lineage"; no such field existed — the loader rejected
+> unknown per-source keys, and `uniqueConstraints` lived only in RSA's key
+> overlay for the CRM source, where it stopped. It is now specified:
+>
+> - **Shape.** A per-source manifest field, **keyed by concept**, whose values
+>   are key sets of conceptual property names (CC-12 names, composite keys
+>   allowed): `"uniqueConstraints": {"Account": [["accountId"]]}`. Uniqueness
+>   is a fact about a class in a source, not about a key name — in the CRM
+>   source `accountId` is unique on Account (3,000 rows, 3,000 distinct) and
+>   not on Contract (4,200 rows, 2,900 distinct). The inner list mirrors RSA's
+>   overlay shape (`[["account_id"]]`) one layer up.
+> - **Scope.** Declared only where it is true, which is the **one-side** of
+>   the join. For the demo that is exactly one declaration:
+>   `postgresql:crm` / `Account` / `accountId`. Document, QueryEvent and
+>   UsageMetric are many-sides and are never declared.
+> - **Optionality.** The builder always writes the field — `{}` when nothing
+>   is declared — so generated output stays deterministic, as `capabilities`
+>   is always present; the loader accepts it absent or empty; `null` is
+>   invalid. Absent means *nothing declared unique*, which is *unknown
+>   multiplicity*, which is a named refusal for cross-leg aggregation over that
+>   key: the safe-deny default D1 already states.
+> - **Probe (CC-14, the same rule as capabilities).** At onboarding,
+>   `cdf-catalog probe` runs one grouped duplicate query on the owning source
+>   for every declared key set. A declaration the probe contradicts is an
+>   onboarding **failure**, and the operator corrects the manifest — a wrong
+>   uniqueness fact would make rung 3 return wrong sums silently, which is
+>   worse than a refusal. In the Forge's live mode the same contradiction
+>   **strips** the declaration, reports it by source, and re-derives the
+>   cross-leg goldens to named refusals, exactly as `aggregation.groupBy` is
+>   handled. The v1 probe needs the one-side source to declare GROUP BY
+>   (Postgres and ArangoDB do); a one-side on a source without it is treated as
+>   *absent* for admission and reported as unverifiable, never silently trusted.
+> - **Origin.** Today the declaration is hand-maintained in the catalog build
+>   overlay, because the CSI carries no uniqueness. RSA's key overlay
+>   (`deploy/mappings/crm-keys.overlay.json`) already knows it at the physical
+>   layer; propagating it through the CSI so the builder derives the field is
+>   WS-A work for RSA/r2g, not this slice.
+> - **Planner rule.** A cross-leg aggregate is admitted only when every join it
+>   crosses has its one-side declared unique here; the refusal names the
+>   source, the concept and the key (`postgresql:crm declares no unique key
+>   for Account.accountId`).
 
 ### D2 — The combine is a fold, not a SPARQL engine
 

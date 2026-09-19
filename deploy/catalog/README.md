@@ -18,6 +18,7 @@ An optional build overlay has this shape:
   "sources": {
     "postgresql:crm": {
       "joinKeys": ["accountId"],
+      "uniqueConstraints": {"Account": [["accountId"]]},
       "entitlements": {
         "classification": "confidential",
         "allowedRoles": ["csm"],
@@ -57,6 +58,14 @@ An optional build overlay has this shape:
   }
 }
 ```
+
+`uniqueConstraints` (ADR-0005 D1 v2; accepted by the loader from rung 3 slice 1
+onwards) declares, per concept the source serves, the property sets that are
+unique there — the one-side of a cross-source join. Declare it only where it is
+true: in the demo, `accountId` is unique on `Account` in the CRM source and on
+nothing else. The builder writes `{}` when a source declares none; `null` is
+invalid. `cdf-catalog probe` verifies every declared key set against the live
+source and fails onboarding on a contradiction (CC-14).
 
 Concept/property entries inherit omitted fields from the source rule. Supported
 masks are `none`, `redact`, keyed `hmac`, and `drop`; unsalted hashing is not

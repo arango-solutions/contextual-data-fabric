@@ -43,9 +43,11 @@ The manifest:
 - identifies every source by the CSI provenance-derived `kind:ref`;
 - pins CSI and R2RML with repository-relative paths, SHA-256, artifact
   generation, producer, and direction;
-- snapshots CSI statistics and declares join keys, source defaults plus
-  per-concept/per-property entitlements, runtime-resolution metadata, and
-  auth/delegation mode. Entitlements cover role/group/scope/purpose,
+- snapshots CSI statistics and declares join keys, per-concept unique
+  constraints (`uniqueConstraints`, keyed by concept, key sets of property
+  names; always written, `{}` when none — ADR-0005 D1 v2, rung 3), source
+  defaults plus per-concept/per-property entitlements, runtime-resolution
+  metadata, and auth/delegation mode. Entitlements cover role/group/scope/purpose,
   classification, `none|redact|hmac|drop`, safe principal-bound row
   constraints, source disclosure, policy IDs, and explicit trusted-fabric PEP
   permissions;
