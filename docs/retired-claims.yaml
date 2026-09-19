@@ -24,3 +24,12 @@ claims:
   - pattern: "acceptance target is the S1 roadmap review"
     retired: 2026-09-08
     why: "ADR-0006 was accepted 2026-09-08; its body carried the proposed status until PR #37."
+  - pattern: "expired trial"
+    retired: 2026-09-19
+    why: "The Snowflake trial never expired; the 2026-09 outage was a key-pair misconfiguration, and the account is a paid one (Arthur, 2026-09-19)."
+  - pattern: "trial account still gets the floor"
+    retired: 2026-09-19
+    why: "The account is paid and key-pair authenticated; the CC-7 floor applies to it as a production account, not as a trial."
+  - pattern: "once per trial account"
+    retired: 2026-09-19
+    why: "Setup is per account; the trial framing is history (deploy/snowflake/README.md)."

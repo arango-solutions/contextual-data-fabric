@@ -14,9 +14,11 @@ Unlike the Postgres/ArangoDB legs there is **no container here** — the databas
 the cloud service. All this directory holds is the one-time account setup, the
 corpus loader, and the generated mapping.
 
-## One-time setup (once per trial account)
+## One-time setup (once per account)
 
-1. Create the account (30-day trial, $400 credits, no card — PRD §7.7).
+1. Have an account (PRD §7.7 — the leg began on a 30-day trial and runs on a
+   paid, key-pair-authenticated account today; spend is capped by the resource
+   monitor `setup.sql` creates, not by trial credits).
 2. In a Snowsight worksheet, run [`setup.sql`](setup.sql) as `ACCOUNTADMIN`
    (replace `<YOUR_USER>`): creates warehouse `CDF_WH`, database `TELEMETRY`, a
    resource monitor (CC-11), and the read-only role `CDF_RO` (CC-7).
@@ -39,7 +41,7 @@ corpus loader, and the generated mapping.
    when set, `private_key_file_pwd`) and reads the file itself; the fabric never
    reads key bytes into mappings, logs, metrics, or answer envelopes.
 
-   For local trial compatibility, password authentication remains supported:
+   For local development, password authentication remains supported:
 
    ```
    SNOWFLAKE_ACCOUNT=...
@@ -101,10 +103,11 @@ an artifact.
 
 The whole sprint — schema introspection, the 46-row load, and every `make gate` /
 demo run — burned **~0.57 credits** on the XS warehouse (60s auto-suspend), measured
-via `INFORMATION_SCHEMA.WAREHOUSE_METERING_HISTORY`. The trial grants **$400** of
-credits; at this workload the leg is **effectively free**, and it's a real, defensible
-number for the cost story (the compiled SQL leg bills warehouse compute only — no
-per-question LLM tokens, per ADR-0002). Live check:
+via `INFORMATION_SCHEMA.WAREHOUSE_METERING_HISTORY`. The resource monitor caps the
+account at **20 credits a month** and suspends at 100%; at this workload the leg is
+**effectively free**, and it's a real, defensible number for the cost story (the
+compiled SQL leg bills warehouse compute only — no per-question LLM tokens, per
+ADR-0002). Live check:
 
 ```sql
 USE ROLE ACCOUNTADMIN; USE DATABASE TELEMETRY;

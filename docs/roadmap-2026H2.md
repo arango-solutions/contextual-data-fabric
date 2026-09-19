@@ -53,8 +53,9 @@ version: 0.1
 
 Shipped and gated: four-engine federation with E1.5 (filters, OPTIONAL, single-leg
 aggregation), cite-or-refuse envelope + declared partials, 20 goldens (all live as of
-2026-09-15 — Snowflake authenticates by key pair; the 5 Snowflake cases were
-excluded only while that was mis-diagnosed as an expired trial), catalog manifest + integrity gate + label
+2026-09-15 — Snowflake is a paid account that authenticates by key pair; the 5
+Snowflake cases were excluded only while a key-pair misconfiguration was
+mis-read as a lost account), catalog manifest + integrity gate + label
 curation, governance module (identity planes, entitlements, authorization goldens),
 ontology diagram + presentation directives in the demo, ADR-0001…0005, the
 optimization/aggregation/reuse research corpus, and the ArGOS re-scope (consoles are
@@ -161,9 +162,12 @@ becomes an ArGOS-sequencing decision, not an engineering one.
 
 Concrete and staffable now:
 
-1. **Snowflake restored** — planned as "billing on the expired trial or a fresh <!-- quotes-retired-claim -->
-   account, then re-run `setup.sql` and the loader"; none of that was needed.
-   *(½ day.)* **Done 2026-09-15:** the account was never lost — it authenticates by key pair — and `make gate` against the full live stack returned **20 cases, all green**, including g5 (Postgres ⋈ Snowflake ⋈ ArangoDB) and g11.
+1. **Snowflake restored** — planned as a re-provisioning (a fresh account, then
+   `setup.sql` and the loader again); none of that was needed. *(½ day.)*
+   **Done 2026-09-15:** the account was never lost — it is a paid account that
+   authenticates by key pair, and the outage was a key-pair misconfiguration —
+   and `make gate` against the full live stack returned **20 cases, all green**,
+   including g5 (Postgres ⋈ Snowflake ⋈ ArangoDB) and g11.
 2. **Capability registry v1** (ADR-0005 D4): `capabilities` block in the manifest,
    probe-verified at onboarding; planner refusals name capabilities, not engine
    kinds. Small, already specified. *(≈3 days.)* **Done 2026-09-15** (ArthurKeen/contextual-data-fabric#37 — a mirror-numbered PR from before the 2026-09-06 topology switch): `capabilities` blocks in the manifest for all four sources, `cdf-catalog probe` verifies them at onboarding (CC-14), planner refusals name the capability and the sources that declare it; the Forge suite (#34) exercises both admission branches on every kind through the registry.
